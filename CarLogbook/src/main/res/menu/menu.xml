@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_add_car"
+        android:icon="@android:drawable/ic_btn_speak_now"
+        android:orderInCategory="100"
+        android:title="@string/add_car"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_log_fuel"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:orderInCategory="100"
+        android:title="@string/add_fuel_log"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_log"
+        android:icon="@android:drawable/ic_dialog_dialer"
+        android:orderInCategory="100"
+        android:title="@string/add_log"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_add_notify"
+        android:icon="@android:drawable/ic_dialog_email"
+        android:orderInCategory="100"
+        android:title="@string/add_notify"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_share"
+        android:title="@string/share"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
+        app:showAsAction="always"
+        />
+</menu>

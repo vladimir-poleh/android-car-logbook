@@ -1,0 +1,28 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="CustomActionBarTheme"
+           parent="@style/Theme.AppCompat.Light">
+        <item name="android:actionBarStyle" tools:targetApi="11">@style/MyActionBar</item>
+        <!--<item name="android:actionMenuTextColor" tools:targetApi="11">@color/abc_search_url_text_holo</item>-->
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <!--<item name="actionMenuTextColor">@color/abc_search_url_text_holo</item>-->
+    </style>
+
+    <!-- general styles for the action bar -->
+    <style name="MyActionBar"
+           parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <!--<item name="android:titleTextStyle" tools:targetApi="11">@style/TitleTextStyle</item>-->
+        <!--<item name="android:background" tools:targetApi="11">@drawable/ic_drawer</item>-->
+        <!--<item name="android:backgroundStacked" tools:targetApi="14">@drawable/ic_launcher</item>-->
+        <!--<item name="android:backgroundSplit" tools:targetApi="14">@drawable/ic_drawer</item>-->
+
+        <!-- Support library compatibility -->
+        <!--<item name="titleTextStyle">@style/TitleTextStyle</item>-->
+        <!--<item name="background">@drawable/ic_launcher</item>-->
+        <!--<item name="backgroundStacked">@drawable/ic_drawer</item>-->
+        <!--<item name="backgroundSplit">@drawable/ic_launcher</item>-->
+    </style>
+
+</resources>

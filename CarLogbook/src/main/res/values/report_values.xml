@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="action_list">
+        <item>Fuel </item>
+        <item>Fuel Full</item>
+    </string-array>
+</resources>

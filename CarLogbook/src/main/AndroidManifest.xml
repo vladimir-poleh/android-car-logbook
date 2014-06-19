@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+    package="com.carlogbook" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/CustomActionBarTheme" >
+
+        <activity android:name=".ui.AddUpdateCarActivity" android:parentActivityName="com.carlogbook.CarLogbook">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.carlogbook.CarLogbook" />
+        </activity>
+
+        <activity android:name=".ui.AddUpdateFuelLogActivity" android:parentActivityName="com.carlogbook.CarLogbook">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.carlogbook.CarLogbook" />
+        </activity>
+
+        <activity android:name=".ui.AddUpdateNotificationActivity" android:parentActivityName="com.carlogbook.CarLogbook">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.carlogbook.CarLogbook" />
+        </activity>
+
+        <activity android:name=".ui.AddUpdateLogActivity" android:parentActivityName="com.carlogbook.CarLogbook">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.carlogbook.CarLogbook" />
+        </activity>
+
+        <!--android:launchMode="singleTop"-->
+        <activity
+            android:name="com.carlogbook.CarLogbook"
+            android:label="@string/app_name" android:launchMode="singleTask">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
