@@ -8,8 +8,19 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="AddCar Placeholder" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:id="@+id/test"/>
+        android:text="@string/car_name" />
+	<TextView
+		android:id="@+id/carNameError"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textColor="#ffff0000"
+		android:text="@string/car_name_error"
+		android:visibility="gone"/>
+
+	<EditText android:id="@+id/carName"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:singleLine="true"
+	    android:maxLength="50"
+	/>
 </LinearLayout>

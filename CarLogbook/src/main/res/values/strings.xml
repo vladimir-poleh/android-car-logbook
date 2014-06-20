@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<!--Common-->
+	<string name="save">Save</string>
+	<string name="cancel">Cancel</string>
+
     <!--Menu-->
     <string name="app_name">Car Logbook</string>
     <string name="menu_item_log">Logbook</string>
@@ -29,4 +33,6 @@
 
     <!--Add Car Activity-->
     <string name="add_car_title">Add Car</string>
+    <string name="car_name">Car Name</string>
+    <string name="car_name_error">Car Name is required</string>
 </resources>

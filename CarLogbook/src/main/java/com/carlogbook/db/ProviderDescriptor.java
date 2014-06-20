@@ -17,6 +17,39 @@
 */
 package com.carlogbook.db;
 
-public class ProviderDescriptor {
+import android.content.UriMatcher;
+import android.net.Uri;
 
+public class ProviderDescriptor {
+	public static final String AUTHORITY  = "com.carlogbook";
+	public static final Uri BASE_URI  = Uri.parse("content://" + AUTHORITY);
+	public static final UriMatcher URI_MATCHER  = buildUriMatcher();
+
+	private static UriMatcher buildUriMatcher() {
+		final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+		matcher.addURI(AUTHORITY, Car.PATH, Car.PATH_TOKEN);
+		matcher.addURI(AUTHORITY, Car.PATH_ID, Car.PATH_ID_TOKEN);
+
+		return matcher;
+	}
+
+	public static class Car {
+		public static final String TABLE_NAME  = "car";
+		public static final String PATH  = "car";
+		public static final int PATH_TOKEN  = 100;
+		public static final String PATH_ID  = "car/*";
+		public static final int PATH_ID_TOKEN  = 101;
+		public static final Uri CONTENT_URI  = ProviderDescriptor.BASE_URI.buildUpon().appendPath(PATH).build();
+
+		public static final String CONTENT_TYPE_DIR  = "vnd.android.cursor.dir/vnd." + AUTHORITY + "." + PATH;
+		public static final String CONTENT_TYPE_ITEM  = "vnd.android.cursor.item/vnd."  + AUTHORITY + "." + PATH;
+
+		public static final String CREATE_FIELDS  = "_id INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT";
+
+		public static class Cols {
+			public static final String _ID  = "_id";
+			public static final String NAME  = "NAME";
+		}
+	}
 }

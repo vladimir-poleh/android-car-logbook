@@ -47,6 +47,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+	    <provider
+		    android:authorities="com.carlogbook"
+		    android:name=".db.CarLogbookProvider" android:exported="false"/>
     </application>
 
 </manifest>

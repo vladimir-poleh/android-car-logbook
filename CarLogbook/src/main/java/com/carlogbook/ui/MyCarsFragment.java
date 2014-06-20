@@ -17,22 +17,42 @@
 */
 package com.carlogbook.ui;
 
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.carlogbook.R;
+import com.carlogbook.adapter.CarAdapter;
 import com.carlogbook.core.BaseFragment;
 import com.carlogbook.core.MenuEnabler;
+import com.carlogbook.db.ProviderDescriptor;
 
-public class MyCarsFragment extends BaseFragment {
+public class MyCarsFragment extends BaseFragment implements
+		LoaderManager.LoaderCallbacks<Cursor>  {
+	private CarAdapter carAdapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 
 		return inflater.inflate(R.layout.my_cars_fragment, container, false);
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		carAdapter = new CarAdapter(getActivity(), null);
+
+		ListView carListView = (ListView) view.findViewById(R.id.list);
+		carListView.setAdapter(carAdapter);
+
+		getLoaderManager().initLoader(0, null, this);
 	}
 
 	@Override
@@ -46,5 +66,23 @@ public class MyCarsFragment extends BaseFragment {
 		menuEnabler.setAddCar(true);
 
 		return menuEnabler;
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		CursorLoader cursorLoader = new CursorLoader(getActivity(),
+				ProviderDescriptor.Car.CONTENT_URI, null, null, null, null);
+
+		return cursorLoader;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		carAdapter.swapCursor(data);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+		carAdapter.swapCursor(null);
 	}
 }
