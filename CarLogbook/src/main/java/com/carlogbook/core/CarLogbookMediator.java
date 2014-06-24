@@ -17,6 +17,9 @@
 */
 package com.carlogbook.core;
 
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 
 import com.carlogbook.ui.AboutFragment;
@@ -24,6 +27,8 @@ import com.carlogbook.ui.AddUpdateCarActivity;
 import com.carlogbook.ui.AddUpdateFuelLogActivity;
 import com.carlogbook.ui.AddUpdateLogActivity;
 import com.carlogbook.ui.AddUpdateNotificationActivity;
+import com.carlogbook.ui.AlertDialog;
+import com.carlogbook.ui.ConfirmDeleteDialog;
 import com.carlogbook.ui.LogbookFragment;
 import com.carlogbook.ui.MyCarsFragment;
 import com.carlogbook.ui.NotificationFragment;
@@ -64,6 +69,13 @@ public class CarLogbookMediator extends AppMediator {
 		startActivity(AddUpdateCarActivity.class);
 	}
 
+	public void showViewCar(long id) {
+		Bundle params = new Bundle();
+		params.putInt(BaseActivity.MODE_KEY, AddUpdateCarActivity.PARAM_EDIT);
+		params.putLong(BaseActivity.ENTITY_ID, id);
+		startActivity(AddUpdateCarActivity.class, params);
+	}
+
 	public void showAddNotification() {
 		startActivity(AddUpdateNotificationActivity.class);
 	}
@@ -74,5 +86,16 @@ public class CarLogbookMediator extends AppMediator {
 
 	public void showAddLog() {
 		startActivity(AddUpdateLogActivity.class);
+	}
+
+	public void showConfirmDeleteView() {
+		DialogFragment confirmDeleteDialog = ConfirmDeleteDialog.newInstance();
+		confirmDeleteDialog.show(activity.getSupportFragmentManager(), "confirm_delete");
+	}
+
+	public void showAlert(String text) {
+		AlertDialog alertDialog = AlertDialog.newInstance();
+		alertDialog.setText(text);
+		alertDialog.show(activity.getSupportFragmentManager(), "alert");
 	}
 }

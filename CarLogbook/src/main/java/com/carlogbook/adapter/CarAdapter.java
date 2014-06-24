@@ -40,7 +40,9 @@ public class CarAdapter  extends CursorAdapter {
 		CarHolder holder = new CarHolder();
 		LayoutInflater inflater = LayoutInflater.from(context);
 		View listItem = inflater.inflate(R.layout.car_item, null);
+
 		holder.nameView = (TextView) listItem.findViewById(R.id.carItem);
+		holder.activeView = (ImageView) listItem.findViewById(R.id.activeItem);
 		listItem.setTag(holder);
 
 		return listItem;
@@ -52,9 +54,13 @@ public class CarAdapter  extends CursorAdapter {
 
 		int idIdx = cursor.getColumnIndex(ProviderDescriptor.Car.Cols._ID);
 		int nameIdx = cursor.getColumnIndex(ProviderDescriptor.Car.Cols.NAME);
+		int activeFlagIdx = cursor.getColumnIndex(ProviderDescriptor.Car.Cols.ACTIVE_FLAG);
 
 		String name = cursor.getString(nameIdx);
 		int id = cursor.getInt(idIdx);
+		boolean active = cursor.getInt(activeFlagIdx) > 0;
+
+		setsHolder.activeView.setVisibility(active ? View.VISIBLE : View.INVISIBLE);
 
 		setsHolder.nameView.setText(name);
 		setsHolder.id = id;

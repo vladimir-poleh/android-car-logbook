@@ -45,11 +45,12 @@ public class ProviderDescriptor {
 		public static final String CONTENT_TYPE_DIR  = "vnd.android.cursor.dir/vnd." + AUTHORITY + "." + PATH;
 		public static final String CONTENT_TYPE_ITEM  = "vnd.android.cursor.item/vnd."  + AUTHORITY + "." + PATH;
 
-		public static final String CREATE_FIELDS  = "_id INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT";
+		public static final String CREATE_FIELDS  = "_id INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, ACTIVE_FLAG INTEGER";
 
 		public static class Cols {
 			public static final String _ID  = "_id";
 			public static final String NAME  = "NAME";
+			public static final String ACTIVE_FLAG  = "ACTIVE_FLAG";
 		}
 	}
 }

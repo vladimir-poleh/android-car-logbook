@@ -23,7 +23,12 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 
-public class BaseActivity extends ActionBarActivity {
+import com.carlogbook.ui.DialogListener;
+
+public class BaseActivity extends ActionBarActivity implements DialogListener {
+	public static final String MODE_KEY = "mode";
+	public static final String ENTITY_ID = "entity_id";
+
 	protected CarLogbookMediator mediator;
 
 	@Override
@@ -31,12 +36,20 @@ public class BaseActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		mediator = new CarLogbookMediator(this);
 
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
 		String subTitle = getSubTitle();
+		setSubTitle(subTitle);
+	}
+
+	public void setSubTitle(String subTitle) {
 		if (subTitle != null) {
 			getSupportActionBar().setSubtitle(subTitle);
 		}
-
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	public CarLogbookMediator getMediator() {
@@ -66,5 +79,10 @@ public class BaseActivity extends ActionBarActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onDialogEvent(int requestCode, int responseCode, Bundle params) {
+
 	}
 }

@@ -10,9 +10,9 @@
 		app:showAsAction="always"/>
 
 	<item
-		android:id="@+id/action_cancel"
-		android:icon="@android:drawable/ic_dialog_map"
-		android:title="@string/cancel"
+		android:id="@+id/action_delete"
+		android:icon="@android:drawable/sym_call_outgoing"
+		android:title="@string/delete"
 		app:showAsAction="always"/>
 
 </menu>

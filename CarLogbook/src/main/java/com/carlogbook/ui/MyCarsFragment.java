@@ -25,6 +25,7 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.carlogbook.R;
@@ -51,6 +52,13 @@ public class MyCarsFragment extends BaseFragment implements
 
 		ListView carListView = (ListView) view.findViewById(R.id.list);
 		carListView.setAdapter(carAdapter);
+
+		carListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+				getMediator().showViewCar(id);
+			}
+		});
 
 		getLoaderManager().initLoader(0, null, this);
 	}

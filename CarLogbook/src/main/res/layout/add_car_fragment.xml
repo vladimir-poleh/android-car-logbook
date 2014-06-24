@@ -23,4 +23,8 @@
 		android:singleLine="true"
 	    android:maxLength="50"
 	/>
+	<CheckBox android:id="@+id/selectCar"
+	    android:text="@string/select_car"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
 </LinearLayout>

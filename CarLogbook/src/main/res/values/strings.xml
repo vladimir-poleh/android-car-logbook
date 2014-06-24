@@ -3,6 +3,14 @@
 	<!--Common-->
 	<string name="save">Save</string>
 	<string name="cancel">Cancel</string>
+	<string name="delete">Delete</string>
+	<string name="confirm">Confirmation</string>
+	<string name="confirm_delete">Are you sure to delete?</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+	<string name="ok">Ok</string>
+
+	<string name="deleteActive">You cannot delete active car!</string>
 
     <!--Menu-->
     <string name="app_name">Car Logbook</string>
@@ -33,6 +41,8 @@
 
     <!--Add Car Activity-->
     <string name="add_car_title">Add Car</string>
+    <string name="edit_car_title">Edit Car</string>
     <string name="car_name">Car Name</string>
     <string name="car_name_error">Car Name is required</string>
+    <string name="select_car">Select this car</string>
 </resources>

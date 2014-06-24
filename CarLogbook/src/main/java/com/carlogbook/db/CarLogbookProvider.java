@@ -39,6 +39,7 @@ public class CarLogbookProvider extends ContentProvider {
 	public boolean onCreate() {
 		dbHelper = new DBOpenHelper(getContext());
 
+
 		tables.put(ProviderDescriptor.Car.PATH_TOKEN, ProviderDescriptor.Car.TABLE_NAME);
 
 		types.put(ProviderDescriptor.Car.PATH_TOKEN, ProviderDescriptor.Car.CONTENT_TYPE_DIR);
@@ -170,7 +171,7 @@ public class CarLogbookProvider extends ContentProvider {
 	}
 
 	public class DBOpenHelper extends SQLiteOpenHelper {
-		private static final int CURRENT_DB_VERSION = 7; //TODO set to 1 for 1.0 version
+		private static final int CURRENT_DB_VERSION = 9; //TODO set to 1 for 1.0 version
 		private static final String DB_NAME = "com_carlogbook.db";
 		private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS {0} ({1})";
 		private static final String DROP_TABLE = "DROP TABLE IF EXISTS {0}";
@@ -190,7 +191,6 @@ public class CarLogbookProvider extends ContentProvider {
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			//TODO
 			dropTable(db, ProviderDescriptor.Car.TABLE_NAME);
-
 			onCreate(db);
 		}
 
