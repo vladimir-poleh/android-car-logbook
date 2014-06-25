@@ -4,4 +4,8 @@
         <item>Fuel </item>
         <item>Fuel Full</item>
     </string-array>
+	<string-array name="unit_list">
+		<item>km/h</item>
+		<item>mph</item>
+	</string-array>
 </resources>

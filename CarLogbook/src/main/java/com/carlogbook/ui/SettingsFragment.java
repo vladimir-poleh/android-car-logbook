@@ -22,6 +22,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.carlogbook.R;
 import com.carlogbook.core.BaseFragment;
@@ -35,4 +38,23 @@ public class SettingsFragment extends BaseFragment {
 		return inflater.inflate(R.layout.settings_fragment, container, false);
 	}
 
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		Spinner spinner = (Spinner) view.findViewById(R.id.unit);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter
+				.createFromResource(getActivity(),
+						R.array.unit_list, android.R.layout.simple_spinner_item);
+
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
+
+		spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView,
+			                        View view, int pos, long id) {
+				//todo
+			}
+		});
+	}
 }

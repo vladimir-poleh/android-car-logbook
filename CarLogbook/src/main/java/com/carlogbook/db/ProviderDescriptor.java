@@ -52,5 +52,39 @@ public class ProviderDescriptor {
 			public static final String NAME  = "NAME";
 			public static final String ACTIVE_FLAG  = "ACTIVE_FLAG";
 		}
+
+
+
+		public static class Log {
+			public static final String TABLE_NAME  = "log";
+			public static final String PATH  = "log";
+			public static final int PATH_TOKEN  = 200;
+			public static final String PATH_ID  = "log/*";
+			public static final int PATH_ID_TOKEN  = 201;
+			public static final Uri CONTENT_URI  = ProviderDescriptor.BASE_URI.buildUpon().appendPath(PATH).build();
+
+			public static final String CONTENT_TYPE_DIR  = "vnd.android.cursor.dir/vnd." + AUTHORITY + "." + PATH;
+			public static final String CONTENT_TYPE_ITEM  = "vnd.android.cursor.item/vnd."  + AUTHORITY + "." + PATH;
+
+			public static final String CREATE_FIELDS  = "_id INTEGER PRIMARY KEY AUTOINCREMENT,DATE INTEGER";
+
+			public static class Cols {
+				public static final String _ID  = "_id";
+				public static final String DATE  = "DATE";
+				public static final String MILEAGE  = "MILEAGE";
+				public static final String PRICE  = "PRICE";
+				public static final String CMMMENT  = "COMMENT";
+				public static final String TYPE_ID  = "TYPE_ID";
+				public static final String CAR_ID  = "CAR_ID";
+
+				//FUEL LOG
+				public static final String FUEL_TYPE_ID = "FUEL_TYPE_ID";
+				public static final String FUEL_STATION_ID = "FUEL_TYPE_ID";
+				public static final String FUEL_VOLUME = "FUEL_VOLUME";
+
+				//OTHER LOG
+				public static final String PLACE = "PLACE";
+			}
+		}
 	}
 }
