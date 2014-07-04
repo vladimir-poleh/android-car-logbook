@@ -18,9 +18,12 @@
 package com.carlogbook.ui;
 
 import android.os.Bundle;
+import android.widget.Spinner;
 
 import com.carlogbook.R;
 import com.carlogbook.core.BaseActivity;
+import com.carlogbook.db.DBUtils;
+import com.carlogbook.db.ProviderDescriptor;
 
 public class AddUpdateLogActivity extends BaseActivity {
 
@@ -29,6 +32,7 @@ public class AddUpdateLogActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_log);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 	}
 
 	@Override

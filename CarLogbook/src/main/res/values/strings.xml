@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!--Common-->
+	<string name="create">Create</string>
 	<string name="save">Save</string>
 	<string name="cancel">Cancel</string>
 	<string name="delete">Delete</string>
@@ -9,6 +10,9 @@
 	<string name="yes">Yes</string>
 	<string name="no">No</string>
 	<string name="ok">Ok</string>
+	<string name="date">Date</string>
+	<string name="odometer_unit">Odometer Unit</string>
+	<string name="comments">Comments</string>
 
 	<string name="deleteActive">You cannot delete active car!</string>
 
@@ -35,9 +39,19 @@
 
     <!--Add fuel  event log Activity-->
     <string name="log_fuel_title">Add Fuel Event</string>
+    <string name="log_fuel_odometer">Odometer</string>
+    <string name="log_fuel_price">Price(1 unit)</string>
+    <string name="log_fuel_volume">Fuel volume</string>
+	<string name="log_fuel_price_total">Price(total)</string>
+	<string name="log_fuel_type">Fuel type</string>
+	<string name="log_fuel_gas_station">Gas Station</string>
 
     <!--Add Notification Activity-->
     <string name="notify_title">Add Notification</string>
+
+	<!--Settings-->
+	<string name="sett_fuel_type">Fuel type values</string>
+	<string name="sett_stations">Gas station values</string>
 
     <!--Add Car Activity-->
     <string name="add_car_title">Add Car</string>

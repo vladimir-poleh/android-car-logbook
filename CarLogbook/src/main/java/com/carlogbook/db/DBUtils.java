@@ -19,8 +19,12 @@ package com.carlogbook.db;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
+import android.widget.Spinner;
 
 public class DBUtils {
 	public static int getActiveCarId(ContentResolver cr) {
@@ -50,5 +54,43 @@ public class DBUtils {
 		}
 
 		return result;
+	}
+
+	public static long getDefaultId(ContentResolver cr,
+	                        int type) {
+		long result = -1;
+
+		String[] queryCols = new String[]{ProviderDescriptor.DataValue.Cols._ID,
+				ProviderDescriptor.DataValue.Cols.NAME};
+
+		Cursor cursor = cr.query(ProviderDescriptor.DataValue.CONTENT_URI, queryCols,
+				"TYPE = ? and DEFAULT_FLAG = 1", new String[] {String.valueOf(type)}, null);
+
+		if (cursor != null && cursor.moveToFirst()) {
+			result = cursor.getLong(0);
+			cursor.close();
+		}
+
+		return result;
+	}
+
+	public static void test(ContentResolver cr,
+	                                        int type) {
+
+		String[] queryCols = new String[]{ProviderDescriptor.DataValue.Cols._ID,
+				ProviderDescriptor.DataValue.Cols.NAME};
+
+		Cursor cursor = cr.query(ProviderDescriptor.DataValue.CONTENT_URI, queryCols,
+				"TYPE = ?", new String[] {String.valueOf(type)}, null);
+		if (cursor != null && cursor.moveToFirst()) {
+				do {
+					Log.e("HELLO ",  cursor.getInt(0) + "//" + cursor.getString(1));
+				} while (cursor.moveToNext());
+			cursor.close();
+		}
+	}
+
+	public static void deleteTest(ContentResolver cr) {
+		cr.delete(ProviderDescriptor.DataValue.CONTENT_URI, "_id != ?", new String[] {String.valueOf(-1)});
 	}
 }

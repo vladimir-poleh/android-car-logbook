@@ -30,4 +30,6 @@
 		<item name="android:windowBackground">@color/confirm_delete</item>
 		<item name="android:textColorPrimary">@color/confirm_delete_primary_color</item>
 	</style>
+
+
 </resources>

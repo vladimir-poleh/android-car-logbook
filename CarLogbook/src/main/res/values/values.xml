@@ -4,8 +4,15 @@
         <item>Fuel </item>
         <item>Fuel Full</item>
     </string-array>
-	<string-array name="unit_list">
-		<item>km/h</item>
-		<item>mph</item>
+	<string-array name="fuel_type_default">
+		<item>A-92</item>
+		<item>A-95</item>
+		<item>A-95+</item>
+		<item>A-98</item>
+		<item>A-76</item>
+		<item>A-80</item>
+	</string-array>
+	<string-array name="station_type_default">
+		<item>Default</item>
 	</string-array>
 </resources>

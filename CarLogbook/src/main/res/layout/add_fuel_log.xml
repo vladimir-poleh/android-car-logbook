@@ -1,21 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <LinearLayout
-	 android:layout_width="match_parent"
-	 android:layout_height="wrap_content"
-	    android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-	    <TextView
-			android:layout_width="wrap_content"
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<LinearLayout
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Date"/>
-	    <Button
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="@string/confirm"
-		    android:onClick="showDatePickerDialog" />
-	 </LinearLayout>
+			android:orientation="horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="@string/date"/>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="01/04/2014"/>
+			<ImageButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:background="@drawable/abc_spinner_ab_focused_holo_light"
+				android:onClick="showDatePickerDialog" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="0.6"
+				android:text="@string/log_fuel_odometer"/>
+			<EditText
+				android:id="@+id/odometer"
+				android:layout_weight="0.4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:maxWidth="80dp"
+				android:minWidth="80dp"
+				android:inputType="number"
+				/>
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="0.6"
+				android:text="@string/log_fuel_volume"/>
+			<EditText
+				android:id="@+id/fuel_volume"
+				android:layout_weight="0.4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:maxWidth="80dp"
+				android:minWidth="80dp"
+				android:inputType="number"
+				/>
+		</LinearLayout>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="0.6"
+				android:text="@string/log_fuel_price"/>
+			<EditText
+				android:id="@+id/price"
+				android:layout_weight="0.4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:maxWidth="80dp"
+				android:minWidth="80dp"
+				android:inputType="numberDecimal"
+				/>
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="0.6"
+				android:text="@string/log_fuel_price_total"/>
+			<EditText
+				android:id="@+id/priceTotal"
+				android:layout_weight="0.4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:maxWidth="80dp"
+				android:minWidth="80dp"
+				android:inputType="numberDecimal"
+				/>
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="@string/log_fuel_type"/>
+			<Spinner
+				android:id="@+id/typeSpinner"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				/>
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="@string/log_fuel_gas_station"/>
+			<Spinner
+				android:id="@+id/stationSpinner"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				/>
+		</LinearLayout>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/comments"/>
+		<EditText
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:lines="4"
+			android:maxLength="100"/>
+	</LinearLayout>
 </ScrollView>

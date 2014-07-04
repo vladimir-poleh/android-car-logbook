@@ -29,6 +29,7 @@ import com.carlogbook.ui.AddUpdateLogActivity;
 import com.carlogbook.ui.AddUpdateNotificationActivity;
 import com.carlogbook.ui.AlertDialog;
 import com.carlogbook.ui.ConfirmDeleteDialog;
+import com.carlogbook.ui.DataValueActivity;
 import com.carlogbook.ui.LogbookFragment;
 import com.carlogbook.ui.MyCarsFragment;
 import com.carlogbook.ui.NotificationFragment;
@@ -97,5 +98,9 @@ public class CarLogbookMediator extends AppMediator {
 		AlertDialog alertDialog = AlertDialog.newInstance();
 		alertDialog.setText(text);
 		alertDialog.show(activity.getSupportFragmentManager(), "alert");
+	}
+
+	public void showDataValues() {
+		startActivity(DataValueActivity.class);
 	}
 }
