@@ -36,6 +36,13 @@
 
     <!--Add event log Activity-->
     <string name="log_title">Add Event</string>
+    <string name="log_name">Name</string>
+    <string name="erro_log_name">Name is not correct</string>
+    <string name="log_type">Type</string>
+    <string name="log_price">Price</string>
+
+
+	<string name="value_car_error">Please add a car!</string>
 
     <!--Add fuel  event log Activity-->
     <string name="log_fuel_title">Add Fuel Event</string>
@@ -46,12 +53,21 @@
 	<string name="log_fuel_type">Fuel type</string>
 	<string name="log_fuel_gas_station">Gas Station</string>
 
+	<string name="error_odometer">Odometer is not correct</string>
+	<string name="error_price">Price value is not correct</string>
+	<string name="error_fuel">Fuel value is not correct</string>
+
     <!--Add Notification Activity-->
     <string name="notify_title">Add Notification</string>
 
 	<!--Settings-->
 	<string name="sett_fuel_type">Fuel type values</string>
 	<string name="sett_stations">Gas station values</string>
+	<string name="sett_stations_add_gas">Add gas station</string>
+	<string name="sett_stations_edit_gas">Edit gas station</string>
+
+	<string name="sett_stations_add_fuel">Add fuel type</string>
+	<string name="sett_stations_edit_fuel">Edit fuel type</string>
 
     <!--Add Car Activity-->
     <string name="add_car_title">Add Car</string>
@@ -59,4 +75,12 @@
     <string name="car_name">Car Name</string>
     <string name="car_name_error">Car Name is required</string>
     <string name="select_car">Select this car</string>
+
+
+	<!--Add Data Value Activity-->
+	<string name="value_fuel_title">Add fuel type value</string>
+	<string name="value_station_title">Add station type value</string>
+	<string name="value_name">Name</string>
+	<string name="value_name_error">Name is required</string>
+	<string name="value_sys_error">You cannot edit system value</string>
 </resources>

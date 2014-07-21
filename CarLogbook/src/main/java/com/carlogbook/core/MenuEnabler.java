@@ -63,4 +63,5 @@ public class MenuEnabler {
 	public void setAddCar(boolean addCar) {
 		this.addCar = addCar;
 	}
+
 }

@@ -1,10 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:text="Just Log"/>
-</LinearLayout>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="@string/date"/>
+			<TextView android:id="@+id/date"
+			          android:layout_width="wrap_content"
+			          android:layout_height="wrap_content"
+				/>
+			<ImageButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:background="@drawable/abc_spinner_ab_focused_holo_light"
+				android:onClick="showDatePickerDialog" />
+		</LinearLayout>
+
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="@string/log_type"/>
+			<Spinner
+				android:id="@+id/typeSpinner"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:entries="@array/log_type"
+				/>
+		</LinearLayout>
+
+		<TextView
+			android:id="@+id/errorOdometer"
+			android:text="@string/error_odometer"
+			android:visibility="gone"
+			android:textColor="#ffff0000"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="0.6"
+				android:text="@string/log_fuel_odometer"/>
+
+			<EditText
+				android:id="@+id/odometer"
+				android:layout_weight="0.4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:maxWidth="80dp"
+				android:minWidth="80dp"
+				android:inputType="number"
+				/>
+		</LinearLayout>
+
+		<TextView
+			android:id="@+id/errorName"
+			android:text="@string/erro_log_name"
+			android:visibility="gone"
+			android:textColor="#ffff0000"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="0.6"
+				android:text="@string/log_name"/>
+
+			<EditText
+				android:id="@+id/name"
+				android:layout_weight="0.4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:maxWidth="80dp"
+				android:minWidth="80dp"
+				/>
+		</LinearLayout>
+
+
+		<TextView
+			android:id="@+id/errorPrice"
+			android:text="@string/error_price"
+			android:visibility="gone"
+			android:textColor="#ffff0000"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="0.6"
+				android:text="@string/log_price"/>
+
+			<EditText
+				android:id="@+id/price"
+				android:layout_weight="0.4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:maxWidth="80dp"
+				android:minWidth="80dp"
+				android:inputType="numberDecimal"
+				/>
+		</LinearLayout>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/comments"/>
+		<EditText
+			android:id="@+id/comment"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:lines="4"
+			android:maxLength="100"/>
+	</LinearLayout>
+</ScrollView>

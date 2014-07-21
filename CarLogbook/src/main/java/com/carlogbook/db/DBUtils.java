@@ -26,15 +26,17 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.widget.Spinner;
 
+import java.util.Calendar;
+
 public class DBUtils {
-	public static int getActiveCarId(ContentResolver cr) {
-		int result = -1;
+	public static long getActiveCarId(ContentResolver cr) {
+		long result = -1;
 
 		Cursor c = cr.query(ProviderDescriptor.Car.CONTENT_URI, null, "active_flag = 1", null, null);
 
 		if (c != null && c.moveToFirst()) {
 			int idIdx = c.getColumnIndex(ProviderDescriptor.Car.Cols._ID);
-			result = c.getInt(idIdx);
+			result = c.getLong(idIdx);
 			c.close();
 		}
 
@@ -56,6 +58,15 @@ public class DBUtils {
 		return result;
 	}
 
+	public static void setDafaultId(ContentResolver cr,  long type, long id) {
+		ContentValues cv = new ContentValues();
+		cv.put(ProviderDescriptor.DataValue.Cols.DEFAULT_FLAG, 0);
+		cr.update(ProviderDescriptor.DataValue.CONTENT_URI, cv, "TYPE = ? and DEFAULT_FLAG = 1",  new String[] {String.valueOf(type)});
+		cv = new ContentValues();
+		cv.put(ProviderDescriptor.DataValue.Cols.DEFAULT_FLAG, 1);
+		cr.update(ProviderDescriptor.DataValue.CONTENT_URI, cv, "TYPE = ? and _id = ?",  new String[] {String.valueOf(type), String.valueOf(id)});
+	}
+
 	public static long getDefaultId(ContentResolver cr,
 	                        int type) {
 		long result = -1;
@@ -74,6 +85,133 @@ public class DBUtils {
 		return result;
 	}
 
+	public static String getDataValueNameById(ContentResolver cr,
+	                                long id) {
+		String result = "";
+
+		String[] queryCols = new String[]{ProviderDescriptor.DataValue.Cols._ID,
+				ProviderDescriptor.DataValue.Cols.NAME};
+
+		Cursor cursor = cr.query(ProviderDescriptor.DataValue.CONTENT_URI, queryCols,
+				"_id = ?", new String[] {String.valueOf(id)}, null);
+
+		if (cursor != null && cursor.moveToFirst()) {
+			int nameIdx = cursor.getColumnIndex(ProviderDescriptor.DataValue.Cols.NAME);
+			result = cursor.getString(nameIdx);
+			cursor.close();
+		}
+
+		return result;
+	}
+
+	public static long getMaxOdometerValue(ContentResolver cr) {
+		long result = 0;
+		Cursor cursor = cr.query(ProviderDescriptor.Log.CONTENT_URI,
+				new String[] {ProviderDescriptor.Log.Cols.ODOMETER},
+				null, null, ProviderDescriptor.Log.Cols.ODOMETER + " DESC");
+
+		if (cursor != null && cursor.moveToFirst()) {
+			result = cursor.getLong(0);
+			cursor.close();
+		}
+
+		return result;
+	}
+
+	public static long getMinOdometerValueByDate(ContentResolver cr, long date) {
+		long result = 0;
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(date);
+		calendar.set(Calendar.HOUR, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+		long dateT = calendar.getTimeInMillis();
+
+		Cursor cursor = cr.query(ProviderDescriptor.Log.CONTENT_URI,
+				new String[] {ProviderDescriptor.Log.Cols.ODOMETER},
+				"date < ?", new String[] {String.valueOf(dateT)}, ProviderDescriptor.Log.Cols.ODOMETER + " DESC");
+
+		if (cursor != null && cursor.moveToFirst()) {
+			result = cursor.getLong(0);
+			cursor.close();
+		}
+
+		return result;
+	}
+
+	public static long getMaxOdometerValueByDate(ContentResolver cr, long date) {
+		long result = Long.MAX_VALUE;
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(date);
+		calendar.set(Calendar.HOUR, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+		long dateT = calendar.getTimeInMillis();
+
+		Cursor cursor = cr.query(ProviderDescriptor.Log.CONTENT_URI,
+				new String[] {ProviderDescriptor.Log.Cols.ODOMETER},
+				"date > ?", new String[] {String.valueOf(dateT)}, null);
+
+		if (cursor != null && cursor.moveToFirst()) {
+			result = cursor.getLong(0);
+			cursor.close();
+		}
+
+		return result;
+	}
+
+
+	public static double getLastPriceValue(ContentResolver cr) {
+		double result = 0;
+		Cursor cursor = cr.query(ProviderDescriptor.Log.CONTENT_URI,
+				new String[] { ProviderDescriptor.Log.Cols._ID, ProviderDescriptor.Log.Cols.DATE,ProviderDescriptor.Log.Cols.PRICE },
+				null, null, ProviderDescriptor.Log.Cols.DATE + " DESC");
+
+		if (cursor != null && cursor.moveToFirst()) {
+			int priceIDX = cursor.getColumnIndex(ProviderDescriptor.Log.Cols.PRICE);
+			result = cursor.getDouble(priceIDX);
+			cursor.close();
+		}
+
+		return result;
+	}
+
+
+	public static boolean isDataValueIsSystemById(ContentResolver cr,
+	                                          long id) {
+		boolean result = false;
+
+		String[] queryCols = new String[]{ProviderDescriptor.DataValue.Cols._ID,
+				ProviderDescriptor.DataValue.Cols.SYSTEM};
+
+		Cursor cursor = cr.query(ProviderDescriptor.DataValue.CONTENT_URI, queryCols,
+				"_id = ?", new String[] {String.valueOf(id)}, null);
+
+		if (cursor != null && cursor.moveToFirst()) {
+			int sysIdx = cursor.getColumnIndex(ProviderDescriptor.DataValue.Cols.SYSTEM);
+			result = cursor.getInt(sysIdx) > 0;
+			cursor.close();
+		}
+
+		return result;
+	}
+
+
+	public static boolean isOdometerValid(ContentResolver cr, int dodmeterValue, long logTime) {
+		boolean result = false;
+
+
+		return result;
+	}
+
+
+	//TODO
 	public static void test(ContentResolver cr,
 	                                        int type) {
 

@@ -17,14 +17,14 @@ public class DataBaseDefaulter {
 
 		db.beginTransaction();
 		try {
-			insert(db, ProviderDescriptor.DataValue.Type.FUEL, fuelTypeList[0], 1);
+			insertDataValue(db, ProviderDescriptor.DataValue.Type.FUEL, fuelTypeList[0], 1);
 			for (int i = 1; i < fuelTypeList.length; i++) {
-				insert(db, ProviderDescriptor.DataValue.Type.FUEL, fuelTypeList[i], 0);
+				insertDataValue(db, ProviderDescriptor.DataValue.Type.FUEL, fuelTypeList[i], 0);
 			}
 
-			insert(db, ProviderDescriptor.DataValue.Type.STATION, stationTypeList[0], 1);
+			insertDataValue(db, ProviderDescriptor.DataValue.Type.STATION, stationTypeList[0], 1);
 			for (int i = 1; i < stationTypeList.length; i++) {
-				insert(db, ProviderDescriptor.DataValue.Type.STATION, stationTypeList[i], 0);
+				insertDataValue(db, ProviderDescriptor.DataValue.Type.STATION, stationTypeList[i], 0);
 			}
 
 
@@ -34,10 +34,11 @@ public class DataBaseDefaulter {
 		}
 	}
 
-	protected void insert(SQLiteDatabase db, int type, String value, int defaultFlag) {
+	protected void insertDataValue(SQLiteDatabase db, int type, String value, int defaultFlag) {
 		ContentValues cv = new ContentValues();
 		cv.put(ProviderDescriptor.DataValue.Cols.NAME, value);
 		cv.put(ProviderDescriptor.DataValue.Cols.TYPE, type);
+		cv.put(ProviderDescriptor.DataValue.Cols.SYSTEM, 1);
 		cv.put(ProviderDescriptor.DataValue.Cols.DEFAULT_FLAG, defaultFlag);
 		db.insert(ProviderDescriptor.DataValue.TABLE_NAME, null, cv);
 	}

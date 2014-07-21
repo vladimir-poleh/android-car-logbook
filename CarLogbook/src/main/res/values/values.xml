@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="action_list">
-        <item>Fuel </item>
-        <item>Fuel Full</item>
+        <item>Dashboard</item>
+        <item>Detailed</item>
+        <item>By Year</item>
+        <item>Fuel Logs</item>
     </string-array>
 	<string-array name="fuel_type_default">
 		<item>A-92</item>
@@ -14,5 +16,15 @@
 	</string-array>
 	<string-array name="station_type_default">
 		<item>Default</item>
+	</string-array>
+	<string-array name="log_type">
+		<item>Other</item>
+		<item>Car wash</item>
+		<item>Parking</item>
+		<item>Penalty</item>
+		<item>Tuning</item>
+		<item>Service</item>
+		<item>Insurance</item>
+		<item>Credit</item>
 	</string-array>
 </resources>

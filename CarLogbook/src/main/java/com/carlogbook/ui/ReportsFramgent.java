@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import com.carlogbook.R;
 import com.carlogbook.core.BaseFragment;
@@ -43,6 +44,12 @@ public class ReportsFramgent extends BaseFragment implements ActionBar.OnNavigat
 		SpinnerAdapter reportItemsAdapter = ArrayAdapter.createFromResource(getActivity(),
 				R.array.action_list, android.R.layout.simple_spinner_dropdown_item);
 
+		view.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Toast.makeText(getActivity(), "Hello", Toast.LENGTH_LONG).show();
+			}
+		});
 		getMediator().setListNavigationCallbacks(reportItemsAdapter, this);
 	}
 

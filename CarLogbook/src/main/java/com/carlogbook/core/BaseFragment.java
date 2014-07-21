@@ -52,7 +52,8 @@ public class BaseFragment extends Fragment {
 		super.onPrepareOptionsMenu(menu);
 
 		MenuEnabler menuEnabler = getMenuEnabler();
-		if (menuEnabler == null) {
+
+		if (menuEnabler == null || getMediator().isDrawerOpenned()) {
 			menuEnabler = new MenuEnabler();
 		}
 
@@ -61,7 +62,6 @@ public class BaseFragment extends Fragment {
 		menu.findItem(R.id.action_add_notify).setVisible(menuEnabler.isNotification());
 		menu.findItem(R.id.action_log_fuel).setVisible(menuEnabler.isAddFuelLog());
 		menu.findItem(R.id.action_log).setVisible(menuEnabler.isAddLog());
-
 	}
 
 	public MenuEnabler getMenuEnabler() {

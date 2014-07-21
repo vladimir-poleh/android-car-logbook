@@ -40,7 +40,7 @@ public class AddUpdateCarActivity extends BaseActivity {
 	public static final String SELECTION_ID_FILTER = "_id = ?";
 	private int mode = -1;
 	private long id = -1;
-	private int selectedCarId;
+	private long selectedCarId;
 
 	private CheckBox selectCarView;
 

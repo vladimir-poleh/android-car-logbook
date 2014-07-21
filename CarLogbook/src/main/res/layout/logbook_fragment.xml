@@ -4,9 +4,9 @@
     android:layout_height="match_parent"
     tools:context="com.carlogbook.ui.LogbookFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Logbook Placeholder" />
+	<ListView
+		android:id="@+id/list"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"/>
 
 </FrameLayout>

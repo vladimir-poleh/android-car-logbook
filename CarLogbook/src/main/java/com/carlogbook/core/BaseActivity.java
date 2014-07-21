@@ -27,6 +27,7 @@ import com.carlogbook.ui.DialogListener;
 
 public class BaseActivity extends ActionBarActivity implements DialogListener {
 	public static final String MODE_KEY = "mode";
+	public static final String TYPE_KEY = "type";
 	public static final String ENTITY_ID = "entity_id";
 
 	protected CarLogbookMediator mediator;

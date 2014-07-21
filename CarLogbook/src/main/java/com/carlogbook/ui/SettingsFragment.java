@@ -22,11 +22,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import com.carlogbook.R;
 import com.carlogbook.core.BaseFragment;
+import com.carlogbook.db.ProviderDescriptor;
 
 public class SettingsFragment extends BaseFragment {
 
@@ -43,15 +42,21 @@ public class SettingsFragment extends BaseFragment {
 		view.findViewById(R.id.data_fuel_type).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				getMediator().showDataValues();
+				getMediator().showDataValues(ProviderDescriptor.DataValue.Type.FUEL);
 			}
 		});
 
 		view.findViewById(R.id.data_stations).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				getMediator().showDataValues();
+				getMediator().showDataValues(ProviderDescriptor.DataValue.Type.STATION);
 			}
 		});
 	}
+
+	@Override
+	public String getSubTitle() {
+		return getString(R.string.menu_item_settings);
+	}
+
 }

@@ -39,6 +39,7 @@ import android.widget.ListView;
 import com.carlogbook.adapter.MenuAdapter;
 import com.carlogbook.adapter.MenuItem;
 import com.carlogbook.core.BaseActivity;
+import com.carlogbook.db.CarLogbookProvider;
 import com.carlogbook.db.ProviderDescriptor;
 
 import java.util.ArrayList;
@@ -48,7 +49,6 @@ import java.util.Collection;
 public class CarLogbook extends BaseActivity {
 	private DrawerLayout drawer;
 	private ListView menuList;
-	private FrameLayout contentFrame;
 
 	private ActionBarDrawerToggle mDrawerToggle;
 
@@ -59,7 +59,7 @@ public class CarLogbook extends BaseActivity {
 
 		Log.e("xxxx", "x" + savedInstanceState);
 
-		contentFrame = (FrameLayout) findViewById(R.id.content_frame);
+		FrameLayout contentFrame = (FrameLayout) findViewById(R.id.content_frame);
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
 		MenuAdapter menuAdapter = new MenuAdapter(this, 0,  buildMenu());
@@ -72,11 +72,13 @@ public class CarLogbook extends BaseActivity {
 
 			public void onDrawerClosed(View view) {
 				super.onDrawerClosed(view);
+				getMediator().setDrawerOpenned(false);
 				ActivityCompat.invalidateOptionsMenu(CarLogbook.this);
 			}
 
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
+				getMediator().setDrawerOpenned(true);
 				ActivityCompat.invalidateOptionsMenu(CarLogbook.this);
 			}
 		};
@@ -122,8 +124,8 @@ public class CarLogbook extends BaseActivity {
 
 		items.add(new MenuItem(R.drawable.ic_launcher, res.getString(R.string.menu_item_log)));
 		items.add(new MenuItem(R.drawable.ic_launcher, res.getString(R.string.menu_item_reports)));
-		items.add(new MenuItem(R.drawable.ic_launcher, res.getString(R.string.menu_item_my_cars)));
 		items.add(new MenuItem(R.drawable.ic_launcher, res.getString(R.string.menu_item_notifications)));
+		items.add(new MenuItem(R.drawable.ic_launcher, res.getString(R.string.menu_item_my_cars)));
 		items.add(new MenuItem(R.drawable.ic_launcher, res.getString(R.string.menu_item_settings)));
 		items.add(new MenuItem(R.drawable.ic_launcher, res.getString(R.string.menu_item_about)));
 

@@ -17,13 +17,16 @@
 */
 package com.carlogbook.core;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 
+import com.carlogbook.R;
+import com.carlogbook.db.DBUtils;
+import com.carlogbook.db.ProviderDescriptor;
 import com.carlogbook.ui.AboutFragment;
 import com.carlogbook.ui.AddUpdateCarActivity;
+import com.carlogbook.ui.AddUpdateDataValue;
 import com.carlogbook.ui.AddUpdateFuelLogActivity;
 import com.carlogbook.ui.AddUpdateLogActivity;
 import com.carlogbook.ui.AddUpdateNotificationActivity;
@@ -37,6 +40,7 @@ import com.carlogbook.ui.ReportsFramgent;
 import com.carlogbook.ui.SettingsFragment;
 
 public class CarLogbookMediator extends AppMediator {
+	private boolean drawerOpenned;
 
 	public CarLogbookMediator(ActionBarActivity activity) {
 		super(activity);
@@ -78,15 +82,27 @@ public class CarLogbookMediator extends AppMediator {
 	}
 
 	public void showAddNotification() {
-		startActivity(AddUpdateNotificationActivity.class);
+		if (DBUtils.getActiveCarId(activity.getContentResolver()) == -1) {
+			showAlert(activity.getString(R.string.value_car_error));
+		} else {
+			startActivity(AddUpdateNotificationActivity.class);
+		}
 	}
 
 	public void showAddFuelLog() {
-		startActivity(AddUpdateFuelLogActivity.class);
+		if (DBUtils.getActiveCarId(activity.getContentResolver()) == -1) {
+			showAlert(activity.getString(R.string.value_car_error));
+		} else {
+			startActivity(AddUpdateFuelLogActivity.class);
+		}
 	}
 
 	public void showAddLog() {
-		startActivity(AddUpdateLogActivity.class);
+		if (DBUtils.getActiveCarId(activity.getContentResolver()) == -1) {
+			showAlert(activity.getString(R.string.value_car_error));
+		} else {
+			startActivity(AddUpdateLogActivity.class);
+		}
 	}
 
 	public void showConfirmDeleteView() {
@@ -100,7 +116,35 @@ public class CarLogbookMediator extends AppMediator {
 		alertDialog.show(activity.getSupportFragmentManager(), "alert");
 	}
 
-	public void showDataValues() {
-		startActivity(DataValueActivity.class);
+	public void showDataValues(int type) {
+		Bundle params = new Bundle();
+		params.putInt(BaseActivity.TYPE_KEY, type);
+		startActivity(DataValueActivity.class, params);
+	}
+
+	public void showAddDataValue(int type) {
+		Bundle params = new Bundle();
+		params.putInt(BaseActivity.TYPE_KEY, type);
+		startActivity(AddUpdateDataValue.class, params);
+	}
+
+	public void showUpdateDataValue(int type, long id) {
+		if (DBUtils.isDataValueIsSystemById(activity.getContentResolver(), id)) {
+			showAlert(activity.getString(R.string.value_sys_error));
+		} else {
+			Bundle params = new Bundle();
+			params.putInt(BaseActivity.TYPE_KEY, type);
+			params.putInt(BaseActivity.MODE_KEY, AddUpdateDataValue.PARAM_EDIT);
+			params.putLong(BaseActivity.ENTITY_ID, id);
+			startActivity(AddUpdateDataValue.class, params);
+		}
+	}
+
+	public boolean isDrawerOpenned() {
+		return drawerOpenned;
+	}
+
+	public void setDrawerOpenned(boolean drawerOpenned) {
+		this.drawerOpenned = drawerOpenned;
 	}
 }

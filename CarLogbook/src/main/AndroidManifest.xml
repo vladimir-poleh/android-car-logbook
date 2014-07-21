@@ -38,11 +38,19 @@
                 android:value="com.carlogbook.CarLogbook" />
         </activity>
 
-	    <activity android:name=".ui.DataValueActivity" android:parentActivityName="com.carlogbook.CarLogbook">
+	    <activity android:name=".ui.DataValueActivity"
+	              android:parentActivityName="com.carlogbook.CarLogbook"
+	              android:launchMode="singleTop" >
 		    <!-- Parent activity meta-data to support 4.0 and lower -->
 		    <meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
 			    android:value="com.carlogbook.CarLogbook" />
+	    </activity>
+	    <activity android:name=".ui.AddUpdateDataValue" android:parentActivityName="com.carlogbook.ui.DataValueActivity">
+		    <!-- Parent activity meta-data to support 4.0 and lower -->
+		    <meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value="com.carlogbook.ui.DataValueActivity" />
 	    </activity>
 
 	    <!--android:launchMode="singleTop"-->
