@@ -17,7 +17,19 @@
 */
 package com.carlogbook.db;
 
+import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.widget.EditText;
+
+import com.carlogbook.R;
+import com.carlogbook.core.BaseActivity;
+import com.carlogbook.ui.AddUpdateNotificationActivity;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -28,6 +40,55 @@ import java.util.Date;
 public class CommonUtils {
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
 
+	public static void createNotify(Context ctx, long id) {
+		Cursor c = ctx.getContentResolver()
+				.query(ProviderDescriptor.Notify.CONTENT_URI, null, BaseActivity.SELECTION_ID_FILTER,
+						new String[]{String.valueOf(id)}, null);
+
+		if (c == null) {
+			return;
+		}
+		boolean hasItem = c.moveToFirst();
+
+		if (!hasItem) {
+			return;
+		}
+
+		int nameIdx = c.getColumnIndex(ProviderDescriptor.Notify.Cols.NAME);
+
+		String name = c.getString(nameIdx);
+
+		NotificationCompat.Builder mBuilder =
+				new NotificationCompat.Builder(ctx)
+						.setSmallIcon(R.drawable.abc_ic_search)
+						.setContentTitle(ctx.getString(R.string.app_name))
+						.setContentText(name);
+		NotificationManager mNotificationManager =
+				(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+		Intent notifyIntent = new Intent(ctx, AddUpdateNotificationActivity.class);
+		notifyIntent.putExtra(BaseActivity.MODE_KEY, BaseActivity.PARAM_EDIT);
+		notifyIntent.putExtra(BaseActivity.ENTITY_ID, id);
+
+		notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
+		stackBuilder.addParentStack(AddUpdateNotificationActivity.class);
+		stackBuilder.addNextIntent(notifyIntent);
+
+		PendingIntent notifyPendingIntent =
+				PendingIntent.getActivity(
+						ctx,
+						0,
+						notifyIntent,
+						PendingIntent.FLAG_UPDATE_CURRENT
+				);
+
+		mBuilder.setContentIntent(notifyPendingIntent);
+		mBuilder.setAutoCancel(true);
+
+		mNotificationManager.notify((int) id, mBuilder.build());
+	}
+
 	public static String formatDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 		return sdf.format(date);
@@ -35,7 +96,11 @@ public class CommonUtils {
 
 	public static double getPriceValue(EditText text) {
 		double result = 0;
-		String stringValue = text.getText().toString().trim();
+		result = getPriceValue(text.getText().toString().trim(), result);
+		return result;
+	}
+
+	public static double getPriceValue(String stringValue, double result) {
 		if (stringValue.length() > 0) {
 			result = parsePriceString(stringValue);
 		}

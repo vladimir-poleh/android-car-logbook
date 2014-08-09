@@ -89,6 +89,13 @@ public class CarLogbookMediator extends AppMediator {
 		}
 	}
 
+	public void showEditNotifcation(long id) {
+		Bundle params = new Bundle();
+		params.putInt(BaseActivity.MODE_KEY, BaseActivity.PARAM_EDIT);
+		params.putLong(BaseActivity.ENTITY_ID, id);
+		startActivity(AddUpdateNotificationActivity.class, params);
+	}
+
 	public void showAddFuelLog() {
 		if (DBUtils.getActiveCarId(activity.getContentResolver()) == -1) {
 			showAlert(activity.getString(R.string.value_car_error));
@@ -103,6 +110,14 @@ public class CarLogbookMediator extends AppMediator {
 		} else {
 			startActivity(AddUpdateLogActivity.class);
 		}
+	}
+
+	public void showModifyLog(int type, long id) {
+		Bundle params = new Bundle();
+		params.putLong(BaseActivity.ENTITY_ID, id);
+		params.putInt(BaseActivity.MODE_KEY, AddUpdateFuelLogActivity.PARAM_EDIT); //ToDO
+		Class clazz = (type == ProviderDescriptor.Log.Type.OTHER) ? AddUpdateLogActivity.class : AddUpdateFuelLogActivity.class;
+		startActivity(clazz, params);
 	}
 
 	public void showConfirmDeleteView() {

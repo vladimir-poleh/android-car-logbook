@@ -37,6 +37,9 @@ public class ProviderDescriptor {
 		matcher.addURI(AUTHORITY, Log.PATH, Log.PATH_TOKEN);
 		matcher.addURI(AUTHORITY, Log.PATH_ID, Log.PATH_ID_TOKEN);
 
+		matcher.addURI(AUTHORITY, Notify.PATH, Notify.PATH_TOKEN);
+		matcher.addURI(AUTHORITY, Notify.PATH_ID, Notify.PATH_ID_TOKEN);
+
 		return matcher;
 	}
 
@@ -125,6 +128,34 @@ public class ProviderDescriptor {
 		public static class Type {
 			public static final int FUEL = 0;
 			public static final int STATION = 1;
+		}
+	}
+
+
+	public static class Notify {
+		public static final String TABLE_NAME = "notify";
+		public static final String PATH = "notify";
+		public static final int PATH_TOKEN = 400;
+		public static final String PATH_ID = "notify/*";
+		public static final int PATH_ID_TOKEN = 401;
+		public static final Uri CONTENT_URI = ProviderDescriptor.BASE_URI.buildUpon().appendPath(PATH).build();
+
+		public static final String CONTENT_TYPE_DIR = "vnd.android.cursor.dir/vnd." + AUTHORITY + "." + PATH;
+		public static final String CONTENT_TYPE_ITEM = "vnd.android.cursor.item/vnd." + AUTHORITY + "." + PATH;
+
+		public static final String CREATE_FIELDS = "_id INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, TYPE INTEGER, VALUE INTEGER, CAR_ID INTEGER";
+
+		public static class Cols {
+			public static final String _ID = "_id";
+			public static final String NAME = "NAME";
+			public static final String TYPE = "TYPE";
+			public static final String TRIGGER_VALUE = "VALUE";
+			public static final String CAR_ID = "CAR_ID";
+		}
+
+		public static class Type {
+			public static final int ODOMETER = 0;
+			public static final int DATE = 1;
 		}
 	}
 }

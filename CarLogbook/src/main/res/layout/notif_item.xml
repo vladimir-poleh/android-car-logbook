@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/item_name_image">
+
+	<ImageView
+		android:id="@+id/logo"
+		style="@style/logo"/>
+
+	<TextView
+		android:layout_marginLeft="8dp"
+		android:id="@+id/name"
+		android:layout_weight="1"
+		style="@style/wrap"/>
+
+	<TextView
+		android:id="@+id/value"
+		style="@style/wrap"/>
+
+</LinearLayout>

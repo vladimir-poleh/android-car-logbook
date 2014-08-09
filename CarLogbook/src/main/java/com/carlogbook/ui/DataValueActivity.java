@@ -51,15 +51,15 @@ public class DataValueActivity extends BaseActivity  implements
 
 		adapter = new DataValueAdapter(this, null);
 
-		ListView carListView = (ListView) findViewById(R.id.list);
-		carListView.setAdapter(adapter);
+		ListView valueListView = (ListView) findViewById(R.id.list);
+		valueListView.setAdapter(adapter);
 
 		Bundle params = getIntent().getExtras();
 		if (params != null) {
 			type = params.getInt(BaseActivity.TYPE_KEY);
 		}
 
-		carListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		valueListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 				getMediator().showUpdateDataValue(type, id);

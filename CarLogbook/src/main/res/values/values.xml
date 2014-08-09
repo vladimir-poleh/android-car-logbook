@@ -24,7 +24,13 @@
 		<item>Penalty</item>
 		<item>Tuning</item>
 		<item>Service</item>
+		<item>Repair Part</item>
 		<item>Insurance</item>
 		<item>Credit</item>
+	</string-array>
+
+	<string-array name="notify_types">
+		<item>by odometer</item>
+		<item>by date</item>
 	</string-array>
 </resources>

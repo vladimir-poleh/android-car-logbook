@@ -1,28 +1,28 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="CustomActionBarTheme"
+    <style name="CarTheme"
            parent="@style/Theme.AppCompat.Light">
+	    <!--<item name="android:windowContentOverlay">@null</item>-->
         <item name="android:actionBarStyle" tools:targetApi="11">@style/MyActionBar</item>
-        <!--<item name="android:actionMenuTextColor" tools:targetApi="11">@color/abc_search_url_text_holo</item>-->
+	    <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/back</item>
 
-        <!-- Support library compatibility -->
-        <item name="actionBarStyle">@style/MyActionBar</item>
-        <!--<item name="actionMenuTextColor">@color/abc_search_url_text_holo</item>-->
+	     <!-- Support library compatibility -->
+	    <item name="actionBarStyle">@style/MyActionBar</item>
+	    <item name="homeAsUpIndicator">@drawable/back</item>
     </style>
 
     <!-- general styles for the action bar -->
     <style name="MyActionBar"
-           parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <!--<item name="android:titleTextStyle" tools:targetApi="11">@style/TitleTextStyle</item>-->
-        <!--<item name="android:background" tools:targetApi="11">@drawable/ic_drawer</item>-->
-        <!--<item name="android:backgroundStacked" tools:targetApi="14">@drawable/ic_launcher</item>-->
-        <!--<item name="android:backgroundSplit" tools:targetApi="14">@drawable/ic_drawer</item>-->
+           parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+	    <item name="android:background">#f3822c</item>
+	    <item name="android:icon">@drawable/alogo</item>
+	    <item name="android:titleTextStyle" tools:targetApi="11">@style/TextAppearance.AppCompat.Widget.ActionMode.Title.Inverse</item>
+	    <item name="android:subtitleTextStyle" tools:targetApi="11">@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle.Inverse</item>
 
         <!-- Support library compatibility -->
-        <!--<item name="titleTextStyle">@style/TitleTextStyle</item>-->
-        <!--<item name="background">@drawable/ic_launcher</item>-->
-        <!--<item name="backgroundStacked">@drawable/ic_drawer</item>-->
-        <!--<item name="backgroundSplit">@drawable/ic_launcher</item>-->
+	    <item name="icon">@drawable/alogo</item>
+	    <item name="titleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionMode.Title.Inverse</item>
+	    <item name="subtitleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle.Inverse</item>
     </style>
 
 	<style name="ConfirmDelete" parent="@android:style/Theme.Dialog">
@@ -31,5 +31,80 @@
 		<item name="android:textColorPrimary">@color/confirm_delete_primary_color</item>
 	</style>
 
+	<style name="wrap">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+	</style>
+	<style name="wrap_vertical" parent="wrap">
+		<item name="android:orientation">vertical</item>
+	</style>
+	<style name="wide" parent="wrap">
+		<item name="android:layout_width">match_parent</item>
+	</style>
+	<style name="full" parent="wide">
+		<item name="android:background">#ffffff</item>
+		<item name="android:layout_height">match_parent</item>
+	</style>
+	<style name="add_entity_scroll" parent="full">
+		<item name="android:orientation">vertical</item>
+	</style>
+	<style name="add_entity_main" parent="full">
+		<item name="android:padding">12dp</item>
+		<item name="android:orientation">vertical</item>
+	</style>
+	<style name="list_main" parent="full">
+		<item name="android:orientation">vertical</item>
+	</style>
+	<style name="add_entity_group" parent="wide">
+		<item name="android:orientation">horizontal</item>
+		<item name="android:gravity">center_vertical</item>
+	</style>
+	<style name="add_entity_label" parent="wrap">
+		<item name="android:layout_weight">1</item>
+	</style>
+	<style name="add_entity_edit" parent="wrap">
+		<item name="android:layout_width">180dp</item>
+		<item name="android:gravity">right</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:maxLength">50</item>
+	</style>
+	<style name="add_entity_error" parent="wrap">
+		<item name="android:textColor">#ff0000</item>
+		<item name="android:visibility">gone</item>
+	</style>
+	<style name="add_entity_spinner" parent="wrap">
+		<item name="android:layout_width">180dp</item>
+	</style>
+	<style name="add_entity_date" parent="wrap">
+		<item name="android:layout_width">28dp</item>
+		<item name="android:layout_height">28dp</item>
+		<item name="android:background">@drawable/ic_launcher</item>
+	</style>
+	<style name="add_entity_check" parent="wrap">
+	</style>
+	<style name="comment" parent="wide">
+		<item name="android:lines">4</item>
+		<item name="android:maxLength">400</item>
+	</style>
 
+	<style name="log_fuel_item" parent="wide">
+		<item name="android:orientation">vertical</item>
+		<item name="android:gravity">center_vertical</item>
+		<item name="android:padding">6dp</item>
+	</style>
+
+	<style name="item_name_image" parent="wide">
+		<item name="android:orientation">horizontal</item>
+		<item name="android:paddingTop">16dp</item>
+		<item name="android:paddingBottom">16dp</item>
+		<item name="android:paddingLeft">6dp</item>
+		<item name="android:paddingRight">6dp</item>
+
+		<item name="android:gravity">center_vertical</item>
+	</style>
+
+	<style name="logo">
+		<item name="android:layout_width">28dp</item>
+		<item name="android:layout_height">28dp</item>
+	</style>
 </resources>

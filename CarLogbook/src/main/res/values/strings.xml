@@ -36,16 +36,21 @@
 
     <!--Add event log Activity-->
     <string name="log_title">Add Event</string>
+    <string name="log_title_edit">Edit Event</string>
     <string name="log_name">Name</string>
     <string name="erro_log_name">Name is not correct</string>
+    <string name="error_date">Date is not correct</string>
     <string name="log_type">Type</string>
     <string name="log_price">Price</string>
+    <string name="log_f">F: </string>
+    <string name="log_p">P: </string>
 
 
 	<string name="value_car_error">Please add a car!</string>
 
     <!--Add fuel  event log Activity-->
     <string name="log_fuel_title">Add Fuel Event</string>
+    <string name="log_fuel_title_edit">Edit Fuel Event</string>
     <string name="log_fuel_odometer">Odometer</string>
     <string name="log_fuel_price">Price(1 unit)</string>
     <string name="log_fuel_volume">Fuel volume</string>
@@ -59,6 +64,8 @@
 
     <!--Add Notification Activity-->
     <string name="notify_title">Add Notification</string>
+    <string name="notify_title_edit">Edit Notification</string>
+    <string name="notify_type">Type</string>
 
 	<!--Settings-->
 	<string name="sett_fuel_type">Fuel type values</string>

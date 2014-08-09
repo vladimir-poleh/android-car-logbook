@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<color name="selector_menu">#ffd060</color>
 	<color name="confirm_delete">#55000000</color>
 	<color name="confirm_delete_primary_color">#fff</color>
 </resources>

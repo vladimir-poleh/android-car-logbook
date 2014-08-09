@@ -1,63 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal">
-
+<LinearLayout
+	style="@style/log_fuel_item"
+	xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<LinearLayout
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:orientation="vertical">
-
-		<ImageView
-			android:id="@+id/imgType"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"/>
-	</LinearLayout>
-
-	<LinearLayout
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:orientation="vertical">
-
-		<TextView
-			android:id="@+id/date"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			/>
+		style="@style/wide"
+		android:gravity="right"
+		android:orientation="horizontal">
 
 		<TextView
 			android:id="@+id/odometer"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textColor="#ff00ff00"/>
+			style="@style/wrap"
+			android:layout_marginRight="8dp"
+			android:textSize="10sp"/>
 
 		<TextView
-			android:id="@+id/fuel"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			/>
+			android:id="@+id/date"
+			style="@style/wrap"
+			android:textSize="10sp"/>
 	</LinearLayout>
 
 	<LinearLayout
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:orientation="vertical">
+		style="@style/wide"
+		android:orientation="horizontal">
+
+		<ImageView
+			android:id="@+id/imgType"
+			style="@style/logo"
+			android:layout_marginLeft="6dp"
+			android:layout_marginRight="6dp"/>
 
 
-		<TextView
-			android:id="@+id/priceTotal"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textColor="#ff00ff00"/>
+		<LinearLayout
+			style="@style/wide"
+			android:gravity="center_vertical"
+			android:orientation="horizontal">
 
-		<TextView
-			android:id="@+id/fuelValue"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			/>
+			<TextView
+				android:id="@+id/fuel"
+				style="@style/wrap"
+				android:layout_width="0dp"
+				android:layout_margin="4dp"
+				android:layout_weight="1"/>
+
+
+			<LinearLayout
+				style="@style/wrap_vertical"
+				android:gravity="right">
+
+
+				<TextView
+					android:id="@+id/fuelValue"
+					style="@style/wrap"/>
+
+				<TextView
+					android:id="@+id/priceTotal"
+					style="@style/wrap"/>
+			</LinearLayout>
+
+		</LinearLayout>
 	</LinearLayout>
-
 </LinearLayout>

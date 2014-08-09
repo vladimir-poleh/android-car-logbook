@@ -22,13 +22,20 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.carlogbook.db.CommonUtils;
 import com.carlogbook.ui.DialogListener;
 
 public class BaseActivity extends ActionBarActivity implements DialogListener {
 	public static final String MODE_KEY = "mode";
 	public static final String TYPE_KEY = "type";
 	public static final String ENTITY_ID = "entity_id";
+	public static final int PARAM_EDIT = 1;
+
+	public static final String SELECTION_ID_FILTER = "_id = ?";
 
 	protected CarLogbookMediator mediator;
 
@@ -51,6 +58,28 @@ public class BaseActivity extends ActionBarActivity implements DialogListener {
 		if (subTitle != null) {
 			getSupportActionBar().setSubtitle(subTitle);
 		}
+	}
+
+	protected boolean validateView(int errorViewId, EditText editView) {
+		TextView errorView = (TextView) findViewById(errorViewId);
+		double valueDouble = CommonUtils.getPriceValue(editView);
+		boolean result = valueDouble > 0;
+
+		errorView.setVisibility((!result)? View.VISIBLE : View.GONE);
+		return result;
+	}
+
+	protected boolean validateTextView(int errorViewId, EditText editView) {
+		TextView errorView = (TextView) findViewById(errorViewId);
+		boolean result = CommonUtils.isNotEmpty(editView.getText().toString());
+
+		errorView.setVisibility((!result)? View.VISIBLE : View.GONE);
+		return result;
+	}
+
+	public void showError(int errorViewId, boolean show) {
+		TextView errorView = (TextView) findViewById(errorViewId);
+		errorView.setVisibility((show)? View.VISIBLE : View.GONE);
 	}
 
 	public CarLogbookMediator getMediator() {

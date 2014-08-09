@@ -1,10 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" android:text="Notify"/>
+<LinearLayout
+	style="@style/add_entity_main"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<TextView
+		android:id="@+id/errorName"
+		style="@style/add_entity_error"
+		android:text="@string/erro_log_name"/>
+
+	<LinearLayout
+		style="@style/add_entity_group">
+
+		<TextView
+			style="@style/add_entity_label"
+			android:text="@string/value_name"/>
+
+		<EditText
+			android:id="@+id/name"
+			style="@style/add_entity_edit"
+			/>
+	</LinearLayout>
+
+	<LinearLayout
+		style="@style/add_entity_group">
+
+		<TextView
+			style="@style/add_entity_label"
+			android:text="@string/log_type"/>
+
+		<Spinner
+			android:id="@+id/typeSpinner"
+			style="@style/add_entity_spinner"
+			android:entries="@array/notify_types"/>
+	</LinearLayout>
+
+	<TextView
+		android:id="@+id/errorDate"
+		style="@style/add_entity_error"
+		android:text="@string/error_date"/>
+
+	<LinearLayout
+		android:id="@+id/dateGroup"
+		style="@style/add_entity_group"
+		android:visibility="gone">
+
+		<TextView
+			style="@style/add_entity_label"
+			android:text="@string/date"/>
+
+		<TextView
+			android:id="@+id/date"
+			style="@style/wrap"
+			/>
+
+		<ImageButton
+			style="@style/add_entity_date"
+			android:onClick="showDatePickerDialog"/>
+	</LinearLayout>
+
+	<TextView
+		android:id="@+id/errorOdometer"
+		style="@style/add_entity_error"
+		android:text="@string/error_odometer"/>
+
+	<LinearLayout
+		android:id="@+id/odometerGroup"
+		style="@style/add_entity_group"
+		android:visibility="gone">
+
+		<TextView
+			style="@style/add_entity_label"
+			android:text="@string/log_fuel_odometer"/>
+
+		<EditText
+			android:id="@+id/odometer"
+			style="@style/add_entity_edit"
+			android:inputType="number"
+			/>
+	</LinearLayout>
 </LinearLayout>
+

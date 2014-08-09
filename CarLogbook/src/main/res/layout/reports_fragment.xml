@@ -13,4 +13,8 @@
 		android:id="@+id/btn"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:text="Test" android:textColor="#ffff0000"/>
+	<Button
+		android:id="@+id/btn2"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="Test" android:textColor="#ffff0000"/>
 </LinearLayout>

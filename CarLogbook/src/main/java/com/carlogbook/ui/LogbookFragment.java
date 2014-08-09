@@ -25,12 +25,15 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.carlogbook.CarLogbook;
 import com.carlogbook.R;
 import com.carlogbook.adapter.LogAdapter;
 import com.carlogbook.core.BaseFragment;
 import com.carlogbook.core.MenuEnabler;
+import com.carlogbook.db.DBUtils;
 import com.carlogbook.db.ProviderDescriptor;
 
 
@@ -53,7 +56,15 @@ public class LogbookFragment extends BaseFragment  implements
 		ListView carListView = (ListView) view.findViewById(R.id.list);
 		carListView.setAdapter(adapter);
 
-		getLoaderManager().initLoader(0, null, this);
+		carListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+				int type = DBUtils.getLogTypeById(getActivity().getContentResolver(), id);
+				getMediator().showModifyLog(type, id);
+			}
+		});
+
+		getLoaderManager().initLoader(CarLogbook.LoaderDesc.LOG_ID, null, this);
 	}
 
 	@Override
@@ -72,6 +83,7 @@ public class LogbookFragment extends BaseFragment  implements
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		//TODO
 		CursorLoader cursorLoader = new CursorLoader(getActivity(),
 				ProviderDescriptor.Log.CONTENT_URI, null, null,  null, ProviderDescriptor.Log.Cols.DATE + " DESC");
 

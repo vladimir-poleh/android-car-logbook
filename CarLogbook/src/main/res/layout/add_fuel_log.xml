@@ -1,184 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            style="@style/add_entity_scroll">
 
 	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:orientation="vertical">
+		style="@style/add_entity_main">
 
 		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal">
+			style="@style/add_entity_group">
 
 			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
+				style="@style/add_entity_label"
 				android:text="@string/date"/>
 			<TextView android:id="@+id/date"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				/>
+				style="@style/wrap"/>
 			<ImageButton
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:background="@drawable/abc_spinner_ab_focused_holo_light"
+				style="@style/add_entity_date"
 				android:onClick="showDatePickerDialog" />
 		</LinearLayout>
 
 		<TextView
 			android:id="@+id/errorOdometer"
 			android:text="@string/error_odometer"
-			android:visibility="gone"
-			android:textColor="#ffff0000"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"/>
+			style="@style/add_entity_error"/>
 		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal">
+			style="@style/add_entity_group">
 
 			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="0.6"
+				style="@style/add_entity_label"
 				android:text="@string/log_fuel_odometer"/>
 
 			<EditText
 				android:id="@+id/odometer"
-				android:layout_weight="0.4"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:maxWidth="80dp"
-				android:minWidth="80dp"
+				style="@style/add_entity_edit"
 				android:inputType="number"
 				/>
 		</LinearLayout>
 		<TextView
 			android:id="@+id/errorFuel"
 			android:text="@string/error_fuel"
-			android:visibility="gone"
-			android:textColor="#ffff0000"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"/>
+			style="@style/add_entity_error"/>
 		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal">
+			style="@style/add_entity_group">
 
 			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="0.6"
+				style="@style/add_entity_label"
 				android:text="@string/log_fuel_volume"/>
 
 			<EditText
 				android:id="@+id/fuel_volume"
-				android:layout_weight="0.4"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:maxWidth="80dp"
-				android:minWidth="80dp"
+				style="@style/add_entity_edit"
 				android:inputType="numberDecimal"
 				/>
 		</LinearLayout>
 		<TextView
 			android:id="@+id/errorPrice"
 			android:text="@string/error_price"
-			android:visibility="gone"
-			android:textColor="#ffff0000"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"/>
+			style="@style/add_entity_error"/>
 		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal">
+			style="@style/add_entity_group">
 
 			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="0.6"
+				style="@style/add_entity_label"
 				android:text="@string/log_fuel_price"/>
 
 			<EditText
 				android:id="@+id/price"
-				android:layout_weight="0.4"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:maxWidth="80dp"
-				android:minWidth="80dp"
+				style="@style/add_entity_edit"
 				android:inputType="numberDecimal"
 				/>
 		</LinearLayout>
 
 		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal">
+			style="@style/add_entity_group">
 
 			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="0.6"
+					style="@style/add_entity_label"
 				android:text="@string/log_fuel_price_total"/>
 			<EditText
 				android:id="@+id/priceTotal"
-				android:layout_weight="0.4"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:maxWidth="80dp"
-				android:minWidth="80dp"
+				style="@style/add_entity_edit"
 				android:inputType="numberDecimal"
 				/>
 		</LinearLayout>
 
 		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal">
+			style="@style/add_entity_group">
 
 			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
+				style="@style/add_entity_label"
 				android:text="@string/log_fuel_type"/>
 			<Spinner
 				android:id="@+id/typeSpinner"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				style="@style/add_entity_spinner"
 				/>
 		</LinearLayout>
 
 		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal">
+			style="@style/add_entity_group">
 
 			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
+				style="@style/add_entity_label"
 				android:text="@string/log_fuel_gas_station"/>
 			<Spinner
 				android:id="@+id/stationSpinner"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				/>
+				style="@style/add_entity_spinner"/>
 		</LinearLayout>
 
 		<TextView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
+			style="@style/add_entity_label"
 			android:text="@string/comments"/>
 		<EditText
 			android:id="@+id/comment"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:lines="4"
-			android:maxLength="100"/>
+			style="@style/comment"/>
 	</LinearLayout>
 </ScrollView>

@@ -104,6 +104,25 @@ public class DBUtils {
 		return result;
 	}
 
+	public static int getLogTypeById(ContentResolver cr,
+	                                          long id) {
+		int result = ProviderDescriptor.Log.Type.FUEL;
+
+		String[] queryCols = new String[]{ProviderDescriptor.DataValue.Cols._ID,
+				ProviderDescriptor.Log.Cols.TYPE_LOG};
+
+		Cursor cursor = cr.query(ProviderDescriptor.Log.CONTENT_URI, queryCols,
+				"_id = ?", new String[] {String.valueOf(id)}, null);
+
+		if (cursor != null && cursor.moveToFirst()) {
+			int nameIdx = cursor.getColumnIndex(ProviderDescriptor.Log.Cols.TYPE_LOG);
+			result = cursor.getInt(nameIdx);
+			cursor.close();
+		}
+
+		return result;
+	}
+
 	public static long getMaxOdometerValue(ContentResolver cr) {
 		long result = 0;
 		Cursor cursor = cr.query(ProviderDescriptor.Log.CONTENT_URI,
@@ -171,7 +190,7 @@ public class DBUtils {
 		double result = 0;
 		Cursor cursor = cr.query(ProviderDescriptor.Log.CONTENT_URI,
 				new String[] { ProviderDescriptor.Log.Cols._ID, ProviderDescriptor.Log.Cols.DATE,ProviderDescriptor.Log.Cols.PRICE },
-				null, null, ProviderDescriptor.Log.Cols.DATE + " DESC");
+				ProviderDescriptor.Log.Cols.TYPE_LOG + " = ?", new String[] {String.valueOf(ProviderDescriptor.Log.Type.FUEL)}, ProviderDescriptor.Log.Cols.DATE + " DESC");
 
 		if (cursor != null && cursor.moveToFirst()) {
 			int priceIDX = cursor.getColumnIndex(ProviderDescriptor.Log.Cols.PRICE);

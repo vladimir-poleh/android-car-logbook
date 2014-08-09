@@ -17,6 +17,7 @@
 */
 package com.carlogbook.ui;
 
+import android.app.NotificationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ import android.widget.Toast;
 
 import com.carlogbook.R;
 import com.carlogbook.core.BaseFragment;
+import com.carlogbook.db.CommonUtils;
+import com.carlogbook.service.NotifyService;
 
 public class ReportsFramgent extends BaseFragment implements ActionBar.OnNavigationListener {
 	@Override
@@ -47,9 +50,17 @@ public class ReportsFramgent extends BaseFragment implements ActionBar.OnNavigat
 		view.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Toast.makeText(getActivity(), "Hello", Toast.LENGTH_LONG).show();
+				NotifyService.createAlarm(getActivity());
 			}
 		});
+
+		view.findViewById(R.id.btn2).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				NotifyService.cancelAlarm(getActivity());
+			}
+		});
+
 		getMediator().setListNavigationCallbacks(reportItemsAdapter, this);
 	}
 

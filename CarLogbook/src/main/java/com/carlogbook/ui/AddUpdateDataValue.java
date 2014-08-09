@@ -28,85 +28,17 @@ import android.widget.EditText;
 
 import com.carlogbook.R;
 import com.carlogbook.core.BaseActivity;
+import com.carlogbook.core.SaveUpdateBaseActivity;
 import com.carlogbook.db.DBUtils;
 import com.carlogbook.db.ProviderDescriptor;
 
-public class AddUpdateDataValue extends BaseActivity {
-	public static final int PARAM_EDIT = 1;
-	private long id;
+public class AddUpdateDataValue extends SaveUpdateBaseActivity {
 	private int type;
-	private int mode;
 	private EditText name;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.add_data_value);
-		name = (EditText) findViewById(R.id.name);
-
-		Bundle params = getIntent().getExtras();
-		if (params != null) {
-			mode = params.getInt(BaseActivity.MODE_KEY);
-			id = params.getLong(BaseActivity.ENTITY_ID);
-			type = params.getInt(BaseActivity.TYPE_KEY);
-			if (mode == PARAM_EDIT) {
-				String nameValue = DBUtils.getDataValueNameById(getContentResolver(), id);
-				name.setText(nameValue);
-			}
-		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.save_menu, menu);
-
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.action_delete).setVisible(mode == AddUpdateDataValue.PARAM_EDIT);
-		return super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(android.view.MenuItem item) {
-
-		int action = item.getItemId();
-
-		switch (action) {
-
-			case R.id.action_save: {
-				String nameVal = name.getText().toString();
-				if (validateData(nameVal)) {
-					save(nameVal);
-				}
-				break;
-			}
-
-			case R.id.action_delete: {
-				getMediator().showConfirmDeleteView();
-				break;
-			}
-			default: {
-				return super.onOptionsItemSelected(item);
-			}
-		}
-
-		return true;
-	}
-
-	private void save(String nameVal) {
-		ContentValues cv = new ContentValues();
-		cv.put(ProviderDescriptor.DataValue.Cols.NAME, nameVal);
-		if (mode == PARAM_EDIT) {
-			getContentResolver().update(ProviderDescriptor.DataValue.CONTENT_URI,  cv, "_id = ?" , new String[] {String.valueOf(id)});
-		} else {
-			cv.put(ProviderDescriptor.DataValue.Cols.TYPE, type);
-			getContentResolver().insert(ProviderDescriptor.DataValue.CONTENT_URI, cv);
-		}
-		NavUtils.navigateUpFromSameTask(this);
+	protected boolean validateEntity() {
+		return validateData(name.getText().toString());
 	}
 
 	private boolean validateData(String value) {
@@ -119,11 +51,56 @@ public class AddUpdateDataValue extends BaseActivity {
 		return result;
 	}
 
-	public void onDialogEvent(int requestCode, int responseCode, Bundle params) {
-		if (ConfirmDeleteDialog.REQUEST_CODE_DELETE == requestCode) {
-			getContentResolver().delete(ProviderDescriptor.DataValue.CONTENT_URI, "_id = ?", new String[] {String.valueOf(id)});
-			NavUtils.navigateUpFromSameTask(this);
-		}
+	@Override
+	protected void createEntity() {
+		ContentValues cv = new ContentValues();
+		cv.put(ProviderDescriptor.DataValue.Cols.NAME, name.getText().toString());
+		cv.put(ProviderDescriptor.DataValue.Cols.TYPE, type);
+		getContentResolver().insert(ProviderDescriptor.DataValue.CONTENT_URI, cv);
+	}
+
+	@Override
+	protected void updateEntity() {
+		ContentValues cv = new ContentValues();
+		cv.put(ProviderDescriptor.DataValue.Cols.NAME, name.getText().toString());
+		getContentResolver().update(ProviderDescriptor.DataValue.CONTENT_URI,  cv, ID_PARAM, new String[] {String.valueOf(id)});
+	}
+
+	@Override
+	protected void preDelete() {
+		getMediator().showConfirmDeleteView();
+	}
+
+	@Override
+	protected void deleteEntity() {
+		getContentResolver().delete(ProviderDescriptor.DataValue.CONTENT_URI, "_id = ?", new String[] {String.valueOf(id)});
+		NavUtils.navigateUpFromSameTask(this);
+	}
+
+	@Override
+	protected void populateEditEntity() {
+		String nameValue = DBUtils.getDataValueNameById(getContentResolver(), id);
+		name.setText(nameValue);
+	}
+
+	@Override
+	protected void populateCreateEntity() {
+
+	}
+
+	@Override
+	protected void populateExtraParams(Bundle params) {
+		type = params.getInt(BaseActivity.TYPE_KEY);
+	}
+
+	@Override
+	protected void postCreate() {
+		name = (EditText) findViewById(R.id.name);
+	}
+
+	@Override
+	protected int getContentLayout() {
+		return R.layout.add_data_value;
 	}
 
 	@Override

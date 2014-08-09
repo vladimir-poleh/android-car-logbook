@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-	<TextView
-		android:text="@string/value_name"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content" />
+<LinearLayout
+	style="@style/add_entity_main"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
 	<TextView
 		android:id="@+id/errorName"
-		android:text="@string/value_name_error"
-		android:visibility="gone"
-		android:textColor="#ffff0000"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"/>
-	<EditText
-		android:id="@+id/name"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"/>
+		style="@style/add_entity_error"
+		android:text="@string/value_name_error"/>
 
+	<LinearLayout style="@style/add_entity_group">
+
+		<TextView
+			style="@style/add_entity_label"
+			android:text="@string/value_name"/>
+
+		<EditText
+			android:id="@+id/name"
+			style="@style/add_entity_edit"/>
+	</LinearLayout>
 </LinearLayout>

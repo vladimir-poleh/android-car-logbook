@@ -17,43 +17,32 @@
 */
 package com.carlogbook.ui;
 
-import android.app.DatePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.app.NavUtils;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.carlogbook.R;
-import com.carlogbook.core.BaseActivity;
 import com.carlogbook.db.CommonUtils;
 import com.carlogbook.db.DBUtils;
 import com.carlogbook.db.ProviderDescriptor;
 
-import java.util.Calendar;
 import java.util.Date;
 
 public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
-		LoaderManager.LoaderCallbacks<Cursor>, DatePickerDialog.OnDateSetListener {
+		LoaderManager.LoaderCallbacks<Cursor> {
 	public static final int LOADER_TYPE = 102;
 	public static final int LOADER_STATION = 103;
-
-	public static final int PARAM_EDIT = 1;
-	private long id;
-	private int mode;
 
 	private SimpleCursorAdapter fuelAdapter;
 	private SimpleCursorAdapter stationAdapter;
@@ -66,75 +55,7 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 	private Spinner fuelTypeSpinner;
 	private Spinner stationSpinner;
 
-	private Date date;
-
 	private PriceValueState priceValueState = new PriceValueState();
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.add_fuel_log);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-		Bundle params = getIntent().getExtras();
-		if (params != null) {
-			mode = params.getInt(BaseActivity.MODE_KEY);
-			id = params.getLong(BaseActivity.ENTITY_ID);
-		}
-
-		odomenterView = (EditText) findViewById(R.id.odometer);
-
-		priceView = (EditText) findViewById(R.id.price);
-		priceTotalView = (EditText) findViewById(R.id.priceTotal);
-
-		fuelValueView = (EditText) findViewById(R.id.fuel_volume);
-
-		fuelTypeSpinner = (Spinner) findViewById(R.id.typeSpinner);
-		stationSpinner = (Spinner) findViewById(R.id.stationSpinner);
-		String[] adapterCols = new String[]{ProviderDescriptor.DataValue.Cols.NAME};
-		int[] adapterRowViews = new int[]{android.R.id.text1};
-		fuelAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item,
-				null, adapterCols, adapterRowViews, 0);
-		fuelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		fuelTypeSpinner.setAdapter(fuelAdapter);
-
-		stationAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item,
-				null, adapterCols, adapterRowViews, 0);
-		stationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		stationSpinner.setAdapter(stationAdapter);
-
-		getSupportLoaderManager().initLoader(LOADER_STATION, null, this);
-		getSupportLoaderManager().initLoader(LOADER_TYPE, null, this);
-
-		populateEntity();
-
-		fuelValueView.setOnFocusChangeListener(new StateOnFocusChangeListener(new FuelState()));
-		priceView.setOnFocusChangeListener(new StateOnFocusChangeListener(new PriceState()));
-		priceTotalView.setOnFocusChangeListener(new StateOnFocusChangeListener(new TotalState()));
-
-		fuelValueView.addTextChangedListener(new TextWatcherWrapper() {
-			@Override
-			public void update() {
-				priceValueState.updateFuel();
-			}
-		});
-
-		priceView.addTextChangedListener(new TextWatcherWrapper() {
-			@Override
-			public void update() {
-				priceValueState.updatePrice();
-			}
-		});
-		priceTotalView.addTextChangedListener(new TextWatcherWrapper() {
-			@Override
-			public void update() {
-				priceValueState.updateTotal();
-			}
-		});
-
-
-	}
-
 
 	private abstract class TextWatcherWrapper implements TextWatcher {
 
@@ -156,26 +77,10 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 		abstract public void update();
 	}
 
-	private void populateEntity() {
-		date = new Date(System.currentTimeMillis()); // todo
-		dateView = (TextView) findViewById(R.id.date);
-		dateView.setText(CommonUtils.formatDate(date));
-
-		long odometerValue = DBUtils.getMaxOdometerValue(getContentResolver());
-		odomenterView.setText(String.valueOf(odometerValue));
-
-		priceView.setText(String.valueOf(DBUtils.getLastPriceValue(getContentResolver())));
-	}
 
 	@Override
 	public String getSubTitle() {
-		return getString(R.string.log_fuel_title);
-	}
-
-	public void showDatePickerDialog(View v) {
-		DatePickerFragment datePickerFragment = new DatePickerFragment(date, this);
-
-		datePickerFragment.show(getSupportFragmentManager(), "date_picker");
+		return (mode == PARAM_EDIT) ? getString(R.string.log_fuel_title_edit) : getString(R.string.log_fuel_title);
 	}
 
 	@Override
@@ -206,7 +111,6 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		//TODO need to refactor 'set default value'
 		if (loader.getId() == LOADER_TYPE) {
 			fuelAdapter.swapCursor(data);
 			long defaultId = DBUtils.getDefaultId(getContentResolver(),
@@ -234,61 +138,12 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 		}
 	}
 
-	private int getPositionFromAdapterById(SimpleCursorAdapter adapter, long id) {
-
-		int position = 0;
-		for (int i = 0; i < adapter.getCount(); i++) {
-			long currentId = adapter.getItemId(i);
-			if (currentId == id) {
-				position = i;
-				break;
-			}
-		}
-		return position;
-	}
-
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.save_menu, menu);
-
-		return super.onCreateOptionsMenu(menu);
+	void setDateText(String text) {
+		dateView.setText(text);
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(android.view.MenuItem item) {
-
-		int action = item.getItemId();
-
-		switch (action) {
-			case R.id.action_save: {
-				if (validate()) {
-					save();
-					NavUtils.navigateUpFromSameTask(this);
-				}
-				break;
-			}
-
-			case R.id.action_delete: {
-				break;
-			}
-			default: {
-				return super.onOptionsItemSelected(item);
-			}
-		}
-
-		return true;
-	}
-
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.action_delete).setVisible(mode == AddUpdateDataValue.PARAM_EDIT);
-		return super.onPrepareOptionsMenu(menu);
-	}
-
-	//TODO refactor it in future releases
-	private void save() {
+	private ContentValues getContentValues() {
 		ContentResolver cr = getContentResolver();
 		ContentValues cv = new ContentValues();
 
@@ -307,10 +162,7 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 
 		EditText commentEditText = (EditText) findViewById(R.id.comment);
 		String comment = commentEditText.getText().toString().trim();
-
-		if (!"".equals(comment)) {
-			cv.put(ProviderDescriptor.Log.Cols.CMMMENT, comment);
-		}
+		setComments(cv, comment);
 
 		long fuelTypeId = fuelAdapter.getItemId(fuelTypeSpinner.getSelectedItemPosition());
 		DBUtils.setDafaultId(cr, ProviderDescriptor.DataValue.Type.FUEL, fuelTypeId);
@@ -320,37 +172,9 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 		DBUtils.setDafaultId(cr, ProviderDescriptor.DataValue.Type.STATION, fuelStationId);
 		cv.put(ProviderDescriptor.Log.Cols.FUEL_STATION_ID, fuelStationId);
 
-		getContentResolver().insert(ProviderDescriptor.Log.CONTENT_URI, cv);
+		return cv;
 	}
 
-	private boolean validate() {
-		boolean result = true;
-
-		if (!validateView(R.id.errorFuel, fuelValueView)) {
-			result = false;
-		}
-
-		if (!validateView(R.id.errorPrice, priceView)) {
-			result = false;
-		}
-
-		if (!validateOdometer(R.id.errorOdometer, odomenterView, date)) {
-			result = false;
-		}
-
-		return result;
-	}
-
-
-	@Override
-	public void onDateSet(DatePicker view, int year, int month, int day) {
-		Calendar c = Calendar.getInstance();
-		c.set(Calendar.YEAR, year);
-		c.set(Calendar.MONTH, month);
-		c.set(Calendar.DAY_OF_MONTH, day);
-		date = c.getTime();
-		dateView.setText(CommonUtils.formatDate(date));
-	}
 
 	private class PriceValueState {
 		public void updatePrice() {	};
@@ -399,7 +223,7 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 	private class StateOnFocusChangeListener implements View.OnFocusChangeListener {
 		private PriceValueState state;
 
-	 	private StateOnFocusChangeListener(PriceValueState state) {
+		private StateOnFocusChangeListener(PriceValueState state) {
 			this.state = state;
 		}
 
@@ -409,6 +233,134 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 				priceValueState = state;
 			}
 		}
+	}
+
+	@Override
+	protected boolean validateEntity() {
+		boolean result = true;
+
+		if (!validateView(R.id.errorFuel, fuelValueView)) {
+			result = false;
+		}
+
+		if (!validateView(R.id.errorPrice, priceView)) {
+			result = false;
+		}
+
+		if (!validateOdometer(R.id.errorOdometer, odomenterView, date)) {
+			result = false;
+		}
+
+		return result;
+	}
+
+	@Override
+	protected void createEntity() {
+		getContentResolver().insert(ProviderDescriptor.Log.CONTENT_URI, getContentValues());
+	}
+
+	@Override
+	protected void updateEntity() {
+		getContentResolver().update(ProviderDescriptor.Log.CONTENT_URI, getContentValues(), ID_PARAM, new String[] {String.valueOf(id)});
+	}
+
+	@Override
+	protected void populateEditEntity() {
+		Cursor logCursor = getContentResolver().query(ProviderDescriptor.Log.CONTENT_URI, null, ID_PARAM, new String[] {String.valueOf(id)}, null);
+		if (logCursor != null && logCursor.moveToFirst()) {
+			int odometerIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.ODOMETER);
+			int priceIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.PRICE);
+			int dateIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.DATE);
+			int fueldValueIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.FUEL_VOLUME);
+			int fuelTypePosIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.FUEL_TYPE_ID);
+			int fuelStationPosIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.FUEL_STATION_ID);
+
+			odomenterView.setText(String.valueOf(logCursor.getLong(odometerIdx)));
+			priceView.setText(CommonUtils.formatPrice(logCursor.getDouble(priceIdx)));
+			date = new Date(logCursor.getLong(dateIdx));
+			fuelValueView.setText(CommonUtils.formatPrice(logCursor.getDouble(fueldValueIdx)));
+
+			new PriceState().updatePrice();
+			fuelTypeSpinner.setSelection(getPositionFromAdapterById(fuelAdapter,
+					logCursor.getInt(fuelTypePosIdx)));
+
+			stationSpinner.setSelection(getPositionFromAdapterById(stationAdapter,
+					logCursor.getInt(fuelStationPosIdx)));
+
+		}
+	}
+
+	@Override
+	protected void populateCreateEntity() {
+		date = new Date(System.currentTimeMillis()); // todo
+		long odometerValue = DBUtils.getMaxOdometerValue(getContentResolver());
+		odomenterView.setText(String.valueOf(odometerValue));
+		priceView.setText(String.valueOf(DBUtils.getLastPriceValue(getContentResolver())));
+	}
+
+	@Override
+	protected void postCreate() {
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		odomenterView = (EditText) findViewById(R.id.odometer);
+
+		priceView = (EditText) findViewById(R.id.price);
+		priceTotalView = (EditText) findViewById(R.id.priceTotal);
+
+		fuelValueView = (EditText) findViewById(R.id.fuel_volume);
+
+		fuelTypeSpinner = (Spinner) findViewById(R.id.typeSpinner);
+		stationSpinner = (Spinner) findViewById(R.id.stationSpinner);
+		String[] adapterCols = new String[]{ProviderDescriptor.DataValue.Cols.NAME};
+		int[] adapterRowViews = new int[]{android.R.id.text1};
+		fuelAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item,
+				null, adapterCols, adapterRowViews, 0);
+		fuelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		fuelTypeSpinner.setAdapter(fuelAdapter);
+
+		stationAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item,
+				null, adapterCols, adapterRowViews, 0);
+		stationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		stationSpinner.setAdapter(stationAdapter);
+
+		getSupportLoaderManager().initLoader(LOADER_STATION, null, this);
+		getSupportLoaderManager().initLoader(LOADER_TYPE, null, this);
+	}
+
+	@Override
+	protected void postPopulate() {
+
+		dateView = (TextView) findViewById(R.id.date);
+		dateView.setText(CommonUtils.formatDate(date));
+
+		fuelValueView.setOnFocusChangeListener(new StateOnFocusChangeListener(new FuelState()));
+		priceView.setOnFocusChangeListener(new StateOnFocusChangeListener(new PriceState()));
+		priceTotalView.setOnFocusChangeListener(new StateOnFocusChangeListener(new TotalState()));
+
+		fuelValueView.addTextChangedListener(new TextWatcherWrapper() {
+			@Override
+			public void update() {
+				priceValueState.updateFuel();
+			}
+		});
+
+		priceView.addTextChangedListener(new TextWatcherWrapper() {
+			@Override
+			public void update() {
+				priceValueState.updatePrice();
+			}
+		});
+		priceTotalView.addTextChangedListener(new TextWatcherWrapper() {
+			@Override
+			public void update() {
+				priceValueState.updateTotal();
+			}
+		});
+	}
+
+	@Override
+	protected int getContentLayout() {
+		return R.layout.add_fuel_log;
 	}
 
 }

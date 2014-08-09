@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+	style="@style/log_fuel_item"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<LinearLayout
+		style="@style/wide"
+		android:gravity="right"
+		android:orientation="horizontal">
+
+		<TextView
+			android:id="@+id/odometer"
+			style="@style/wrap"
+			android:layout_marginRight="8dp"
+			android:textSize="10sp"/>
+
+		<TextView
+			android:id="@+id/date"
+			style="@style/wrap"
+			android:textSize="10sp"/>
+	</LinearLayout>
+
+	<LinearLayout
+		style="@style/wide"
+		android:orientation="horizontal">
+
+		<ImageView
+			android:id="@+id/imgType"
+			style="@style/logo"
+			android:layout_marginLeft="6dp"
+			android:layout_marginRight="6dp"/>
+
+
+		<LinearLayout
+			style="@style/wide"
+			android:gravity="center_vertical"
+			android:orientation="horizontal">
+
+			<TextView
+				android:id="@+id/name"
+				style="@style/wrap"
+				android:layout_width="0dp"
+				android:layout_margin="4dp"
+				android:layout_weight="1"/>
+
+
+			<LinearLayout
+				style="@style/wrap_vertical"
+				android:gravity="right">
+
+				<TextView
+					android:id="@+id/type"
+					style="@style/wrap"/>
+
+				<TextView
+					android:id="@+id/priceTotal"
+					style="@style/wrap"/>
+			</LinearLayout>
+
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

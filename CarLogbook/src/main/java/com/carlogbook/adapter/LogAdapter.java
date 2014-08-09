@@ -33,51 +33,113 @@ import com.carlogbook.db.ProviderDescriptor;
 import java.util.Date;
 
 public class LogAdapter extends CursorAdapter {
+	private String[] types;
 
 	public LogAdapter(Context context, Cursor c) {
 		super(context, c, FLAG_REGISTER_CONTENT_OBSERVER);
+		types = context.getResources().getStringArray(R.array.log_type);
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return 2;
+	}
+
+	private int getItemViewType(Cursor cursor) {
+		return cursor.getInt(cursor.getColumnIndex(ProviderDescriptor.Log.Cols.TYPE_LOG));
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		Cursor cursor = (Cursor) getItem(position);
+		return getItemViewType(cursor);
 	}
 
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-		LogFuelHolder holder = new LogFuelHolder();
 		LayoutInflater inflater = LayoutInflater.from(context);
-		View listItem = inflater.inflate(R.layout.fuel_log_item, null);
 
-		holder.odometerView = (TextView) listItem.findViewById(R.id.odometer);
-		holder.dateView  = (TextView) listItem.findViewById(R.id.date);
-		holder.fuelView  = (TextView) listItem.findViewById(R.id.fuel);
-		holder.priceTotal  = (TextView) listItem.findViewById(R.id.priceTotal);
-		holder.imgType = (ImageView) listItem.findViewById(R.id.imgType);
+		View listItem;
 
-		listItem.setTag(holder);
+		int type = cursor.getInt(cursor.getColumnIndex(ProviderDescriptor.Log.Cols.TYPE_LOG));
+
+
+		if (type == ProviderDescriptor.Log.Type.FUEL) {
+			listItem = inflater.inflate(R.layout.fuel_log_item, null);
+
+
+			LogFuelHolder holder = new LogFuelHolder();
+			holder.odometerView = (TextView) listItem.findViewById(R.id.odometer);
+			holder.dateView = (TextView) listItem.findViewById(R.id.date);
+			holder.fuelView = (TextView) listItem.findViewById(R.id.fuel);
+			holder.fuelValueView = (TextView) listItem.findViewById(R.id.fuelValue);
+			holder.priceTotal = (TextView) listItem.findViewById(R.id.priceTotal);
+			holder.imgType = (ImageView) listItem.findViewById(R.id.imgType);
+
+			listItem.setTag(holder);
+		} else {
+			listItem = inflater.inflate(R.layout.log_item, null);
+			LogHolder holder = new LogHolder();
+
+			holder.odometerView = (TextView) listItem.findViewById(R.id.odometer);
+			holder.dateView = (TextView) listItem.findViewById(R.id.date);
+			holder.imgType = (ImageView) listItem.findViewById(R.id.imgType);
+			holder.nameView = (TextView) listItem.findViewById(R.id.name);
+			holder.typeView = (TextView) listItem.findViewById(R.id.type);
+			holder.priceTotal = (TextView) listItem.findViewById(R.id.priceTotal);
+
+			listItem.setTag(holder);
+		}
 
 		return listItem;
 	}
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
-		LogFuelHolder logFuelHolder = (LogFuelHolder) view.getTag();
+		int type = cursor.getInt(cursor.getColumnIndex(ProviderDescriptor.Log.Cols.TYPE_LOG));
 
 		int idIdx = cursor.getColumnIndex(ProviderDescriptor.Log.Cols._ID);
 		int odometerIdx = cursor.getColumnIndex(ProviderDescriptor.Log.Cols.ODOMETER);
 		int priceIdx = cursor.getColumnIndex(ProviderDescriptor.Log.Cols.PRICE);
 		int dateIdx = cursor.getColumnIndex(ProviderDescriptor.Log.Cols.DATE);
-		int fueldValueIdx = cursor.getColumnIndex(ProviderDescriptor.Log.Cols.FUEL_VOLUME);
 
-		String odometer = cursor.getString(odometerIdx);
+		double price = cursor.getDouble(priceIdx);
+		String date = CommonUtils.formatDate(new Date(cursor.getLong(dateIdx)));
+
+		int odometer = cursor.getInt(odometerIdx);
 		int id = cursor.getInt(idIdx);
 
-		String fuelValue = cursor.getString(fueldValueIdx);
-		String date = CommonUtils.formatDate(new Date(cursor.getLong(dateIdx)));
-		String price = cursor.getString(priceIdx);
+		if (type == ProviderDescriptor.Log.Type.FUEL) {
+			LogFuelHolder logFuelHolder = (LogFuelHolder) view.getTag();
+			int fuelValueIdx = cursor.getColumnIndex(ProviderDescriptor.Log.Cols.FUEL_VOLUME);
+			double fuelValue = cursor.getDouble(fuelValueIdx);
 
-		logFuelHolder.odometerView.setText(odometer);
-		logFuelHolder.dateView.setText(date);
-		logFuelHolder.fuelView.setText(fuelValue);
-		logFuelHolder.priceTotal.setText(price);
-		logFuelHolder.imgType.setBackgroundResource(R.drawable.abc_ic_voice_search);
-		logFuelHolder.id = id;
+			double priceTotalDouble = fuelValue * price;
+
+			logFuelHolder.odometerView.setText(String.valueOf(odometer));
+			logFuelHolder.dateView.setText(date);
+			logFuelHolder.fuelValueView.setText(CommonUtils.formatPrice(fuelValue));
+			logFuelHolder.priceTotal.setText( CommonUtils.formatPrice(priceTotalDouble));
+			logFuelHolder.fuelView.setText( "A-95 (OKKO)");
+			logFuelHolder.imgType.setBackgroundResource(R.drawable.ic_launcher);
+			logFuelHolder.id = id;
+		} else {
+			int nameIdx = cursor.getColumnIndex(ProviderDescriptor.Log.Cols.NAME);
+			int typeIdx = cursor.getColumnIndex(ProviderDescriptor.Log.Cols.TYPE_ID);
+
+			String name = cursor.getString(nameIdx);
+			int typeId = cursor.getInt(typeIdx);
+
+			LogHolder logHolder = (LogHolder) view.getTag();
+			logHolder.dateView.setText(date);
+			logHolder.odometerView.setText(String.valueOf(odometer));
+			logHolder.imgType.setBackgroundResource(R.drawable.logo);
+			logHolder.priceTotal.setText( CommonUtils.formatPrice(price));
+			logHolder.nameView.setText( name);
+			logHolder.typeView.setText(types[typeId]);
+
+			logHolder.id = id;
+		}
 	}
 
 	public static class LogFuelHolder {
@@ -85,6 +147,17 @@ public class LogAdapter extends CursorAdapter {
 		public ImageView imgType;
 		public TextView odometerView;
 		public TextView fuelView;
+		public TextView fuelValueView;
+		public TextView dateView;
+		public TextView priceTotal;
+	}
+
+	public static class LogHolder {
+		public int id;
+		public ImageView imgType;
+		public TextView nameView;
+		public TextView typeView;
+		public TextView odometerView;
 		public TextView dateView;
 		public TextView priceTotal;
 	}

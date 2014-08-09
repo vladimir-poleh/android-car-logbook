@@ -17,33 +17,30 @@
 */
 package com.carlogbook.ui;
 
+import android.app.DatePickerDialog;
+import android.content.ContentValues;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.carlogbook.R;
 import com.carlogbook.core.BaseActivity;
+import com.carlogbook.core.SaveUpdateBaseActivity;
 import com.carlogbook.db.CommonUtils;
 import com.carlogbook.db.DBUtils;
+import com.carlogbook.db.ProviderDescriptor;
 
+import java.util.Calendar;
 import java.util.Date;
 
-public class BaseLogAcivity extends BaseActivity {
-	protected boolean validateView(int errorViewId, EditText editView) {
-		TextView errorView = (TextView) findViewById(errorViewId);
-		double valueDouble = CommonUtils.getPriceValue(editView);
-		boolean result = valueDouble > 0;
-
-		errorView.setVisibility((!result)? View.VISIBLE : View.GONE);
-		return result;
-	}
-
-	protected boolean validateTextView(int errorViewId, EditText editView) {
-		TextView errorView = (TextView) findViewById(errorViewId);
-		boolean result = CommonUtils.isNotEmpty(editView.getText().toString());
-
-		errorView.setVisibility((!result)? View.VISIBLE : View.GONE);
-		return result;
-	}
+abstract public class BaseLogAcivity extends SaveUpdateBaseActivity implements DatePickerDialog.OnDateSetListener  {
+	protected Date date = new Date();
 
 	protected boolean validateOdometer(int errorViewId, EditText view, Date date) {
 		String stringValue = view.getText().toString();
@@ -56,5 +53,60 @@ public class BaseLogAcivity extends BaseActivity {
 		boolean result = (odometerMin < currentOdometer) && (currentOdometer < odometerMax);
 		findViewById(errorViewId).setVisibility((!result)?View.VISIBLE : View.GONE);
 		return result;
+	}
+
+	protected int getPositionFromAdapterById(SimpleCursorAdapter adapter, long id) {
+
+		int position = 0;
+		for (int i = 0; i < adapter.getCount(); i++) {
+			long currentId = adapter.getItemId(i);
+			if (currentId == id) {
+				position = i;
+				break;
+			}
+		}
+		return position;
+	}
+
+
+	protected void setComments(ContentValues cv, String comment) {
+		if (!"".equals(comment)) {
+			cv.put(ProviderDescriptor.Log.Cols.CMMMENT, comment);
+		}
+	}
+
+	@Override
+	protected void deleteEntity() {
+		getContentResolver().delete(ProviderDescriptor.Log.CONTENT_URI, "_id = ?", new String[] {String.valueOf(id)});
+		NavUtils.navigateUpFromSameTask(this);
+	}
+
+	@Override
+	protected void preDelete() {
+		getMediator().showConfirmDeleteView();
+	}
+
+	public void onDialogEvent(int requestCode, int responseCode, Bundle params) {
+		if (ConfirmDeleteDialog.REQUEST_CODE_DELETE == requestCode) {
+
+		}
+	}
+
+	@Override
+	public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.YEAR, year);
+		c.set(Calendar.MONTH, month);
+		c.set(Calendar.DAY_OF_MONTH, day);
+		date = c.getTime();
+		setDateText(CommonUtils.formatDate(date));
+
+	}
+
+	abstract void setDateText(String text);
+
+	public void showDatePickerDialog(View v) {
+		DatePickerFragment datePickerFragment = new DatePickerFragment(date, this);
+		datePickerFragment.show(getSupportFragmentManager(), "date_picker");
 	}
 }

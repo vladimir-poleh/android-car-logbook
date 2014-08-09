@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.carlogbook.CarLogbook;
 import com.carlogbook.R;
 import com.carlogbook.adapter.CarAdapter;
 import com.carlogbook.core.BaseFragment;
@@ -60,7 +61,7 @@ public class MyCarsFragment extends BaseFragment implements
 			}
 		});
 
-		getLoaderManager().initLoader(0, null, this);
+		getLoaderManager().initLoader(CarLogbook.LoaderDesc.CAR_ID, null, this);
 	}
 
 	@Override

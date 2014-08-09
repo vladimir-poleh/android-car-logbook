@@ -48,13 +48,19 @@ public class CarLogbookProvider extends ContentProvider {
 		tables.put(ProviderDescriptor.Car.PATH_TOKEN, ProviderDescriptor.Car.TABLE_NAME);
 		tables.put(ProviderDescriptor.DataValue.PATH_TOKEN, ProviderDescriptor.DataValue.TABLE_NAME);
 		tables.put(ProviderDescriptor.Log.PATH_TOKEN, ProviderDescriptor.Log.TABLE_NAME);
+		tables.put(ProviderDescriptor.Notify.PATH_TOKEN, ProviderDescriptor.Notify.TABLE_NAME);
 
 		types.put(ProviderDescriptor.Car.PATH_TOKEN, ProviderDescriptor.Car.CONTENT_TYPE_DIR);
 		types.put(ProviderDescriptor.Car.PATH_ID_TOKEN, ProviderDescriptor.Car.CONTENT_TYPE_ITEM);
+
 		types.put(ProviderDescriptor.DataValue.PATH_TOKEN, ProviderDescriptor.DataValue.CONTENT_TYPE_DIR);
 		types.put(ProviderDescriptor.DataValue.PATH_ID_TOKEN, ProviderDescriptor.DataValue.CONTENT_TYPE_ITEM);
+
 		types.put(ProviderDescriptor.Log.PATH_TOKEN, ProviderDescriptor.Log.CONTENT_TYPE_DIR);
 		types.put(ProviderDescriptor.Log.PATH_ID_TOKEN, ProviderDescriptor.Log.CONTENT_TYPE_ITEM);
+
+		types.put(ProviderDescriptor.Notify.PATH_TOKEN, ProviderDescriptor.Notify.CONTENT_TYPE_DIR);
+		types.put(ProviderDescriptor.Notify.PATH_ID_TOKEN, ProviderDescriptor.Notify.CONTENT_TYPE_ITEM);
 
 		return false;
 	}
@@ -182,7 +188,7 @@ public class CarLogbookProvider extends ContentProvider {
 	}
 
 	public class DBOpenHelper extends SQLiteOpenHelper {
-		private static final int CURRENT_DB_VERSION = 26; //TODO set to 1 for 1.0 version
+		private static final int CURRENT_DB_VERSION = 27; //TODO set to 1 for 1.0 version
 		private static final String DB_NAME = "com_carlogbook.db";
 		private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS {0} ({1})";
 		private static final String DROP_TABLE = "DROP TABLE IF EXISTS {0}";
@@ -201,6 +207,9 @@ public class CarLogbookProvider extends ContentProvider {
 
 			createTable(db, ProviderDescriptor.Log.TABLE_NAME,
 					ProviderDescriptor.Log.CREATE_FIELDS);
+
+			createTable(db, ProviderDescriptor.Notify.TABLE_NAME,
+					ProviderDescriptor.Notify.CREATE_FIELDS);
 
 			DataBaseDefaulter defaulter = new DataBaseDefaulter();
 			defaulter.initDataBase(db, getContext());
@@ -224,6 +233,7 @@ public class CarLogbookProvider extends ContentProvider {
 			dropTable(db, ProviderDescriptor.Car.TABLE_NAME);
 			dropTable(db, ProviderDescriptor.Log.TABLE_NAME);
 			dropTable(db, ProviderDescriptor.DataValue.TABLE_NAME);
+			dropTable(db, ProviderDescriptor.Notify.TABLE_NAME);
 		}
 
 		public void dropTable(SQLiteDatabase db, String name) {

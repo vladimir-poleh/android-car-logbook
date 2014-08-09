@@ -17,7 +17,6 @@
 */
 package com.carlogbook;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -39,8 +38,6 @@ import android.widget.ListView;
 import com.carlogbook.adapter.MenuAdapter;
 import com.carlogbook.adapter.MenuItem;
 import com.carlogbook.core.BaseActivity;
-import com.carlogbook.db.CarLogbookProvider;
-import com.carlogbook.db.ProviderDescriptor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -193,7 +190,6 @@ public class CarLogbook extends BaseActivity {
 				break;
 			}
 			case  R.id.action_add_car: {
-				ContentValues cv = new ContentValues();
 				mediator.showAddCar();
 				break;
 			}
@@ -247,5 +243,11 @@ public class CarLogbook extends BaseActivity {
 		intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));
 
 		return intent;
+	}
+
+	public static class LoaderDesc {
+		public static final int CAR_ID = 0;
+		public static final int LOG_ID = 1;
+		public static final int NOTIFY_ID = 2;
 	}
 }
