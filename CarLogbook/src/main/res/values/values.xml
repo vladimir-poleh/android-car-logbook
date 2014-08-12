@@ -2,9 +2,8 @@
 <resources>
     <string-array name="action_list">
         <item>Dashboard</item>
+        <item>Comparative</item>
         <item>Detailed</item>
-        <item>By Year</item>
-        <item>Fuel Logs</item>
     </string-array>
 	<string-array name="fuel_type_default">
 		<item>A-92</item>
@@ -24,7 +23,9 @@
 		<item>Penalty</item>
 		<item>Tuning</item>
 		<item>Service</item>
-		<item>Repair Part</item>
+		<item>Engine oil</item>
+		<item>Transmission oil</item>
+		<item>Repair part</item>
 		<item>Insurance</item>
 		<item>Credit</item>
 	</string-array>

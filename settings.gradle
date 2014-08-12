@@ -1,1 +1,1 @@
-include ':CarLogbook'
+include ':CarLogbook' , ':HoloGraphLibrary'

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 
-    package="com.carlogbook" >
+    package="com.enadein.carlogbook" >
 
 
     <application
@@ -10,52 +10,52 @@
         android:label="@string/app_name"
         android:theme="@style/CarTheme" >
 
-        <activity android:name=".ui.AddUpdateCarActivity" android:parentActivityName="com.carlogbook.CarLogbook">
+        <activity android:name="com.enadein.carlogbook.ui.AddUpdateCarActivity" android:parentActivityName="com.enadein.carlogbook.CarLogbook">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.carlogbook.CarLogbook" />
+                android:value="com.enadein.carlogbook.CarLogbook" />
         </activity>
 
-        <activity android:name=".ui.AddUpdateFuelLogActivity" android:parentActivityName="com.carlogbook.CarLogbook">
+        <activity android:name="com.enadein.carlogbook.ui.AddUpdateFuelLogActivity" android:parentActivityName="com.enadein.carlogbook.CarLogbook">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.carlogbook.CarLogbook" />
+                android:value="com.enadein.carlogbook.CarLogbook" />
         </activity>
 
-        <activity android:name=".ui.AddUpdateNotificationActivity" android:parentActivityName="com.carlogbook.CarLogbook">
+        <activity android:name="com.enadein.carlogbook.ui.AddUpdateNotificationActivity" android:parentActivityName="com.enadein.carlogbook.CarLogbook">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.carlogbook.CarLogbook" />
+                android:value="com.enadein.carlogbook.CarLogbook" />
         </activity>
 
-        <activity android:name=".ui.AddUpdateLogActivity" android:parentActivityName="com.carlogbook.CarLogbook">
+        <activity android:name="com.enadein.carlogbook.ui.AddUpdateLogActivity" android:parentActivityName="com.enadein.carlogbook.CarLogbook">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.carlogbook.CarLogbook" />
+                android:value="com.enadein.carlogbook.CarLogbook" />
         </activity>
 
-	    <activity android:name=".ui.DataValueActivity"
-	              android:parentActivityName="com.carlogbook.CarLogbook"
+	    <activity android:name="com.enadein.carlogbook.ui.DataValueActivity"
+	              android:parentActivityName="com.enadein.carlogbook.CarLogbook"
 	              android:launchMode="singleTop" >
 		    <!-- Parent activity meta-data to support 4.0 and lower -->
 		    <meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
-			    android:value="com.carlogbook.CarLogbook" />
+			    android:value="com.enadein.carlogbook.CarLogbook" />
 	    </activity>
-	    <activity android:name=".ui.AddUpdateDataValue" android:parentActivityName="com.carlogbook.ui.DataValueActivity">
+	    <activity android:name="com.enadein.carlogbook.ui.AddUpdateDataValue" android:parentActivityName="com.enadein.carlogbook.ui.DataValueActivity">
 		    <!-- Parent activity meta-data to support 4.0 and lower -->
 		    <meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
-			    android:value="com.carlogbook.ui.DataValueActivity" />
+			    android:value="com.enadein.carlogbook.ui.DataValueActivity" />
 	    </activity>
 
 	    <!--android:launchMode="singleTop"-->
         <activity
-            android:name="com.carlogbook.CarLogbook"
+            android:name="com.enadein.carlogbook.CarLogbook"
             android:label="@string/app_name" android:launchMode="singleTask">
 
             <intent-filter>
@@ -65,10 +65,10 @@
         </activity>
 
 	    <provider
-		    android:authorities="com.carlogbook"
-		    android:name=".db.CarLogbookProvider" android:exported="false"/>
+		    android:authorities="com.enadein.carlogbook"
+		    android:name="com.enadein.carlogbook.db.CarLogbookProvider" android:exported="false"/>
 
-	    <service android:name=".service.NotifyService"/>
+	    <service android:name="com.enadein.carlogbook.service.NotifyService"/>
     </application>
 
 </manifest>

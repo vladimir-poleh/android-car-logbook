@@ -1,13 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.carlogbook.ui.LogbookFragment">
+<FrameLayout
+	style="@style/list_main"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:context="com.enadein.carlogbook.ui.LogbookFragment">
 
 	<ListView
 		android:id="@+id/list"
-		android:background="#ffffff"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
+		style="@style/full"/>
 
 </FrameLayout>
