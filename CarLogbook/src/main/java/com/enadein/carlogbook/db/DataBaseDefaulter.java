@@ -27,7 +27,7 @@ public class DataBaseDefaulter {
 				insertDataValue(db, ProviderDescriptor.DataValue.Type.STATION, stationTypeList[i], 0);
 			}
 
-			addTestDefaultCar(db);
+//			addTestDefaultCar(db);
 
 			db.setTransactionSuccessful();
 		}finally {

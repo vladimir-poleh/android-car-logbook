@@ -34,21 +34,8 @@ import com.enadein.carlogbook.db.ProviderDescriptor;
 import java.util.Calendar;
 import java.util.Date;
 
-abstract public class BaseLogAcivity extends SaveUpdateBaseActivity implements DatePickerDialog.OnDateSetListener  {
+abstract public class  BaseLogAcivity extends SaveUpdateBaseActivity implements DatePickerDialog.OnDateSetListener  {
 	protected Date date = new Date();
-
-	protected boolean validateOdometer(int errorViewId, EditText view, Date date) {
-		String stringValue = view.getText().toString();
-
-		long currentOdometer = (CommonUtils.isNotEmpty(stringValue)) ? Long.valueOf(stringValue) : 0;
-
-		long odometerMin = DBUtils.getMinOdometerValueByDate(getContentResolver(), date.getTime());
-		long odometerMax = DBUtils.getMaxOdometerValueByDate(getContentResolver(), date.getTime());
-
-		boolean result = (odometerMin < currentOdometer) && (currentOdometer < odometerMax);
-		findViewById(errorViewId).setVisibility((!result)?View.VISIBLE : View.GONE);
-		return result;
-	}
 
 	protected int getPositionFromAdapterById(SimpleCursorAdapter adapter, long id) {
 
@@ -79,12 +66,6 @@ abstract public class BaseLogAcivity extends SaveUpdateBaseActivity implements D
 	@Override
 	protected void preDelete() {
 		getMediator().showConfirmDeleteView();
-	}
-
-	public void onDialogEvent(int requestCode, int responseCode, Bundle params) {
-		if (ConfirmDeleteDialog.REQUEST_CODE_DELETE == requestCode) {
-
-		}
 	}
 
 	@Override

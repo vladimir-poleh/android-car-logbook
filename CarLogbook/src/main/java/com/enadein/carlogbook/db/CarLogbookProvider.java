@@ -35,15 +35,10 @@ public class CarLogbookProvider extends ContentProvider {
 	protected HashMap<Integer, String> tables = new HashMap<Integer, String>();
 	protected HashMap<Integer, String> types = new HashMap<Integer, String>();
 
-	public static boolean DEBUG_RESET = false;
 
 	@Override
 	public boolean onCreate() {
 		dbHelper = new DBOpenHelper(getContext());
-
-		if (DEBUG_RESET) {
-			dbHelper.reset();
-		}
 
 		tables.put(ProviderDescriptor.Car.PATH_TOKEN, ProviderDescriptor.Car.TABLE_NAME);
 		tables.put(ProviderDescriptor.DataValue.PATH_TOKEN, ProviderDescriptor.DataValue.TABLE_NAME);
@@ -192,11 +187,11 @@ public class CarLogbookProvider extends ContentProvider {
 	}
 
 	public class DBOpenHelper extends SQLiteOpenHelper {
-		private static final int CURRENT_DB_VERSION = 39; //TODO set to 1 for 1.0 version
+		private static final int CURRENT_DB_VERSION = 40;
 		private static final String DB_NAME = "com_carlogbook.db";
 		private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS {0} ({1})";
 		private static final String DROP_TABLE = "DROP TABLE IF EXISTS {0}";
-;
+
 		public DBOpenHelper(Context context) {
 			super(context, DB_NAME, null, CURRENT_DB_VERSION);
 		}
@@ -228,11 +223,7 @@ public class CarLogbookProvider extends ContentProvider {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			dropAllTables(db);
-			onCreate(db);
-
-//			DataBaseDefaulter defaulter = new DataBaseDefaulter();
-//			defaulter.initDataBase(db, getContext());
+			//nothing
 		}
 
 		private void dropAllTables(SQLiteDatabase db) {

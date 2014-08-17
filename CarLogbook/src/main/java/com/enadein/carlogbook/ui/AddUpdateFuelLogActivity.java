@@ -47,6 +47,7 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 	private SimpleCursorAdapter fuelAdapter;
 	private SimpleCursorAdapter stationAdapter;
 
+	private EditText comments;
 	private EditText odomenterView;
 	private TextView dateView;
 	private EditText fuelValueView;
@@ -247,7 +248,7 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 			result = false;
 		}
 
-		if (!validateOdometer(R.id.errorOdometer, odomenterView, date)) {
+		if (!validateView(R.id.errorOdometer, odomenterView)) {
 			result = false;
 		}
 
@@ -274,6 +275,9 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 			int fueldValueIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.FUEL_VOLUME);
 			int fuelTypePosIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.FUEL_TYPE_ID);
 			int fuelStationPosIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.FUEL_STATION_ID);
+
+			int commentIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.CMMMENT);
+			comments.setText(logCursor.getString(commentIdx));
 
 			odomenterView.setText(String.valueOf(logCursor.getLong(odometerIdx)));
 			priceView.setText(CommonUtils.formatPrice(logCursor.getDouble(priceIdx)));
@@ -303,6 +307,7 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		odomenterView = (EditText) findViewById(R.id.odometer);
+		comments = (EditText) findViewById(R.id.comment);
 
 		priceView = (EditText) findViewById(R.id.price);
 		priceTotalView = (EditText) findViewById(R.id.priceTotal);

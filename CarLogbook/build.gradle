@@ -10,11 +10,12 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testPackageName "com.enadein.carlogbook"
+        testPackageName "com.enadein.carlogbook.tests"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         testHandleProfiling true
         testFunctionalTest true
     }
+
 
     buildTypes {
 
@@ -30,5 +31,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:19.1.+'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':HoloGraphLibrary')
+
     androidTestCompile 'com.google.guava:guava:11.0.2'
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:4.3'
+    androidTestCompile 'org.mockito:mockito-core:1.9.0'
 }

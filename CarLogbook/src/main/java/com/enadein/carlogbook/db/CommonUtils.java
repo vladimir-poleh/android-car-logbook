@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.enadein.carlogbook.R;
@@ -34,6 +35,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class CommonUtils {
@@ -122,7 +124,7 @@ public class CommonUtils {
 	public static String formatPrice(double price) {
 		NumberFormat format = getPriceNumberFormat();
 		String result = format.format(price);
-		return  "0.0".equals(result) ? "" : result;
+		return "0.0".equals(result) ? "" : result;
 	}
 
 	public static double div(double a, double b) {
@@ -139,9 +141,16 @@ public class CommonUtils {
 		return format;
 	}
 
+	public static void trunkDay(Calendar c) {
+		c.set(Calendar.HOUR, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+	}
+
 	public static boolean isNotEmpty(String str) {
 		return (str != null && !str.trim().equals(""));
 	}
+
 	public static boolean isEmpty(String str) {
 		return (str == null || str.trim().equals(""));
 	}

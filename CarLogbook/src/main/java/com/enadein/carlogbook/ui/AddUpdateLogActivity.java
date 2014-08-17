@@ -36,6 +36,7 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 	private TextView dateView;
 	private EditText priceView;
 	private EditText nameView;
+	private EditText commentView;
 
 	private Spinner typeSpinner;
 
@@ -43,7 +44,7 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 	protected boolean validateEntity() {
 		boolean result = true;
 
-		if (!validateOdometer(R.id.errorOdometer, odometerView, date)) {
+		if (!validateView(R.id.errorOdometer, odometerView)) {
 			result = false;
 		}
 
@@ -77,6 +78,8 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 			int dateIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.DATE);
 			int nameIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.NAME);
 			int typeIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.TYPE_ID);
+			int commentIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.CMMMENT);
+			commentView.setText(logCursor.getString(commentIdx));
 
 			odometerView.setText(String.valueOf(logCursor.getLong(odometerIdx)));
 			priceView.setText(CommonUtils.formatPrice(logCursor.getDouble(priceIdx)));
@@ -99,6 +102,7 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 		odometerView = (EditText) findViewById(R.id.odometer);
 		priceView = (EditText) findViewById(R.id.price);
 		nameView = (EditText) findViewById(R.id.name);
+		commentView = (EditText) findViewById(R.id.comment);
 
 		typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
 	}

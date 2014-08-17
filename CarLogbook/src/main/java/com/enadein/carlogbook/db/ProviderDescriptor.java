@@ -118,9 +118,11 @@ public class ProviderDescriptor {
 		public static class Cols extends Log.Cols {
 			public static final String STATION_NAME = "STATION_NAME";
 			public static final String FUEL_NAME = "FUEL_NAME";
+			public static final String TOTAL_PRICE = "TOTAL_PRICE";
 		}
 //		public static final String CREATE_QUERY = "CREATE VIEW IF NOT EXISTS log_view as select * from log";
-		public static final String CREATE_QUERY = "CREATE VIEW IF NOT EXISTS log_view as select l.*, d.name as STATION_NAME, df.name as  FUEL_NAME from log l inner join data_value d on l.FUEL_STATION_ID = d._id inner join data_value df on l.FUEL_TYPE_ID = df._id union select l.*, '' as STATION_NAME, '' as  FUEL_NAME from log l where type_log = 1";
+//		public static final String CREATE_QUERY = "CREATE VIEW IF NOT EXISTS log_view as select l.*, d.name as STATION_NAME, df.name as  FUEL_NAME from log l inner join data_value d on l.FUEL_STATION_ID = d._id inner join data_value df on l.FUEL_TYPE_ID = df._id union select l.*, '' as STATION_NAME, '' as  FUEL_NAME from log l where type_log = 1";
+		public static final String CREATE_QUERY = "CREATE VIEW IF NOT EXISTS log_view as select l.*, d.name as STATION_NAME, df.name as  FUEL_NAME, l.PRICE * l.FUEL_VOLUME  as TOTAL_PRICE  from log l inner join data_value d on l.FUEL_STATION_ID = d._id inner join data_value df on l.FUEL_TYPE_ID = df._id union select l.*, '' as STATION_NAME, '' as  FUEL_NAME, l.PRICE as TOTAL_PRICE from log l where type_log = 1";
 	}
 
 	public static class DataValue {

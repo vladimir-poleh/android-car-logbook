@@ -215,16 +215,19 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 				result = false;
 			}
 
-			long odometerMaxValue = DBUtils.getMaxOdometerValue(getContentResolver());
-			long currentOdometerValue = Long.valueOf(odometerView.getText().toString());
-
-			if (currentOdometerValue <= odometerMaxValue) {
-				showError(R.id.errorOdometer, true);
+			if (!validateTextView(R.id.errorOdometer, odometerView)) {
 				result = false;
 			} else {
-				showError(R.id.errorOdometer, false);
-			}
+				long odometerMaxValue = DBUtils.getMaxOdometerValue(getContentResolver());
+				long currentOdometerValue = Long.valueOf(odometerView.getText().toString());
 
+				if (currentOdometerValue <= odometerMaxValue) {
+					showError(R.id.errorOdometer, true);
+					result = false;
+				} else {
+					showError(R.id.errorOdometer, false);
+				}
+			}
 			return result;
 		}
 
