@@ -17,23 +17,49 @@
 */
 package com.enadein.carlogbook.ui;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.TextView;
 
-import com.enadein.carlogbook.R;
-import com.enadein.carlogbook.core.BaseFragment;
+import com.echo.holographlibrary.Bar;
+import com.echo.holographlibrary.BarGraph;
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
+import com.enadein.carlogbook.CarLogbook;
+import com.enadein.carlogbook.R;
+import com.enadein.carlogbook.bean.BarInfo;
+import com.enadein.carlogbook.bean.Dashboard;
+import com.enadein.carlogbook.bean.DataInfo;
+import com.enadein.carlogbook.core.BaseFragment;
+import com.enadein.carlogbook.core.DataLoader;
+import com.enadein.carlogbook.db.CommonUtils;
 
-public class ReportsFramgent extends BaseFragment  {
+import java.util.ArrayList;
+
+public class ReportsFramgent extends BaseFragment implements LoaderManager.LoaderCallbacks<DataInfo> {
+	private TextView totalCost;
+	private TextView totalRun;
+	private TextView totalFuelValume;
+	private TextView cost1;
+	private TextView fuelAvg;
+
+	private PieGraph pieGraph;
+	private BarGraph costMonth;
+	private BarGraph runMonth;
+
+	private TextView totalServiceView;
+	private TextView totalFuelView;
+	private TextView totalPartsView;
+	private TextView totalParkingView;
+	private TextView totalOtherView;
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+	                         Bundle savedInstanceState) {
 
 		return inflater.inflate(R.layout.reports_fragment, container, false);
 	}
@@ -42,29 +68,27 @@ public class ReportsFramgent extends BaseFragment  {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		PieGraph pg = (PieGraph) view.findViewById(R.id.graph);
+		totalCost = (TextView) view.findViewById(R.id.totalcost);
+		totalRun = (TextView) view.findViewById(R.id.totalrun);
+		totalFuelValume = (TextView) view.findViewById(R.id.total_fuel);
+		cost1 = (TextView) view.findViewById(R.id.cost_per1);
+		fuelAvg = (TextView) view.findViewById(R.id.fuel_avg);
 
-		pg.setInnerCircleRatio(140);
-		PieSlice slice = new PieSlice();
-		slice.setColor(Color.parseColor("#99CC00"));
-		slice.setValue(1);
-		slice.setTitle("HEllo");
-		pg.addSlice(slice);
-		slice = new PieSlice();
-		slice.setColor(Color.parseColor("#FFBB33"));
-		slice.setValue(35);
-		pg.addSlice(slice);
-		slice = new PieSlice();
-		slice.setColor(Color.parseColor("#AA66CC"));
-		slice.setValue(35);
-		pg.addSlice(slice);
+		totalFuelView = (TextView) view.findViewById(R.id.cost_fuel);
+		totalServiceView = (TextView) view.findViewById(R.id.total_service_cost);
+		totalPartsView = (TextView) view.findViewById(R.id.total_service_part_cost);
+		totalParkingView = (TextView) view.findViewById(R.id.total_parking_cost);
+		totalOtherView = (TextView) view.findViewById(R.id.total_other_cost);
 
-		for (PieSlice s : pg.getSlices())
-			s.setGoalValue(10);
-		pg.setDuration(1000);//default if unspecified is 300 ms
-		pg.setInterpolator(new AccelerateDecelerateInterpolator());//default if unspecified is linear; constant speed
-//		pg.setAnimationListener(getAnimationListener());//optional
-		pg.animateToGoalValues();
+		pieGraph = (PieGraph) view.findViewById(R.id.graph);
+
+		costMonth = (BarGraph)view.findViewById(R.id.cost_month);
+		runMonth = (BarGraph)view.findViewById(R.id.run_month);
+
+		addSlice(0.01f, 0xFFEEEEEE);
+		addSlice(0.01f, 0xFFEEEEEE);
+
+		getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_DASHBOARD_ID, null, this);
 	}
 
 	@Override
@@ -73,4 +97,78 @@ public class ReportsFramgent extends BaseFragment  {
 	}
 
 
+	@Override
+	public android.support.v4.content.Loader<DataInfo> onCreateLoader(int id, Bundle args) {
+		return new DataLoader(getActivity(), DataLoader.DASHBOARD);
+	}
+
+	@Override
+	public void onLoadFinished(android.support.v4.content.Loader<DataInfo> loader, DataInfo data) {
+		Dashboard b = data.getDashboard();
+
+		totalRun.setText(CommonUtils.formatPrice(b.getTotalOdometerCount()));
+		totalCost.setText(CommonUtils.formatPrice(b.getTotalPrice()));
+		totalFuelValume.setText(CommonUtils.formatPrice(b.getTotalFuelCount()));
+		cost1.setText(CommonUtils.formatPrice(b.getPricePer1()));
+		fuelAvg.setText(CommonUtils.formatPrice(b.getFuelRateAvg()));
+
+
+//		pieGraph.setDuration(2000);
+//		pieGraph.setInterpolator(new AccelerateDecelerateInterpolator());
+//		pieGraph.animateToGoalValues();
+
+		float totalFuelPrice = Math.round(b.getTotalFuelPrice());
+		addSlice(totalFuelPrice, DataInfo.COLOR_FUEL);
+		totalFuelView.setText(CommonUtils.formatPrice(totalFuelPrice));
+
+		float totalServicePrice = Math.round(b.getTotalServicePrice());
+		addSlice(totalServicePrice, DataInfo.COLOR_SERVICE);
+		totalServiceView.setText(CommonUtils.formatPrice(totalServicePrice));
+
+		float totalPartsPrice = Math.round(b.getTotalPartsPrice());
+		addSlice(totalPartsPrice, DataInfo.COLOR_PARTS);
+		totalPartsView.setText(CommonUtils.formatPrice(totalPartsPrice));
+
+		float totalParkingPrice = Math.round(b.getTotalParkingPrice());
+		totalParkingView.setText(CommonUtils.formatPrice(totalParkingPrice));
+		addSlice(totalParkingPrice, DataInfo.COLOR_PARKING);
+
+		float totalOtherPrice = Math.round(b.getTotalOtherPrice());
+		totalOtherView.setText(CommonUtils.formatPrice(totalOtherPrice));
+		addSlice(totalOtherPrice, DataInfo.COLOR_OTHERS);
+
+		ArrayList<Bar> points = new ArrayList<Bar>();
+
+		for (BarInfo bi : b.getCostLast4Months()) {
+			Bar d = new Bar();
+			d.setName(bi.getName());
+			d.setValue(bi.getValue());
+			points.add(d);
+		}
+		costMonth.setBars(points);
+
+		points = new ArrayList<Bar>();
+
+		for (BarInfo bi : b.getRunLast4Months()) {
+			Bar d = new Bar();
+			d.setName(bi.getName());
+			d.setColor(DataInfo.COLOR_SERVICE);
+			d.setValue(bi.getValue());
+			points.add(d);
+		}
+		runMonth.setBars(points);
+	}
+
+
+	public void addSlice(float value, int color) {
+		PieSlice slice = new PieSlice();
+		slice.setColor(color);
+		slice.setValue(value);
+		pieGraph.addSlice(slice);
+	}
+
+	@Override
+	public void onLoaderReset(android.support.v4.content.Loader<DataInfo> loader) {
+
+	}
 }

@@ -37,6 +37,7 @@ import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
@@ -257,6 +258,16 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 
 	@Override
 	protected void createEntity() {
+		Calendar todayCalendar = Calendar.getInstance();
+		CommonUtils.trunkDay(todayCalendar);
+
+		long currentDate = date.getTime();
+
+		if (currentDate > todayCalendar.getTimeInMillis()) {
+			DBUtils.updateFuelRate(getContentResolver(), Integer.valueOf(odomenterView.getText().toString()),
+					CommonUtils.getPriceValue(fuelValueView));
+		}
+
 		getContentResolver().insert(ProviderDescriptor.Log.CONTENT_URI, getContentValues());
 	}
 

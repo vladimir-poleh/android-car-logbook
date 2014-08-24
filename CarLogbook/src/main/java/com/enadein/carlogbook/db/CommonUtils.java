@@ -40,6 +40,7 @@ import java.util.Date;
 
 public class CommonUtils {
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
+	public static final String DATE_FORMAT_MONTH = "MMM";
 
 	public static void createNotify(Context ctx, long id) {
 		Cursor c = ctx.getContentResolver()
@@ -95,6 +96,11 @@ public class CommonUtils {
 		return sdf.format(date);
 	}
 
+	public static String formatMonth(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_MONTH);
+		return sdf.format(date);
+	}
+
 	public static double getPriceValue(EditText text) {
 		double result = 0;
 		result = getPriceValue(text.getText().toString().trim(), result);
@@ -139,6 +145,11 @@ public class CommonUtils {
 		format.setMinimumIntegerDigits(1);
 		format.setGroupingUsed(false);
 		return format;
+	}
+
+	public static void trunkMonth(Calendar c) {
+		trunkDay(c);
+		c.set(Calendar.DAY_OF_MONTH, 1);
 	}
 
 	public static void trunkDay(Calendar c) {

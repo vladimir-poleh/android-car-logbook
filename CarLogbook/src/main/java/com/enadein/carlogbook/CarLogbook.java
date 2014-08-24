@@ -40,12 +40,17 @@ import android.widget.SpinnerAdapter;
 import com.enadein.carlogbook.adapter.MenuAdapter;
 import com.enadein.carlogbook.adapter.MenuItem;
 import com.enadein.carlogbook.core.BaseActivity;
+import com.enadein.carlogbook.db.DBUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 
 public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationListener {
+	public static final int DASHBOARD_MENU = 0;
+	public static final int BY_TYPE_MENU = 1;
+	public static final int FUEL_RATE_MENU = 2;
+	public static final int LAST_UPDATE_MENU = 3;
 	private DrawerLayout drawer;
 	private ListView menuList;
 
@@ -84,6 +89,7 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 
 		drawer.setDrawerListener(mDrawerToggle);
 		mediator.showLogbook();
+//		mediator.showReports();
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
@@ -133,6 +139,24 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		switch (itemPosition) {
+			case DASHBOARD_MENU: {
+				getMediator().showReports();
+				break;
+			}
+			case BY_TYPE_MENU: {
+				getMediator().showByTypeReport();
+				break;
+			}
+			case FUEL_RATE_MENU: {
+				getMediator().showFuelRate();
+				break;
+			}
+			case LAST_UPDATE_MENU: {
+				getMediator().showLastUpdate();
+				break;
+			}
+		}
 		return true;
 	}
 
@@ -155,12 +179,19 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 				break;
 			}
 			case MenuAdapter.MenuDescriptor.REPORTS_POSITION: {
-				navMode = ActionBar.NAVIGATION_MODE_LIST;
-				getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-				SpinnerAdapter reportItemsAdapter = ArrayAdapter.createFromResource(this,
-						R.array.action_list, android.R.layout.simple_spinner_dropdown_item);
-				getMediator().setListNavigationCallbacks(reportItemsAdapter, this);
-				mediator.showReports();
+				long carId = DBUtils.getActiveCarId(getContentResolver());
+
+				if (carId != -1) {
+					navMode = ActionBar.NAVIGATION_MODE_LIST;
+					getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+					SpinnerAdapter reportItemsAdapter = ArrayAdapter.createFromResource(this,
+							R.array.action_list, android.R.layout.simple_spinner_dropdown_item);
+					getMediator().setListNavigationCallbacks(reportItemsAdapter, this);
+					mediator.showReports();
+				} else {
+					mediator.showNoReports();
+				}
+
 				break;
 			}
 			case MenuAdapter.MenuDescriptor.MY_CARS_POSITION: {
@@ -259,5 +290,10 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 		public static final int CAR_ID = 0;
 		public static final int LOG_ID = 1;
 		public static final int NOTIFY_ID = 2;
+
+		public static final int REP_DASHBOARD_ID = 10;
+		public static final int REP_BY_TYPE_ID = 11;
+		public static final int REP_FUEL_RATE_ID = 12;
+		public static final int REP_LAST_EVENTS_ID = 13;
 	}
 }

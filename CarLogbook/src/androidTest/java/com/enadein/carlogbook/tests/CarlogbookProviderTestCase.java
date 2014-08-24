@@ -38,6 +38,17 @@ public class CarlogbookProviderTestCase extends ProviderTestCase2<CarLogbookProv
 		assertEquals(DBUtils.getCount(cr, ProviderDescriptor.Car.CONTENT_URI), 2);
 	}
 
+	public void testAvgFuel() {
+		addTestDefaultCar(CAR, 1);
+		addOtherLog(100, new Date().getTime(), 10., 1);
+		setupFuelLogBasic(DAY);
+		double avg = DBUtils.getAvgFuel(cr, 0, 0);
+
+		double expected = (52. / 510) * 100;
+		Assert.assertEquals(expected, avg);
+
+	}
+
 	public void testGetOdometerCountSimple() {
 		addTestDefaultCar(CAR, 1);
 		setupFuelLogBasic(DAY);
@@ -128,6 +139,7 @@ public class CarlogbookProviderTestCase extends ProviderTestCase2<CarLogbookProv
 		odometerCount = DBUtils.getOdometerCount(cr, jun, feb, ProviderDescriptor.Log.Type.FUEL);
 		Assert.assertEquals(200, odometerCount);
 
+
 		totalPrice = DBUtils.getTotalPrice(cr, jun, feb, ProviderDescriptor.Log.Type.FUEL);
 		Assert.assertEquals((50.0 * 10.0) * 2, totalPrice ); // from jun (2)
 
@@ -136,7 +148,7 @@ public class CarlogbookProviderTestCase extends ProviderTestCase2<CarLogbookProv
 		long mar = c.getTimeInMillis() ;
 
 		odometerCount = DBUtils.getOdometerCount(cr, feb, mar, ProviderDescriptor.Log.Type.FUEL);
-		Assert.assertEquals(0, odometerCount);
+		Assert.assertEquals(200, odometerCount);
 
 		totalPrice = DBUtils.getTotalPrice(cr, feb, mar, ProviderDescriptor.Log.Type.FUEL);
 		Assert.assertEquals((50.0 * 10.0), totalPrice ); //1 item
@@ -144,10 +156,20 @@ public class CarlogbookProviderTestCase extends ProviderTestCase2<CarLogbookProv
 		//add 4 feb
 		addFuelLog(1800, feb + DAY, 50d, 10d, fuelTypeId, stationId);
 		odometerCount = DBUtils.getOdometerCount(cr, feb, mar, ProviderDescriptor.Log.Type.FUEL);
-		Assert.assertEquals(400, odometerCount);
+		Assert.assertEquals(600, odometerCount);
 
 		totalPrice = DBUtils.getTotalPrice(cr, feb, mar, ProviderDescriptor.Log.Type.FUEL);
 		Assert.assertEquals((50.0 * 10.0) * 2, totalPrice ); //2 item
+	}
+
+	public void testAllFuel() {
+		addTestDefaultCar(CAR, 1);
+		addOtherLog(10, new Date().getTime(), 20., -1);
+		setupFuelLogBasic(DAY);
+		int total = DBUtils.getTotalFuel(cr, 0, 0, false);
+		Assert.assertEquals(102, total);
+		total = DBUtils.getTotalFuel(cr, 0, 0, true);
+		Assert.assertEquals(52, total);
 	}
 
 	private void setupFuelLogBasic(long dx) {
@@ -158,7 +180,7 @@ public class CarlogbookProviderTestCase extends ProviderTestCase2<CarLogbookProv
 
 		addFuelLog(1000, dateLong, 50d, 10d, fuelTypeId, stationId);
 		addFuelLog(1500, dateLong + dx, 50d, 10d, fuelTypeId, stationId);
-		addFuelLog(1510, dateLong + dx, 2d, 10.45d, fuelTypeId, stationId);
+		addFuelLog(1510, dateLong + dx + dx, 2d, 10.45d, fuelTypeId, stationId);
 
 	}
 
@@ -190,6 +212,38 @@ public class CarlogbookProviderTestCase extends ProviderTestCase2<CarLogbookProv
 		cv.put(ProviderDescriptor.Log.Cols.TYPE_ID, type);
 
 		cr.insert(ProviderDescriptor.Log.CONTENT_URI, cv);
+	}
+
+	public void testOtherTypesFilter() {
+		addTestDefaultCar(CAR, 1);
+		addOtherLog(10, new Date().getTime(), 20., 1);
+		addOtherLog(20, new Date().getTime(), 10., 1);
+		addOtherLog(30, new Date().getTime(), 40., 2);
+		addOtherLog(30, new Date().getTime(), 15., 3);
+
+		{
+			int types[] = new int[]{1};
+			double total = DBUtils.getTotalPrice(cr, 0, 0, ProviderDescriptor.Log.Type.OTHER, types);
+			Assert.assertEquals(30., total);
+		}
+
+		{
+			int types[] = new int[]{1, 2};
+			double total = DBUtils.getTotalPrice(cr, 0, 0, ProviderDescriptor.Log.Type.OTHER, types);
+			Assert.assertEquals(70., total);
+		}
+
+		{
+			int types[] = new int[]{1, 2, 3};
+			double total = DBUtils.getTotalPrice(cr, 0, 0, ProviderDescriptor.Log.Type.OTHER, types);
+			Assert.assertEquals(85., total);
+		}
+
+		{
+			int types[] = new int[]{ 3};
+			double total = DBUtils.getTotalPrice(cr, 0, 0, ProviderDescriptor.Log.Type.OTHER, types);
+			Assert.assertEquals(15., total);
+		}
 	}
 
 

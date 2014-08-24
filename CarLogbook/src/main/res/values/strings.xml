@@ -41,7 +41,7 @@
     <string name="erro_log_name">Name is not correct</string>
     <string name="error_date">Date is not correct</string>
     <string name="log_type">Type</string>
-    <string name="log_price">Price</string>
+    <string name="log_price">Cost</string>
     <string name="log_f">F: </string>
     <string name="log_p">P: </string>
 
@@ -54,7 +54,7 @@
     <string name="log_fuel_odometer">Odometer</string>
     <string name="log_fuel_price">Price(1 unit)</string>
     <string name="log_fuel_volume">Fuel volume</string>
-	<string name="log_fuel_price_total">Price(total)</string>
+	<string name="log_fuel_price_total">Cost(total)</string>
 	<string name="log_fuel_type">Fuel type</string>
 	<string name="log_fuel_gas_station">Gas Station</string>
 
@@ -90,4 +90,26 @@
 	<string name="value_name">Name</string>
 	<string name="value_name_error">Name is required</string>
 	<string name="value_sys_error">You cannot edit system value</string>
+
+	<!--Report-->
+	<string name="no_reports">No reports</string>
+
+	<string name="total_cost">Total cost</string>
+	<string name="total_run">Total run</string>
+	<string name="total_fuel">Total fuel volume</string>
+
+	<string name="avg_fuel">Fuel average rate/100</string>
+	<string name="cost_per1">Cost/1</string>
+
+	<string name="total_fuel_cost">Fuel</string>
+	<string name="total_service_cost">Service\n(+Engine/Transmission oil)</string>
+	<string name="total_service_part_cost">Repair parts</string>
+	<string name="total_parking_cost">Parking</string>
+	<string name="total_other_cost">Other</string>
+
+	<string name="cost_by_type">Total cost by type</string>
+	<string name="cost_by_last4">Total cost(last 4 months)</string>
+	<string name="run_by_last4">Run(last 4 months)</string>
+
+	<string name="not_found">Not found</string>
 </resources>

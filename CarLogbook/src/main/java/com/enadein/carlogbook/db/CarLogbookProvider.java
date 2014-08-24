@@ -30,6 +30,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 
 public class CarLogbookProvider extends ContentProvider {
+	public static final String LIMIT_PARAM = "limit_param";
 	protected DBOpenHelper dbHelper;
 
 	protected HashMap<Integer, String> tables = new HashMap<Integer, String>();
@@ -45,6 +46,7 @@ public class CarLogbookProvider extends ContentProvider {
 		tables.put(ProviderDescriptor.Log.PATH_TOKEN, ProviderDescriptor.Log.TABLE_NAME);
 		tables.put(ProviderDescriptor.Notify.PATH_TOKEN, ProviderDescriptor.Notify.TABLE_NAME);
 		tables.put(ProviderDescriptor.LogView.PATH_TOKEN, ProviderDescriptor.LogView.TABLE_NAME);
+		tables.put(ProviderDescriptor.FuelRate.PATH_TOKEN, ProviderDescriptor.FuelRate.TABLE_NAME);
 
 		types.put(ProviderDescriptor.Car.PATH_TOKEN, ProviderDescriptor.Car.CONTENT_TYPE_DIR);
 		types.put(ProviderDescriptor.Car.PATH_ID_TOKEN, ProviderDescriptor.Car.CONTENT_TYPE_ITEM);
@@ -57,6 +59,9 @@ public class CarLogbookProvider extends ContentProvider {
 
 		types.put(ProviderDescriptor.Notify.PATH_TOKEN, ProviderDescriptor.Notify.CONTENT_TYPE_DIR);
 		types.put(ProviderDescriptor.Notify.PATH_ID_TOKEN, ProviderDescriptor.Notify.CONTENT_TYPE_ITEM);
+
+		types.put(ProviderDescriptor.FuelRate.PATH_TOKEN, ProviderDescriptor.FuelRate.CONTENT_TYPE_DIR);
+		types.put(ProviderDescriptor.FuelRate.PATH_ID_TOKEN, ProviderDescriptor.FuelRate.CONTENT_TYPE_ITEM);
 
 		return false;
 	}
@@ -86,7 +91,8 @@ public class CarLogbookProvider extends ContentProvider {
 			String id = uri.getLastPathSegment();
 			result = builder.query(db, null, "_id = ?", new String[]{id}, null, null, null);
 		} else {
-			result = builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+			String limit = uri.getQueryParameter(LIMIT_PARAM);
+			result = builder.query(db, projection, selection, selectionArgs, null, null, sortOrder, limit);
 		}
 
 		if (result != null) {
@@ -187,7 +193,7 @@ public class CarLogbookProvider extends ContentProvider {
 	}
 
 	public class DBOpenHelper extends SQLiteOpenHelper {
-		private static final int CURRENT_DB_VERSION = 40;
+		private static final int CURRENT_DB_VERSION = 44;
 		private static final String DB_NAME = "com_carlogbook.db";
 		private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS {0} ({1})";
 		private static final String DROP_TABLE = "DROP TABLE IF EXISTS {0}";
@@ -210,6 +216,9 @@ public class CarLogbookProvider extends ContentProvider {
 			createTable(db, ProviderDescriptor.Notify.TABLE_NAME,
 					ProviderDescriptor.Notify.CREATE_FIELDS);
 
+			createTable(db, ProviderDescriptor.FuelRate.TABLE_NAME,
+					ProviderDescriptor.FuelRate.CREATE_FIELDS);
+
 			db.execSQL(ProviderDescriptor.LogView.CREATE_QUERY);
 
 			DataBaseDefaulter defaulter = new DataBaseDefaulter();
@@ -224,6 +233,8 @@ public class CarLogbookProvider extends ContentProvider {
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			//nothing
+			dropAllTables(db);
+			onCreate(db);
 		}
 
 		private void dropAllTables(SQLiteDatabase db) {

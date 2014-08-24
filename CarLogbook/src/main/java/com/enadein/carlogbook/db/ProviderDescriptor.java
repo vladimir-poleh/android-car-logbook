@@ -43,6 +43,10 @@ public class ProviderDescriptor {
 		matcher.addURI(AUTHORITY, LogView.PATH, LogView.PATH_TOKEN);
 		matcher.addURI(AUTHORITY, LogView.PATH_ID, LogView.PATH_ID_TOKEN);
 
+
+		matcher.addURI(AUTHORITY, FuelRate.PATH, FuelRate.PATH_TOKEN);
+		matcher.addURI(AUTHORITY, FuelRate.PATH_ID, FuelRate.PATH_ID_TOKEN);
+
 		return matcher;
 	}
 
@@ -79,7 +83,7 @@ public class ProviderDescriptor {
 
 		public static final String CREATE_FIELDS = "_id INTEGER PRIMARY KEY AUTOINCREMENT,DATE INTEGER," +
 				" ODOMETER INTEGER, PRICE REAL, COMMENT TEXT, CAR_ID INTEGER, FUEL_TYPE_ID INTEGER, " +
-				"FUEL_STATION_ID INTEGER, FUEL_VOLUME REAL, TYPE_ID INTEGER, NAME TEXT, PLACE TEXT, TYPE_LOG INTEGER" ;
+				"FUEL_STATION_ID INTEGER, FUEL_VOLUME REAL, TYPE_ID INTEGER, NAME TEXT, PLACE TEXT, TYPE_LOG INTEGER";
 
 		public static class Type {
 			public static final int FUEL = 0;
@@ -120,7 +124,8 @@ public class ProviderDescriptor {
 			public static final String FUEL_NAME = "FUEL_NAME";
 			public static final String TOTAL_PRICE = "TOTAL_PRICE";
 		}
-//		public static final String CREATE_QUERY = "CREATE VIEW IF NOT EXISTS log_view as select * from log";
+
+		//		public static final String CREATE_QUERY = "CREATE VIEW IF NOT EXISTS log_view as select * from log";
 //		public static final String CREATE_QUERY = "CREATE VIEW IF NOT EXISTS log_view as select l.*, d.name as STATION_NAME, df.name as  FUEL_NAME from log l inner join data_value d on l.FUEL_STATION_ID = d._id inner join data_value df on l.FUEL_TYPE_ID = df._id union select l.*, '' as STATION_NAME, '' as  FUEL_NAME from log l where type_log = 1";
 		public static final String CREATE_QUERY = "CREATE VIEW IF NOT EXISTS log_view as select l.*, d.name as STATION_NAME, df.name as  FUEL_NAME, l.PRICE * l.FUEL_VOLUME  as TOTAL_PRICE  from log l inner join data_value d on l.FUEL_STATION_ID = d._id inner join data_value df on l.FUEL_TYPE_ID = df._id union select l.*, '' as STATION_NAME, '' as  FUEL_NAME, l.PRICE as TOTAL_PRICE from log l where type_log = 1";
 	}
@@ -176,6 +181,31 @@ public class ProviderDescriptor {
 		public static class Type {
 			public static final int ODOMETER = 0;
 			public static final int DATE = 1;
+		}
+
+	}
+
+	public static class FuelRate {
+		public static final String TABLE_NAME = "rate";
+		public static final String PATH = "rate";
+		public static final int PATH_TOKEN = 700;
+		public static final String PATH_ID = "rate/*";
+		public static final int PATH_ID_TOKEN = 701;
+		public static final Uri CONTENT_URI = ProviderDescriptor.BASE_URI.buildUpon().appendPath(PATH).build();
+
+		public static final String CONTENT_TYPE_DIR = "vnd.android.cursor.dir/vnd." + AUTHORITY + "." + PATH;
+		public static final String CONTENT_TYPE_ITEM = "vnd.android.cursor.item/vnd." + AUTHORITY + "." + PATH;
+
+		public static final String CREATE_FIELDS = "_id INTEGER PRIMARY KEY AUTOINCREMENT,  RATE REAL, MIN_RATE REAL, MAX_RATE REAL, STATION_ID INTEGER, FUEL_TYPE_ID INTEGER, CAR_ID INTEGER";
+
+		public static class Cols {
+			public static final String _ID = "_id";
+			public static final String CAR_ID = "CAR_ID";
+			public static final String RATE = "RATE";
+			public static final String MAX_RATE = "MAX_RATE";
+			public static final String MIN_RATE = "MIN_RATE";
+			public static final String FUEL_TYPE_ID = "FUEL_TYPE_ID";
+			public static final String STATION_ID = "STATION_ID";
 		}
 	}
 }

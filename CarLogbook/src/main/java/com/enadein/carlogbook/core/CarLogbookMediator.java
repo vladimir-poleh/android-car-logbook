@@ -33,11 +33,15 @@ import com.enadein.carlogbook.ui.AddUpdateNotificationActivity;
 import com.enadein.carlogbook.ui.AlertDialog;
 import com.enadein.carlogbook.ui.ConfirmDeleteDialog;
 import com.enadein.carlogbook.ui.DataValueActivity;
+import com.enadein.carlogbook.ui.FuelRateFragment;
+import com.enadein.carlogbook.ui.LastUpdatedReportFragment;
 import com.enadein.carlogbook.ui.LogbookFragment;
 import com.enadein.carlogbook.ui.MyCarsFragment;
+import com.enadein.carlogbook.ui.NoReportsFragment;
 import com.enadein.carlogbook.ui.NotificationFragment;
 import com.enadein.carlogbook.ui.ReportsFramgent;
 import com.enadein.carlogbook.ui.SettingsFragment;
+import com.enadein.carlogbook.ui.TypeReportFragment;
 
 public class CarLogbookMediator extends AppMediator {
 	private boolean drawerOpenned;
@@ -53,6 +57,19 @@ public class CarLogbookMediator extends AppMediator {
 	public void showReports() {
 		replaceMainContainter(new ReportsFramgent());
 	}
+
+	public void showByTypeReport() {
+		replaceMainContainter(new TypeReportFragment());
+	}
+
+	public void showFuelRate() {
+		replaceMainContainter(new FuelRateFragment());
+	}
+
+	public void showLastUpdate() {
+		replaceMainContainter(new LastUpdatedReportFragment());
+	}
+
 
 	public void showMyCars() {
 		replaceMainContainter(new MyCarsFragment());
@@ -161,5 +178,9 @@ public class CarLogbookMediator extends AppMediator {
 
 	public void setDrawerOpenned(boolean drawerOpenned) {
 		this.drawerOpenned = drawerOpenned;
+	}
+
+	public void showNoReports() {
+		replaceMainContainter(new NoReportsFragment());
 	}
 }
