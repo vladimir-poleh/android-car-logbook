@@ -18,6 +18,7 @@
 
 		<EditText
 			android:id="@+id/name"
+			android:maxLength="50"
 			style="@style/add_entity_edit"
 			/>
 	</LinearLayout>

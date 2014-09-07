@@ -20,6 +20,7 @@ package com.enadein.carlogbook;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.ActivityCompat;
@@ -27,50 +28,111 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.ShareActionProvider;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SpinnerAdapter;
 
+import com.anjlab.android.iab.v3.BillingProcessor;
 import com.enadein.carlogbook.adapter.MenuAdapter;
 import com.enadein.carlogbook.adapter.MenuItem;
 import com.enadein.carlogbook.core.BaseActivity;
+import com.enadein.carlogbook.core.Logger;
 import com.enadein.carlogbook.db.DBUtils;
+import com.enadein.carlogbook.db.ProviderDescriptor;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 
-public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationListener {
+public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationListener, BillingProcessor.IBillingHandler {
 	public static final int DASHBOARD_MENU = 0;
 	public static final int BY_TYPE_MENU = 1;
 	public static final int FUEL_RATE_MENU = 2;
 	public static final int LAST_UPDATE_MENU = 3;
+
+	public static final String ROTATE = "rotate";
+	public static final String NAV_MODE = "nav_mode";
+	public static final String NAV_REP_POS = "nav_rep_pos";
 	private DrawerLayout drawer;
 	private ListView menuList;
 
 	private ActionBarDrawerToggle mDrawerToggle;
+	private boolean rotate = false;
+	private int navMode = ActionBar.NAVIGATION_MODE_STANDARD;
+	private int repoNavPos = 0;
+
+	private Logger log = Logger.createLogger(getClass());
+
+	///In-App Billing v3
+	private static final String LIC_KEY = "TODO"; //TODO HIDE
+	public static final String PRODUCT_1 = "TODO"; //TODO HIDE
+	public static final String PRODUCT_2 = "TODO"; //TODO HIDE
+	public static final String PRODUCT_3 = "TODO"; //TODO HIDE
+
+	private BillingProcessor bp;
+	///In-App Billing v3
+
+	private boolean isDrawerLocked = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
-		Log.e("xxxx", "x" + savedInstanceState);
-
-		FrameLayout contentFrame = (FrameLayout) findViewById(R.id.content_frame);
+		menuList = (ListView) findViewById(R.id.menu);
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-		MenuAdapter menuAdapter = new MenuAdapter(this, 0,  buildMenu());
-		menuList = (ListView) findViewById(R.id.menu);
+		FrameLayout frameLayout = (FrameLayout)findViewById(R.id.content_frame);
+		if(((ViewGroup.MarginLayoutParams)frameLayout.getLayoutParams()).leftMargin == (int)getResources().getDimension(R.dimen.drawer_size)) {
+			drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN, menuList);
+			drawer.setScrimColor(Color.TRANSPARENT);
+			isDrawerLocked = true;
+		}
+
+
+		if (savedInstanceState != null) {
+			rotate = savedInstanceState.getBoolean(ROTATE);
+			navMode = savedInstanceState.getInt(NAV_MODE);
+
+			repoNavPos = savedInstanceState.getInt(NAV_REP_POS);
+		}
+
+
+		MenuAdapter menuAdapter = new MenuAdapter(this, 0, buildMenu());
 		menuList.setAdapter(menuAdapter);
 		menuList.setOnItemClickListener(new DrawerItemClickListener());
+		initDrawer();
 
+
+		if (!rotate) {
+			mediator.showLogbook();
+		}
+
+		setupNavMode();
+
+		SpinnerAdapter reportItemsAdapter = ArrayAdapter.createFromResource(this,
+				R.array.action_list, android.R.layout.simple_spinner_dropdown_item);
+
+		getMediator().setListNavigationCallbacks(reportItemsAdapter, this);
+
+		if (navMode == ActionBar.NAVIGATION_MODE_LIST) {
+			getSupportActionBar().setSelectedNavigationItem(repoNavPos);
+		}
+
+		rotate = false;
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(!isDrawerLocked);
+		getSupportActionBar().setHomeButtonEnabled(!isDrawerLocked);
+
+		initInAppBuilingV3();
+	}
+
+	private void initDrawer() {
 		mDrawerToggle = new ActionBarDrawerToggle(this, drawer,
 				R.drawable.ic_drawer, R.string.menu_item_log, R.string.menu_item_settings) {
 
@@ -78,47 +140,55 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 				super.onDrawerClosed(view);
 				getMediator().setDrawerOpenned(false);
 				ActivityCompat.invalidateOptionsMenu(CarLogbook.this);
+				supportInvalidateOptionsMenu();
+				setupNavMode();
 			}
 
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
 				getMediator().setDrawerOpenned(true);
+				getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 				ActivityCompat.invalidateOptionsMenu(CarLogbook.this);
+				supportInvalidateOptionsMenu();
 			}
 		};
 
-		drawer.setDrawerListener(mDrawerToggle);
-		mediator.showLogbook();
-//		mediator.showReports();
+		if (!isDrawerLocked) {
+			drawer.setDrawerListener(mDrawerToggle);
+		}
+	}
 
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
+	private void initInAppBuilingV3() {
+		///In-App Billing v3
+		bp = new BillingProcessor(this, LIC_KEY, this);
+		getMediator().setBp(bp);
+		///In-App Billing v3
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		Log.e("xxxx", "222x" );
-		outState.putString("xxx", "Jeee");
+		outState.putBoolean(ROTATE, true);
+		outState.putInt(NAV_MODE, navMode);
+		outState.putInt(NAV_REP_POS, getSupportActionBar().getSelectedNavigationIndex());
 	}
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
-
-		String xx = savedInstanceState.getString("xx");
 	}
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
+
 		mDrawerToggle.syncState();
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		mDrawerToggle.onConfigurationChanged(newConfig);
+			mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
 
@@ -127,18 +197,22 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 
 		Resources res = getResources();
 
-		items.add(new MenuItem(R.drawable.ic_launcher, res.getString(R.string.menu_item_log)));
-		items.add(new MenuItem(R.drawable.ic_launcher, res.getString(R.string.menu_item_reports)));
-		items.add(new MenuItem(R.drawable.ic_launcher, res.getString(R.string.menu_item_notifications)));
-		items.add(new MenuItem(R.drawable.ic_launcher, res.getString(R.string.menu_item_my_cars)));
-		items.add(new MenuItem(R.drawable.ic_launcher, res.getString(R.string.menu_item_settings)));
-		items.add(new MenuItem(R.drawable.ic_launcher, res.getString(R.string.menu_item_about)));
+		items.add(new MenuItem(R.drawable.log, res.getString(R.string.menu_item_log)));
+		items.add(new MenuItem(R.drawable.stat, res.getString(R.string.menu_item_reports)));
+		items.add(new MenuItem(R.drawable.notify, res.getString(R.string.menu_item_notifications)));
+		items.add(new MenuItem(R.drawable.cars, res.getString(R.string.menu_item_my_cars)));
+		items.add(new MenuItem(R.drawable.backup, res.getString(R.string.menu_item_import_export)));
+		items.add(new MenuItem(R.drawable.sett, res.getString(R.string.menu_item_settings)));
+		items.add(new MenuItem(R.drawable.info, res.getString(R.string.menu_item_about)));
 
-		return items.toArray(new MenuItem[] {});
+		return items.toArray(new MenuItem[]{});
 	}
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		if (rotate) {
+			return true;
+		}
 		switch (itemPosition) {
 			case DASHBOARD_MENU: {
 				getMediator().showReports();
@@ -160,18 +234,22 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 		return true;
 	}
 
+
 	class DrawerItemClickListener implements ListView.OnItemClickListener {
 
 		@Override
 		public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 			selectItem(position);
 			menuList.setItemChecked(position, true);
-			drawer.closeDrawer(menuList);
+
+			if (!isDrawerLocked) {
+				drawer.closeDrawer(menuList);
+			}
 		}
 	}
 
 	private void selectItem(int position) {
-		int navMode = ActionBar.NAVIGATION_MODE_STANDARD;
+		navMode = ActionBar.NAVIGATION_MODE_STANDARD;
 
 		switch (position) {
 			case MenuAdapter.MenuDescriptor.LOG_POSITION: {
@@ -180,13 +258,14 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 			}
 			case MenuAdapter.MenuDescriptor.REPORTS_POSITION: {
 				long carId = DBUtils.getActiveCarId(getContentResolver());
+				long logCount = DBUtils.getCount(getContentResolver(), ProviderDescriptor.Log.CONTENT_URI, DBUtils.CAR_SELECTION,
+						new String[]{String.valueOf(carId)});
 
-				if (carId != -1) {
+				if (carId != -1 && logCount > 0) {
 					navMode = ActionBar.NAVIGATION_MODE_LIST;
-					getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-					SpinnerAdapter reportItemsAdapter = ArrayAdapter.createFromResource(this,
-							R.array.action_list, android.R.layout.simple_spinner_dropdown_item);
-					getMediator().setListNavigationCallbacks(reportItemsAdapter, this);
+					getSupportActionBar().setNavigationMode(navMode);
+					repoNavPos = 0;
+					getSupportActionBar().setSelectedNavigationItem(repoNavPos);
 					mediator.showReports();
 				} else {
 					mediator.showNoReports();
@@ -202,6 +281,10 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 				mediator.showNotifications();
 				break;
 			}
+			case MenuAdapter.MenuDescriptor.IMPORT_EXPORT: {
+				mediator.showImportExport();
+				break;
+			}
 			case MenuAdapter.MenuDescriptor.SETTINGS_POSITION: {
 				mediator.showSettings();
 				break;
@@ -212,12 +295,16 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 			}
 		}
 
+		setupNavMode();
+
+	}
+
+	private void setupNavMode() {
 		ActionBar actionBar = getSupportActionBar();
 
 		if (actionBar.getNavigationMode() != navMode) {
 			actionBar.setNavigationMode(navMode);
 		}
-
 	}
 
 	@Override
@@ -230,7 +317,7 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 				toggleNavigationDrawer(!drawer.isDrawerOpen(menuList));
 				break;
 			}
-			case  R.id.action_add_car: {
+			case R.id.action_add_car: {
 				mediator.showAddCar();
 				break;
 			}
@@ -249,7 +336,9 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 		}
 
 		if (action != android.R.id.home) {
-			drawer.closeDrawer(menuList);
+			if (!isDrawerLocked) {
+				drawer.closeDrawer(menuList);
+			}
 		}
 		return true;
 	}
@@ -296,4 +385,48 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 		public static final int REP_FUEL_RATE_ID = 12;
 		public static final int REP_LAST_EVENTS_ID = 13;
 	}
+
+	///In-App Billing v3
+	@Override
+	public void onProductPurchased(String productId) {
+		getMediator().nofifyPurchased(productId);
+		log.debug("Purchased");
+	}
+
+	@Override
+	public void onPurchaseHistoryRestored() {
+		log.debug("Restored");
+	}
+
+	@Override
+	public void onBillingError(int errorCode, Throwable throwable) {
+		log.debug("error " + errorCode);
+		getMediator().nofifyBillingError();
+	}
+
+	@Override
+	public void onBillingInitialized() {
+		log.debug("Billing is ok");
+		bp.loadOwnedPurchasesFromGoogle();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		log.debug("ON RESULT");
+		try {
+			if (!bp.handleActivityResult(requestCode, resultCode, data))
+				super.onActivityResult(requestCode, resultCode, data);
+		} catch (Throwable t) {
+			//todo nothing
+		}
+	}
+
+	@Override
+	public void onDestroy() {
+		if (bp != null)
+			bp.release();
+
+		super.onDestroy();
+	}
+	///In-App Billing v3
 }

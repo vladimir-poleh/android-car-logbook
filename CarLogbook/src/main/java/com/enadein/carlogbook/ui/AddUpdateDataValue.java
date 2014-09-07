@@ -70,8 +70,27 @@ public class AddUpdateDataValue extends SaveUpdateBaseActivity {
 
 	@Override
 	protected void deleteEntity() {
-		getContentResolver().delete(ProviderDescriptor.DataValue.CONTENT_URI, "_id = ?", new String[] {String.valueOf(id)});
-		NavUtils.navigateUpFromSameTask(this);
+		boolean used = false;
+
+		if (type == ProviderDescriptor.DataValue.Type.FUEL) {
+			used = DBUtils.isFuelTypeUsed(getContentResolver(), id);
+		} else if (type == ProviderDescriptor.DataValue.Type.STATION) {
+			used = DBUtils.isStationUsed(getContentResolver(), id);
+		}
+
+		long count = DBUtils.getCount(getContentResolver(),
+				ProviderDescriptor.DataValue.CONTENT_URI,
+				ProviderDescriptor.DataValue.Cols.TYPE + " = ?" ,
+				new String[] {String.valueOf(type)});
+
+		if (used) {
+			getMediator().showAlert(getString(R.string.value_used_error));
+		} else if (count == 1) {
+			getMediator().showAlert(getString(R.string.error_last_delete));
+		} else {
+			getContentResolver().delete(ProviderDescriptor.DataValue.CONTENT_URI, "_id = ?", new String[]{String.valueOf(id)});
+			NavUtils.navigateUpFromSameTask(this);
+		}
 	}
 
 	@Override

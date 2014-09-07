@@ -12,6 +12,7 @@
 		<TextView
 			android:id="@+id/odometer"
 			style="@style/wrap"
+			android:textStyle="bold"
 			android:layout_marginRight="8dp"
 			android:textSize="10sp"/>
 

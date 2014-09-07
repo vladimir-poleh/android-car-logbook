@@ -42,10 +42,12 @@
 
 			<TextView
 				style="@style/add_entity_label"
+
 				android:text="@string/log_fuel_odometer"/>
 
 			<EditText
 				android:id="@+id/odometer"
+				android:maxLength="6"
 				style="@style/add_entity_edit"
 				android:inputType="number"/>
 		</LinearLayout>
@@ -63,6 +65,7 @@
 
 			<EditText
 				android:id="@+id/name"
+				android:maxLength="50"
 				style="@style/add_entity_edit"/>
 		</LinearLayout>
 
@@ -70,7 +73,7 @@
 		<TextView
 			android:id="@+id/errorPrice"
 			style="@style/add_entity_error"
-			android:text="@string/error_price"/>
+			android:text="@string/error_cost"/>
 
 		<LinearLayout style="@style/add_entity_group">
 
@@ -89,6 +92,7 @@
 
 		<EditText
 			android:id="@+id/comment"
+			android:maxLength="250"
 			style="@style/comment"/>
 	</LinearLayout>
 </ScrollView>

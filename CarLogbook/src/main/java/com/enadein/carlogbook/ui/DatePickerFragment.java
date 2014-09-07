@@ -33,7 +33,13 @@ public class DatePickerFragment extends DialogFragment  {
 		c = Calendar.getInstance();
 	}
 
-	public DatePickerFragment(Date date, DatePickerDialog.OnDateSetListener listener) {
+//	public DatePickerFragment(Date date, DatePickerDialog.OnDateSetListener listener) {
+//		c = Calendar.getInstance();
+//		c.setTime(date);
+//		this.listener = listener;
+//	}
+
+	public void setListener(Date date, DatePickerDialog.OnDateSetListener listener) {
 		c = Calendar.getInstance();
 		c.setTime(date);
 		this.listener = listener;

@@ -15,6 +15,7 @@
 			android:text="@string/car_name"/>
 		<EditText
 			android:id="@+id/carName"
+			android:maxLength="50"
 			style="@style/add_entity_edit"/>
 	</LinearLayout>
 

@@ -32,6 +32,7 @@ import com.enadein.carlogbook.CarLogbook;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.adapter.FuelRateAdapter;
 import com.enadein.carlogbook.core.BaseFragment;
+import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
 public class FuelRateFragment extends BaseFragment implements
@@ -59,7 +60,9 @@ public class FuelRateFragment extends BaseFragment implements
 	@Override
 	public void onResume() {
 		super.onPause();
-		getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_FUEL_RATE_ID, null, this);
+
+		getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_FUEL_RATE_ID,
+				null, this);
 
 	}
 
@@ -70,8 +73,10 @@ public class FuelRateFragment extends BaseFragment implements
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		Long carId = DBUtils.getActiveCarId(getActivity().getContentResolver());
 		CursorLoader cursorLoader = new CursorLoader(getActivity(),
-				ProviderDescriptor.FuelRate.CONTENT_URI, null, null, null, null);
+				ProviderDescriptor.FuelRateView.CONTENT_URI, null, DBUtils.CAR_SELECTION_RATE,
+				new String[] {String.valueOf(carId)}, null);
 
 		return cursorLoader;
 	}

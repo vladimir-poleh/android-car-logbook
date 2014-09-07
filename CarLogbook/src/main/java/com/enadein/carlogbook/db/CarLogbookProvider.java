@@ -25,9 +25,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class CarLogbookProvider extends ContentProvider {
 	public static final String LIMIT_PARAM = "limit_param";
@@ -47,6 +50,7 @@ public class CarLogbookProvider extends ContentProvider {
 		tables.put(ProviderDescriptor.Notify.PATH_TOKEN, ProviderDescriptor.Notify.TABLE_NAME);
 		tables.put(ProviderDescriptor.LogView.PATH_TOKEN, ProviderDescriptor.LogView.TABLE_NAME);
 		tables.put(ProviderDescriptor.FuelRate.PATH_TOKEN, ProviderDescriptor.FuelRate.TABLE_NAME);
+		tables.put(ProviderDescriptor.FuelRateView.PATH_TOKEN, ProviderDescriptor.FuelRateView.TABLE_NAME);
 
 		types.put(ProviderDescriptor.Car.PATH_TOKEN, ProviderDescriptor.Car.CONTENT_TYPE_DIR);
 		types.put(ProviderDescriptor.Car.PATH_ID_TOKEN, ProviderDescriptor.Car.CONTENT_TYPE_ITEM);
@@ -62,6 +66,10 @@ public class CarLogbookProvider extends ContentProvider {
 
 		types.put(ProviderDescriptor.FuelRate.PATH_TOKEN, ProviderDescriptor.FuelRate.CONTENT_TYPE_DIR);
 		types.put(ProviderDescriptor.FuelRate.PATH_ID_TOKEN, ProviderDescriptor.FuelRate.CONTENT_TYPE_ITEM);
+
+		types.put(ProviderDescriptor.FuelRateView.PATH_TOKEN, ProviderDescriptor.FuelRateView.CONTENT_TYPE_DIR);
+		types.put(ProviderDescriptor.FuelRateView.PATH_ID_TOKEN, ProviderDescriptor.FuelRateView.CONTENT_TYPE_ITEM);
+
 
 		return false;
 	}
@@ -193,8 +201,12 @@ public class CarLogbookProvider extends ContentProvider {
 	}
 
 	public class DBOpenHelper extends SQLiteOpenHelper {
-		private static final int CURRENT_DB_VERSION = 44;
-		private static final String DB_NAME = "com_carlogbook.db";
+		private static final int CURRENT_DB_VERSION = 2; //Production 1
+		private static final String DB_NAME = "com_carlogbook_v2.db";
+
+//		private static final int CURRENT_DB_VERSION = 2; //test
+//		private static final String DB_NAME = "com_carlogbook_v2test_16.db";
+
 		private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS {0} ({1})";
 		private static final String DROP_TABLE = "DROP TABLE IF EXISTS {0}";
 
@@ -220,9 +232,12 @@ public class CarLogbookProvider extends ContentProvider {
 					ProviderDescriptor.FuelRate.CREATE_FIELDS);
 
 			db.execSQL(ProviderDescriptor.LogView.CREATE_QUERY);
+			db.execSQL(ProviderDescriptor.FuelRateView.CREATE_QUERY);
 
 			DataBaseDefaulter defaulter = new DataBaseDefaulter();
 			defaulter.initDataBase(db, getContext());
+			//updates
+			upgradeFrom1to2(db);
 		}
 
 		public void reset() {
@@ -232,17 +247,62 @@ public class CarLogbookProvider extends ContentProvider {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			//nothing
-			dropAllTables(db);
-			onCreate(db);
+			for (int i = oldVersion; i < newVersion; i++) {
+				switch (i) {
+					case 1:
+						upgradeFrom1to2(db);
+						break;
+				}
+			}
+		}
+
+		private void upgradeFrom1to2(SQLiteDatabase db) {
+			db.execSQL("ALTER TABLE car ADD UUID TEXT");
+			db.execSQL("ALTER TABLE notify ADD CREATE_DATE INTEGER");
+
+			SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+			builder.setTables(ProviderDescriptor.Car.TABLE_NAME);
+
+			Cursor c = builder.query(db, null, null, null, null, null, null);
+			if (c != null) {
+				while (c.moveToNext()) {
+					ContentValues cv = new ContentValues();
+					String uuid = UUID.randomUUID().toString();
+					cv.put(ProviderDescriptor.Car.Cols.UUID, uuid);
+					long id = c.getLong(0);
+					int res = db.update(ProviderDescriptor.Car.TABLE_NAME, cv, "_id = ?", new String[]{String.valueOf(id)});
+//				Log.d("DB UPDATE", ""+res );
+				}
+				c.close();
+			}
+
+			//notification
+			builder = new SQLiteQueryBuilder();
+			builder.setTables(ProviderDescriptor.Notify.TABLE_NAME);
+
+			 c = builder.query(db, null, null, null, null, null, null);
+			if (c != null) {
+				while (c.moveToNext()) {
+					ContentValues cv = new ContentValues();
+					cv.put(ProviderDescriptor.Notify.Cols.CREATE_DATE, new Date().getTime());
+
+					long id = c.getLong(0);
+					int res = db.update(ProviderDescriptor.Notify.TABLE_NAME, cv, "_id = ?", new String[]{String.valueOf(id)});
+//				Log.d("DB UPDATE", ""+res );
+				}
+
+				c.close();
+			}
 		}
 
 		private void dropAllTables(SQLiteDatabase db) {
 			db.execSQL("DROP VIEW IF EXISTS log_view");
+			db.execSQL("DROP VIEW IF EXISTS rate_view");
 			dropTable(db, ProviderDescriptor.Car.TABLE_NAME);
 			dropTable(db, ProviderDescriptor.Log.TABLE_NAME);
 			dropTable(db, ProviderDescriptor.DataValue.TABLE_NAME);
 			dropTable(db, ProviderDescriptor.Notify.TABLE_NAME);
+			dropTable(db, ProviderDescriptor.FuelRate.TABLE_NAME);
 		}
 
 		public void dropTable(SQLiteDatabase db, String name) {

@@ -19,9 +19,12 @@ package com.enadein.carlogbook.db;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.widget.DatePicker;
@@ -29,20 +32,39 @@ import android.widget.EditText;
 
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.BaseActivity;
+import com.enadein.carlogbook.service.NotifyService;
 import com.enadein.carlogbook.ui.AddUpdateNotificationActivity;
 
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
+import java.util.Locale;
 
 public class CommonUtils {
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
 	public static final String DATE_FORMAT_MONTH = "MMM";
+	private static 	DecimalFormat format = (DecimalFormat) DecimalFormat.getNumberInstance();
 
-	public static void createNotify(Context ctx, long id) {
+	static {
+		format.setRoundingMode(RoundingMode.DOWN);
+		format.setMaximumFractionDigits(3);
+		format.setMinimumFractionDigits(1);
+		format.setMaximumIntegerDigits(10);
+		format.setMinimumIntegerDigits(1);
+
+		DecimalFormatSymbols decimalSymbol = new DecimalFormatSymbols(Locale.getDefault());
+		decimalSymbol.setDecimalSeparator('.');
+		format.setDecimalFormatSymbols(decimalSymbol);
+		format.setGroupingUsed(false);
+	}
+
+	public static void createNotify(Context ctx, long id, int res) {
 		Cursor c = ctx.getContentResolver()
 				.query(ProviderDescriptor.Notify.CONTENT_URI, null, BaseActivity.SELECTION_ID_FILTER,
 						new String[]{String.valueOf(id)}, null);
@@ -60,9 +82,12 @@ public class CommonUtils {
 
 		String name = c.getString(nameIdx);
 
+		Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
 		NotificationCompat.Builder mBuilder =
 				new NotificationCompat.Builder(ctx)
-						.setSmallIcon(R.drawable.abc_ic_search)
+						.setSmallIcon(res)
+						.setSound(alarmSound)
 						.setContentTitle(ctx.getString(R.string.app_name))
 						.setContentText(name);
 		NotificationManager mNotificationManager =
@@ -91,6 +116,62 @@ public class CommonUtils {
 		mNotificationManager.notify((int) id, mBuilder.build());
 	}
 
+	public static void validateDateNotifications(Context ctx) {
+		ContentResolver cr = ctx.getContentResolver();
+		long carId = DBUtils.getActiveCarId(cr);
+		String selection = DBUtils.CAR_SELECTION_NOTIFY + " and "
+				+ ProviderDescriptor.Notify.Cols.TYPE + " = ?";
+
+		Cursor c = cr.query(ProviderDescriptor.Notify.CONTENT_URI,
+				null, selection,
+				new String[]{String.valueOf(carId),
+						String.valueOf(ProviderDescriptor.Notify.Type.DATE)
+				}, null
+		);
+
+		if (c == null) {
+			NotifyService.cancelAlarm(ctx);
+			return;
+		}
+
+		int count = c.getCount();
+		c.close();
+
+		if (count > 0) {
+			NotifyService.cancelAlarm(ctx);
+			NotifyService.createAlarm(ctx);
+		} else {
+			NotifyService.cancelAlarm(ctx);
+		}
+
+	}
+
+	public static void validateOdometerNotifications(Context ctx, int odmeterValue) {
+		ContentResolver cr = ctx.getContentResolver();
+		long carId = DBUtils.getActiveCarId(cr);
+		String selection = DBUtils.CAR_SELECTION_NOTIFY + " and "
+				+ ProviderDescriptor.Notify.Cols.TYPE + " = ? and "
+				+ ProviderDescriptor.Notify.Cols.TRIGGER_VALUE + " <= ?";
+		Cursor c = cr.query(ProviderDescriptor.Notify.CONTENT_URI,
+				null, selection,
+				new String[]{String.valueOf(carId),
+						String.valueOf(ProviderDescriptor.Notify.Type.ODOMETER),
+						String.valueOf(odmeterValue)
+				}, null
+		);
+
+		if (c == null) {
+			return;
+		}
+
+		while (c.moveToNext()) {
+			long id = c.getLong(c.getColumnIndex(ProviderDescriptor.Notify.Cols._ID));
+			createNotify(ctx, id, R.drawable.not_odom);
+		}
+
+		c.close();
+	}
+
 	public static String formatDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 		return sdf.format(date);
@@ -105,6 +186,22 @@ public class CommonUtils {
 		double result = 0;
 		result = getPriceValue(text.getText().toString().trim(), result);
 		return result;
+	}
+
+	public static double getRawDouble(String text) {
+		double result = 0.;
+		try {
+			result = Double.valueOf(text.trim());
+		} catch (NumberFormatException e){	}
+		return result;
+	}
+
+	public static int getOdometerInt(EditText text) {
+		int value = 0;
+		try {
+			value = Integer.valueOf(text.getText().toString().trim());
+		} catch (NumberFormatException e){	}
+		return value;
 	}
 
 	public static double getPriceValue(String stringValue, double result) {
@@ -138,12 +235,6 @@ public class CommonUtils {
 	}
 
 	private static NumberFormat getPriceNumberFormat() {
-		NumberFormat format = DecimalFormat.getNumberInstance();
-		format.setMaximumFractionDigits(2);
-		format.setMinimumFractionDigits(1);
-		format.setMaximumIntegerDigits(10);
-		format.setMinimumIntegerDigits(1);
-		format.setGroupingUsed(false);
 		return format;
 	}
 

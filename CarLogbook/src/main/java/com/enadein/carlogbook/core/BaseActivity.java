@@ -39,6 +39,7 @@ public class BaseActivity extends ActionBarActivity implements DialogListener {
 
 	protected CarLogbookMediator mediator;
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,8 +63,27 @@ public class BaseActivity extends ActionBarActivity implements DialogListener {
 
 	protected boolean validateView(int errorViewId, EditText editView) {
 		TextView errorView = (TextView) findViewById(errorViewId);
-		double valueDouble = CommonUtils.getPriceValue(editView);
-		boolean result = valueDouble > 0;
+		double valueDouble = CommonUtils.getRawDouble(editView.getText().toString());
+		boolean result = valueDouble > 0.0009 && 1000000.d >= valueDouble;
+
+	errorView.setVisibility((!result)? View.VISIBLE : View.GONE);
+	return result;
+}
+
+	protected boolean validateFuelVavlView(int errorViewId, EditText editView) {
+		TextView errorView = (TextView) findViewById(errorViewId);
+		double valueDouble =  CommonUtils.getRawDouble((editView.getText().toString()));
+		boolean result = valueDouble > 0.0009 && 1000.d >= valueDouble;
+
+		errorView.setVisibility((!result)? View.VISIBLE : View.GONE);
+		return result;
+	}
+
+
+	protected boolean validateOdometer(int errorViewId, EditText editView) {
+		TextView errorView = (TextView) findViewById(errorViewId);
+		int value = CommonUtils.getOdometerInt(editView);
+		boolean result = value > 0 && value < 1000000;
 
 		errorView.setVisibility((!result)? View.VISIBLE : View.GONE);
 		return result;
@@ -76,6 +96,13 @@ public class BaseActivity extends ActionBarActivity implements DialogListener {
 		errorView.setVisibility((!result)? View.VISIBLE : View.GONE);
 		return result;
 	}
+
+	protected void showErrorLayout(int errorViewId, boolean show) {
+		TextView errorView = (TextView) findViewById(errorViewId);
+		errorView.setVisibility((show)? View.VISIBLE : View.GONE);
+	}
+
+
 
 	public void showError(int errorViewId, boolean show) {
 		TextView errorView = (TextView) findViewById(errorViewId);

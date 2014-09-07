@@ -19,6 +19,7 @@ package com.enadein.carlogbook.ui;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -27,6 +28,8 @@ import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.SaveUpdateBaseActivity;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
+
+import java.util.UUID;
 
 public class AddUpdateCarActivity extends SaveUpdateBaseActivity {
 
@@ -55,6 +58,9 @@ public class AddUpdateCarActivity extends SaveUpdateBaseActivity {
 			int activeFlagIdx = c.getColumnIndex(ProviderDescriptor.Car.Cols.ACTIVE_FLAG);
 			String carName = c.getString(idxName);
 			boolean active = c.getInt(activeFlagIdx) > 0;
+
+//			String uuid = c.getString(c.getColumnIndex(ProviderDescriptor.Car.Cols.UUID));
+//			Log.e("XXX", ""  +uuid);
 
 			if (active) {
 				selectCarView.setVisibility(View.GONE);
@@ -101,6 +107,10 @@ public class AddUpdateCarActivity extends SaveUpdateBaseActivity {
 		if (selectedCarId == -1 || selectCarView.isChecked()) {
 			cv.put(ProviderDescriptor.Car.Cols.ACTIVE_FLAG, 1);
 		}
+
+		String uuid = UUID.randomUUID().toString();
+		cv.put(ProviderDescriptor.Car.Cols.UUID, uuid);
+
 		getContentResolver().insert(ProviderDescriptor.Car.CONTENT_URI, cv);
 	}
 

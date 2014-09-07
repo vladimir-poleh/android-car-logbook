@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!--Common-->
+	<string name="app_ver">Version: 1.1</string>
 	<string name="create">Create</string>
 	<string name="save">Save</string>
 	<string name="cancel">Cancel</string>
@@ -28,7 +29,6 @@
     <!--Action Bar Menu-->
     <string name="share">Share</string>
     <string name="share_title">CarLogbook</string>
-    <string name="share_text">CarLogbook. It is very nice App! Try http://google.com</string>
     <string name="add_car">Add Car</string>
     <string name="add_fuel_log">Add fuel event</string>
     <string name="add_log">Add event</string>
@@ -60,6 +60,7 @@
 
 	<string name="error_odometer">Odometer is not correct</string>
 	<string name="error_price">Price value is not correct</string>
+	<string name="error_cost">Cost value is not correct</string>
 	<string name="error_fuel">Fuel value is not correct</string>
 
     <!--Add Notification Activity-->
@@ -90,6 +91,7 @@
 	<string name="value_name">Name</string>
 	<string name="value_name_error">Name is required</string>
 	<string name="value_sys_error">You cannot edit system value</string>
+	<string name="value_used_error">This value is used!</string>
 
 	<!--Report-->
 	<string name="no_reports">No reports</string>
@@ -112,4 +114,55 @@
 	<string name="run_by_last4">Run(last 4 months)</string>
 
 	<string name="not_found">Not found</string>
+	<string name="not_set">Not set</string>
+	<!--About-->
+
+	<string name="share_text">Car Logbook -  logging events related to your car for getting statistic https://play.google.com/store/apps/details?id=com.enadein.carlogbook</string>
+
+	<string name="author">Author</string>
+	<string name="author_value">Eugene Nadein</string>
+	<string name="open_src">It is open-source project</string>
+	<string name="open_src_val">Source</string>
+	<string name="open_src_url">https://github.com/tx-drive/android-car-logbook</string>
+
+
+	<string name="feedback_lic">License (GNU GPL v3)</string>
+	<string name="feedback_lic_val">Read license</string>
+
+	<string name="feedback_rate">Rate this application</string>
+
+	<string name="feedback_label">Feedback</string>
+	<string name="feedback_ask">Ask for a feature</string>
+	<string name="feedback_provide">Feedback/question/bug report</string>
+
+	<string name="libs_label">Open-Source Frameworks</string>
+	<string name="lib1_val">HoloGraphLibrary - a chart library for android </string>
+	<string name="lib1_val_url">https://bitbucket.org/danielnadeau/holographlibrary/wiki/Home</string>
+	<string name="email">eugene.nadein@gmail.com</string>
+	<string name="email_subject_ask">Feature(CarLogbook)</string>
+	<string name="email_subject_provide">Feedback(CarLogbook)</string>
+	<string name="license_title">License</string>
+
+	<string name="donate">Donate (help for the project)</string>
+	<string name="thanks">Thanks for the help!</string>
+
+	<!--1.1-->
+	<!--Import/Export-->
+	<string name="menu_item_import_export">Import/Export</string>
+	<string name="imp">Import</string>
+	<string name="export">Export</string>
+	<string name="file_exists">File exist</string>
+	<string name="export_import_error">Error!</string>
+	<string name="export_ok">Export is done!</string>
+	<string name="import_delete">Erase current database</string>
+	<string name="no_data">No Data</string>
+	<string name="confirm_import">Are you sure to import?</string>
+	<string name="import_ok">Import is done!</string>
+	<string name="progress_title">Processing</string>
+	<string name="progress_content">Processing</string>
+	<string name="error_last_delete">You cannot delete last value</string>
+
+	<string name="google_backup">Google Drive Backup</string>
+	<string name="backup">Backup</string>
+	<string name="restore">Restore</string>
 </resources>

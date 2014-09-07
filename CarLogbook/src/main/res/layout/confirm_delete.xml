@@ -2,28 +2,27 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:layout_width="wrap_content"
-              android:layout_height="match_parent">
+              style="@style/wide"
+              android:background="#FF444444"
+			  android:padding="10dp">
 
 		<TextView
 			android:text="@string/confirm_delete"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"/>
+			android:layout_margin="8dp"
+			android:textColor="#fff"
+			style="@style/wrap"/>
 	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		style="@style/wide"
 		android:orientation="horizontal"
 		android:gravity="center">
 		<Button
 			android:id="@+id/yes"
 			android:text="@string/yes"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"/>
+			style="@style/wrap"/>
 		<Button
 			android:id="@+id/no"
 			android:text="@string/no"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"/>
+			style="@style/wrap"/>
 
 	</LinearLayout>
 </LinearLayout>

@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 
+import com.anjlab.android.iab.v3.BillingProcessor;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
@@ -31,10 +32,16 @@ import com.enadein.carlogbook.ui.AddUpdateFuelLogActivity;
 import com.enadein.carlogbook.ui.AddUpdateLogActivity;
 import com.enadein.carlogbook.ui.AddUpdateNotificationActivity;
 import com.enadein.carlogbook.ui.AlertDialog;
-import com.enadein.carlogbook.ui.ConfirmDeleteDialog;
+import com.enadein.carlogbook.ui.ConfirmDialog;
 import com.enadein.carlogbook.ui.DataValueActivity;
+import com.enadein.carlogbook.ui.ExportActivty;
 import com.enadein.carlogbook.ui.FuelRateFragment;
+import com.enadein.carlogbook.ui.GoogleBackupActivity;
+import com.enadein.carlogbook.ui.ImportActivity;
+import com.enadein.carlogbook.ui.ImportDialog;
+import com.enadein.carlogbook.ui.ImportExportFragment;
 import com.enadein.carlogbook.ui.LastUpdatedReportFragment;
+import com.enadein.carlogbook.ui.LicActivity;
 import com.enadein.carlogbook.ui.LogbookFragment;
 import com.enadein.carlogbook.ui.MyCarsFragment;
 import com.enadein.carlogbook.ui.NoReportsFragment;
@@ -44,7 +51,11 @@ import com.enadein.carlogbook.ui.SettingsFragment;
 import com.enadein.carlogbook.ui.TypeReportFragment;
 
 public class CarLogbookMediator extends AppMediator {
+	public static final String ALERT = "alert";
+	public static final String CONFIRM_DELETE = "confirm_delete";
 	private boolean drawerOpenned;
+	private BillingProcessor bp;
+	private PurchasedListener purchasedListener = null;
 
 	public CarLogbookMediator(ActionBarActivity activity) {
 		super(activity);
@@ -52,6 +63,11 @@ public class CarLogbookMediator extends AppMediator {
 
 	public void showLogbook() {
 		replaceMainContainter(new LogbookFragment());
+	}
+
+
+	public void showImportExport() {
+		replaceMainContainter(new ImportExportFragment());
 	}
 
 	public void showReports() {
@@ -89,6 +105,23 @@ public class CarLogbookMediator extends AppMediator {
 
 	public void showAddCar() {
 		startActivity(AddUpdateCarActivity.class);
+	}
+
+
+	public void showLic() {
+		startActivity(LicActivity.class);
+	}
+
+	public void showImport() {
+		startActivity(ImportActivity.class);
+	}
+
+	public void showBackup() {
+		startActivity(GoogleBackupActivity.class);
+	}
+
+	public void showExport() {
+		startActivity(ExportActivty.class);
 	}
 
 	public void showViewCar(long id) {
@@ -132,20 +165,25 @@ public class CarLogbookMediator extends AppMediator {
 	public void showModifyLog(int type, long id) {
 		Bundle params = new Bundle();
 		params.putLong(BaseActivity.ENTITY_ID, id);
-		params.putInt(BaseActivity.MODE_KEY, AddUpdateFuelLogActivity.PARAM_EDIT); //ToDO
+		params.putInt(BaseActivity.MODE_KEY, AddUpdateFuelLogActivity.PARAM_EDIT);
 		Class clazz = (type == ProviderDescriptor.Log.Type.OTHER) ? AddUpdateLogActivity.class : AddUpdateFuelLogActivity.class;
 		startActivity(clazz, params);
 	}
 
 	public void showConfirmDeleteView() {
-		DialogFragment confirmDeleteDialog = ConfirmDeleteDialog.newInstance();
-		confirmDeleteDialog.show(activity.getSupportFragmentManager(), "confirm_delete");
+		DialogFragment confirmDeleteDialog = ConfirmDialog.newInstance();
+		confirmDeleteDialog.show(activity.getSupportFragmentManager(), CONFIRM_DELETE);
+	}
+
+	public void showConfirmImport() {
+		DialogFragment importDlg = ImportDialog.newInstance();
+		importDlg.show(activity.getSupportFragmentManager(), "import");
 	}
 
 	public void showAlert(String text) {
 		AlertDialog alertDialog = AlertDialog.newInstance();
 		alertDialog.setText(text);
-		alertDialog.show(activity.getSupportFragmentManager(), "alert");
+		alertDialog.show(activity.getSupportFragmentManager(), ALERT);
 	}
 
 	public void showDataValues(int type) {
@@ -161,15 +199,15 @@ public class CarLogbookMediator extends AppMediator {
 	}
 
 	public void showUpdateDataValue(int type, long id) {
-		if (DBUtils.isDataValueIsSystemById(activity.getContentResolver(), id)) {
-			showAlert(activity.getString(R.string.value_sys_error));
-		} else {
+//		if (DBUtils.isDataValueIsSystemById(activity.getContentResolver(), id)) {
+//			showAlert(activity.getString(R.string.value_sys_error));
+//		} else {
 			Bundle params = new Bundle();
 			params.putInt(BaseActivity.TYPE_KEY, type);
 			params.putInt(BaseActivity.MODE_KEY, AddUpdateDataValue.PARAM_EDIT);
 			params.putLong(BaseActivity.ENTITY_ID, id);
 			startActivity(AddUpdateDataValue.class, params);
-		}
+//		}
 	}
 
 	public boolean isDrawerOpenned() {
@@ -182,5 +220,32 @@ public class CarLogbookMediator extends AppMediator {
 
 	public void showNoReports() {
 		replaceMainContainter(new NoReportsFragment());
+	}
+
+	public void setBp(BillingProcessor bp) {
+		this.bp = bp;
+	}
+
+	public void consumePurchase(String productId, PurchasedListener listener) {
+		purchasedListener = listener;
+		boolean result = bp.consumePurchase(productId);
+		if (result) {
+			purchasedListener.onProductPurchased(productId);
+		} else {
+			bp.purchase(productId);
+		}
+	}
+
+	public void nofifyPurchased(String productId) {
+		if (purchasedListener != null) {
+			purchasedListener.onProductPurchased(productId);
+		}
+	}
+
+
+	public void nofifyBillingError() {
+		if (purchasedListener != null) {
+			purchasedListener.onError();
+		}
 	}
 }

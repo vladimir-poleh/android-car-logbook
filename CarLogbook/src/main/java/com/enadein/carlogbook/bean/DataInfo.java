@@ -23,6 +23,9 @@ import android.content.Context;
 import com.enadein.carlogbook.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DataInfo {
 	public static final int[] service = new int[] {5,6,7};
@@ -35,6 +38,24 @@ public class DataInfo {
 	public static final int COLOR_PARKING = 0xFF22C1BE;
 	public static final int COLOR_PARTS = 0xFFC1A622;
 	public static final int COLOR_OTHERS = 0xFF8E8244;
+
+	public static final Map<Integer, Integer> images;
+	static {
+		Map<Integer, Integer> map =  new HashMap<Integer, Integer>();
+		map.put(0, R.drawable.log);
+		map.put(1, R.drawable.water);
+		map.put(2, R.drawable.park);
+		map.put(3, R.drawable.penalty);
+		map.put(4, R.drawable.upgrade);
+		map.put(5, R.drawable.serv);
+		map.put(6, R.drawable.oil);
+		map.put(7, R.drawable.oil);
+		map.put(8, R.drawable.part);
+		map.put(9, R.drawable.insurance);
+		map.put(10, R.drawable.coint);
+
+		images = Collections.unmodifiableMap(map);
+	}
 
 	public static  String getDescriptionByTypes(Context context, int resId, int[] types) {
 		StringBuilder sb = new StringBuilder();

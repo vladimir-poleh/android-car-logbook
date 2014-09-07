@@ -9,7 +9,7 @@
 
 	<ImageView android:id="@+id/activeItem"
 	           style="@style/logo"
-	           android:background="@drawable/ic_launcher"/>
+	           android:background="@drawable/active"/>
 
 
 </LinearLayout>

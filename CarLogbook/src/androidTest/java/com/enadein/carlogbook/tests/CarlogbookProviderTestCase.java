@@ -27,6 +27,56 @@ public class CarlogbookProviderTestCase extends ProviderTestCase2<CarLogbookProv
 		super(CarLogbookProvider.class, "com.enadein.carlogbook");
 	}
 
+	public void testDeleteCascadeCar() {
+		addTestDefaultCar(CAR, 1);
+		long carId = DBUtils.getActiveCarId(cr);
+		setupFuelLogBasic(DAY);
+		addNotify();
+
+		Assert.assertTrue(DBUtils.getCount(cr, ProviderDescriptor.Log.CONTENT_URI, DBUtils.CAR_SELECTION,
+				new String[] {String.valueOf(carId)}) > 0);
+
+		Assert.assertTrue(DBUtils.getCount(cr, ProviderDescriptor.Notify.CONTENT_URI, DBUtils.CAR_SELECTION_NOTIFY,
+				new String[] {String.valueOf(carId)}) > 0);
+
+		DBUtils.deleteCascadeCar(cr, carId);
+
+		Assert.assertTrue(DBUtils.getCount(cr, ProviderDescriptor.Log.CONTENT_URI, DBUtils.CAR_SELECTION,
+				new String[] {String.valueOf(carId)}) == 0);
+
+		Assert.assertTrue(DBUtils.getCount(cr, ProviderDescriptor.Notify.CONTENT_URI, DBUtils.CAR_SELECTION_NOTIFY,
+				new String[] {String.valueOf(carId)}) == 0);
+
+	}
+
+	private void addNotify() {
+		ContentValues cv = new ContentValues();
+		cv.put(ProviderDescriptor.Notify.Cols.NAME, "Test");
+		long carId = DBUtils.getActiveCarId(cr);
+		cv.put(ProviderDescriptor.Notify.Cols.CAR_ID, carId);
+
+		cv.put(ProviderDescriptor.Notify.Cols.TRIGGER_VALUE, System.currentTimeMillis());
+		cv.put(ProviderDescriptor.Notify.Cols.TYPE, ProviderDescriptor.Notify.Type.DATE);
+		cr.insert(ProviderDescriptor.Notify.CONTENT_URI, cv);
+	}
+
+	public void testIsUsedInLog() {
+		addTestDefaultCar(CAR, 1);
+
+		long stationId = DBUtils.getDefaultId(cr, ProviderDescriptor.DataValue.Type.STATION);
+		long fuelTypeId = DBUtils.getDefaultId(cr, ProviderDescriptor.DataValue.Type.FUEL);
+
+		Assert.assertFalse(DBUtils.isStationUsed(cr, stationId));
+		Assert.assertFalse(DBUtils.isFuelTypeUsed(cr, fuelTypeId));
+
+		setupFuelLogBasic(DAY);
+
+		Assert.assertTrue(DBUtils.isStationUsed(cr, stationId));
+		Assert.assertTrue(DBUtils.isFuelTypeUsed(cr, fuelTypeId));
+
+	}
+
+
 	public void testActiveCar() {
 		long carId = DBUtils.getActiveCarId(cr);
 		assertEquals(-1, carId);
@@ -83,7 +133,7 @@ public class CarlogbookProviderTestCase extends ProviderTestCase2<CarLogbookProv
 		double per1km = DBUtils.getPricePer1km(cr, 0, 0);
 		int odometer = DBUtils.getOdometerCount(cr);
 
-		Assert.assertEquals(1020.9 / odometer, per1km);
+		Assert.assertEquals(((10.45d * 2) + (50 * 10d)) / odometer, per1km);
 
 		addOtherLog(2000, System.currentTimeMillis(), 200, 0);
 

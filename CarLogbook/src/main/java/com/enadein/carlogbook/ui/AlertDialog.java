@@ -17,6 +17,7 @@
 */
 package com.enadein.carlogbook.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -32,6 +33,8 @@ public class AlertDialog extends DialogFragment {
 	private Logger log = Logger.createLogger(AlertDialog.class);
 	public static final String TEXT = "text_key";
 	private String text = "Emtpy";
+
+	public static final int ALERT_OK = 201;
 
 
 	@Override
@@ -51,6 +54,7 @@ public class AlertDialog extends DialogFragment {
 		text = savedInstanceState.getString(TEXT);
 
 	}
+
 
 	public static AlertDialog newInstance() {
 		return new AlertDialog();
@@ -85,8 +89,16 @@ public class AlertDialog extends DialogFragment {
 			@Override
 			public void onClick(View view) {
 				dismiss();
+				notifyOk();
 			}
 		});
 		return view;
+	}
+
+	private void notifyOk() {
+		Activity activity = getActivity();
+		if (activity instanceof  DialogListener) {
+			((DialogListener)getActivity()).onDialogEvent(ALERT_OK, ALERT_OK, null);
+		}
 	}
 }

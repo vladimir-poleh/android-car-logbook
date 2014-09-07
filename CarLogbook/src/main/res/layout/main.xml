@@ -1,4 +1,4 @@
-<android.support.v4.widget.DrawerLayout
+<com.enadein.carlogbook.ui.fix.FixedDrawer
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     style="@style/full">
@@ -6,17 +6,17 @@
     <!-- The main content view -->
     <FrameLayout
         android:id="@+id/content_frame"
-        style="@style/full"/>
+        style="@style/full"
+        android:layout_marginLeft="@dimen/drawer_content_padding"/>
 
     <!-- Menu -->
     <ListView android:id="@+id/menu"
-              android:layout_width="240dp"
+              android:layout_width="@dimen/drawer_size"
               android:layout_height="match_parent"
               android:layout_gravity="start"
               android:choiceMode="singleChoice"
               android:divider="@android:color/transparent"
-              android:listSelector="@drawable/list_selector"
               android:dividerHeight="0dp"
-              android:background="#ffffff"/>
+              android:background="@color/drawer_color"/>
 
-</android.support.v4.widget.DrawerLayout>
+</com.enadein.carlogbook.ui.fix.FixedDrawer>

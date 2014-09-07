@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	             style="@style/full">
+	<LinearLayout
+		android:orientation="vertical"
+		style="@style/full">
+		<TextView
+			android:id="@+id/errorName"
+			style="@style/add_entity_error"
+			android:text="@string/value_name_error"/>
+		<TextView
+			android:id="@+id/errorExists"
+			style="@style/add_entity_error"
+			android:text="@string/file_exists"/>
+			<EditText
+				android:id="@+id/name"
+				style="@style/add_entity_edit"
+					android:layout_width="match_parent"
+			          android:hint="@string/value_name"/>
+			<Button
+				android:id="@+id/exportBtn"
+				android:text="@string/export"
+				style="@style/wide"/>
+		</LinearLayout>
+
+</FrameLayout>

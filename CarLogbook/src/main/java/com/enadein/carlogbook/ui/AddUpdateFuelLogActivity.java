@@ -186,8 +186,8 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 		public void updateFuel() {}	;
 
 		protected void calculateTotal() {
-			double fuelValue = CommonUtils.getPriceValue(fuelValueView);
-			double priceValue = CommonUtils.getPriceValue(priceView);
+			double fuelValue = CommonUtils.getRawDouble(fuelValueView.getText().toString());
+			double priceValue = CommonUtils.getRawDouble(priceView.getText().toString());
 			double priceTotalValue = fuelValue * priceValue;
 
 			priceTotalView.setText(CommonUtils.formatPrice(priceTotalValue));
@@ -214,8 +214,8 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 
 		@Override
 		public void updateTotal() {
-			double priceValue = CommonUtils.getPriceValue(priceView);
-			double priceTotalValue = CommonUtils.getPriceValue(priceTotalView);
+			double priceValue = CommonUtils.getRawDouble(priceView.getText().toString());
+			double priceTotalValue = CommonUtils.getRawDouble(priceTotalView.getText().toString());
 
 			double fuelValue = CommonUtils.div(priceTotalValue, priceValue);
 			fuelValueView.setText(CommonUtils.formatPrice(fuelValue));
@@ -241,7 +241,7 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 	protected boolean validateEntity() {
 		boolean result = true;
 
-		if (!validateView(R.id.errorFuel, fuelValueView)) {
+		if (!validateFuelVavlView(R.id.errorFuel, fuelValueView)) {
 			result = false;
 		}
 
@@ -249,7 +249,7 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 			result = false;
 		}
 
-		if (!validateView(R.id.errorOdometer, odomenterView)) {
+		if (!validateOdometer(R.id.errorOdometer, odomenterView)) {
 			result = false;
 		}
 
@@ -263,12 +263,15 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 
 		long currentDate = date.getTime();
 
-		if (currentDate > todayCalendar.getTimeInMillis()) {
+		if (currentDate >= todayCalendar.getTimeInMillis()) {
 			DBUtils.updateFuelRate(getContentResolver(), Integer.valueOf(odomenterView.getText().toString()),
 					CommonUtils.getPriceValue(fuelValueView));
 		}
 
 		getContentResolver().insert(ProviderDescriptor.Log.CONTENT_URI, getContentValues());
+
+		CommonUtils.validateOdometerNotifications(AddUpdateFuelLogActivity.this,
+				Integer.valueOf(odomenterView.getText().toString()));
 	}
 
 	@Override
@@ -372,6 +375,9 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 				priceValueState.updateTotal();
 			}
 		});
+
+		odomenterView.setSelection(odomenterView.getText().length());
+		odomenterView.requestFocus();
 	}
 
 	@Override

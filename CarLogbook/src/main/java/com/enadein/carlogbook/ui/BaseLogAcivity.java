@@ -82,7 +82,8 @@ abstract public class  BaseLogAcivity extends SaveUpdateBaseActivity implements 
 	abstract void setDateText(String text);
 
 	public void showDatePickerDialog(View v) {
-		DatePickerFragment datePickerFragment = new DatePickerFragment(date, this);
+		DatePickerFragment datePickerFragment = new DatePickerFragment();
+		datePickerFragment.setListener(date, this);
 		datePickerFragment.show(getSupportFragmentManager(), "date_picker");
 	}
 }

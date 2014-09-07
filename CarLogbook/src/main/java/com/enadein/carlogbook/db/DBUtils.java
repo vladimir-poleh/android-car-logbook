@@ -32,6 +32,8 @@ public class DBUtils {
 	private static Logger log = Logger.createLogger(DBUtils.class);
 
 	public static final String CAR_SELECTION = ProviderDescriptor.Log.Cols.CAR_ID + " = ?";
+	public static final String CAR_SELECTION_NOTIFY = ProviderDescriptor.Notify.Cols.CAR_ID + " = ?";
+	public static final String CAR_SELECTION_RATE = ProviderDescriptor.FuelRateView.Cols.CAR_ID + " = ?";
 
 	public static long getActiveCarId(ContentResolver cr) {
 		long result = -1;
@@ -47,21 +49,60 @@ public class DBUtils {
 		return result;
 	}
 
-	public static void deleteCascadeCar(ContentResolver cr, long id) {
-		cr.delete(ProviderDescriptor.Car.CONTENT_URI, "_id = ?", new String[]{String.valueOf(id)});
-	}
+	public static long getValueId(ContentResolver cr, Uri uri, String field, String value) {
+		long result = -1;
 
-	public static long getCount(ContentResolver cr, Uri uri) {
-		long result = 0;
-		Cursor c = cr.query(uri, new String[]{"count(*)"}, null, null, null);
+		Cursor c = cr.query(uri, null, field + " = ?", new String[] {value}, null);
+
 		if (c != null && c.moveToFirst()) {
-			result = c.getLong(0);
+			int idIdx = c.getColumnIndex(ProviderDescriptor.Car.Cols._ID);
+			result = c.getLong(idIdx);
 			c.close();
 		}
 
 		return result;
 	}
 
+	public static long getFuelRateId(ContentResolver cr, String type, String station) {
+		long result = -1;
+
+		Cursor c = cr.query(ProviderDescriptor.FuelRate.CONTENT_URI,
+				null, ProviderDescriptor.FuelRate.Cols.FUEL_TYPE_ID + " = ? and "
+						+ ProviderDescriptor.FuelRate.Cols.STATION_ID + " = ?" , new String[] {type, station}, null);
+
+		if (c != null && c.moveToFirst()) {
+			int idIdx = c.getColumnIndex(ProviderDescriptor.Car.Cols._ID);
+			result = c.getLong(idIdx);
+			c.close();
+		}
+
+		return result;
+	}
+
+	public static void deleteCascadeCar(ContentResolver cr, long id) {
+		cr.delete(ProviderDescriptor.Log.CONTENT_URI, CAR_SELECTION, new String[] {String.valueOf(id)});
+		cr.delete(ProviderDescriptor.Notify.CONTENT_URI, CAR_SELECTION_NOTIFY, new String[] {String.valueOf(id)});
+		cr.delete(ProviderDescriptor.Car.CONTENT_URI, "_id = ?", new String[]{String.valueOf(id)});
+	}
+
+	public static long getCount(ContentResolver cr, Uri uri) {
+		return getCount(cr, uri, null, null);
+	}
+	public static long getCount(ContentResolver cr, Uri uri, String selection, String[] args) {
+		long result = 0;
+
+		Cursor c = cr.query(uri, null, selection, args, null);
+		if (c != null && c.moveToFirst()) {
+			result = c.getCount();
+			c.close();
+		}
+
+		return result;
+	}
+
+	public static  boolean hasValue(ContentResolver cr, Uri uri, String field, String value) {
+		return getCount(cr, uri, field + " = ?", new String[] {value}) > 0;
+	}
 
 	public static void updateFuelRate(ContentResolver cr, int curentOdometer, double fuelVolume) {
 		long carId = getActiveCarId(cr);
@@ -249,10 +290,18 @@ public class DBUtils {
 		return result;
 	}
 
-
-	public static void deleteTest(ContentResolver cr) {
-		cr.delete(ProviderDescriptor.DataValue.CONTENT_URI, "_id != ?", new String[]{String.valueOf(-1)});
+	public static boolean isUsedInLog(ContentResolver cr, String field,  long id) {
+		return getCount(cr, ProviderDescriptor.Log.CONTENT_URI, field + " = ?" ,  new String[] {String.valueOf(id)}) > 0;
 	}
+
+	public static boolean isStationUsed(ContentResolver cr, long id) {
+		return isUsedInLog(cr, ProviderDescriptor.Log.Cols.FUEL_STATION_ID, id);
+	}
+
+	public static boolean isFuelTypeUsed(ContentResolver cr, long id) {
+		return isUsedInLog(cr, ProviderDescriptor.Log.Cols.FUEL_TYPE_ID, id);
+	}
+
 
 	//for reports ========================================================
 
@@ -321,11 +370,20 @@ public class DBUtils {
 	}
 
 	//TOTAL PRICE BY TYPE
+
 	public static double getTotalPrice(ContentResolver cr, long from, long to, int type, int[] otherTypes) {
+		return getTotalPrice(cr, from, to, type, otherTypes, false);
+	}
+	public static double getTotalPrice(ContentResolver cr, long from, long to, int type, int[] otherTypes, boolean skipFirst) {
 		double result = 0;
 
 		String selection = buildCarDateSelection(from, to, type, otherTypes);
 		String[] args = buildCarDateSelectionArgs(cr, from, to, type);
+
+		if (skipFirst) {
+			int id = getLogIdItemFirstItemNoType(cr);
+			selection += " and " + ProviderDescriptor.Log.Cols._ID + " != " + id;
+		}
 
 		Cursor c = cr.query(ProviderDescriptor.LogView.CONTENT_URI,
 				new String[]{"sum(" + ProviderDescriptor.LogView.Cols.TOTAL_PRICE + ") as sum"},
@@ -344,7 +402,7 @@ public class DBUtils {
 		int odometerCount = getOdometerCount(cr, from, to, -1);
 
 		if (odometerCount > 0) {
-			double price = getTotalPrice(cr, from, to, -1, null);
+			double price = getTotalPrice(cr, from, to, -1, null, true);
 
 			result = price / odometerCount;
 		}
@@ -364,6 +422,25 @@ public class DBUtils {
 				.buildUpon()
 				.appendQueryParameter(CarLogbookProvider.LIMIT_PARAM, "1")
 				.build(), null, ProviderDescriptor.Log.Cols.TYPE_LOG + " = " + ProviderDescriptor.Log.Type.FUEL + carSelection, null, ProviderDescriptor.Log.Cols.DATE + " ASC");
+		if (isCursorHasValue(c)) {
+			id = getIntByName(c, ProviderDescriptor.Log.Cols._ID);
+		}
+
+
+		return id;
+	}
+
+	public static int getLogIdItemFirstItemNoType(ContentResolver cr) {
+		int id = -1;
+
+		long carId = getActiveCarId(cr);
+
+		String carSelection = ProviderDescriptor.Log.Cols.CAR_ID + " = " + carId;
+
+		Cursor c = cr.query(ProviderDescriptor.Log.CONTENT_URI
+				.buildUpon()
+				.appendQueryParameter(CarLogbookProvider.LIMIT_PARAM, "1")
+				.build(), null, carSelection, null, ProviderDescriptor.Log.Cols.DATE + " ASC");
 		if (isCursorHasValue(c)) {
 			id = getIntByName(c, ProviderDescriptor.Log.Cols._ID);
 		}

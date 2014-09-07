@@ -44,7 +44,7 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 	protected boolean validateEntity() {
 		boolean result = true;
 
-		if (!validateView(R.id.errorOdometer, odometerView)) {
+		if (!validateOdometer(R.id.errorOdometer, odometerView)) {
 			result = false;
 		}
 
@@ -62,6 +62,8 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 	@Override
 	protected void createEntity() {
 		getContentResolver().insert(ProviderDescriptor.Log.CONTENT_URI, getContentValues());
+		CommonUtils.validateOdometerNotifications(this,
+				Integer.valueOf(odometerView.getText().toString()));
 	}
 
 	@Override
@@ -150,6 +152,9 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 	protected void postPopulate() {
 		dateView = (TextView) findViewById(R.id.date);
 		dateView.setText(CommonUtils.formatDate(date));
+
+		odometerView.setSelection(odometerView.getText().length());
+		odometerView.requestFocus();
 
 	}
 }

@@ -33,6 +33,7 @@ import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.adapter.NotificationAdapter;
 import com.enadein.carlogbook.core.BaseFragment;
 import com.enadein.carlogbook.core.MenuEnabler;
+import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
 public class NotificationFragment extends BaseFragment implements
@@ -80,8 +81,9 @@ public class NotificationFragment extends BaseFragment implements
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		Long carId = DBUtils.getActiveCarId(getActivity().getContentResolver());
 		CursorLoader cursorLoader = new CursorLoader(getActivity(),
-				ProviderDescriptor.Notify.CONTENT_URI, null, null, null, null);
+				ProviderDescriptor.Notify.CONTENT_URI, null, DBUtils.CAR_SELECTION_NOTIFY, new String[] {String.valueOf(carId)}, null);
 
 		return cursorLoader;
 	}

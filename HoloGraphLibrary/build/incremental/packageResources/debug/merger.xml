@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="main" >
+        <source path="E:\dev\my\project\git\android-car-logbook\android-car-logbook\HoloGraphLibrary\res" >
+            <file
+                name="popup_black"
+                path="E:\dev\my\project\git\android-car-logbook\android-car-logbook\HoloGraphLibrary\res\drawable-xhdpi\popup_black.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                path="E:\dev\my\project\git\android-car-logbook\android-car-logbook\HoloGraphLibrary\res\values\attrs.xml"
+                qualifiers="" >
+                <declare-styleable name="LineGraph" >
+                    <attr
+                        name="lineStrokeColor"
+                        format="color" />
+                    <attr
+                        name="lineAxisColor"
+                        format="color" />
+                    <attr
+                        name="lineStrokeWidth"
+                        format="dimension" />
+                    <attr
+                        name="lineStrokeSpacing"
+                        format="dimension" />
+                    <attr
+                        name="lineUseDip"
+                        format="boolean" />
+                    <attr
+                        name="lineBackground"
+                        format="color" />
+                </declare-styleable>
+                <declare-styleable name="PieGraph" >
+                    <attr
+                        name="pieInnerCircleRatio"
+                        format="integer" />
+                    <attr
+                        name="pieSlicePadding"
+                        format="dimension" />
+                </declare-styleable>
+                <declare-styleable name="BarGraph" >
+                    <attr
+                        name="barAxisColor"
+                        format="color" />
+                    <attr
+                        name="orientation"
+                        format="enum" >
+                        <enum
+                            name="horizontal"
+                            value="0" />
+                        <enum
+                            name="vertical"
+                            value="1" />
+                    </attr>
+                    <attr
+                        name="barShowAxis"
+                        format="boolean" />
+                    <attr
+                        name="barShowAxisLabel"
+                        format="boolean" />
+                    <attr
+                        name="barShowText"
+                        format="boolean" />
+                    <attr
+                        name="barShowPopup"
+                        format="boolean" />
+                </declare-styleable>
+            </file>
+        </source>
+        <source path="E:\dev\my\project\git\android-car-logbook\android-car-logbook\HoloGraphLibrary\build\res\rs\debug" />
+        <source path="E:\dev\my\project\git\android-car-logbook\android-car-logbook\HoloGraphLibrary\build\res\generated\debug" />
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="E:\dev\my\project\git\android-car-logbook\android-car-logbook\HoloGraphLibrary\src\debug\res" />
+    </dataSet>
+
+</merger>

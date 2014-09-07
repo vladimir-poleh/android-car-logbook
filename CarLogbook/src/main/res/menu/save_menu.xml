@@ -5,13 +5,13 @@
 
 	<item
 		android:id="@+id/action_save"
-		android:icon="@android:drawable/ic_btn_speak_now"
+		android:icon="@drawable/save"
 		android:title="@string/save"
 		app:showAsAction="always"/>
 
 	<item
 		android:id="@+id/action_delete"
-		android:icon="@android:drawable/sym_call_outgoing"
+		android:icon="@drawable/ic_action_delete"
 		android:title="@string/delete"
 		app:showAsAction="always"/>
 

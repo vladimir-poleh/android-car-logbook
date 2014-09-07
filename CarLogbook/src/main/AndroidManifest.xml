@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 
-    package="com.enadein.carlogbook" >
+    package="com.enadein.carlogbook" android:installLocation="preferExternal" >
 
+	<uses-permission android:name="com.android.vending.BILLING" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +18,27 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.enadein.carlogbook.CarLogbook" />
         </activity>
+
+	    <activity android:name="com.enadein.carlogbook.ui.ExportActivty" android:parentActivityName="com.enadein.carlogbook.CarLogbook">
+		    <!-- Parent activity meta-data to support 4.0 and lower -->
+		    <meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value="com.enadein.carlogbook.CarLogbook" />
+	    </activity>
+
+	    <activity android:name="com.enadein.carlogbook.ui.ImportActivity" android:parentActivityName="com.enadein.carlogbook.CarLogbook">
+		    <!-- Parent activity meta-data to support 4.0 and lower -->
+		    <meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value="com.enadein.carlogbook.CarLogbook" />
+	    </activity>
+
+	    <activity android:name="com.enadein.carlogbook.ui.GoogleBackupActivity" android:parentActivityName="com.enadein.carlogbook.CarLogbook">
+		    <!-- Parent activity meta-data to support 4.0 and lower -->
+		    <meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value="com.enadein.carlogbook.CarLogbook" />
+	    </activity>
 
         <activity android:name="com.enadein.carlogbook.ui.AddUpdateFuelLogActivity" android:parentActivityName="com.enadein.carlogbook.CarLogbook">
             <!-- Parent activity meta-data to support 4.0 and lower -->
@@ -53,6 +76,14 @@
 			    android:value="com.enadein.carlogbook.ui.DataValueActivity" />
 	    </activity>
 
+	    <activity android:name="com.enadein.carlogbook.ui.LicActivity" android:parentActivityName="com.enadein.carlogbook.CarLogbook">
+		    <!-- Parent activity meta-data to support 4.0 and lower -->
+		    <meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value="com.enadein.carlogbook.CarLogbook" />
+	    </activity>
+
+
 	    <!--android:launchMode="singleTop"-->
         <activity
             android:name="com.enadein.carlogbook.CarLogbook"
@@ -69,6 +100,9 @@
 		    android:name="com.enadein.carlogbook.db.CarLogbookProvider" android:exported="false"/>
 
 	    <service android:name="com.enadein.carlogbook.service.NotifyService"/>
+
+	    <meta-data android:name="com.google.android.gms.version"
+	               android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

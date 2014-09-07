@@ -85,8 +85,9 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
 		costMonth = (BarGraph)view.findViewById(R.id.cost_month);
 		runMonth = (BarGraph)view.findViewById(R.id.run_month);
 
-		addSlice(0.01f, 0xFFEEEEEE);
-		addSlice(0.01f, 0xFFEEEEEE);
+//		addSlice(0.01f, 0xFFEEEEEE);
+//		addSlice(0.01f, 0xFFEEEEEE);
+
 
 		getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_DASHBOARD_ID, null, this);
 	}
@@ -120,6 +121,16 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
 		float totalFuelPrice = Math.round(b.getTotalFuelPrice());
 		addSlice(totalFuelPrice, DataInfo.COLOR_FUEL);
 		totalFuelView.setText(CommonUtils.formatPrice(totalFuelPrice));
+
+		if (totalFuelPrice > 0) {
+			float vl = (float)(totalFuelPrice * 0.01) / 100;
+			addSlice(vl, 0xFFEEEEEE);
+			addSlice(vl, 0xFFEEEEEE);
+
+		} else {
+			addSlice(0.001f, 0xFFEEEEEE);
+			addSlice(0.001f, 0xFFEEEEEE);
+		}
 
 		float totalServicePrice = Math.round(b.getTotalServicePrice());
 		addSlice(totalServicePrice, DataInfo.COLOR_SERVICE);

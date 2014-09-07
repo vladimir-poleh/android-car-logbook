@@ -42,6 +42,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class TypeReportFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<DataInfo> {
+	public static final String DATE_PICKER = "date_picker";
 	private long from = 0;
 	private long to = 0;
 
@@ -92,8 +93,8 @@ public class TypeReportFragment extends BaseFragment implements LoaderManager.Lo
 	}
 
 	private void updateViews() {
-		String fromStr = "";
-		String toStr = "";
+		String fromStr = getString(R.string.not_set);
+		String toStr =  getString(R.string.not_set);
 		if (from > 0) {
 			fromStr = CommonUtils.formatDate(new Date(from));
 		}
@@ -148,37 +149,52 @@ public class TypeReportFragment extends BaseFragment implements LoaderManager.Lo
 	}
 
 	private void showFrom() {
-			DatePickerFragment datePickerFragment = new DatePickerFragment(new Date(), new DatePickerDialog.OnDateSetListener() {
-				@Override
-				public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-					from = convertDateToLong(year, month, day);
-					updateViews();
-					restart();
-				}
-			});
+			DatePickerFragment datePickerFragment = new DatePickerFragment();
 
-			datePickerFragment.show(getFragmentManager(), "date_picker");
-	}
-
-	private void showTo() {
-		DatePickerFragment datePickerFragment = new DatePickerFragment(new Date(), new DatePickerDialog.OnDateSetListener() {
+		datePickerFragment.setListener(new Date(), new DatePickerDialog.OnDateSetListener() {
 			@Override
 			public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-				to = convertDateToLong(year, month, day);
+				from = convertDateToLong(year, month, day, true);
 				updateViews();
 				restart();
 			}
 		});
 
-		datePickerFragment.show(getFragmentManager(), "date_picker");
+
+
+			datePickerFragment.show(getFragmentManager(), DATE_PICKER);
+	}
+
+	private void showTo() {
+		DatePickerFragment datePickerFragment = new DatePickerFragment();
+
+		datePickerFragment.setListener(new Date(), new DatePickerDialog.OnDateSetListener() {
+			@Override
+			public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+				to = convertDateToLong(year, month, day, false);
+				updateViews();
+				restart();
+			}
+		});
+		datePickerFragment.show(getFragmentManager(), DATE_PICKER);
 	}
 
 
-	private long convertDateToLong( int year, int month, int day) {
+	private long convertDateToLong( int year, int month, int day, boolean trunk) {
 		Calendar c = Calendar.getInstance();
 		c.set(Calendar.YEAR, year);
 		c.set(Calendar.MONTH, month);
 		c.set(Calendar.DAY_OF_MONTH, day);
+
+		if (trunk) {
+			CommonUtils.trunkDay(c);
+		} else {
+			c.set(Calendar.AM_PM, 1);
+			c.set(Calendar.HOUR, 11);
+			c.set(Calendar.MINUTE, 59);
+			c.set(Calendar.SECOND, 59);
+		}
+
 		return  c.getTime().getTime();
 	}
 }

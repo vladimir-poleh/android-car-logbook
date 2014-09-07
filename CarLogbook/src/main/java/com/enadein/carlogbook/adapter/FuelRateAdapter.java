@@ -19,14 +19,18 @@ package com.enadein.carlogbook.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.media.Image;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.bean.FuelRateBean;
+import com.enadein.carlogbook.bean.FuelRateViewBean;
+import com.enadein.carlogbook.db.CommonUtils;
 
 
 public class FuelRateAdapter extends CursorAdapter {
@@ -42,6 +46,7 @@ public class FuelRateAdapter extends CursorAdapter {
 
 		holder.nameView = (TextView) listItem.findViewById(R.id.name);
 		holder.valueView = (TextView) listItem.findViewById(R.id.value);
+		holder.logo = (ImageView) listItem.findViewById(R.id.logo);
 		listItem.setTag(holder);
 
 		return listItem;
@@ -49,17 +54,21 @@ public class FuelRateAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
-		FuelRateBean bean = new FuelRateBean();
+		FuelRateViewBean bean = new FuelRateViewBean();
 		bean.populate(cursor);
 
 		FuelRateHolder holder = (FuelRateHolder) view.getTag();
-		holder.nameView.setText(bean.getStationId() + "");
-		holder.valueView.setText(bean.getMinRate() +"/"+bean.getRate()+"/" + bean.getMaxRate());
+		holder.logo.setBackgroundResource(R.drawable.fuel);
+		holder.nameView.setText(bean.getStation() + "(" + bean.getFuelType() + ")");
+		holder.valueView.setText(CommonUtils.formatPrice(bean.getMinRate())
+				+"/"+CommonUtils.formatPrice(bean.getRate())+
+				"/" + CommonUtils.formatPrice(bean.getMaxRate()));
 	}
 
 	public static class FuelRateHolder {
 		public int id;
 		public TextView nameView;
 		public TextView valueView;
+		public ImageView  logo;
 	}
 }

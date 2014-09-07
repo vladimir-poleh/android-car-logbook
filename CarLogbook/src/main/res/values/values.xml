@@ -7,12 +7,12 @@
         <item>Last events</item>
     </string-array>
 	<string-array name="fuel_type_default">
-		<item>A-92</item>
-		<item>A-95</item>
-		<item>A-95+</item>
-		<item>A-98</item>
-		<item>A-76</item>
-		<item>A-80</item>
+		<item>85</item>
+		<item>87</item>
+		<item>89</item>
+		<item>95</item>
+		<item>98</item>
+		<item>91&#8211;93</item>
 	</string-array>
 	<string-array name="station_type_default">
 		<item>Default</item>

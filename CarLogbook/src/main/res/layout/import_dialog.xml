@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              style="@style/wide"
+              android:background="#FF444444"
+              android:padding="10dp">
+
+	<TextView
+		android:text="@string/confirm_import"
+		android:layout_margin="8dp"
+		android:textColor="#fff"
+		style="@style/wrap"/>
+	<LinearLayout
+		style="@style/wide"
+		android:orientation="horizontal"
+		android:gravity="center">
+		<Button
+			android:id="@+id/yes"
+			android:text="@string/yes"
+			style="@style/wrap"/>
+		<Button
+			android:id="@+id/no"
+			android:text="@string/no"
+			style="@style/wrap"/>
+
+	</LinearLayout>
+</LinearLayout>

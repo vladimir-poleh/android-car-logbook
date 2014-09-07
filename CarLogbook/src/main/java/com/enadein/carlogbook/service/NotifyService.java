@@ -20,10 +20,15 @@ package com.enadein.carlogbook.service;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 
+import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.db.CommonUtils;
+import com.enadein.carlogbook.db.DBUtils;
+import com.enadein.carlogbook.db.ProviderDescriptor;
 
 import java.util.Calendar;
 
@@ -37,19 +42,43 @@ public class NotifyService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		CommonUtils.createNotify(getBaseContext(), 6);
+		long time = System.currentTimeMillis();
+//		long time = System.currentTimeMillis() + DAY + DAY;
+
+		ContentResolver cr = getContentResolver();
+		long carId = DBUtils.getActiveCarId(cr);
+		String selection = DBUtils.CAR_SELECTION_NOTIFY + " and "
+				+ ProviderDescriptor.Notify.Cols.TYPE + " = ? and "
+				+ ProviderDescriptor.Notify.Cols.TRIGGER_VALUE + " <= ?";
+		Cursor c = cr.query(ProviderDescriptor.Notify.CONTENT_URI,
+				null, selection,
+				new String[] {String.valueOf(carId),
+						String.valueOf(ProviderDescriptor.Notify.Type.DATE),
+						String.valueOf(time)
+				}, null);
+
+		if (c == null) {
+			return;
+		}
+
+		while ( c.moveToNext()) {
+			long id = c.getLong(c.getColumnIndex(ProviderDescriptor.Notify.Cols._ID));
+			CommonUtils.createNotify(this, id, R.drawable.not_date);
+		}
+
+		c.close();
 	}
 
 	public static void createAlarm(Context ctx) {
 		AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
 
 		Calendar c = Calendar.getInstance();
-		c.set(Calendar.HOUR_OF_DAY, 14);
+		c.set(Calendar.HOUR_OF_DAY, 12);
 		c.set(Calendar.MINUTE, 0);
 		c.add(Calendar.DAY_OF_MONTH, 1);
 
-//		long when = c.getTimeInMillis();
-		long when = Calendar.getInstance().getTimeInMillis() + 5000;
+		long when = c.getTimeInMillis();
+//		long when = Calendar.getInstance().getTimeInMillis() + 5000;
 
 		PendingIntent pendingIntent = getPendingIntentForNotifyService(ctx);
 

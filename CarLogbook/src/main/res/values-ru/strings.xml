@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!--Common-->
+	<string name="app_ver">Версия: 1.1</string>
+	<string name="create">Создать</string>
+	<string name="save">Сохранить</string>
+	<string name="cancel">Отмена</string>
+	<string name="delete">Удалить</string>
+	<string name="confirm">Подтверждение</string>
+	<string name="confirm_delete">Вы уверены, что хотите удалить?</string>
+	<string name="yes">Да</string>
+	<string name="no">Нет</string>
+	<string name="ok">Ok</string>
+	<string name="date">Дата</string>
+	<string name="odometer_unit">Одометр</string>
+	<string name="comments">Комментарии</string>
+
+	<string name="deleteActive">Вы не можете удалять активный автомобиль!</string>
+
+    <!--Menu-->
+    <string name="app_name">Car Logbook</string>
+    <string name="menu_item_log">Журнал</string>
+    <string name="menu_item_reports">Отчеты</string>
+    <string name="menu_item_my_cars">Мои авто</string>
+    <string name="menu_item_notifications">Уведомления</string>
+    <string name="menu_item_settings">Настройки</string>
+    <string name="menu_item_about">О программе</string>
+
+    <!--Action Bar Menu-->
+    <string name="share">Поделиться</string>
+    <string name="share_title">CarLogbook</string>
+    <string name="add_car">Добавить авто</string>
+    <string name="add_fuel_log">Добавить заправку</string>
+    <string name="add_log">Добавить событие</string>
+    <string name="add_notify">Добавить уведомление</string>
+
+    <!--Add event log Activity-->
+    <string name="log_title">Добавить событие</string>
+    <string name="log_title_edit">Редактировать событие</string>
+    <string name="log_name">Имя</string>
+    <string name="erro_log_name">Неправильное имя</string>
+    <string name="error_date">Неправильная дата</string>
+    <string name="log_type">Тип</string>
+    <string name="log_price">Стоимость</string>
+    <string name="log_f">F: </string>
+    <string name="log_p">P: </string>
+
+
+	<string name="value_car_error">Пожалуйста, добавьте автомобиль!</string>
+
+    <!--Add fuel  event log Activity-->
+    <string name="log_fuel_title">Добавить заправку</string>
+    <string name="log_fuel_title_edit">Редактировать заправку</string>
+    <string name="log_fuel_odometer">Одометр</string>
+    <string name="log_fuel_price">Цена(1 ед.)</string>
+    <string name="log_fuel_volume">Кол-во бензина</string>
+	<string name="log_fuel_price_total">Общ. стоимость</string>
+	<string name="log_fuel_type">Тип</string>
+	<string name="log_fuel_gas_station">Заправка</string>
+
+	<string name="error_odometer">Неправильное значение одометра</string>
+	<string name="error_price">Неправильная цена</string>
+	<string name="error_cost">Неправильная стоимость</string>
+	<string name="error_fuel">Неправильное значение бензина</string>
+
+    <!--Add Notification Activity-->
+    <string name="notify_title">Добавить уведомление</string>
+    <string name="notify_title_edit">Добавить уведомление</string>
+    <string name="notify_type">Тип</string>
+
+	<!--Settings-->
+	<string name="sett_fuel_type">Тип бензина</string>
+	<string name="sett_stations">Заправки</string>
+	<string name="sett_stations_add_gas">Добавить заправку</string>
+	<string name="sett_stations_edit_gas">Редактировать заправку</string>
+
+	<string name="sett_stations_add_fuel">Добавить тип бензина</string>
+	<string name="sett_stations_edit_fuel">Редактировать тип бензина</string>
+
+    <!--Add Car Activity-->
+    <string name="add_car_title">Добавить авто</string>
+    <string name="edit_car_title">Редактировать авто</string>
+    <string name="car_name">Название</string>
+    <string name="car_name_error">Неправильное название</string>
+    <string name="select_car">Выбрать эту машину</string>
+
+
+	<!--Add Data Value Activity-->
+	<string name="value_fuel_title">Добавить тип бензина</string>
+	<string name="value_station_title">Добавить заправку</string>
+	<string name="value_name">Имя</string>
+	<string name="value_name_error">Неправильное имя</string>
+	<string name="value_sys_error">Вы не можете редактировать\n системное значение!</string>
+	<string name="value_used_error">Это значение исползуется!</string>
+
+	<!--Report-->
+	<string name="no_reports">Нет отчетов</string>
+
+	<string name="total_cost">Общая стоимость</string>
+	<string name="total_run">Пробег</string>
+	<string name="total_fuel">Общий объем топлива</string>
+
+	<string name="avg_fuel">Средний расход топл./100</string>
+	<string name="cost_per1">Стоимость/1</string>
+
+	<string name="total_fuel_cost">Бензин</string>
+	<string name="total_service_cost">Сервис\n(+Двиг./Транс. масло)</string>
+	<string name="total_service_part_cost">Детали</string>
+	<string name="total_parking_cost">Парковка</string>
+	<string name="total_other_cost">Другое</string>
+
+	<string name="cost_by_type">Общая цена по типу</string>
+	<string name="cost_by_last4">Общая стоим.(посл. 4 мес.)</string>
+	<string name="run_by_last4">Пробег(посл. 4 мес.)</string>
+
+	<string name="not_found">Не найдено</string>
+	<string name="not_set">Нет фильт.</string>
+	<!--About-->
+
+	<string name="share_text">Car Logbook - регистрация событий и получение статистики для авто https://play.google.com/store/apps/details?id=com.enadein.carlogbook</string>
+
+	<string name="author">Автор</string>
+	<string name="author_value">Eugene Nadein</string>
+	<string name="open_src">Это проект с открытым кодом</string>
+	<string name="open_src_val">Исходный код</string>
+	<string name="open_src_url">https://github.com/tx-drive/android-car-logbook</string>
+
+
+	<string name="feedback_lic">Лицензия (GNU GPL v3)</string>
+	<string name="feedback_lic_val">Прочитать лицензию</string>
+
+	<string name="feedback_rate">Оценить это приложение</string>
+
+	<string name="feedback_label">Обратная связь</string>
+	<string name="feedback_ask">Попросить о функции</string>
+	<string name="feedback_provide">Отзыв/вопрос/сообщить об ошибке</string>
+
+	<string name="libs_label">Open-Source Frameworks</string>
+	<string name="lib1_val">HoloGraphLibrary - a chart library for android </string>
+	<string name="lib1_val_url">https://bitbucket.org/danielnadeau/holographlibrary/wiki/Home</string>
+	<string name="email">eugene.nadein@gmail.com</string>
+	<string name="email_subject_ask">Feature(CarLogbook)</string>
+	<string name="email_subject_provide">Feedback(CarLogbook)</string>
+	<string name="license_title">Лицензия</string>
+
+	<string name="donate">Пожертвовать (помощь для проекта)</string>
+	<string name="thanks">Спасибо за помощь!</string>
+
+	<!--1.1-->
+	<!--Import/Export-->
+	<string name="menu_item_import_export">Импорт/Экспорт</string>
+	<string name="imp">Импорт</string>
+	<string name="export">Экспорт</string>
+	<string name="file_exists">Файл существует</string>
+	<string name="export_import_error">Ошибка!</string>
+	<string name="export_ok">Экспорт выполнен!</string>
+	<string name="import_delete">Очистить текущую базу данных</string>
+	<string name="no_data">Нет данных</string>
+	<string name="confirm_import">Вы действительно хотите импортировать?</string>
+	<string name="import_ok">Импорт выполнен!</string>
+	<string name="progress_title">Обработка</string>
+	<string name="progress_content">Обработка</string>
+	<string name="error_last_delete">Вы не можете удалить последнее значение!</string>
+
+	<string name="google_backup">Google Drive Копирование</string>
+	<string name="backup">Сохранить</string>
+	<string name="restore">Востановить</string>
+
+</resources>

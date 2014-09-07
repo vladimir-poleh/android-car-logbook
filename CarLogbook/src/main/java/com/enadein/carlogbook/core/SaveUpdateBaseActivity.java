@@ -23,7 +23,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 import com.enadein.carlogbook.R;
-import com.enadein.carlogbook.ui.ConfirmDeleteDialog;
+import com.enadein.carlogbook.ui.ConfirmDialog;
 
 abstract public class SaveUpdateBaseActivity extends BaseActivity {
 	public static final String ID_PARAM = "_id = ?";
@@ -118,7 +118,7 @@ abstract public class SaveUpdateBaseActivity extends BaseActivity {
 	}
 
 	public void onDialogEvent(int requestCode, int responseCode, Bundle params) {
-		if (ConfirmDeleteDialog.REQUEST_CODE_DELETE == requestCode) {
+		if (ConfirmDialog.REQUEST_CODE_CONFIRM == requestCode) {
 			deleteEntity();
 		}
 	}

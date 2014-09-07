@@ -133,8 +133,7 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 				if (fuelTotal > 0.) {
 					ReportItem reportItem = new ReportItem();
 					reportItem.setName(getContext().getString(R.string.total_fuel_cost));
-					//todo
-					reportItem.setResId(R.drawable.ic_launcher);
+					reportItem.setResId(R.drawable.fuel);
 					reportItem.setValue(fuelTotal);
 
 					reportItems.add(reportItem);
@@ -147,8 +146,7 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 					if (total > 0) {
 						ReportItem reportItem = new ReportItem();
 						reportItem.setName(logTypes[i]);
-						//todo
-						reportItem.setResId(R.drawable.ic_launcher);
+						reportItem.setResId(DataInfo.images.get(i));
 						reportItem.setValue(total);
 
 						reportItems.add(reportItem);
@@ -179,8 +177,7 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 				if (date > 0) {
 					ReportItem reportItem = new ReportItem();
 					reportItem.setName(getContext().getString(R.string.total_fuel_cost));
-					//todo
-					reportItem.setResId(R.drawable.ic_launcher);
+					reportItem.setResId(R.drawable.fuel);
 					reportItem.setValue2(date);
 
 					reportItems.add(reportItem);
@@ -192,8 +189,7 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 					if (date > 0) {
 						ReportItem reportItem = new ReportItem();
 						reportItem.setName(logTypes[i]);
-						//todo
-						reportItem.setResId(R.drawable.ic_launcher);
+						reportItem.setResId(DataInfo.images.get(i));
 						reportItem.setValue2(date);
 
 						reportItems.add(reportItem);
@@ -223,7 +219,7 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 		ReportItem item = new ReportItem();
 		item.setName(getContext().getString(R.string.not_found));
 		item.setValue(0);
-		item.setResId(R.drawable.alogo);
+		item.setResId(R.drawable.clean);
 		reportItems.add(item);
 	}
 

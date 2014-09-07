@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.enadein.carlogbook.R;
+import com.enadein.carlogbook.bean.DataInfo;
 import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
@@ -128,7 +129,7 @@ public class LogAdapter extends CursorAdapter {
 			logFuelHolder.fuelValueView.setText(CommonUtils.formatPrice(fuelValue));
 			logFuelHolder.priceTotal.setText( CommonUtils.formatPrice(priceTotalDouble));
 			logFuelHolder.fuelView.setText(fuelName + "(" + stationName + ")");
-			logFuelHolder.imgType.setBackgroundResource(R.drawable.ic_launcher);
+			logFuelHolder.imgType.setBackgroundResource(R.drawable.fuel);
 			logFuelHolder.id = id;
 		} else {
 			int nameIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.NAME);
@@ -140,7 +141,7 @@ public class LogAdapter extends CursorAdapter {
 			LogHolder logHolder = (LogHolder) view.getTag();
 			logHolder.dateView.setText(date);
 			logHolder.odometerView.setText(String.valueOf(odometer));
-			logHolder.imgType.setBackgroundResource(R.drawable.logo);
+			logHolder.imgType.setBackgroundResource(DataInfo.images.get(typeId));
 			logHolder.priceTotal.setText( CommonUtils.formatPrice(price));
 			logHolder.nameView.setText( name);
 			logHolder.typeView.setText(types[typeId]);

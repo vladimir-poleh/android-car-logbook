@@ -33,6 +33,7 @@ import com.enadein.carlogbook.core.SaveUpdateBaseActivity;
 import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
+import com.enadein.carlogbook.service.NotifyService;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -53,7 +54,8 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 	}
 
 	public void showDatePickerDialog(View v) {
-		DatePickerFragment datePickerFragment = new DatePickerFragment(date, this);
+		DatePickerFragment datePickerFragment = new DatePickerFragment();
+		datePickerFragment.setListener(date, this);
 
 		datePickerFragment.show(getSupportFragmentManager(), "date_picker");
 	}
@@ -81,6 +83,7 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 	@Override
 	protected void deleteEntity() {
 		getContentResolver().delete(ProviderDescriptor.Notify.CONTENT_URI, ID_PARAM, new String[] {String.valueOf(id)});
+		CommonUtils.validateDateNotifications(AddUpdateNotificationActivity.this);
 		NavUtils.navigateUpFromSameTask(this);
 	}
 
@@ -199,8 +202,11 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 			if (mode == PARAM_EDIT) {
 				getContentResolver().update(ProviderDescriptor.Notify.CONTENT_URI, cv, ID_PARAM , new String[] {String.valueOf(id)});
 			} else {
+				cv.put(ProviderDescriptor.Notify.Cols.CREATE_DATE, new Date().getTime());
 				getContentResolver().insert(ProviderDescriptor.Notify.CONTENT_URI, cv);
 			}
+
+			CommonUtils.validateDateNotifications(AddUpdateNotificationActivity.this);
 		}
 
 	}

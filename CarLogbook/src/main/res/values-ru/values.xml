@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="action_list">
+        <item>Статиситка</item>
+        <item>По типу</item>
+        <item>Расход топл.</item>
+        <item>Дата событ.</item>
+    </string-array>
+	<string-array name="fuel_type_default">
+		<item>A-95</item>
+		<item>A-95+</item>
+		<item>A-76</item>
+		<item>A-80</item>
+		<item>A-92</item>
+		<item>A-98</item>
+	</string-array>
+	<string-array name="station_type_default">
+		<item>По умолч.</item>
+	</string-array>
+	<string-array name="log_type">
+		<item>Другое</item> <!--0-->
+		<item>Автомойка</item><!--1-->
+		<item>Парковка</item><!--2-->
+		<item>Штраф</item><!--3-->
+		<item>Тюнинг</item><!--4-->
+		<item>Сервис</item><!--5-->
+		<item>Масло двиг.</item><!--6-->
+		<item>Масло трансм.</item><!--7-->
+		<item>Деталь</item><!--8-->
+		<item>Страховка</item><!--9-->
+		<item>Кредит</item><!--10-->
+	</string-array>
+
+	<string-array name="notify_types">
+		<item>По одометру</item>
+		<item>По дате</item>
+	</string-array>
+</resources>

@@ -60,10 +60,10 @@ public class NotificationAdapter extends CursorAdapter {
 
 		nameView.setText(name);
 		if (type == ProviderDescriptor.Notify.Type.DATE) {
-			imageView.setImageResource(R.drawable.abc_ic_go);
+			imageView.setImageResource(R.drawable.date);
 			trigerView.setText(CommonUtils.formatDate(new Date(trigerValue)));
 		} else {
-			imageView.setImageResource(R.drawable.abc_ic_voice_search);
+			imageView.setImageResource(R.drawable.odometer);
 			trigerView.setText(String.valueOf(trigerValue));
 		}
 	}

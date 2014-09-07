@@ -18,6 +18,7 @@
 
 			<ImageButton
 				android:id="@+id/dateFrom"
+				android:background="@drawable/date"
 				style="@style/wrap"/>
 
 			<TextView
@@ -33,12 +34,14 @@
 
 			<ImageButton
 				android:id="@+id/dateTo"
+				android:background="@drawable/date"
 				style="@style/wrap"/>
 
 		</LinearLayout>
 
 		<ImageButton
 			android:id="@+id/clear"
+			android:background="@drawable/clean"
 			style="@style/wrap"/>
 	</LinearLayout>
 
