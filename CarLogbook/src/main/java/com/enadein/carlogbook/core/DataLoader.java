@@ -51,15 +51,18 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 	private DataInfo data;
 	private int type;
 	private Bundle params = null;
+	private UnitFacade unitFacade;
 
-	public DataLoader(Context context, int type, Bundle params) {
-		this(context, type);
+	public DataLoader(Context context, int type, Bundle params, UnitFacade unitFacade) {
+		this(context, type, unitFacade);
 		this.params = params;
+
 	}
 
-	public DataLoader(Context context, int type) {
+	public DataLoader(Context context, int type, UnitFacade unitFacade) {
 		super(context);
 		this.type = type;
+		this.unitFacade = unitFacade;
 	}
 
 	@Override
@@ -74,7 +77,7 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 				dashboard.setTotalPrice(DBUtils.getTotalPrice(cr));
 				dashboard.setTotalFuelCount(DBUtils.getTotalFuel(cr, 0, 0, false));
 				dashboard.setPricePer1(DBUtils.getPricePer1km(cr, 0, 0));
-				dashboard.setFuelRateAvg(DBUtils.getAvgFuel(cr, 0, 0));
+				dashboard.setFuelRateAvg(DBUtils.getAvgFuel(cr, 0, 0, unitFacade));
 
 				dashboard.setTotalFuelPrice(DBUtils.getTotalPrice(cr, 0, 0,
 						ProviderDescriptor.Log.Type.FUEL));

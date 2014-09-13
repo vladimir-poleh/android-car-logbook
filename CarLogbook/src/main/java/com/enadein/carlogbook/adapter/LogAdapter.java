@@ -23,11 +23,14 @@ import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.bean.DataInfo;
+import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
@@ -35,10 +38,13 @@ import java.util.Date;
 
 public class LogAdapter extends CursorAdapter {
 	private String[] types;
+	private UnitFacade unitFacade;
+	private int mlastPos = 1;
 
-	public LogAdapter(Context context, Cursor c) {
+	public LogAdapter(Context context, Cursor c, UnitFacade unitFacade) {
 		super(context, c, FLAG_REGISTER_CONTENT_OBSERVER);
 		types = context.getResources().getStringArray(R.array.log_type);
+		this.unitFacade = unitFacade;
 	}
 
 	@Override
@@ -125,9 +131,12 @@ public class LogAdapter extends CursorAdapter {
 
 
 			logFuelHolder.odometerView.setText(String.valueOf(odometer));
+			unitFacade.appendDistUnit(logFuelHolder.odometerView, false);
 			logFuelHolder.dateView.setText(date);
 			logFuelHolder.fuelValueView.setText(CommonUtils.formatPrice(fuelValue));
+			unitFacade.appendFuelUnit(logFuelHolder.fuelValueView, false);
 			logFuelHolder.priceTotal.setText( CommonUtils.formatPrice(priceTotalDouble));
+			unitFacade.appendCurrency(logFuelHolder.priceTotal,false);
 			logFuelHolder.fuelView.setText(fuelName + "(" + stationName + ")");
 			logFuelHolder.imgType.setBackgroundResource(R.drawable.fuel);
 			logFuelHolder.id = id;
@@ -141,13 +150,19 @@ public class LogAdapter extends CursorAdapter {
 			LogHolder logHolder = (LogHolder) view.getTag();
 			logHolder.dateView.setText(date);
 			logHolder.odometerView.setText(String.valueOf(odometer));
+			unitFacade.appendDistUnit(logHolder.odometerView, false);
 			logHolder.imgType.setBackgroundResource(DataInfo.images.get(typeId));
 			logHolder.priceTotal.setText( CommonUtils.formatPrice(price));
+			unitFacade.appendCurrency(logHolder.priceTotal,false);
 			logHolder.nameView.setText( name);
 			logHolder.typeView.setText(types[typeId]);
 
 			logHolder.id = id;
 		}
+
+		int pos = cursor.getPosition();
+		CommonUtils.runAnimation(mlastPos, pos, view, UnitFacade.animSize);
+		mlastPos = pos;
 	}
 
 	public static class LogFuelHolder {

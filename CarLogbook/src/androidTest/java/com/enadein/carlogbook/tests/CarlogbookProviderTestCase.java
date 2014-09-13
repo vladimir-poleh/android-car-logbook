@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.test.ProviderTestCase2;
 
+import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CarLogbookProvider;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
@@ -92,7 +93,9 @@ public class CarlogbookProviderTestCase extends ProviderTestCase2<CarLogbookProv
 		addTestDefaultCar(CAR, 1);
 		addOtherLog(100, new Date().getTime(), 10., 1);
 		setupFuelLogBasic(DAY);
-		double avg = DBUtils.getAvgFuel(cr, 0, 0);
+        UnitFacade unitFacade = new UnitFacade(getContext());
+        unitFacade.setConsumptionValue(0);
+		double avg = DBUtils.getAvgFuel(cr, 0, 0, unitFacade);
 
 		double expected = (52. / 510) * 100;
 		Assert.assertEquals(expected, avg);
@@ -320,4 +323,11 @@ public class CarlogbookProviderTestCase extends ProviderTestCase2<CarLogbookProv
 		cv.put(ProviderDescriptor.Car.Cols.ACTIVE_FLAG, 1);
 		cr.update(ProviderDescriptor.Car.CONTENT_URI, cv, ProviderDescriptor.Car.Cols.NAME + " = ?",  new String[] {name});
 	}
+
+    //////////////////////////////////////////////////////
+    ////REPORT TEST
+
+    public void testReportCalculateTest() {
+
+    }
 }

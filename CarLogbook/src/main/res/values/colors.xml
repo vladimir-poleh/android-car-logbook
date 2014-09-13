@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<color name="selector_menu">#ffd060</color>
+	<color name="menu_header">#ff444444</color>
 	<color name="confirm_delete">#55000000</color>
 	<color name="confirm_delete_primary_color">#fff</color>
 	<color name="action_bar">#f3822c</color>
 	<color name="noShadow">#00000000</color>
 	<color name="drawer_color">#ff555555</color>
 	<color name="drawer_text">#ffffffff</color>
+	<color name="gal">#ff007ea7</color>
+	<color name="divider">#FF50CDF5</color>
+	<color name="price">#ffa70000</color>
 </resources>

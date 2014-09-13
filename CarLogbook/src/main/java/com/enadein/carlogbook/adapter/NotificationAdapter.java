@@ -27,12 +27,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.enadein.carlogbook.R;
+import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
 import java.util.Date;
 
 public class NotificationAdapter extends CursorAdapter {
+	private int mlastPos = 1;
+
 	public NotificationAdapter(Context context, Cursor c) {
 		super(context, c, FLAG_REGISTER_CONTENT_OBSERVER);
 	}
@@ -66,6 +69,10 @@ public class NotificationAdapter extends CursorAdapter {
 			imageView.setImageResource(R.drawable.odometer);
 			trigerView.setText(String.valueOf(trigerValue));
 		}
+
+		int pos = cursor.getPosition();
+		CommonUtils.runAnimation(mlastPos, pos, view, UnitFacade.animSize);
+		mlastPos = pos;
 	}
 
 }

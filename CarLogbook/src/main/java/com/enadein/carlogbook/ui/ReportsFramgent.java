@@ -35,6 +35,7 @@ import com.enadein.carlogbook.bean.Dashboard;
 import com.enadein.carlogbook.bean.DataInfo;
 import com.enadein.carlogbook.core.BaseFragment;
 import com.enadein.carlogbook.core.DataLoader;
+import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 
 import java.util.ArrayList;
@@ -55,6 +56,9 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
 	private TextView totalPartsView;
 	private TextView totalParkingView;
 	private TextView totalOtherView;
+
+	private TextView per1View;
+	private TextView avgLabelView;
 
 
 	@Override
@@ -79,11 +83,19 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
 		totalPartsView = (TextView) view.findViewById(R.id.total_service_part_cost);
 		totalParkingView = (TextView) view.findViewById(R.id.total_parking_cost);
 		totalOtherView = (TextView) view.findViewById(R.id.total_other_cost);
+		per1View = (TextView) view.findViewById(R.id.label_per1);
+		avgLabelView = (TextView) view.findViewById(R.id.label_avg);
 
 		pieGraph = (PieGraph) view.findViewById(R.id.graph);
 
 		costMonth = (BarGraph)view.findViewById(R.id.cost_month);
 		runMonth = (BarGraph)view.findViewById(R.id.run_month);
+
+
+        UnitFacade unitFacade = getMediator().getUnitFacade();
+
+        unitFacade.appendConsumUnit(avgLabelView,true);
+        unitFacade.appendDistUnit(per1View,true);
 
 //		addSlice(0.01f, 0xFFEEEEEE);
 //		addSlice(0.01f, 0xFFEEEEEE);
@@ -100,27 +112,31 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
 
 	@Override
 	public android.support.v4.content.Loader<DataInfo> onCreateLoader(int id, Bundle args) {
-		return new DataLoader(getActivity(), DataLoader.DASHBOARD);
+		return new DataLoader(getActivity(), DataLoader.DASHBOARD, getMediator().getUnitFacade());
 	}
 
 	@Override
 	public void onLoadFinished(android.support.v4.content.Loader<DataInfo> loader, DataInfo data) {
 		Dashboard b = data.getDashboard();
 
-		totalRun.setText(CommonUtils.formatPrice(b.getTotalOdometerCount()));
-		totalCost.setText(CommonUtils.formatPrice(b.getTotalPrice()));
-		totalFuelValume.setText(CommonUtils.formatPrice(b.getTotalFuelCount()));
-		cost1.setText(CommonUtils.formatPrice(b.getPricePer1()));
-		fuelAvg.setText(CommonUtils.formatPrice(b.getFuelRateAvg()));
+		UnitFacade unitFacade = getMediator().getUnitFacade();
 
+//		unitFacade.appendConsumUnit(avgLabelView,true);
+//		unitFacade.appendDistUnit(per1View,true);
+
+		totalRun.setText(unitFacade.appendDistUnit(false,CommonUtils.formatPrice(b.getTotalOdometerCount())));
+		totalCost.setText(unitFacade.appendCurrency(false, CommonUtils.formatPrice(b.getTotalPrice())));
+		cost1.setText(unitFacade.appendCurrency(false,CommonUtils.formatPrice(b.getPricePer1())));
+		fuelAvg.setText(CommonUtils.formatPrice(b.getFuelRateAvg()));
+		unitFacade.appendConsumValue(fuelAvg, false);
+		totalFuelValume.setText(unitFacade.appendFuelUnit(false, CommonUtils.formatPrice(b.getTotalFuelCount())));
 
 //		pieGraph.setDuration(2000);
 //		pieGraph.setInterpolator(new AccelerateDecelerateInterpolator());
 //		pieGraph.animateToGoalValues();
-
 		float totalFuelPrice = Math.round(b.getTotalFuelPrice());
 		addSlice(totalFuelPrice, DataInfo.COLOR_FUEL);
-		totalFuelView.setText(CommonUtils.formatPrice(totalFuelPrice));
+		totalFuelView.setText(unitFacade.appendCurrency(false,CommonUtils.formatPrice(totalFuelPrice)));
 
 		if (totalFuelPrice > 0) {
 			float vl = (float)(totalFuelPrice * 0.01) / 100;
@@ -134,18 +150,18 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
 
 		float totalServicePrice = Math.round(b.getTotalServicePrice());
 		addSlice(totalServicePrice, DataInfo.COLOR_SERVICE);
-		totalServiceView.setText(CommonUtils.formatPrice(totalServicePrice));
+		totalServiceView.setText(unitFacade.appendCurrency(false,CommonUtils.formatPrice(totalServicePrice)));
 
 		float totalPartsPrice = Math.round(b.getTotalPartsPrice());
 		addSlice(totalPartsPrice, DataInfo.COLOR_PARTS);
-		totalPartsView.setText(CommonUtils.formatPrice(totalPartsPrice));
+		totalPartsView.setText(unitFacade.appendCurrency(false,CommonUtils.formatPrice(totalPartsPrice)));
 
 		float totalParkingPrice = Math.round(b.getTotalParkingPrice());
-		totalParkingView.setText(CommonUtils.formatPrice(totalParkingPrice));
+		totalParkingView.setText(unitFacade.appendCurrency(false,CommonUtils.formatPrice(totalParkingPrice)));
 		addSlice(totalParkingPrice, DataInfo.COLOR_PARKING);
 
 		float totalOtherPrice = Math.round(b.getTotalOtherPrice());
-		totalOtherView.setText(CommonUtils.formatPrice(totalOtherPrice));
+		totalOtherView.setText(unitFacade.appendCurrency(false,CommonUtils.formatPrice(totalOtherPrice)));
 		addSlice(totalOtherPrice, DataInfo.COLOR_OTHERS);
 
 		ArrayList<Bar> points = new ArrayList<Bar>();
@@ -154,10 +170,10 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
 			Bar d = new Bar();
 			d.setName(bi.getName());
 			d.setValue(bi.getValue());
+			d.setValueString(unitFacade.appendCurrency(false, "" + CommonUtils.formatPrice(bi.getValue())));
 			points.add(d);
 		}
 		costMonth.setBars(points);
-
 		points = new ArrayList<Bar>();
 
 		for (BarInfo bi : b.getRunLast4Months()) {
@@ -165,6 +181,7 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
 			d.setName(bi.getName());
 			d.setColor(DataInfo.COLOR_SERVICE);
 			d.setValue(bi.getValue());
+			d.setValueString(unitFacade.appendDistUnit(false, CommonUtils.formatPrice(bi.getValue())));
 			points.add(d);
 		}
 		runMonth.setBars(points);

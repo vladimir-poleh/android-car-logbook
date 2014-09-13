@@ -18,11 +18,29 @@
 package com.enadein.carlogbook.adapter;
 
 public class MenuItem {
-	public final int logoResId;
-	public final String name;
+    public static final int TYPE_ITEM = 0;
+    public static final int HEADER = 1;
 
-	public MenuItem(int logoResId, String name) {
-		this.logoResId = logoResId;
-		this.name = name;
-	}
+	public  int logoResId;
+	public  String name;
+	public int type = TYPE_ITEM;
+
+    public MenuItem(int logoResId, String name) {
+        this.logoResId = logoResId;
+        this.name = name;
+    }
+
+
+    public MenuItem(int logoResId, String name, int type) {
+        this(logoResId, name);
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

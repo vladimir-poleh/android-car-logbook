@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              style="@style/wide"
-              android:background="#FF444444"
-              android:padding="10dp">
+    style="@style/wide"
+    android:background="#ffffffff"
+    android:orientation="vertical">
 
-	<TextView
-		android:text="@string/confirm_import"
-		android:layout_margin="8dp"
-		android:textColor="#fff"
-		style="@style/wrap"/>
-	<LinearLayout
-		style="@style/wide"
-		android:orientation="horizontal"
-		android:gravity="center">
-		<Button
-			android:id="@+id/yes"
-			android:text="@string/yes"
-			style="@style/wrap"/>
-		<Button
-			android:id="@+id/no"
-			android:text="@string/no"
-			style="@style/wrap"/>
+    <TextView
+        style="@style/wrap"
+        android:layout_margin="16dp"
+        android:text="@string/confirm_import"
+        android:textColor="#555" />
 
-	</LinearLayout>
+    <View
+        style="@style/wide"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
+    <LinearLayout
+        style="@style/wide"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/yes"
+            style="@style/wrap"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/list_selector"
+            android:text="@string/yes" />
+
+        <Button
+            android:id="@+id/no"
+            style="@style/wrap"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/list_selector"
+            android:text="@string/no" />
+    </LinearLayout>
 </LinearLayout>

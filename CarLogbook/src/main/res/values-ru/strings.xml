@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!--Common-->
-	<string name="app_ver">Версия: 1.1</string>
+	<string name="app_ver">Версия: 1.3</string>
 	<string name="create">Создать</string>
 	<string name="save">Сохранить</string>
 	<string name="cancel">Отмена</string>
@@ -100,7 +100,7 @@
 	<string name="total_run">Пробег</string>
 	<string name="total_fuel">Общий объем топлива</string>
 
-	<string name="avg_fuel">Средний расход топл./100</string>
+	<string name="avg_fuel">Сред. расход</string>
 	<string name="cost_per1">Стоимость/1</string>
 
 	<string name="total_fuel_cost">Бензин</string>
@@ -166,4 +166,20 @@
 	<string name="backup">Сохранить</string>
 	<string name="restore">Востановить</string>
 
+	<string name="unit_title">Единицы изм.</string>
+	<string name="unit_distance">Расстояние</string>
+	<string name="unit_fuel">Топливо</string>
+	<string name="unit_consumption">Расход</string>
+	<string name="unit_currency">Валюта</string>
+	<string name="na">N/A</string>
+	<string name="date_format">Формат даты</string>
+	<string name="other_unit">Топливо, расстояние, расход, валюта могут быть изменен на экране редактирования авто (для каждого авто).</string>
+
+    <!--1.3-->
+    <string name="device">Устройство</string>
+    <string name="cloud">Облако</string>
+    <string name="files">файлы</string>
+    <string name="others">Другое</string>
+    <string name="anim">Включить анимацию списоков</string>
+    <string name="no_car">Нет автомобилей</string>
 </resources>

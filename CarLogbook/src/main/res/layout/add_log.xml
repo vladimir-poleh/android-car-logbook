@@ -5,94 +5,104 @@
 
 	<LinearLayout style="@style/add_entity_main">
 
-		<LinearLayout style="@style/add_entity_group">
+		<LinearLayout
+			style="@style/new_group">
+
+			<LinearLayout style="@style/add_entity_group">
+
+				<TextView
+					style="@style/add_entity_label"
+					android:text="@string/date"/>
+
+				<TextView
+					android:id="@+id/date"
+					style="@style/wrap"/>
+
+				<ImageButton
+					style="@style/add_entity_date"
+					android:onClick="showDatePickerDialog"/>
+			</LinearLayout>
+
+
+			<LinearLayout style="@style/add_entity_group">
+
+				<TextView
+					style="@style/add_entity_label"
+					android:text="@string/log_type"/>
+
+				<Spinner
+					android:id="@+id/typeSpinner"
+					style="@style/add_entity_spinner"
+					android:entries="@array/log_type"/>
+			</LinearLayout>
 
 			<TextView
-				style="@style/add_entity_label"
-				android:text="@string/date"/>
+				android:id="@+id/errorOdometer"
+				style="@style/add_entity_error"
+				android:text="@string/error_odometer"/>
+
+			<LinearLayout style="@style/add_entity_group">
+
+				<TextView
+					android:id="@+id/label_odometer"
+					style="@style/add_entity_label"
+					android:text="@string/log_fuel_odometer"/>
+
+				<EditText
+					android:id="@+id/odometer"
+					style="@style/add_entity_edit"
+					android:inputType="number"
+					android:maxLength="6"/>
+			</LinearLayout>
 
 			<TextView
-				android:id="@+id/date"
-				style="@style/wrap"/>
+				android:id="@+id/errorName"
+				style="@style/add_entity_error"
+				android:text="@string/erro_log_name"/>
 
-			<ImageButton
-				style="@style/add_entity_date"
-				android:onClick="showDatePickerDialog"/>
-		</LinearLayout>
+			<LinearLayout style="@style/add_entity_group">
 
+				<TextView
+					style="@style/add_entity_label"
+					android:text="@string/log_name"/>
 
-		<LinearLayout style="@style/add_entity_group">
+				<EditText
+					android:id="@+id/name"
+					style="@style/add_entity_edit"
+					android:maxLength="50"/>
+			</LinearLayout>
+
 
 			<TextView
-				style="@style/add_entity_label"
-				android:text="@string/log_type"/>
+				android:id="@+id/errorPrice"
+				style="@style/add_entity_error"
+				android:text="@string/error_cost"/>
 
-			<Spinner
-				android:id="@+id/typeSpinner"
-				android:entries="@array/log_type"
-				style="@style/add_entity_spinner"/>
+			<LinearLayout style="@style/add_entity_group">
+
+				<TextView
+					android:id="@+id/label_price"
+					style="@style/add_entity_label"
+					android:text="@string/log_price"/>
+
+				<EditText
+					android:id="@+id/price"
+					style="@style/add_entity_edit"
+					android:inputType="numberDecimal"/>
+			</LinearLayout>
 		</LinearLayout>
 
 		<TextView
-			android:id="@+id/errorOdometer"
-			style="@style/add_entity_error"
-			android:text="@string/error_odometer"/>
-
-		<LinearLayout style="@style/add_entity_group">
-
-			<TextView
-				style="@style/add_entity_label"
-
-				android:text="@string/log_fuel_odometer"/>
-
-			<EditText
-				android:id="@+id/odometer"
-				android:maxLength="6"
-				style="@style/add_entity_edit"
-				android:inputType="number"/>
-		</LinearLayout>
-
-		<TextView
-			android:id="@+id/errorName"
-			style="@style/add_entity_error"
-			android:text="@string/erro_log_name"/>
-
-		<LinearLayout style="@style/add_entity_group">
-
-			<TextView
-				style="@style/add_entity_label"
-				android:text="@string/log_name"/>
-
-			<EditText
-				android:id="@+id/name"
-				android:maxLength="50"
-				style="@style/add_entity_edit"/>
-		</LinearLayout>
-
-
-		<TextView
-			android:id="@+id/errorPrice"
-			style="@style/add_entity_error"
-			android:text="@string/error_cost"/>
-
-		<LinearLayout style="@style/add_entity_group">
-
-			<TextView
-				style="@style/add_entity_label"
-				android:text="@string/log_price"/>
-
-			<EditText
-				android:id="@+id/price"
-				style="@style/add_entity_edit"
-				android:inputType="numberDecimal"/>
-		</LinearLayout>
-
-		<TextView style="@style/wide"
+			style="@style/new_title"
 			android:text="@string/comments"/>
 
-		<EditText
-			android:id="@+id/comment"
-			android:maxLength="250"
-			style="@style/comment"/>
+		<LinearLayout
+			style="@style/new_group">
+
+			<EditText
+				android:id="@+id/comment"
+				style="@style/comment"
+				android:maxLength="250"/>
+		</LinearLayout>
 	</LinearLayout>
 </ScrollView>

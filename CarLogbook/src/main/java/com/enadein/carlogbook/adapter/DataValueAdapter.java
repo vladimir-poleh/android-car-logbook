@@ -26,9 +26,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.enadein.carlogbook.R;
+import com.enadein.carlogbook.core.UnitFacade;
+import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
 public class DataValueAdapter extends CursorAdapter {
+	private int mlastPos = 1;
+
 	public DataValueAdapter(Context context, Cursor c) {
 		super(context, c, FLAG_REGISTER_CONTENT_OBSERVER);
 	}
@@ -57,6 +61,10 @@ public class DataValueAdapter extends CursorAdapter {
 
 		setsHolder.nameView.setText(name);
 		setsHolder.id = id;
+
+		int pos = cursor.getPosition();
+		CommonUtils.runAnimation(mlastPos, pos, view, UnitFacade.animSize);
+		mlastPos = pos;
 	}
 
 	public static class DataValueHolder {

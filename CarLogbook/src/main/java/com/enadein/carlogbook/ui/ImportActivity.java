@@ -34,6 +34,7 @@ import com.enadein.carlogbook.core.BaseActivity;
 import com.enadein.carlogbook.core.backup.ExportImportLoader;
 import com.enadein.carlogbook.core.backup.FileUtils;
 import com.enadein.carlogbook.core.backup.ImportExportResult;
+import com.enadein.carlogbook.db.DBUtils;
 
 import java.io.File;
 
@@ -108,6 +109,7 @@ public class ImportActivity extends BaseActivity implements LoaderManager.Loader
 
 	@Override
 	public void onLoadFinished(Loader<ImportExportResult> loader, ImportExportResult data) {
+		getMediator().getUnitFacade().reload(DBUtils.getActiveCarId(getContentResolver()));
 		if (data.isDone()) {
 			new android.os.Handler().post(new Runnable() {
 				@Override

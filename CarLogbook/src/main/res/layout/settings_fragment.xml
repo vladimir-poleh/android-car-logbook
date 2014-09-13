@@ -1,22 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<ScrollView
+	style="@style/add_entity_scroll"
+	xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<Button
-		android:id="@+id/data_fuel_type"
-		android:text="@string/sett_fuel_type"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		/>
+	<LinearLayout
+		style="@style/add_entity_main">
 
-	<Button
-		android:id="@+id/data_stations"
-		android:text="@string/sett_stations"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		/>
+		<LinearLayout
+			style="@style/new_group">
 
-</LinearLayout>
+			<Button
+				android:id="@+id/data_fuel_type"
+				android:layout_width="match_parent"
+				style="@style/btn"
+				android:text="@string/sett_fuel_type"
+				/>
+
+			<Button
+				android:id="@+id/data_stations"
+				android:layout_width="match_parent"
+                style="@style/btn"
+				android:text="@string/sett_stations"
+				/>
+
+		</LinearLayout>
+
+		<TextView
+			style="@style/new_title"
+			android:text="@string/unit_title"/>
+
+		<!--GROUP-->
+		<LinearLayout
+			style="@style/new_group">
+
+			<LinearLayout style="@style/add_entity_group">
+
+				<TextView
+					style="@style/add_entity_label"
+					android:minWidth="95dp"
+					android:text="@string/date_format"/>
+
+				<Spinner
+					android:id="@+id/dateFormatSpinner"
+					style="@style/add_entity_spinner"
+					android:entries="@array/date_format"/>
+
+			</LinearLayout>
+
+
+			<LinearLayout
+				style="@style/add_entity_group"
+				android:orientation="vertical">
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="1dp"
+					android:layout_marginBottom="9dp"
+					android:layout_marginTop="9dp"
+					android:background="#ffeeeeee"/>
+
+				<TextView
+					style="@style/add_entity_label"
+					android:minWidth="95dp"
+					android:text="@string/other_unit"/>
+			</LinearLayout>
+		</LinearLayout>
+
+		<TextView
+			style="@style/new_title"
+			android:text="@string/others"/>
+
+		<LinearLayout
+			style="@style/new_group">
+
+			<LinearLayout style="@style/add_entity_group">
+				<CheckBox android:id="@+id/animationEnable" style="@style/wrap" android:text="@string/anim"/>
+			</LinearLayout>
+		</LinearLayout>
+
+	</LinearLayout>
+</ScrollView>

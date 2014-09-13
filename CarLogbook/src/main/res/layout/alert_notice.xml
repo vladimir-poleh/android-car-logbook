@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              style="@style/wide"
-              android:background="#FF444444"
-              android:padding="10dp">
+    style="@style/wide"
+    android:background="#ffffffff"
+    android:orientation="vertical">
 
-	<TextView
-		android:id="@+id/text"
-		style="@style/wrap"
-		android:textColor="#fff"
-		android:layout_margin="8dp"/>
+    <TextView
+        android:id="@+id/text"
+        style="@style/wrap"
+        android:layout_margin="16dp"
+        android:textColor="#555" />
 
-	<LinearLayout style="@style/wide"
-		android:orientation="horizontal"
-		android:gravity="center">
-		<Button
-			android:id="@+id/ok"
-			android:text="@string/ok"
-			style="@style/wrap"/>
-	</LinearLayout>
+    <View
+        style="@style/wide"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
+    <Button
+        android:id="@+id/ok"
+        style="@style/wide"
+        android:layout_height="50dp"
+        android:background="@drawable/list_selector"
+        android:text="@string/ok" />
 </LinearLayout>

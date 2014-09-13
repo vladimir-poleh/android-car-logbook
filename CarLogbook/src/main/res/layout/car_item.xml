@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/item_name_image">
+<LinearLayout
+	style="@style/item_name_image"
+	xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<TextView android:id="@+id/carItem"
-		style="@style/wrap"
-		android:layout_weight="1"/>
+	<LinearLayout
+		style="@style/new_group_item">
 
-	<ImageView android:id="@+id/activeItem"
-	           style="@style/logo"
-	           android:background="@drawable/active"/>
+		<LinearLayout
+			style="@style/wide"
+			android:gravity="center_vertical"
+			android:orientation="horizontal"
+			android:padding="8dp">
 
+			<TextView
+				android:id="@+id/carItem"
+				style="@style/wrap"
+				android:layout_weight="1"/>
 
+			<ImageView
+				android:id="@+id/activeItem"
+				style="@style/logo"
+				android:background="@drawable/active"/>
+
+		</LinearLayout>
+	</LinearLayout>
 </LinearLayout>

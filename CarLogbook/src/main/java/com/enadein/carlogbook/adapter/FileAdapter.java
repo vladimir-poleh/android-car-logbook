@@ -25,10 +25,14 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.enadein.carlogbook.R;
+import com.enadein.carlogbook.core.UnitFacade;
+import com.enadein.carlogbook.db.CommonUtils;
 
 import java.io.File;
 
 public class FileAdapter  extends ArrayAdapter<File> {
+	private int mlastPos = 1;
+
 	public FileAdapter(Context context, int resource,  File[] files) {
 		super(context, resource, files);
 	}
@@ -55,6 +59,10 @@ public class FileAdapter  extends ArrayAdapter<File> {
 			fileName = fileName.substring(0, xmlIdx);
 		}
 		holder.text.setText(fileName);
+
+		int pos = position;
+		CommonUtils.runAnimation(mlastPos, pos, convertView, UnitFacade.animSize);
+		mlastPos = pos;
 
 		return convertView;
 	}

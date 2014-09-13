@@ -9,161 +9,196 @@
 	<ScrollView style="@style/full">
 
 		<LinearLayout
-			style="@style/full"
+			style="@style/add_entity_main"
 			android:orientation="vertical">
 
-			<LinearLayout style="@style/report_item">
+			<LinearLayout
+				style="@style/new_group">
 
-				<TextView
-					style="@style/report_label"
-					android:text="@string/total_cost"/>
+				<LinearLayout style="@style/report_item">
 
-				<TextView
-					android:id="@+id/totalcost"
-					style="@style/wrap"/>
+					<TextView
+						style="@style/report_label"
+						android:text="@string/total_cost"/>
+
+					<TextView
+						android:id="@+id/totalcost"
+                        android:textColor="@color/price"
+						style="@style/wrap"/>
+				</LinearLayout>
+
+				<LinearLayout style="@style/report_item">
+
+					<TextView
+						style="@style/report_label"
+						android:text="@string/total_run"/>
+
+					<TextView
+						android:id="@+id/totalrun"
+						style="@style/wrap"/>
+				</LinearLayout>
+
+				<LinearLayout style="@style/report_item">
+
+					<TextView
+						style="@style/report_label"
+						android:text="@string/total_fuel"/>
+
+					<TextView
+                        android:textColor="@color/gal"
+						android:id="@+id/total_fuel"
+						style="@style/wrap"/>
+				</LinearLayout>
+
+				<LinearLayout style="@style/report_item">
+
+					<TextView
+						android:id="@+id/label_per1"
+						style="@style/report_label"
+						android:text="@string/cost_per1"/>
+
+					<TextView
+						android:id="@+id/cost_per1"
+                        android:textColor="@color/price"
+						style="@style/wrap"/>
+				</LinearLayout>
+
+				<LinearLayout style="@style/report_item">
+
+					<TextView
+						android:id="@+id/label_avg"
+						style="@style/report_label"
+						android:text="@string/avg_fuel"/>
+
+					<TextView
+						android:id="@+id/fuel_avg"
+						style="@style/wrap"/>
+				</LinearLayout>
 			</LinearLayout>
 
-			<LinearLayout style="@style/report_item">
 
-				<TextView
-					style="@style/report_label"
-					android:text="@string/total_run"/>
-
-				<TextView
-					android:id="@+id/totalrun"
-					style="@style/wrap"/>
-			</LinearLayout>
-
-			<LinearLayout style="@style/report_item">
-
-				<TextView
-					style="@style/report_label"
-					android:text="@string/total_fuel"/>
-
-				<TextView
-					android:id="@+id/total_fuel"
-					style="@style/wrap"/>
-			</LinearLayout>
-
-			<LinearLayout style="@style/report_item">
-
-				<TextView
-					style="@style/report_label"
-					android:text="@string/cost_per1"/>
-
-				<TextView
-					android:id="@+id/cost_per1"
-					style="@style/wrap"/>
-			</LinearLayout>
-
-			<LinearLayout style="@style/report_item">
-
-				<TextView
-					style="@style/report_label"
-					android:text="@string/avg_fuel"/>
-
-				<TextView
-					android:id="@+id/fuel_avg"
-					style="@style/wrap"/>
-			</LinearLayout>
-
-			<View style="@style/divider"/>
-
-			<TextView style="@style/wrap"
-			          android:layout_gravity="center_horizontal"
-			          android:textStyle="bold"
-			          android:textSize="16sp"
-			          android:layout_margin="6dp"
-			          android:textColor="#888"
+			<TextView
+				style="@style/new_title"
 				android:text="@string/cost_by_type"/>
 
-			<com.echo.holographlibrary.PieGraph
-				android:id="@+id/graph"
+			<LinearLayout
+				style="@style/new_group">
 
-				android:layout_width="match_parent"
-				android:layout_height="200dp"/>
+				<com.echo.holographlibrary.PieGraph
+					android:id="@+id/graph"
+					android:layout_width="match_parent"
+					android:layout_height="200dp"
+					app:pieInnerCircleRatio="128"/>
 
-			<LinearLayout style="@style/report_item">
-				<View style="@style/rect" android:background="#FF50CDF5"/>
-				<TextView
-					style="@style/report_label_small"
-					android:text="@string/total_fuel_cost"/>
+				<LinearLayout style="@style/report_item">
 
-				<TextView
-					android:id="@+id/cost_fuel"
-					style="@style/wrap"/>
+					<View
+						style="@style/rect"
+						android:background="#FF50CDF5"/>
+
+					<TextView
+						style="@style/report_label_small"
+						android:text="@string/total_fuel_cost"/>
+
+					<TextView
+                        android:textColor="@color/price"
+						android:id="@+id/cost_fuel"
+						style="@style/wrap"/>
+				</LinearLayout>
+
+				<LinearLayout style="@style/report_item">
+
+					<View
+						style="@style/rect"
+						android:background="#FFF4A113"/>
+
+					<TextView
+						style="@style/report_label_small"
+						android:text="@string/total_service_cost"/>
+
+					<TextView
+                        android:textColor="@color/price"
+						android:id="@+id/total_service_cost"
+						style="@style/wrap"/>
+				</LinearLayout>
+
+				<LinearLayout style="@style/report_item">
+
+					<View
+						style="@style/rect"
+						android:background="#FFC1A622"/>
+
+					<TextView
+						style="@style/report_label_small"
+						android:text="@string/total_service_part_cost"/>
+
+					<TextView
+                        android:textColor="@color/price"
+						android:id="@+id/total_service_part_cost"
+						style="@style/wrap"/>
+				</LinearLayout>
+
+				<LinearLayout style="@style/report_item">
+
+					<View
+						style="@style/rect"
+						android:background="#FF22C1BE"/>
+
+					<TextView
+						style="@style/report_label_small"
+						android:text="@string/total_parking_cost"/>
+
+					<TextView
+                        android:textColor="@color/price"
+						android:id="@+id/total_parking_cost"
+						style="@style/wrap"/>
+				</LinearLayout>
+
+				<LinearLayout style="@style/report_item">
+
+					<View
+						style="@style/rect"
+						android:background="#FF8E8244"/>
+
+					<TextView
+						style="@style/report_label_small"
+						android:text="@string/total_other_cost"/>
+
+					<TextView
+                        android:textColor="@color/price"
+						android:id="@+id/total_other_cost"
+						style="@style/wrap"/>
+				</LinearLayout>
 			</LinearLayout>
-			<LinearLayout style="@style/report_item">
-				<View style="@style/rect" android:background="#FFF4A113"/>
-				<TextView
-					android:text="@string/total_service_cost"
-					style="@style/report_label_small"/>
 
-				<TextView
-					android:id="@+id/total_service_cost"
-					style="@style/wrap"/>
+
+			<TextView
+				style="@style/new_title"
+				android:text="@string/cost_by_last4"/>
+
+			<LinearLayout
+				style="@style/new_group">
+
+				<com.echo.holographlibrary.BarGraph
+					android:id="@+id/cost_month"
+					android:layout_width="match_parent"
+					android:layout_height="200dp"
+					android:layout_margin="6dp"/>
 			</LinearLayout>
-			<LinearLayout style="@style/report_item">
-				<View style="@style/rect" android:background="#FFC1A622"/>
-				<TextView
-					android:text="@string/total_service_part_cost"
-					style="@style/report_label_small"/>
 
-				<TextView
-					android:id="@+id/total_service_part_cost"
-					style="@style/wrap"/>
+			<TextView
+				style="@style/new_title"
+				android:text="@string/run_by_last4"/>
+
+			<LinearLayout
+				style="@style/new_group">
+
+				<com.echo.holographlibrary.BarGraph
+					android:id="@+id/run_month"
+					android:layout_width="match_parent"
+					android:layout_height="200dp"
+					android:layout_margin="6dp"/>
 			</LinearLayout>
-			<LinearLayout style="@style/report_item">
-				<View style="@style/rect" android:background="#FF22C1BE"/>
-				<TextView
-					android:text="@string/total_parking_cost"
-					style="@style/report_label_small"/>
-
-				<TextView
-					android:id="@+id/total_parking_cost"
-					style="@style/wrap"/>
-			</LinearLayout>
-			<LinearLayout style="@style/report_item">
-				<View style="@style/rect" android:background="#FF8E8244"/>
-				<TextView
-					android:text="@string/total_other_cost"
-					style="@style/report_label_small"/>
-
-				<TextView
-					android:id="@+id/total_other_cost"
-					style="@style/wrap"/>
-			</LinearLayout>
-			<View style="@style/divider"/>
-
-			<TextView style="@style/wrap"
-			          android:layout_gravity="center_horizontal"
-			          android:textStyle="bold"
-			          android:textSize="16sp"
-			          android:layout_margin="6dp"
-			          android:textColor="#888"
-			          android:text="@string/cost_by_last4"/>
-
-			<com.echo.holographlibrary.BarGraph
-				android:layout_width="match_parent"
-				android:layout_height="200dp"
-				android:layout_margin="6dp"
-				android:id="@+id/cost_month"/>
-
-			<View style="@style/divider"/>
-
-			<TextView style="@style/wrap"
-			          android:layout_gravity="center_horizontal"
-			          android:textStyle="bold"
-			          android:textSize="16sp"
-			          android:layout_margin="6dp"
-			          android:textColor="#888"
-			          android:text="@string/run_by_last4"/>
-
-			<com.echo.holographlibrary.BarGraph
-				android:layout_width="match_parent"
-				android:layout_height="200dp"
-				android:layout_margin="6dp"
-				android:id="@+id/run_month"/>
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!--Common-->
-	<string name="app_ver">Version: 1.1</string>
+	<string name="app_ver">Version: 1.3</string>
 	<string name="create">Create</string>
 	<string name="save">Save</string>
 	<string name="cancel">Cancel</string>
@@ -100,7 +100,7 @@
 	<string name="total_run">Total run</string>
 	<string name="total_fuel">Total fuel volume</string>
 
-	<string name="avg_fuel">Fuel average rate/100</string>
+	<string name="avg_fuel">AVG</string>
 	<string name="cost_per1">Cost/1</string>
 
 	<string name="total_fuel_cost">Fuel</string>
@@ -165,4 +165,23 @@
 	<string name="google_backup">Google Drive Backup</string>
 	<string name="backup">Backup</string>
 	<string name="restore">Restore</string>
+
+	<!--1.2-->
+	<!--Units-->
+	<string name="unit_title">Units</string>
+	<string name="unit_distance">Distance</string>
+	<string name="unit_fuel">Fuel</string>
+	<string name="unit_consumption">Consumption</string>
+	<string name="unit_currency">Currency</string>
+	<string name="na">N/A</string>
+	<string name="date_format">Date format</string>
+	<string name="other_unit">Fuel,distance,consumption,currency units can be changed on the modify car screen(per car).</string>
+
+	<!--1.3-->
+	<string name="device">Device</string>
+	<string name="cloud">Cloud</string>
+	<string name="files">Files</string>
+	<string name="others">Other</string>
+	<string name="anim">Enable list animation</string>
+	<string name="no_car">No Active Car</string>
 </resources>

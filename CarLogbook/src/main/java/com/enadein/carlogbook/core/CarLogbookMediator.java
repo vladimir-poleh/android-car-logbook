@@ -57,8 +57,22 @@ public class CarLogbookMediator extends AppMediator {
 	private BillingProcessor bp;
 	private PurchasedListener purchasedListener = null;
 
+
 	public CarLogbookMediator(ActionBarActivity activity) {
 		super(activity);
+
+	}
+
+	public CarlogbookApplication getApplication() {
+		return (CarlogbookApplication) activity.getApplication();
+	}
+
+	public UnitFacade getUnitFacadeDefault() {
+		return getApplication().getUnitFacadeDefault();
+	}
+
+	public UnitFacade getUnitFacade() {
+		return getApplication().getUnitFacade();
 	}
 
 	public void showLogbook() {

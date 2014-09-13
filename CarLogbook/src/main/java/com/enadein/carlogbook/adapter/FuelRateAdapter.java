@@ -30,12 +30,17 @@ import android.widget.TextView;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.bean.FuelRateBean;
 import com.enadein.carlogbook.bean.FuelRateViewBean;
+import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 
 
 public class FuelRateAdapter extends CursorAdapter {
-	public FuelRateAdapter(Context context, Cursor c) {
+	private final UnitFacade unitFacade;
+	private int mlastPos = 1;
+
+	public FuelRateAdapter(Context context, Cursor c, UnitFacade unitFacade) {
 		super(context, c, FLAG_REGISTER_CONTENT_OBSERVER);
+		this.unitFacade = unitFacade;
 	}
 
 	@Override
@@ -59,10 +64,18 @@ public class FuelRateAdapter extends CursorAdapter {
 
 		FuelRateHolder holder = (FuelRateHolder) view.getTag();
 		holder.logo.setBackgroundResource(R.drawable.fuel);
-		holder.nameView.setText(bean.getStation() + "(" + bean.getFuelType() + ")");
-		holder.valueView.setText(CommonUtils.formatPrice(bean.getMinRate())
-				+"/"+CommonUtils.formatPrice(bean.getRate())+
-				"/" + CommonUtils.formatPrice(bean.getMaxRate()));
+		holder.nameView.setText(bean.getStation() + "(" + bean.getFuelType() + ")\n" );
+		unitFacade.appendConsumUnit(holder.nameView , true);
+
+		String min = CommonUtils.formatPrice(bean.getMinRate()) + unitFacade.getConsumPostfix();
+		String cur = CommonUtils.formatPrice(bean.getRate())+ unitFacade.getConsumPostfix();
+		String max = CommonUtils.formatPrice(bean.getMaxRate())+ unitFacade.getConsumPostfix();
+
+		holder.valueView.setText(min +"\n"+ cur+ "\n" + max);
+
+		int pos = cursor.getPosition();
+		CommonUtils.runAnimation(mlastPos, pos, view, UnitFacade.animSize);
+		mlastPos = pos;
 	}
 
 	public static class FuelRateHolder {

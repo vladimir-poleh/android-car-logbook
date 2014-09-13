@@ -27,17 +27,27 @@ import android.widget.TextView;
 
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.bean.ReportItem;
+import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 
 import java.util.Date;
 
 public class SimpleReportAdapter extends ArrayAdapter<ReportItem> {
+	private final UnitFacade unitFacade;
 	private int resource;
+	private int mlastPos = 1;
+    private int color;
 
-	public SimpleReportAdapter(Context context, int resource, ReportItem[] objects) {
+	public SimpleReportAdapter(Context context, int resource, ReportItem[] objects, UnitFacade unitFacade, int color) {
 		super(context, resource, objects);
 		this.resource = resource;
+		this.unitFacade = unitFacade;
+        this.color = color;
 	}
+
+    public SimpleReportAdapter(Context context, int resource, ReportItem[] objects, UnitFacade unitFacade) {
+        this(context, resource, objects,  unitFacade,0xff000000);
+    }
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -55,14 +65,19 @@ public class SimpleReportAdapter extends ArrayAdapter<ReportItem> {
 		TextView name = (TextView) convertView.findViewById(R.id.name);
 		TextView value = (TextView) convertView.findViewById(R.id.value);
 
+        value.setTextColor(color);
 		name.setText(item.getName());
 		if (item.getValue() > 0.) {
-			value.setText(CommonUtils.formatPrice(item.getValue()));
+			value.setText(unitFacade.appendCurrency(false,CommonUtils.formatPrice(item.getValue())));
 		} else if (item.getValue2() > 0) {
 			value.setText(CommonUtils.formatDate(new Date(item.getValue2())));
 		} else {
 			value.setText("");
 		}
+
+		int pos = position;
+		CommonUtils.runAnimation(mlastPos, pos, convertView, UnitFacade.animSize);
+		mlastPos = pos;
 
 		return convertView;
 	}

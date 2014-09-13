@@ -1,20 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              style="@style/full">
-	<Button
-		android:id="@+id/importBtn"
-		android:text="@string/imp"
-	    style="@style/wide" />
+<LinearLayout
+	style="@style/full"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical">
 
-	<Button
-		android:id="@+id/exportBtn"
-		style="@style/wide"
-		android:text="@string/export"/>
+	<LinearLayout
+		android:paddingTop="0dp"
+		style="@style/add_entity_main">
+		<TextView
+			style="@style/new_title"
+			android:layout_marginTop="0dp"
+			android:text="@string/device"/>
+		<LinearLayout
+			style="@style/new_group">
 
-	<Button
-		android:id="@+id/backUp"
-		style="@style/wide"
-		android:text="@string/google_backup"/>
+			<Button
+				android:id="@+id/importBtn"
+                android:layout_width="match_parent"
+                style="@style/btn"
+				android:text="@string/imp"/>
+
+			<Button
+				android:id="@+id/exportBtn"
+                android:layout_width="match_parent"
+                style="@style/btn"
+				android:text="@string/export"/>
+
+		</LinearLayout>
+		<TextView
+			style="@style/new_title"
+			android:text="@string/cloud"/>
+		<LinearLayout
+			style="@style/new_group">
+
+			<Button
+				android:id="@+id/backUp"
+                style="@style/btn"
+                android:layout_width="match_parent"
+				android:text="@string/google_backup"/>
+		</LinearLayout>
+	</LinearLayout>
 </LinearLayout>

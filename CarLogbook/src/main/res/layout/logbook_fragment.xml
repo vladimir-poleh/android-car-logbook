@@ -6,6 +6,6 @@
 
 	<ListView
 		android:id="@+id/list"
-		style="@style/full"/>
+		style="@style/newList"/>
 
 </FrameLayout>

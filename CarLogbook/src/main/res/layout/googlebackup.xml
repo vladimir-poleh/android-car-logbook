@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              style="@style/full">
-	<Button
-		android:id="@+id/backUp"
-		android:text="@string/backup"
-		android:enabled="false"
-		style="@style/wide" />
+<LinearLayout
+	style="@style/full"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical">
 
-	<Button
-		android:id="@+id/restore"
-		style="@style/wide"
-		android:enabled="false"
-		android:text="@string/restore"/>
+	<LinearLayout
+		style="@style/add_entity_main">
 
+		<LinearLayout
+			style="@style/new_group">
+
+			<Button
+				android:id="@+id/backUp"
+                android:layout_width="match_parent"
+                style="@style/btn"
+				android:enabled="false"
+				android:text="@string/backup"/>
+
+			<Button
+				android:id="@+id/restore"
+                android:layout_width="match_parent"
+                style="@style/btn"
+				android:enabled="false"
+				android:text="@string/restore"/>
+
+		</LinearLayout>
+	</LinearLayout>
 </LinearLayout>

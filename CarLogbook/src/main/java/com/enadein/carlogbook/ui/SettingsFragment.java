@@ -22,12 +22,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.Spinner;
 
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.BaseFragment;
+import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
 public class SettingsFragment extends BaseFragment {
+
+	private Spinner dateFormatSpinner;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +59,41 @@ public class SettingsFragment extends BaseFragment {
 				getMediator().showDataValues(ProviderDescriptor.DataValue.Type.STATION);
 			}
 		});
+
+		dateFormatSpinner = (Spinner) view.findViewById(R.id.dateFormatSpinner);
+		String current = getMediator().getUnitFacade().getSetting(UnitFacade.SET_DATE_FORMAT, "0");
+		if (current == null) {
+			current = "0";
+		}
+		dateFormatSpinner.setSelection(Integer.valueOf(current));
+		dateFormatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+				save();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> adapterView) {
+
+			}
+		});
+
+		CheckBox animEnable = (CheckBox) view.findViewById(R.id.animationEnable);
+		String enable = getMediator().getUnitFacade().getSetting(UnitFacade.SET_ANIM_LIST, "1");
+
+		animEnable.setChecked("1".equals(enable));
+		animEnable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+				getMediator().getUnitFacade().setSetings(UnitFacade.SET_ANIM_LIST, b ? "1" : "0");
+				getMediator().getUnitFacade().invalidateFlags();
+			}
+		});
+	}
+
+	private void save() {
+		getMediator().getUnitFacade().setSetings(UnitFacade.SET_DATE_FORMAT, String.valueOf(dateFormatSpinner.getSelectedItemPosition()));
+		getMediator().getUnitFacade().invalidateDateFormat();
 	}
 
 	@Override

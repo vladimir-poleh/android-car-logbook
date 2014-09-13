@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/item_name_image">
+    style="@style/item_name_image">
 
-	<ImageView
-		android:id="@+id/logo"
-		style="@style/logo"/>
+    <LinearLayout style="@style/new_group_item">
 
-	<TextView
-		android:layout_marginLeft="8dp"
-		android:id="@+id/name"
-		android:layout_weight="1"
-		style="@style/wrap"/>
+        <LinearLayout
+            style="@style/wide"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-	<TextView
-		android:id="@+id/value"
-		style="@style/wrap"/>
+            <LinearLayout style="@style/circle">
 
+                <ImageView
+                    android:id="@+id/logo"
+                    style="@style/logo" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/name"
+                style="@style/wrap"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/value"
+                style="@style/wrap" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

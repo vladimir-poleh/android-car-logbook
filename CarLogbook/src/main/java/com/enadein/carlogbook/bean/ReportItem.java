@@ -21,6 +21,7 @@ public class ReportItem {
 	private int resId;
 	private String name;
 	private double value;
+	private long value2;
 
 	public long getValue2() {
 		return value2;
@@ -29,8 +30,6 @@ public class ReportItem {
 	public void setValue2(long value2) {
 		this.value2 = value2;
 	}
-
-	private long value2;
 
 
 	public int getResId() {

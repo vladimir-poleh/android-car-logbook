@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.enadein.carlogbook.R;
+import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
@@ -107,7 +108,12 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 		commentView = (EditText) findViewById(R.id.comment);
 
 		typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
+
+		UnitFacade unitFacade = getMediator().getUnitFacade();
+		unitFacade.appendCurrency((TextView) findViewById(R.id.label_price), true);
+		unitFacade.appendDistUnit((TextView) findViewById(R.id.label_odometer), true);
 	}
+
 
 	@Override
 	protected int getContentLayout() {

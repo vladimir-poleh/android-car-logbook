@@ -34,42 +34,80 @@ public class MenuAdapter extends ArrayAdapter<MenuItem> {
 		super(context, resource, objects);
 	}
 
-	@Override
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return getItem(position).type;
+    }
+
+    @Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		MenuItem item = getItem(position);
 
-		MenuItemHolder holder;
-
-		if (convertView == null) {
-			LayoutInflater inflater = LayoutInflater.from(getContext());
-			convertView = inflater.inflate(R.layout.menu_item, null);
-
-			holder = new MenuItemHolder();
-			holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-			holder.text = (TextView) convertView.findViewById(R.id.text);
-			convertView.setTag(holder);
-		} else {
-			holder = (MenuItemHolder) convertView.getTag();
-		}
-
-		holder.text.setText(item.name);
-		holder.icon.setBackgroundResource(item.logoResId);
-
+        if (item.type == MenuItem.TYPE_ITEM) {
+            convertView = getViewItem(convertView, item);
+        } else if (item.type == MenuItem.HEADER) {
+            convertView = getHeaderItem(convertView, item);
+        }
 		return convertView;
 	}
 
-	public static class MenuItemHolder {
+    private View getHeaderItem(View convertView, MenuItem item) {
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+
+            convertView = inflater.inflate(R.layout.menu_header, null);
+        }
+        TextView textView = (TextView) convertView.findViewById(R.id.text);
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        if (item.name != null) {
+            textView.setText(item.name);
+        }
+       return convertView;
+    }
+
+    private View getViewItem(View convertView, MenuItem item) {
+        MenuItemHolder holder;
+
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+
+            convertView = inflater.inflate(R.layout.menu_item, null);
+
+            holder = new MenuItemHolder();
+            holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+            holder.text = (TextView) convertView.findViewById(R.id.text);
+            convertView.setTag(holder);
+        } else {
+            holder = (MenuItemHolder) convertView.getTag();
+        }
+
+        holder.text.setText(item.name);
+        holder.icon.setBackgroundResource(item.logoResId);
+        return convertView;
+    }
+
+    public static class MenuItemHolder {
 		public ImageView icon;
 		public TextView text;
 	}
 
 	public static class MenuDescriptor {
-		public static final int LOG_POSITION = 0;
-		public static final int REPORTS_POSITION = 1;
-		public static final int NOTIFICATIONS_POSITION = 2;
-		public static final int MY_CARS_POSITION = 3;
-		public static final int IMPORT_EXPORT = 4;
-		public static final int SETTINGS_POSITION = 5;
-		public static final int ABOUT_POSITION = 6;
+		public static final int LOG_POSITION = 1;
+		public static final int REPORTS_POSITION = 2;
+		public static final int NOTIFICATIONS_POSITION = 3;
+		public static final int MY_CARS_POSITION = 4;
+		public static final int IMPORT_EXPORT = 5;
+		public static final int SETTINGS_POSITION = 6;
+		public static final int ABOUT_POSITION = 7;
 	}
 }

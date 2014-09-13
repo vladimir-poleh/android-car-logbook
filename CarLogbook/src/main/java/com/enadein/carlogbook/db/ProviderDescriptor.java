@@ -50,6 +50,10 @@ public class ProviderDescriptor {
 		matcher.addURI(AUTHORITY, FuelRateView.PATH, FuelRateView.PATH_TOKEN);
 		matcher.addURI(AUTHORITY, FuelRateView.PATH_ID, FuelRateView.PATH_ID_TOKEN);
 
+		matcher.addURI(AUTHORITY, Sett.PATH, Sett.PATH_TOKEN);
+		matcher.addURI(AUTHORITY, Sett.PATH_ID, Sett.PATH_ID_TOKEN);
+
+
 		return matcher;
 	}
 
@@ -70,7 +74,13 @@ public class ProviderDescriptor {
 			public static final String _ID = "_id";
 			public static final String NAME = "NAME";
 			public static final String ACTIVE_FLAG = "ACTIVE_FLAG";
+			//1.1
 			public static final String UUID = "UUID";
+			//1.2
+			public static final String UNIT_FUEL = "UNIT_FUEL";
+			public static final String UNIT_DISTANCE = "UNIT_DIST";
+			public static final String UNIT_CONSUMPTION = "UNIT_CONSUM";
+			public static final String UNIT_CURRENCY = "UNIT_CURRENCY";
 		}
 	}
 
@@ -229,6 +239,25 @@ public class ProviderDescriptor {
 		public static class Cols extends FuelRate.Cols {
 			public static final String STATION_NAME = "STATION_NAME";
 			public static final String FUEL_NAME = "FUEL_NAME";
+		}
+	}
+
+	public static class Sett {
+		public static final String TABLE_NAME = "sett";
+		public static final String PATH = "sett";
+		public static final int PATH_TOKEN = 800;
+		public static final String PATH_ID = "sett/*";
+		public static final int PATH_ID_TOKEN = 801;
+		public static final Uri CONTENT_URI = ProviderDescriptor.BASE_URI.buildUpon().appendPath(PATH).build();
+
+		public static final String CONTENT_TYPE_DIR = "vnd.android.cursor.dir/vnd." + AUTHORITY + "." + PATH;
+		public static final String CONTENT_TYPE_ITEM = "vnd.android.cursor.item/vnd." + AUTHORITY + "." + PATH;
+
+		public static final String CREATE_FIELDS = "KEY TEXT,VALUE TEXT";
+
+		public static class Cols {
+			public static final String KEY = "KEY";
+			public static final String VALUE = "VALUE";
 		}
 	}
 }

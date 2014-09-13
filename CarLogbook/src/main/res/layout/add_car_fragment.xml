@@ -1,26 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-	style="@style/add_entity_main"
+<ScrollView
+	style="@style/add_entity_scroll"
 	xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<TextView
-		android:id="@+id/carNameError"
-		style="@style/add_entity_error"
-		android:text="@string/car_name_error"/>
+	<LinearLayout
+		style="@style/add_entity_main">
 
-	<LinearLayout style="@style/add_entity_group">
+
+		<LinearLayout
+			style="@style/new_group">
+
+			<TextView
+				android:id="@+id/carNameError"
+				style="@style/add_entity_error"
+				android:text="@string/car_name_error"/>
+
+			<LinearLayout style="@style/add_entity_group">
+
+				<TextView
+					style="@style/add_entity_label"
+					android:text="@string/car_name"/>
+
+				<EditText
+					android:id="@+id/carName"
+					style="@style/add_entity_edit_new"
+					android:maxLength="50"/>
+			</LinearLayout>
+
+			<CheckBox
+				android:id="@+id/selectCar"
+				style="@style/add_entity_check"
+				android:text="@string/select_car"/>
+		</LinearLayout>
+
+
 		<TextView
-			style="@style/add_entity_label"
-			android:text="@string/car_name"/>
-		<EditText
-			android:id="@+id/carName"
-			android:maxLength="50"
-			style="@style/add_entity_edit"/>
-	</LinearLayout>
+			style="@style/new_title"
+			android:text="@string/unit_title"/>
 
-	<CheckBox
-		android:id="@+id/selectCar"
-		style="@style/add_entity_check"
-		android:text="@string/select_car"/>
-</LinearLayout>
+		<!--GROUP-->
+		<LinearLayout
+			style="@style/new_group">
+
+			<LinearLayout style="@style/add_entity_group">
+
+				<TextView
+					style="@style/add_entity_label"
+					android:minWidth="95dp"
+					android:text="@string/unit_distance"/>
+
+				<Spinner
+					android:id="@+id/distanceSpinner"
+					style="@style/add_entity_spinner"
+					android:entries="@array/unit_distance"/>
+			</LinearLayout>
+
+			<LinearLayout style="@style/add_entity_group">
+
+				<TextView
+					style="@style/add_entity_label"
+					android:minWidth="95dp"
+					android:text="@string/unit_fuel"/>
+
+				<Spinner
+					android:id="@+id/fuelSpinner"
+					style="@style/add_entity_spinner"
+					android:entries="@array/unit_fuel"/>
+			</LinearLayout>
+
+			<LinearLayout style="@style/add_entity_group">
+
+				<TextView
+					style="@style/add_entity_label"
+					android:minWidth="95dp"
+					android:text="@string/unit_consumption"/>
+
+				<Spinner
+					android:id="@+id/consumptionSpinner"
+					style="@style/add_entity_spinner"
+					android:entries="@array/unit_consumption_1_1"/>
+			</LinearLayout>
+
+			<LinearLayout style="@style/add_entity_group">
+
+				<TextView
+					style="@style/add_entity_label"
+					android:minWidth="95dp"
+					android:text="@string/unit_currency"/>
+
+				<EditText
+					android:id="@+id/currency"
+					style="@style/add_entity_edit"
+					android:layout_width="130dp"
+					android:maxLength="4"/>
+			</LinearLayout>
+		</LinearLayout>
+
+	</LinearLayout>
+</ScrollView>

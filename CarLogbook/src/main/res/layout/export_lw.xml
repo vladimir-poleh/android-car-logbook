@@ -1,27 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	             style="@style/full">
+<FrameLayout
+	style="@style/full"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
 	<LinearLayout
-		android:orientation="vertical"
-		style="@style/full">
-		<TextView
-			android:id="@+id/errorName"
-			style="@style/add_entity_error"
-			android:text="@string/value_name_error"/>
-		<TextView
-			android:id="@+id/errorExists"
-			style="@style/add_entity_error"
-			android:text="@string/file_exists"/>
+		style="@style/add_entity_main">
+
+		<LinearLayout
+			style="@style/new_group">
+
+			<TextView
+				android:id="@+id/errorName"
+				style="@style/add_entity_error"
+				android:text="@string/value_name_error"/>
+
+			<TextView
+				android:id="@+id/errorExists"
+				style="@style/add_entity_error"
+				android:text="@string/file_exists"/>
+
 			<EditText
 				android:id="@+id/name"
 				style="@style/add_entity_edit"
-					android:layout_width="match_parent"
-			          android:hint="@string/value_name"/>
+				android:layout_width="match_parent"
+				android:hint="@string/value_name"/>
+
 			<Button
 				android:id="@+id/exportBtn"
-				android:text="@string/export"
-				style="@style/wide"/>
+                android:layout_width="match_parent"
+                style="@style/btn"
+				android:text="@string/export"/>
 		</LinearLayout>
+	</LinearLayout>
 
 </FrameLayout>

@@ -24,6 +24,7 @@ import android.net.Uri;
 
 import com.enadein.carlogbook.bean.FuelRateBean;
 import com.enadein.carlogbook.core.Logger;
+import com.enadein.carlogbook.core.UnitFacade;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,6 +50,20 @@ public class DBUtils {
 		return result;
 	}
 
+    public static String getActiveCarName(ContentResolver cr, long id) {
+        String result = "";
+
+        Cursor c = cr.query(ProviderDescriptor.Car.CONTENT_URI, null, "_id = ?", new String[] {String.valueOf(id)}, null);
+
+        if (c != null && c.moveToFirst()) {
+            int idIdx = c.getColumnIndex(ProviderDescriptor.Car.Cols.NAME);
+            result = c.getString(idIdx);
+            c.close();
+        }
+
+        return result;
+    }
+
 	public static long getValueId(ContentResolver cr, Uri uri, String field, String value) {
 		long result = -1;
 
@@ -61,6 +76,33 @@ public class DBUtils {
 		}
 
 		return result;
+	}
+
+	public static String getSettValue(ContentResolver cr, String key) {
+		String result = null;
+
+		Cursor c = cr.query(ProviderDescriptor.Sett.CONTENT_URI, null, ProviderDescriptor.Sett.Cols.KEY + " = ?", new String[] {key}, null);
+
+		if (c != null && c.moveToFirst()) {
+			int idIdx = c.getColumnIndex(ProviderDescriptor.Sett.Cols.VALUE);
+			result = c.getString(idIdx);
+			c.close();
+		}
+
+		return result;
+	}
+
+	public static void createSetValue(ContentResolver cr, String key, String value) {
+		ContentValues cv = new ContentValues();
+		cv.put(ProviderDescriptor.Sett.Cols.KEY, key);
+		cv.put(ProviderDescriptor.Sett.Cols.VALUE, value);
+		cr.insert(ProviderDescriptor.Sett.CONTENT_URI, cv);
+	}
+
+	public static void updateSetValue(ContentResolver cr, String key, String value) {
+		ContentValues cv = new ContentValues();
+		cv.put(ProviderDescriptor.Sett.Cols.VALUE, value);
+		cr.update(ProviderDescriptor.Sett.CONTENT_URI, cv, ProviderDescriptor.Sett.Cols.KEY + " = ?", new String[] {key});
 	}
 
 	public static long getFuelRateId(ContentResolver cr, String type, String station) {
@@ -104,7 +146,7 @@ public class DBUtils {
 		return getCount(cr, uri, field + " = ?", new String[] {value}) > 0;
 	}
 
-	public static void updateFuelRate(ContentResolver cr, int curentOdometer, double fuelVolume) {
+	public static void updateFuelRate(ContentResolver cr, int curentOdometer, double fuelVolume, UnitFacade unitFacade) {
 		long carId = getActiveCarId(cr);
 		String carSelection = " and " + ProviderDescriptor.Log.Cols.CAR_ID + " = " + carId;
 
@@ -125,7 +167,12 @@ public class DBUtils {
 		c.close();
 
 		if (odometer != -1) {
-			double rate = (fuelVolume / (curentOdometer - odometer)) * 100;
+//			double rate = (fuelVolume / (curentOdometer - odometer)) * 100;
+			double rate = unitFacade.getRate(fuelVolume, (curentOdometer - odometer));
+
+			if (rate <= 0 || rate > 1000) {
+				return;
+			}
 
 			FuelRateBean fuelRateBean = getCurrentFuelRate(cr, carId, fuelTypeId, stationId);
 
@@ -493,14 +540,15 @@ public class DBUtils {
 		return result;
 	}
 
-	public static double getAvgFuel(ContentResolver cr, long from, long to) {
+	public static double getAvgFuel(ContentResolver cr, long from, long to, UnitFacade unitFacade) {
 		double result = 0;
 
 		int odometerCount = getOdometerCount(cr, from, to, ProviderDescriptor.Log.Type.FUEL);
 		double allFuel = getTotalFuel(cr, from, to, true);
 
 		if (odometerCount > 0) {
-			result = (allFuel / odometerCount) * 100;
+//			result = (allFuel / odometerCount) * 100;
+			result = unitFacade.getRate(allFuel, odometerCount);
 		}
 
 		return result;

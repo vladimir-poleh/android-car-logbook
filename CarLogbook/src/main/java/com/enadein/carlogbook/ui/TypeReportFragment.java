@@ -132,14 +132,14 @@ public class TypeReportFragment extends BaseFragment implements LoaderManager.Lo
 
 	@Override
 	public Loader<DataInfo> onCreateLoader(int id, Bundle args) {
-		return new DataLoader(getActivity(), DataLoader.TYPE, args);
+		return new DataLoader(getActivity(), DataLoader.TYPE, args, getMediator().getUnitFacade());
 	}
 
 	@Override
 	public void onLoadFinished(Loader<DataInfo> loader, DataInfo data) {
 		ArrayList<ReportItem> items = data.getReportData();
 		SimpleReportAdapter adapter = new SimpleReportAdapter(getActivity(),
-				R.layout.report_item_simple, items.toArray(new ReportItem[] {}));
+				R.layout.report_item_simple, items.toArray(new ReportItem[] {}), getMediator().getUnitFacade(), getResources().getColor(R.color.price));
 		listView.setAdapter(adapter);
 	}
 

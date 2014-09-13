@@ -33,6 +33,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.enadein.carlogbook.R;
+import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
@@ -263,9 +264,11 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 
 		long currentDate = date.getTime();
 
+
+        //TODO Refactor It
 		if (currentDate >= todayCalendar.getTimeInMillis()) {
 			DBUtils.updateFuelRate(getContentResolver(), Integer.valueOf(odomenterView.getText().toString()),
-					CommonUtils.getPriceValue(fuelValueView));
+					CommonUtils.getPriceValue(fuelValueView), getMediator().getUnitFacade());
 		}
 
 		getContentResolver().insert(ProviderDescriptor.Log.CONTENT_URI, getContentValues());
@@ -319,6 +322,12 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 	@Override
 	protected void postCreate() {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		UnitFacade unitFacade = getMediator().getUnitFacade();
+		unitFacade.appendFuelUnit((TextView) findViewById(R.id.label_fuel_volume), true);
+		unitFacade.appendCurrency((TextView) findViewById(R.id.label_price), false);
+		unitFacade.appendCurrency((TextView) findViewById(R.id.label_cost), false);
+		unitFacade.appendDistUnit((TextView) findViewById(R.id.label_odometer), true);
 
 		odomenterView = (EditText) findViewById(R.id.odometer);
 		comments = (EditText) findViewById(R.id.comment);

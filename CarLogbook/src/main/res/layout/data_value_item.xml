@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/item_name_image">
-	<TextView
-		android:id="@+id/name"
-		style="@style/wrap"/>
+<LinearLayout
+	style="@style/item_name_image"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<LinearLayout
+		style="@style/new_group_item">
+
+		<LinearLayout
+			style="@style/wide"
+			android:gravity="center_vertical"
+			android:orientation="horizontal"
+			android:padding="8dp">
+
+			<TextView
+				android:id="@+id/name"
+				style="@style/wrap"/>
+		</LinearLayout>
+	</LinearLayout>
 </LinearLayout>

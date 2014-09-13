@@ -51,7 +51,7 @@ public class LogbookFragment extends BaseFragment  implements
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		adapter = new LogAdapter(getActivity(), null);
+		adapter = new LogAdapter(getActivity(), null, getMediator().getUnitFacade());
 
 		ListView carListView = (ListView) view.findViewById(R.id.list);
 		carListView.setAdapter(adapter);

@@ -42,7 +42,9 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 import com.enadein.carlogbook.adapter.MenuAdapter;
 import com.enadein.carlogbook.adapter.MenuItem;
 import com.enadein.carlogbook.core.BaseActivity;
+import com.enadein.carlogbook.core.CarChangeListener;
 import com.enadein.carlogbook.core.Logger;
+import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
@@ -50,7 +52,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 
-public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationListener, BillingProcessor.IBillingHandler {
+public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationListener, BillingProcessor.IBillingHandler, CarChangeListener {
 	public static final int DASHBOARD_MENU = 0;
 	public static final int BY_TYPE_MENU = 1;
 	public static final int FUEL_RATE_MENU = 2;
@@ -70,15 +72,18 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 	private Logger log = Logger.createLogger(getClass());
 
 	///In-App Billing v3
-	private static final String LIC_KEY = "TODO"; //TODO HIDE
-	public static final String PRODUCT_1 = "TODO"; //TODO HIDE
-	public static final String PRODUCT_2 = "TODO"; //TODO HIDE
-	public static final String PRODUCT_3 = "TODO"; //TODO HIDE
+	private static final String LIC_KEY = "4";
+	public static final String PRODUCT_1 = "4";
+	public static final String PRODUCT_2 = "4";
+	public static final String PRODUCT_3 = "4";
+
 
 	private BillingProcessor bp;
 	///In-App Billing v3
 
 	private boolean isDrawerLocked = false;
+    MenuItem carName;
+    ArrayList<MenuItem> items = new ArrayList<MenuItem>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +121,7 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 		setupNavMode();
 
 		SpinnerAdapter reportItemsAdapter = ArrayAdapter.createFromResource(this,
-				R.array.action_list, android.R.layout.simple_spinner_dropdown_item);
+				R.array.action_list,R.layout.nav_item);
 
 		getMediator().setListNavigationCallbacks(reportItemsAdapter, this);
 
@@ -193,10 +198,12 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 
 
 	public MenuItem[] buildMenu() {
-		Collection<MenuItem> items = new ArrayList<MenuItem>();
+
 
 		Resources res = getResources();
-
+        String name = getMediator().getUnitFacade().getCarName();
+        carName = new MenuItem(0, name, MenuItem.HEADER);
+		items.add(carName);
 		items.add(new MenuItem(R.drawable.log, res.getString(R.string.menu_item_log)));
 		items.add(new MenuItem(R.drawable.stat, res.getString(R.string.menu_item_reports)));
 		items.add(new MenuItem(R.drawable.notify, res.getString(R.string.menu_item_notifications)));
@@ -205,7 +212,9 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 		items.add(new MenuItem(R.drawable.sett, res.getString(R.string.menu_item_settings)));
 		items.add(new MenuItem(R.drawable.info, res.getString(R.string.menu_item_about)));
 
-		return items.toArray(new MenuItem[]{});
+        getMediator().getUnitFacade().setCarChangeListener(this);
+        return items.toArray(new MenuItem[]{});
+
 	}
 
 	@Override
@@ -234,8 +243,16 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 		return true;
 	}
 
+    @Override
+    public void onCarChangeChanged(String car) {
+        carName.setName(car);
+        MenuAdapter menuAdapter = (MenuAdapter) menuList.getAdapter();
+        menuAdapter.notifyDataSetChanged();
+//        drawer.invalidate();
+    }
 
-	class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+    class DrawerItemClickListener implements ListView.OnItemClickListener {
 
 		@Override
 		public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {

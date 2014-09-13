@@ -1,28 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             style="@style/full">
+<FrameLayout
+	style="@style/full"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
 	<LinearLayout
-		android:orientation="vertical"
-		style="@style/full">
-		<LinearLayout style="@style/wide"
-			android:orientation="horizontal">
-			<CheckBox android:id="@+id/importDeleteCB"
-			          android:checked="false"
-			          style="@style/wrap" android:text="@string/import_delete"/>
+		style="@style/full"
+		android:orientation="vertical">
 
+		<LinearLayout
+			style="@style/add_entity_main"
+			android:layout_height="wrap_content">
 
+			<LinearLayout
+				style="@style/new_group">
+
+				<LinearLayout
+					style="@style/wide"
+					android:orientation="horizontal">
+
+					<CheckBox
+						android:id="@+id/importDeleteCB"
+						style="@style/wrap"
+						android:checked="false"
+						android:text="@string/import_delete"/>
+				</LinearLayout>
+			</LinearLayout>
 		</LinearLayout>
+
 		<TextView
-			style="@style/add_entity_label"
 			android:id="@+id/no_data"
-			android:visibility="gone"
-			android:text="@string/no_data"/>
+			style="@style/add_entity_label"
+			android:text="@string/no_data"
+			android:visibility="gone"/>
+
+		<LinearLayout style="@style/add_entity_edit_new">
+
+			<TextView
+				style="@style/new_title"
+				android:text="@string/files"/>
+		</LinearLayout>
+
 		<ListView
 			android:id="@+id/list"
-			style="@style/full"
-			android:layout_weight="1"
-			android:layout_height="0dp"/>
+			style="@style/newList"
+			android:layout_height="0dp"
+			android:layout_marginBottom="4dp"
+			android:layout_weight="1"/>
 	</LinearLayout>
 
 </FrameLayout>

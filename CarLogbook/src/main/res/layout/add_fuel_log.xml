@@ -1,119 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            style="@style/add_entity_scroll">
+<ScrollView
+	style="@style/add_entity_scroll"
+	xmlns:android="http://schemas.android.com/apk/res/android" >
 
 	<LinearLayout
 		style="@style/add_entity_main">
 
 		<LinearLayout
-			style="@style/add_entity_group">
+			style="@style/new_group">
 
-			<TextView
-				style="@style/add_entity_label"
-				android:text="@string/date"/>
-			<TextView android:id="@+id/date"
-				style="@style/wrap"/>
-			<ImageButton
-				style="@style/add_entity_date"
-				android:onClick="showDatePickerDialog" />
-		</LinearLayout>
+			<LinearLayout
+				style="@style/add_entity_group">
 
-		<TextView
-			android:id="@+id/errorOdometer"
-			android:text="@string/error_odometer"
-			style="@style/add_entity_error"/>
-		<LinearLayout
-			style="@style/add_entity_group">
-
-			<TextView
-				style="@style/add_entity_label"
-				android:text="@string/log_fuel_odometer"/>
-
-			<EditText
-				android:id="@+id/odometer"
-				style="@style/add_entity_edit"
-				android:inputType="number"
-			    android:maxLength="6"
-
-				/>
-		</LinearLayout>
-		<TextView
-			android:id="@+id/errorFuel"
-			android:text="@string/error_fuel"
-			style="@style/add_entity_error"/>
-		<LinearLayout
-			style="@style/add_entity_group">
-
-			<TextView
-				style="@style/add_entity_label"
-				android:text="@string/log_fuel_volume"/>
-
-			<EditText
-				android:id="@+id/fuel_volume"
-				style="@style/add_entity_edit"
-				android:inputType="numberDecimal"
-				/>
-		</LinearLayout>
-		<TextView
-			android:id="@+id/errorPrice"
-			android:text="@string/error_price"
-			style="@style/add_entity_error"/>
-		<LinearLayout
-			style="@style/add_entity_group">
-
-			<TextView
-				style="@style/add_entity_label"
-				android:text="@string/log_fuel_price"/>
-
-			<EditText
-				android:id="@+id/price"
-				style="@style/add_entity_edit"
-				android:inputType="numberDecimal"
-				/>
-		</LinearLayout>
-
-		<LinearLayout
-			style="@style/add_entity_group">
-
-			<TextView
+				<TextView
 					style="@style/add_entity_label"
-				android:text="@string/log_fuel_price_total"/>
-			<EditText
-				android:id="@+id/priceTotal"
-				style="@style/add_entity_edit"
-				android:inputType="numberDecimal"
-				/>
-		</LinearLayout>
+					android:text="@string/date"/>
 
-		<LinearLayout
-			style="@style/add_entity_group">
+				<TextView
+					android:id="@+id/date"
+					style="@style/wrap"/>
 
-			<TextView
-				style="@style/add_entity_label"
-				android:text="@string/log_fuel_type"/>
-			<Spinner
-				android:id="@+id/typeSpinner"
-				style="@style/add_entity_spinner"
-				/>
-		</LinearLayout>
-
-		<LinearLayout
-			style="@style/add_entity_group">
+				<ImageButton
+					style="@style/add_entity_date"
+					android:onClick="showDatePickerDialog"/>
+			</LinearLayout>
 
 			<TextView
-				style="@style/add_entity_label"
-				android:text="@string/log_fuel_gas_station"/>
-			<Spinner
-				android:id="@+id/stationSpinner"
-				style="@style/add_entity_spinner"/>
+				android:id="@+id/errorOdometer"
+				style="@style/add_entity_error"
+				android:text="@string/error_odometer"/>
+
+			<LinearLayout
+				style="@style/add_entity_group">
+
+				<TextView
+					android:id="@+id/label_odometer"
+					style="@style/add_entity_label"
+					android:text="@string/log_fuel_odometer"/>
+
+				<EditText
+					android:id="@+id/odometer"
+					style="@style/add_entity_edit"
+					android:inputType="number"
+					android:maxLength="6"
+
+					/>
+			</LinearLayout>
+
+			<TextView
+				android:id="@+id/errorFuel"
+				style="@style/add_entity_error"
+				android:text="@string/error_fuel"/>
+
+			<LinearLayout
+				style="@style/add_entity_group">
+
+				<TextView
+					android:id="@+id/label_fuel_volume"
+					style="@style/add_entity_label"
+					android:text="@string/log_fuel_volume"/>
+
+				<EditText
+					android:id="@+id/fuel_volume"
+					style="@style/add_entity_edit"
+					android:inputType="numberDecimal"
+					/>
+			</LinearLayout>
+
+			<TextView
+				android:id="@+id/errorPrice"
+				style="@style/add_entity_error"
+				android:text="@string/error_price"/>
+
+			<LinearLayout
+				style="@style/add_entity_group">
+
+				<TextView
+					android:id="@+id/label_price"
+					style="@style/add_entity_label"
+					android:text="@string/log_fuel_price"/>
+
+				<EditText
+					android:id="@+id/price"
+					style="@style/add_entity_edit"
+					android:inputType="numberDecimal"
+					/>
+			</LinearLayout>
+
+			<LinearLayout
+				style="@style/add_entity_group">
+
+				<TextView
+					android:id="@+id/label_cost"
+					style="@style/add_entity_label"
+					android:text="@string/log_fuel_price_total"/>
+
+				<EditText
+					android:id="@+id/priceTotal"
+					style="@style/add_entity_edit"
+					android:inputType="numberDecimal"
+					/>
+			</LinearLayout>
+
+			<LinearLayout
+				style="@style/add_entity_group">
+
+				<TextView
+					style="@style/add_entity_label"
+					android:text="@string/log_fuel_type"/>
+
+				<Spinner
+					android:id="@+id/typeSpinner"
+					style="@style/add_entity_spinner"
+					/>
+			</LinearLayout>
+
+			<LinearLayout
+				style="@style/add_entity_group">
+
+				<TextView
+					style="@style/add_entity_label"
+					android:text="@string/log_fuel_gas_station"/>
+
+				<Spinner
+					android:id="@+id/stationSpinner"
+					style="@style/add_entity_spinner"/>
+			</LinearLayout>
 		</LinearLayout>
 
 		<TextView
-			style="@style/add_entity_label"
+			style="@style/new_title"
 			android:text="@string/comments"/>
-		<EditText
-			android:id="@+id/comment"
-			android:maxLength="250"
-			style="@style/comment"/>
+
+		<LinearLayout
+			style="@style/new_group">
+
+			<EditText
+				android:id="@+id/comment"
+				style="@style/comment"
+				android:maxLength="250"/>
+		</LinearLayout>
 	</LinearLayout>
 </ScrollView>

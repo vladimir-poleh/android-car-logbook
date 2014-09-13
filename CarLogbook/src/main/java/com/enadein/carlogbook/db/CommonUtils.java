@@ -27,11 +27,15 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.BaseActivity;
+import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.service.NotifyService;
 import com.enadein.carlogbook.ui.AddUpdateNotificationActivity;
 
@@ -44,12 +48,25 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class CommonUtils {
-	public static final String DATE_FORMAT = "yyyy-MM-dd";
+//	public static final String DATE_FORMAT = "yyyy-MM-dd";
 	public static final String DATE_FORMAT_MONTH = "MMM";
 	private static 	DecimalFormat format = (DecimalFormat) DecimalFormat.getNumberInstance();
+
+	private static HashMap<String, Integer> consumption = new HashMap<String, Integer>();
+
+	public static void runAnimation(int mlastPos, int pos, View view, float size) {
+		if (UnitFacade.ANIM_LIST_ON) {
+			float initialTranslation = (mlastPos <= pos) ? size : -size;
+			Animation animationY = new TranslateAnimation(0, 0, initialTranslation, 0);
+			animationY.setDuration(400);
+			view.startAnimation(animationY);
+			animationY = null;
+		}
+	}
 
 	static {
 		format.setRoundingMode(RoundingMode.DOWN);
@@ -62,6 +79,16 @@ public class CommonUtils {
 		decimalSymbol.setDecimalSeparator('.');
 		format.setDecimalFormatSymbols(decimalSymbol);
 		format.setGroupingUsed(false);
+
+		consumption.put("00", R.array.unit_consumption_1_1);
+		consumption.put("01", R.array.unit_consumption_1_2);
+		consumption.put("10", R.array.unit_consumption_2_1);
+		consumption.put("11", R.array.unit_consumption_2_2);
+	}
+
+	public static int getConsumptionArrayId(int distId, int fuelId) {
+		String key = distId +"" + fuelId;
+		return consumption.get(key);
 	}
 
 	public static void createNotify(Context ctx, long id, int res) {
@@ -173,7 +200,7 @@ public class CommonUtils {
 	}
 
 	public static String formatDate(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+		SimpleDateFormat sdf = new SimpleDateFormat(UnitFacade.DATATE_FORMAT);
 		return sdf.format(date);
 	}
 

@@ -27,6 +27,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
+import com.enadein.carlogbook.core.UnitFacade;
+
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -51,6 +53,7 @@ public class CarLogbookProvider extends ContentProvider {
 		tables.put(ProviderDescriptor.LogView.PATH_TOKEN, ProviderDescriptor.LogView.TABLE_NAME);
 		tables.put(ProviderDescriptor.FuelRate.PATH_TOKEN, ProviderDescriptor.FuelRate.TABLE_NAME);
 		tables.put(ProviderDescriptor.FuelRateView.PATH_TOKEN, ProviderDescriptor.FuelRateView.TABLE_NAME);
+		tables.put(ProviderDescriptor.Sett.PATH_TOKEN, ProviderDescriptor.Sett.TABLE_NAME);
 
 		types.put(ProviderDescriptor.Car.PATH_TOKEN, ProviderDescriptor.Car.CONTENT_TYPE_DIR);
 		types.put(ProviderDescriptor.Car.PATH_ID_TOKEN, ProviderDescriptor.Car.CONTENT_TYPE_ITEM);
@@ -70,6 +73,10 @@ public class CarLogbookProvider extends ContentProvider {
 		types.put(ProviderDescriptor.FuelRateView.PATH_TOKEN, ProviderDescriptor.FuelRateView.CONTENT_TYPE_DIR);
 		types.put(ProviderDescriptor.FuelRateView.PATH_ID_TOKEN, ProviderDescriptor.FuelRateView.CONTENT_TYPE_ITEM);
 
+
+
+		types.put(ProviderDescriptor.Sett.PATH_TOKEN, ProviderDescriptor.Sett.CONTENT_TYPE_DIR);
+		types.put(ProviderDescriptor.Sett.PATH_ID_TOKEN, ProviderDescriptor.Sett.CONTENT_TYPE_ITEM);
 
 		return false;
 	}
@@ -201,11 +208,11 @@ public class CarLogbookProvider extends ContentProvider {
 	}
 
 	public class DBOpenHelper extends SQLiteOpenHelper {
-		private static final int CURRENT_DB_VERSION = 2; //Production 1
+		private static final int CURRENT_DB_VERSION = 3; //Production 3
 		private static final String DB_NAME = "com_carlogbook_v2.db";
 
 //		private static final int CURRENT_DB_VERSION = 2; //test
-//		private static final String DB_NAME = "com_carlogbook_v2test_16.db";
+		//private static final String DB_NAME = "com_carlogbook_v2test_8.db";
 
 		private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS {0} ({1})";
 		private static final String DROP_TABLE = "DROP TABLE IF EXISTS {0}";
@@ -238,6 +245,7 @@ public class CarLogbookProvider extends ContentProvider {
 			defaulter.initDataBase(db, getContext());
 			//updates
 			upgradeFrom1to2(db);
+			upgradeFrom2to3(db);
 		}
 
 		public void reset() {
@@ -249,9 +257,14 @@ public class CarLogbookProvider extends ContentProvider {
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			for (int i = oldVersion; i < newVersion; i++) {
 				switch (i) {
-					case 1:
+					case 1: {
 						upgradeFrom1to2(db);
 						break;
+					}
+					case 2: {
+						upgradeFrom2to3(db);
+						break;
+					}
 				}
 			}
 		}
@@ -293,6 +306,30 @@ public class CarLogbookProvider extends ContentProvider {
 
 				c.close();
 			}
+		}
+
+		private void upgradeFrom2to3(SQLiteDatabase db) {
+			db.execSQL("ALTER TABLE car ADD UNIT_FUEL INTEGER");
+			db.execSQL("ALTER TABLE car ADD UNIT_DIST INTEGER");
+			db.execSQL("ALTER TABLE car ADD UNIT_CONSUM INTEGER");
+			db.execSQL("ALTER TABLE car ADD UNIT_CURRENCY TEXT");
+			UnitFacade unitFacade = new UnitFacade(getContext());
+
+			ContentValues cv = new ContentValues();
+			cv.put(ProviderDescriptor.Car.Cols.UNIT_FUEL, unitFacade.getFuelValue());
+			cv.put(ProviderDescriptor.Car.Cols.UNIT_CONSUMPTION, unitFacade.getConsumptionValue());
+			cv.put(ProviderDescriptor.Car.Cols.UNIT_DISTANCE, unitFacade.getDistanceValue());
+			cv.put(ProviderDescriptor.Car.Cols.UNIT_CURRENCY, unitFacade.getCurrency());
+
+			db.update(ProviderDescriptor.Car.TABLE_NAME, cv, null, null);
+			//TODO Check
+
+			createTable(db, ProviderDescriptor.Sett.TABLE_NAME, ProviderDescriptor.Sett.CREATE_FIELDS);
+			ContentValues setCv = new ContentValues();
+			setCv.put(UnitFacade.SET_DATE_FORMAT, "0");
+			db.insert(ProviderDescriptor.Sett.TABLE_NAME, null, setCv);
+
+//			db.delete(ProviderDescriptor.FuelRate.TABLE_NAME, "id != -1", null);
 		}
 
 		private void dropAllTables(SQLiteDatabase db) {

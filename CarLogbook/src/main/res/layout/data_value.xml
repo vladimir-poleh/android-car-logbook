@@ -4,5 +4,5 @@
               style="@style/list_main">
 	<ListView
 		android:id="@+id/list"
-		style="@style/full"/>
+		style="@style/newList"/>
 </LinearLayout>

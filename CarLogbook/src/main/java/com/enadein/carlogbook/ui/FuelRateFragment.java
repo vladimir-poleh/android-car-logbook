@@ -51,7 +51,7 @@ public class FuelRateFragment extends BaseFragment implements
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		adapter = new FuelRateAdapter(getActivity(), null);
+		adapter = new FuelRateAdapter(getActivity(), null, getMediator().getUnitFacade());
 		ListView carListView = (ListView) view.findViewById(R.id.list);
 		carListView.setAdapter(adapter);
 

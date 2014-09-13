@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<integer name="distance_default">0</integer>
+	<integer name="fuel_default">0</integer>
+	<integer name="consumption_default">0</integer>
+</resources>
