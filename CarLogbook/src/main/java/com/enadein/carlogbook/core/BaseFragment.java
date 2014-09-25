@@ -67,4 +67,12 @@ public class BaseFragment extends Fragment {
 	public MenuEnabler getMenuEnabler() {
 		return null;
 	}
+
+    public void showProgress(boolean show) {
+        getView().findViewById(R.id.progress).setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    public void showNoItems(boolean show) {
+        getView().findViewById(R.id.no_items).setVisibility(show ? View.VISIBLE : View.GONE);
+    }
 }

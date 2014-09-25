@@ -32,6 +32,10 @@ import java.util.Collection;
 public class DBUtils {
 	private static Logger log = Logger.createLogger(DBUtils.class);
 
+    public static final long DAY = 60 * 60 * 24 * 1000;
+    public static final long MONTH = DAY * 31;
+    public static final long YEAR = MONTH * 12;
+
 	public static final String CAR_SELECTION = ProviderDescriptor.Log.Cols.CAR_ID + " = ?";
 	public static final String CAR_SELECTION_NOTIFY = ProviderDescriptor.Notify.Cols.CAR_ID + " = ?";
 	public static final String CAR_SELECTION_RATE = ProviderDescriptor.FuelRateView.Cols.CAR_ID + " = ?";
@@ -200,7 +204,7 @@ public class DBUtils {
 		}
 	}
 
-	private static FuelRateBean getCurrentFuelRate(ContentResolver cr, long carId, long fuelTypeId, long sstationId) {
+	public static FuelRateBean getCurrentFuelRate(ContentResolver cr, long carId, long fuelTypeId, long sstationId) {
 		FuelRateBean fuelRateBean = null;
 		StringBuilder sb = new StringBuilder();
 		sb.append(ProviderDescriptor.FuelRate.Cols.CAR_ID)
@@ -287,8 +291,29 @@ public class DBUtils {
 	}
 
 	public static long getMaxOdometerValue(ContentResolver cr) {
-		long carId = getActiveCarId(cr);
+        long carId = getActiveCarId(cr);
+        return getMaxOdometerValue(cr, carId);
+    }
 
+    public static   void resetCurrentActiveFlag(ContentResolver cr) {
+        ContentValues cv = new ContentValues();
+        cv.put(ProviderDescriptor.Car.Cols.ACTIVE_FLAG, 0);
+
+        cr.update(ProviderDescriptor.Car.CONTENT_URI, cv, "active_flag = 1",
+                null);
+    }
+
+    public static  void selectActivCar(ContentResolver cr, long carId) {
+        resetCurrentActiveFlag(cr);
+
+        ContentValues cv = new ContentValues();
+        cv.put(ProviderDescriptor.Car.Cols.ACTIVE_FLAG, 1);
+
+        cr.update(ProviderDescriptor.Car.CONTENT_URI, cv, ProviderDescriptor.Car.Cols._ID + " = ? ",
+                new String[] {String.valueOf(carId)});
+    }
+
+	public static long getMaxOdometerValue(ContentResolver cr, long carId) {
 		long result = 0;
 		Cursor cursor = cr.query(ProviderDescriptor.Log.CONTENT_URI,
 				new String[]{ProviderDescriptor.Log.Cols.ODOMETER},
@@ -352,31 +377,31 @@ public class DBUtils {
 
 	//for reports ========================================================
 
-	public static int getOdometerCount(ContentResolver cr) {
-		return getOdometerCount(cr, 0, 0, -1);
+	public static int getOdometerCount(long carId, ContentResolver cr) {
+		return getOdometerCount(carId, cr, 0, 0, -1);
 	}
 
-	//ODOMETER COUNT BY LOG TYPE
-	public static int getOdometerCount(ContentResolver cr, long from, long to, int type) {
-		int min = getMinOdometer(cr, from, to, type);
-		int minFrom = getOdometerMax(cr, 0, from, type);
+	//ODOMETER SUM_FUEL BY LOG TYPE
+	public static int getOdometerCount(long carId, ContentResolver cr, long from, long to, int type) {
+		int min = getMinOdometer(carId, cr, from, to, type);
+		int minFrom = getOdometerMax(carId, cr, 0, from, type);
 
 		if (from > 0 && minFrom < min) {
-			int globalMin = getMinOdometer(cr, 0, 0, type);
+			int globalMin = getMinOdometer(carId, cr, 0, 0, type);
 			min = (globalMin == min) ? min : minFrom;
 		}
 
-		int max = getOdometerMax(cr, from, to, type);
+		int max = getOdometerMax(carId, cr, from, to, type);
 
 		return max - min;
 	}
 
 
-	public static int getMinOdometer(ContentResolver cr, long from, long to, int type) {
+	public static int getMinOdometer(long carId, ContentResolver cr, long from, long to, int type) {
 		int min = 0;
 
 		String selection = buildCarDateSelection(from, to, type, null);
-		String[] args = buildCarDateSelectionArgs(cr, from, to, type);
+		String[] args = buildCarDateSelectionArgs(carId, cr, from, to, type);
 
 		Cursor c = cr.query(ProviderDescriptor.Log.CONTENT_URI,
 				new String[]{"min(" + ProviderDescriptor.Log.Cols.ODOMETER + ") as min"},
@@ -390,11 +415,11 @@ public class DBUtils {
 		return min;
 	}
 
-	public static int getOdometerMax(ContentResolver cr, long from, long to, int type) {
+	public static int getOdometerMax(long carId, ContentResolver cr, long from, long to, int type) {
 		int max = 0;
 
 		String selection = buildCarDateSelection(from, to, type, null);
-		String[] args = buildCarDateSelectionArgs(cr, from, to, type);
+		String[] args = buildCarDateSelectionArgs(carId, cr, from, to, type);
 
 		Cursor c = cr.query(ProviderDescriptor.Log.CONTENT_URI,
 				new String[]{"max(" + ProviderDescriptor.Log.Cols.ODOMETER + ") as max"},
@@ -408,24 +433,24 @@ public class DBUtils {
 		return max;
 	}
 
-	public static double getTotalPrice(ContentResolver cr) {
-		return getTotalPrice(cr, 0, 0, -1, null);
+	public static double getTotalPrice(long carId, ContentResolver cr) {
+		return getTotalPrice(carId,cr, 0, 0, -1, null);
 	}
 
-	public static double getTotalPrice(ContentResolver cr, long from, long to, int type) {
-		return getTotalPrice(cr, from, to, type, null);
+	public static double getTotalPrice(long carId, ContentResolver cr, long from, long to, int type) {
+		return getTotalPrice(carId, cr, from, to, type, null);
 	}
 
 	//TOTAL PRICE BY TYPE
 
-	public static double getTotalPrice(ContentResolver cr, long from, long to, int type, int[] otherTypes) {
-		return getTotalPrice(cr, from, to, type, otherTypes, false);
+	public static double getTotalPrice(long carId, ContentResolver cr, long from, long to, int type, int[] otherTypes) {
+		return getTotalPrice(carId, cr, from, to, type, otherTypes, false);
 	}
-	public static double getTotalPrice(ContentResolver cr, long from, long to, int type, int[] otherTypes, boolean skipFirst) {
+	public static double getTotalPrice(long carId, ContentResolver cr, long from, long to, int type, int[] otherTypes, boolean skipFirst) {
 		double result = 0;
 
 		String selection = buildCarDateSelection(from, to, type, otherTypes);
-		String[] args = buildCarDateSelectionArgs(cr, from, to, type);
+		String[] args = buildCarDateSelectionArgs(carId, cr, from, to, type);
 
 		if (skipFirst) {
 			int id = getLogIdItemFirstItemNoType(cr);
@@ -437,19 +462,19 @@ public class DBUtils {
 				selection, args, null);
 
 		if (isCursorHasValue(c)) {
-			result = getDubleByName(c, "sum");
+			result = getDoubleByName(c, "sum");
 		}
 
 		return result;
 	}
 
-	public static double getPricePer1km(ContentResolver cr, long from, long to) {
+	public static double getPricePer1km(long carId, ContentResolver cr, long from, long to) {
 		double result = 0;
 
-		int odometerCount = getOdometerCount(cr, from, to, -1);
+		int odometerCount = getOdometerCount(carId, cr, from, to, -1);
 
 		if (odometerCount > 0) {
-			double price = getTotalPrice(cr, from, to, -1, null, true);
+			double price = getTotalPrice(carId, cr, from, to, -1, null, true);
 
 			result = price / odometerCount;
 		}
@@ -476,6 +501,53 @@ public class DBUtils {
 
 		return id;
 	}
+
+    public static long getDateLogFirstItem(long carId, ContentResolver cr) {
+        long time = System.currentTimeMillis();
+
+        String carSelection = ProviderDescriptor.Log.Cols.CAR_ID + " = " + carId;
+
+        Cursor c = cr.query(ProviderDescriptor.Log.CONTENT_URI
+                .buildUpon()
+                .appendQueryParameter(CarLogbookProvider.LIMIT_PARAM, "1")
+                .build(), null, carSelection, null, ProviderDescriptor.Log.Cols.DATE + " ASC");
+        if (isCursorHasValue(c)) {
+            time = getLongByName(c, ProviderDescriptor.Log.Cols.DATE);
+        }
+
+
+        return time;
+    }
+
+    public static long getDateLogLastItem(long carId, ContentResolver cr) {
+        long time = System.currentTimeMillis();
+
+        String carSelection = ProviderDescriptor.Log.Cols.CAR_ID + " = " + carId;
+
+        Cursor c = cr.query(ProviderDescriptor.Log.CONTENT_URI
+                .buildUpon()
+                .appendQueryParameter(CarLogbookProvider.LIMIT_PARAM, "1")
+                .build(), null, carSelection, null, ProviderDescriptor.Log.Cols.DATE + " DESC");
+        if (isCursorHasValue(c)) {
+            time = getLongByName(c, ProviderDescriptor.Log.Cols.DATE);
+        }
+
+
+        return time;
+    }
+
+    public static double getDayPassed(ContentResolver cr, long carId) {
+        long startDate = getDateLogFirstItem(carId, cr);
+//        long endDate = getDateLogLastItem(carId, cr);
+        long endDate = System.currentTimeMillis();
+
+        return calcDayPassed(startDate, endDate);
+    }
+
+    public  static double calcDayPassed(long start, long end) {
+        double result = (end - start) / DAY;
+        return result > 0 ? result : 1;
+    }
 
 	public static int getLogIdItemFirstItemNoType(ContentResolver cr) {
 		int id = -1;
@@ -517,8 +589,8 @@ public class DBUtils {
 	}
 
 
-	public static int getTotalFuel(ContentResolver cr, long from, long to, boolean skipFirst) {
-		int result = 0;
+	public static double getTotalFuel(long carId, ContentResolver cr, long from, long to, boolean skipFirst) {
+        double result = 0;
 
 		String selection = buildCarDateSelection(from, to, ProviderDescriptor.Log.Type.FUEL, null);
 
@@ -527,24 +599,24 @@ public class DBUtils {
 			selection += " and " + ProviderDescriptor.Log.Cols._ID + " != " + id;
 		}
 
-		String[] args = buildCarDateSelectionArgs(cr, from, to, ProviderDescriptor.Log.Type.FUEL);
+		String[] args = buildCarDateSelectionArgs(carId, cr, from, to, ProviderDescriptor.Log.Type.FUEL);
 		Cursor c = cr.query(ProviderDescriptor.LogView.CONTENT_URI,
 				new String[]{"sum(" + ProviderDescriptor.LogView.Cols.FUEL_VOLUME + ") as sum"},
 				selection, args, null);
 
 		if (isCursorHasValue(c)) {
-			result = getIntByName(c, "sum");
+			result = getDoubleByName(c, "sum");
 		}
 
 
 		return result;
 	}
 
-	public static double getAvgFuel(ContentResolver cr, long from, long to, UnitFacade unitFacade) {
+	public static double getAvgFuel(long carId, ContentResolver cr, long from, long to, UnitFacade unitFacade) {
 		double result = 0;
 
-		int odometerCount = getOdometerCount(cr, from, to, ProviderDescriptor.Log.Type.FUEL);
-		double allFuel = getTotalFuel(cr, from, to, true);
+		int odometerCount = getOdometerCount(carId, cr, from, to, ProviderDescriptor.Log.Type.FUEL);
+		double allFuel = getTotalFuel(carId, cr, from, to, true);
 
 		if (odometerCount > 0) {
 //			result = (allFuel / odometerCount) * 100;
@@ -588,9 +660,9 @@ public class DBUtils {
 		return result;
 	}
 
-	public static String[] buildCarDateSelectionArgs(ContentResolver cr, long from, long to, int type) {
+	public static String[] buildCarDateSelectionArgs(long carId, ContentResolver cr, long from, long to, int type) {
 		Collection<String> args = new ArrayList<String>();
-		args.add(String.valueOf(getActiveCarId(cr)));
+		args.add(String.valueOf(carId));
 
 		if (from > 0) {
 			args.add(String.valueOf(from));
@@ -615,7 +687,7 @@ public class DBUtils {
 		return c.getLong(c.getColumnIndex(name));
 	}
 
-	public static double getDubleByName(Cursor c, String name) {
+	public static double getDoubleByName(Cursor c, String name) {
 		return c.getDouble(c.getColumnIndex(name));
 	}
 

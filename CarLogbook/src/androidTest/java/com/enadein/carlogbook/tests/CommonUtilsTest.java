@@ -32,7 +32,8 @@ public class CommonUtilsTest extends TestCase {
 		Calendar mar = getDate(2012, 2, 1);
 
 		String dateString = CommonUtils.formatDate(new Date(mar.getTimeInMillis()));
-		Assert.assertEquals("01-03-2012",  dateString);
+//		Assert.assertEquals("01-03-2012",  dateString);
+		Assert.assertEquals("2012-03-01",  dateString);
 
 		CommonUtils.trunkDay(mar);
 		Assert.assertEquals(0, mar.get(Calendar.HOUR));
@@ -53,7 +54,8 @@ public class CommonUtilsTest extends TestCase {
 
 		Assert.assertTrue(febLong > jun.getTimeInMillis());
 
-		Assert.assertEquals("01-02-2012",  CommonUtils.formatDate(new Date(jun.getTimeInMillis())));
+//		Assert.assertEquals("01-02-2012",  CommonUtils.formatDate(new Date(jun.getTimeInMillis())));
+		Assert.assertEquals("2012-02-01",  CommonUtils.formatDate(new Date(jun.getTimeInMillis())));
 
 	}
 

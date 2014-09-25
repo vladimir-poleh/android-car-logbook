@@ -31,7 +31,9 @@ import android.widget.ListView;
 import com.enadein.carlogbook.CarLogbook;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.adapter.FuelRateAdapter;
+import com.enadein.carlogbook.bean.DataInfo;
 import com.enadein.carlogbook.core.BaseFragment;
+import com.enadein.carlogbook.core.DataLoader;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
@@ -61,10 +63,33 @@ public class FuelRateFragment extends BaseFragment implements
 	public void onResume() {
 		super.onPause();
 
-		getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_FUEL_RATE_ID,
-				null, this);
+//		getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_FUEL_RATE_ID,
+//				null, this);
+
+        showProgress(true);
+        getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_CALC_FUEL_RATE, null, new LoaderCalculate());
 
 	}
+
+    private class LoaderCalculate implements LoaderManager.LoaderCallbacks<DataInfo> {
+
+        @Override
+        public Loader<DataInfo> onCreateLoader(int id, Bundle bundle) {
+             return new DataLoader(getActivity(), DataLoader.CALC_RATE, null, getMediator().getUnitFacade());
+        }
+
+        @Override
+        public void onLoadFinished(Loader<DataInfo> dataInfoLoader, DataInfo dataInfo) {
+    		getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_FUEL_RATE_ID,
+				null, FuelRateFragment.this);
+
+        }
+
+        @Override
+        public void onLoaderReset(Loader<DataInfo> dataInfoLoader) {
+
+        }
+    }
 
 	@Override
 	public String getSubTitle() {
@@ -83,7 +108,9 @@ public class FuelRateFragment extends BaseFragment implements
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        showProgress(false);
 		adapter.swapCursor(data);
+        showNoItems(data.getCount() == 0);
 	}
 
 	@Override

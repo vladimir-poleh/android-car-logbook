@@ -71,6 +71,10 @@ public class ImportActivity extends BaseActivity implements LoaderManager.Loader
 				getMediator().showConfirmImport();
 			}
 		});
+
+        //TODO need to move into strings
+        Toast.makeText(this, "Dir: " +
+                FileUtils.getBackupDirectory().getAbsolutePath(), Toast.LENGTH_LONG).show();
 	}
 
 	public void onDialogEvent(int requestCode, int responseCode, Bundle params) {

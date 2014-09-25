@@ -3,6 +3,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               style="@style/list_main">
 
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:indeterminate="true"/>
+
+    <LinearLayout
+        android:id="@+id/no_items"
+        android:visibility="gone"
+        style="@style/add_entity_main">
+
+        <LinearLayout
+            style="@style/new_group">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/no_reports"/>
+        </LinearLayout>
+    </LinearLayout>
+
 	<ListView
 		android:id="@+id/list" style="@style/newList"/>
 </LinearLayout>

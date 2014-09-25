@@ -64,10 +64,19 @@ public class LogbookFragment extends BaseFragment  implements
 			}
 		});
 
-		getLoaderManager().initLoader(CarLogbook.LoaderDesc.LOG_ID, null, this);
+
 	}
 
-	@Override
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+
+        getLoaderManager().restartLoader(CarLogbook.LoaderDesc.LOG_ID, null, this);
+    }
+
+    @Override
 	public String getSubTitle() {
 		return getString(R.string.menu_item_log);
 	}
@@ -93,6 +102,7 @@ public class LogbookFragment extends BaseFragment  implements
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		adapter.swapCursor(data);
+        showNoItems(data.getCount() == 0);
 	}
 
 	@Override

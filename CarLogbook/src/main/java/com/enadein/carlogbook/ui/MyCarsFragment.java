@@ -33,6 +33,8 @@ import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.adapter.CarAdapter;
 import com.enadein.carlogbook.core.BaseFragment;
 import com.enadein.carlogbook.core.MenuEnabler;
+import com.enadein.carlogbook.core.UnitFacade;
+import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
 public class MyCarsFragment extends BaseFragment implements
@@ -61,6 +63,15 @@ public class MyCarsFragment extends BaseFragment implements
 			}
 		});
 
+        carListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                DBUtils.selectActivCar(getActivity().getContentResolver(), id);
+                getMediator().getUnitFacade().reload(id);
+                return true;
+            }
+        });
+
 		getLoaderManager().initLoader(CarLogbook.LoaderDesc.CAR_ID, null, this);
 	}
 
@@ -88,6 +99,7 @@ public class MyCarsFragment extends BaseFragment implements
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		carAdapter.swapCursor(data);
+        showNoItems(data.getCount() == 0);
 	}
 
 	@Override

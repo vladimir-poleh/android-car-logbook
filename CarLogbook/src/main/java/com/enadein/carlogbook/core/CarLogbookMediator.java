@@ -17,14 +17,17 @@
 */
 package com.enadein.carlogbook.core;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.Toast;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
+import com.enadein.carlogbook.service.ReportCalculationService;
 import com.enadein.carlogbook.ui.AboutFragment;
 import com.enadein.carlogbook.ui.AddUpdateCarActivity;
 import com.enadein.carlogbook.ui.AddUpdateDataValue;
@@ -34,6 +37,7 @@ import com.enadein.carlogbook.ui.AddUpdateNotificationActivity;
 import com.enadein.carlogbook.ui.AlertDialog;
 import com.enadein.carlogbook.ui.ConfirmDialog;
 import com.enadein.carlogbook.ui.DataValueActivity;
+import com.enadein.carlogbook.ui.DetailReportFragment;
 import com.enadein.carlogbook.ui.ExportActivty;
 import com.enadein.carlogbook.ui.FuelRateFragment;
 import com.enadein.carlogbook.ui.GoogleBackupActivity;
@@ -99,6 +103,10 @@ public class CarLogbookMediator extends AppMediator {
 	public void showLastUpdate() {
 		replaceMainContainter(new LastUpdatedReportFragment());
 	}
+
+    public void showDetailedReport() {
+        replaceMainContainter(new DetailReportFragment());
+    }
 
 
 	public void showMyCars() {
@@ -194,6 +202,10 @@ public class CarLogbookMediator extends AppMediator {
 		importDlg.show(activity.getSupportFragmentManager(), "import");
 	}
 
+    public void showToast(String text) {
+        Toast.makeText(activity, text, Toast.LENGTH_LONG).show();
+    }
+
 	public void showAlert(String text) {
 		AlertDialog alertDialog = AlertDialog.newInstance();
 		alertDialog.setText(text);
@@ -262,4 +274,9 @@ public class CarLogbookMediator extends AppMediator {
 			purchasedListener.onError();
 		}
 	}
+
+    public void runReportService() {
+        Intent intent = new Intent(activity, ReportCalculationService.class);
+        activity.startService(intent);
+    }
 }

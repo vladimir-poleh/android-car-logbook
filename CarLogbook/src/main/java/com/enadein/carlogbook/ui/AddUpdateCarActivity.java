@@ -185,7 +185,7 @@ public class AddUpdateCarActivity extends SaveUpdateBaseActivity {
 		}
 
 		if (selectCarView.isChecked()) {
-			resetCurrentActiveFlag();
+			DBUtils.resetCurrentActiveFlag(getContentResolver());
 		}
 
 		if (selectedCarId == -1 || selectCarView.isChecked()) {
@@ -214,7 +214,7 @@ public class AddUpdateCarActivity extends SaveUpdateBaseActivity {
 		}
 
 		if (selectCarView.isChecked()) {
-			resetCurrentActiveFlag();
+			DBUtils.resetCurrentActiveFlag(getContentResolver());
 			cv.put(ProviderDescriptor.Car.Cols.ACTIVE_FLAG, 1);
 		}
 
@@ -263,12 +263,6 @@ public class AddUpdateCarActivity extends SaveUpdateBaseActivity {
 		return result;
 	}
 
-	private void resetCurrentActiveFlag() {
-		ContentValues cv = new ContentValues();
-		cv.put(ProviderDescriptor.Car.Cols.ACTIVE_FLAG, 0);
 
-		getContentResolver().update(ProviderDescriptor.Car.CONTENT_URI, cv, "active_flag = 1",
-				null);
-	}
 
 }

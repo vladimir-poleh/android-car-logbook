@@ -32,6 +32,35 @@ public class FuelRateBean implements DBBean{
 	private double rate;
 	private double minRate;
 	private double maxRate;
+	private double fuelSum;
+	private double distSum;
+
+    public double getAvg() {
+        return avg;
+    }
+
+    public void setAvg(double avg) {
+        this.avg = avg;
+    }
+
+    public double getDistSum() {
+        return distSum;
+    }
+
+    public void setDistSum(double distSum) {
+        this.distSum = distSum;
+    }
+
+    public double getFuelSum() {
+        return fuelSum;
+    }
+
+    public void setFuelSum(double fuelSum) {
+        this.fuelSum = fuelSum;
+    }
+
+    private double avg;
+
 
 	public long getId() {
 		return id;
@@ -90,7 +119,8 @@ public class FuelRateBean implements DBBean{
 		this.maxRate = maxRate;
 	}
 
-	@Override
+
+    @Override
 	public ContentValues getCV() {
 		ContentValues cv = new ContentValues();
 
@@ -100,6 +130,9 @@ public class FuelRateBean implements DBBean{
 		cv.put(ProviderDescriptor.FuelRate.Cols.MAX_RATE, getMaxRate());
 		cv.put(ProviderDescriptor.FuelRate.Cols.MIN_RATE, getMinRate());
 		cv.put(ProviderDescriptor.FuelRate.Cols.RATE, getRate());
+		cv.put(ProviderDescriptor.FuelRate.Cols.SUM_DIST, getDistSum());
+		cv.put(ProviderDescriptor.FuelRate.Cols.SUM_FUEL, getFuelSum());
+		cv.put(ProviderDescriptor.FuelRate.Cols.AVG, getAvg());
 
 		return cv;
 	}
@@ -113,6 +146,9 @@ public class FuelRateBean implements DBBean{
 		int maxRateIdx = c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.MAX_RATE);
 		int minRateIdx = c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.MIN_RATE);
 		int rateIdx = c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.RATE);
+		int fuelIdx = c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.SUM_FUEL);
+		int distIdx = c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.SUM_DIST);
+		int avgIdx = c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.AVG);
 
 		setId(c.getLong(idIdx));
 		setCarId(c.getLong(carIdx));
@@ -121,5 +157,8 @@ public class FuelRateBean implements DBBean{
 		setMaxRate(c.getDouble(maxRateIdx));
 		setMinRate(c.getDouble(minRateIdx));
 		setRate(c.getDouble(rateIdx));
+		setDistSum(c.getDouble(distIdx));
+		setFuelSum(c.getDouble(fuelIdx));
+		setAvg(c.getDouble(avgIdx));
 	}
 }

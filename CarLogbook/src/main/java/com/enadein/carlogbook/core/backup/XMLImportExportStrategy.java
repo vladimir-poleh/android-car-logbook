@@ -38,7 +38,7 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 
 	public static final String CAR_LOGBOOK_TAG = "CAR_LOGBOOK";
 	public static final String EXPORT_VERSION_NAME = "ver";
-	public static final String EXPORT_VERSION_VALUE = "2";
+	public static final String EXPORT_VERSION_VALUE = "3";
 	public static final String ITEM_TAG = "ITEM_TAG";
 	public static final String CAR_TAG = "CAR";
 	public static final String DATA_VALUE_TAG = "DATA_VALUE";
@@ -130,7 +130,7 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 			importers.put(CAR_TAG, new CarImporter());
 			importers.put(LOG_TAG, new LogImporter());
 			importers.put(NOTIFY_TAG, new NotifyImporter());
-			importers.put(RATE_TAG, new FuelRateImporter());
+//			importers.put(RATE_TAG, new FuelRateImporter()); //deprecated
 			//1.2
 			importers.put(RATE_TAG, new SettingsImporter());
 		}
@@ -423,50 +423,50 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 		}
 	}
 
-	private class FuelRateImporter implements Importer {
-		@Override
-		public void importData(Attributes attributes) {
-			ContentValues cv = new ContentValues();
-
-			String rate = attributes.getValue(attributes.getIndex(ProviderDescriptor.FuelRate.Cols.RATE));
-			cv.put(ProviderDescriptor.FuelRate.Cols.RATE, rate);
-
-			String minRate = attributes.getValue(attributes.getIndex(ProviderDescriptor.FuelRate.Cols.MIN_RATE));
-			cv.put(ProviderDescriptor.FuelRate.Cols.MIN_RATE, minRate);
-
-			String maxRate = attributes.getValue(attributes.getIndex(ProviderDescriptor.FuelRate.Cols.MAX_RATE));
-			cv.put(ProviderDescriptor.FuelRate.Cols.MAX_RATE, maxRate);
-
-			String stationId = attributes.getValue(attributes.getIndex(ProviderDescriptor.FuelRate.Cols.STATION_ID));
-			stationId = importContext.get(DV_KEY + ProviderDescriptor.DataValue.Type.STATION + stationId);
-			cv.put(ProviderDescriptor.FuelRate.Cols.STATION_ID, stationId);
-
-			String typeId = attributes.getValue(attributes.getIndex(ProviderDescriptor.FuelRate.Cols.FUEL_TYPE_ID));
-			typeId = importContext.get(DV_KEY + ProviderDescriptor.DataValue.Type.FUEL + typeId);
-			cv.put(ProviderDescriptor.FuelRate.Cols.FUEL_TYPE_ID, typeId);
-
-			String innerCarId = attributes.getValue(attributes.getIndex(ProviderDescriptor.Notify.Cols.CAR_ID));
-			String carID = importContext.get(CAR_KEY + innerCarId);
-
-			cv.put(ProviderDescriptor.Notify.Cols.CAR_ID,
-					carID);
-
-			boolean newValue = true;
-			if (existCar(innerCarId)) {
-				long id = DBUtils.getFuelRateId(cr, typeId, stationId);
-				newValue = (id == -1);
-			}
-
-			if (newValue) {
-				Uri uri = cr.insert(ProviderDescriptor.FuelRate.CONTENT_URI, cv);
-			}
-		}
-
-		@Override
-		public void flush() {
-
-		}
-	}
+//	private class FuelRateImporter implements Importer {
+//		@Override
+//		public void importData(Attributes attributes) {
+//			ContentValues cv = new ContentValues();
+//
+//			String rate = attributes.getValue(attributes.getIndex(ProviderDescriptor.FuelRate.Cols.RATE));
+//			cv.put(ProviderDescriptor.FuelRate.Cols.RATE, rate);
+//
+//			String minRate = attributes.getValue(attributes.getIndex(ProviderDescriptor.FuelRate.Cols.MIN_RATE));
+//			cv.put(ProviderDescriptor.FuelRate.Cols.MIN_RATE, minRate);
+//
+//			String maxRate = attributes.getValue(attributes.getIndex(ProviderDescriptor.FuelRate.Cols.MAX_RATE));
+//			cv.put(ProviderDescriptor.FuelRate.Cols.MAX_RATE, maxRate);
+//
+//			String stationId = attributes.getValue(attributes.getIndex(ProviderDescriptor.FuelRate.Cols.STATION_ID));
+//			stationId = importContext.get(DV_KEY + ProviderDescriptor.DataValue.Type.STATION + stationId);
+//			cv.put(ProviderDescriptor.FuelRate.Cols.STATION_ID, stationId);
+//
+//			String typeId = attributes.getValue(attributes.getIndex(ProviderDescriptor.FuelRate.Cols.FUEL_TYPE_ID));
+//			typeId = importContext.get(DV_KEY + ProviderDescriptor.DataValue.Type.FUEL + typeId);
+//			cv.put(ProviderDescriptor.FuelRate.Cols.FUEL_TYPE_ID, typeId);
+//
+//			String innerCarId = attributes.getValue(attributes.getIndex(ProviderDescriptor.Notify.Cols.CAR_ID));
+//			String carID = importContext.get(CAR_KEY + innerCarId);
+//
+//			cv.put(ProviderDescriptor.Notify.Cols.CAR_ID,
+//					carID);
+//
+//			boolean newValue = true;
+//			if (existCar(innerCarId)) {
+//				long id = DBUtils.getFuelRateId(cr, typeId, stationId);
+//				newValue = (id == -1);
+//			}
+//
+//			if (newValue) {
+//				Uri uri = cr.insert(ProviderDescriptor.FuelRate.CONTENT_URI, cv);
+//			}
+//		}
+//
+//		@Override
+//		public void flush() {
+//
+//		}
+//	}
 
 	@Override
 	public boolean exportData(String name) {
@@ -499,7 +499,7 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 			exportCars(serializer);
 			exportNotify(serializer);
 			exportLog(serializer);
-			exportFuelRate(serializer);
+//			exportFuelRate(serializer);
 			exportSettings(serializer);
 
 			serializer.endTag(DEFAULT_NAMESPACE, CAR_LOGBOOK_TAG);
@@ -844,73 +844,73 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 		serializer.endTag(DEFAULT_NAMESPACE, SET_TAG);
 	}
 
-	private void exportFuelRate(XmlSerializer serializer) throws IOException {
-		serializer.startTag(DEFAULT_NAMESPACE, RATE_TAG);
-
-		Cursor c = cr.query(ProviderDescriptor.FuelRate.CONTENT_URI, null, null, null, null);
-		if (c == null) {
-			return;
-		}
-
-
-		//LOOP
-		while (c.moveToNext()) {
-			serializer.startTag(DEFAULT_NAMESPACE, ITEM_TAG);
-
-			{
-				long id = c.getLong(c.getColumnIndex(ProviderDescriptor.FuelRate.Cols._ID));
-				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.FuelRate.Cols._ID,
-						String.valueOf(id));
-			}
-
-
-			{
-				double rate = c.getDouble(c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.RATE));
-				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.FuelRate.Cols.RATE,
-						String.valueOf(rate));
-			}
-
-			{
-				double rateMin = c.getDouble(c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.MIN_RATE));
-				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.FuelRate.Cols.MIN_RATE,
-						String.valueOf(rateMin));
-			}
-
-			{
-				double rateMax = c.getDouble(c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.MAX_RATE));
-				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.FuelRate.Cols.MAX_RATE,
-						String.valueOf(rateMax));
-			}
-
-			{
-				long fuelId = c.getLong(c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.FUEL_TYPE_ID));
-				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.FuelRate.Cols.FUEL_TYPE_ID,
-						String.valueOf(fuelId));
-			}
-
-			{
-				long stationId = c.getLong(c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.STATION_ID));
-				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.FuelRate.Cols.STATION_ID,
-						String.valueOf(stationId));
-			}
-
-
-			{
-				long carId = c.getLong(c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.CAR_ID));
-				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.FuelRate.Cols.CAR_ID,
-						String.valueOf(carId));
-			}
-
-			serializer.endTag(DEFAULT_NAMESPACE, ITEM_TAG);
-		}
-
-		c.close();
-
-
-		//END LOOP
-
-		serializer.endTag(DEFAULT_NAMESPACE, RATE_TAG);
-	}
+//	private void exportFuelRate(XmlSerializer serializer) throws IOException {
+//		serializer.startTag(DEFAULT_NAMESPACE, RATE_TAG);
+//
+//		Cursor c = cr.query(ProviderDescriptor.FuelRate.CONTENT_URI, null, null, null, null);
+//		if (c == null) {
+//			return;
+//		}
+//
+//
+//		//LOOP
+//		while (c.moveToNext()) {
+//			serializer.startTag(DEFAULT_NAMESPACE, ITEM_TAG);
+//
+//			{
+//				long id = c.getLong(c.getColumnIndex(ProviderDescriptor.FuelRate.Cols._ID));
+//				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.FuelRate.Cols._ID,
+//						String.valueOf(id));
+//			}
+//
+//
+//			{
+//				double rate = c.getDouble(c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.RATE));
+//				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.FuelRate.Cols.RATE,
+//						String.valueOf(rate));
+//			}
+//
+//			{
+//				double rateMin = c.getDouble(c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.MIN_RATE));
+//				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.FuelRate.Cols.MIN_RATE,
+//						String.valueOf(rateMin));
+//			}
+//
+//			{
+//				double rateMax = c.getDouble(c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.MAX_RATE));
+//				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.FuelRate.Cols.MAX_RATE,
+//						String.valueOf(rateMax));
+//			}
+//
+//			{
+//				long fuelId = c.getLong(c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.FUEL_TYPE_ID));
+//				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.FuelRate.Cols.FUEL_TYPE_ID,
+//						String.valueOf(fuelId));
+//			}
+//
+//			{
+//				long stationId = c.getLong(c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.STATION_ID));
+//				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.FuelRate.Cols.STATION_ID,
+//						String.valueOf(stationId));
+//			}
+//
+//
+//			{
+//				long carId = c.getLong(c.getColumnIndex(ProviderDescriptor.FuelRate.Cols.CAR_ID));
+//				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.FuelRate.Cols.CAR_ID,
+//						String.valueOf(carId));
+//			}
+//
+//			serializer.endTag(DEFAULT_NAMESPACE, ITEM_TAG);
+//		}
+//
+//		c.close();
+//
+//
+//		//END LOOP
+//
+//		serializer.endTag(DEFAULT_NAMESPACE, RATE_TAG);
+//	}
 
 
 }

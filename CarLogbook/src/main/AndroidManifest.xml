@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 
-    package="com.enadein.carlogbook" android:installLocation="preferExternal"
+    package="com.enadein.carlogbook" android:installLocation="auto"
     xmlns:tools="http://schemas.android.com/tools">
 
 	<uses-permission android:name="com.android.vending.BILLING" />
@@ -105,6 +105,7 @@
 		    android:name="com.enadein.carlogbook.db.CarLogbookProvider" android:exported="false"/>
 
 	    <service android:name="com.enadein.carlogbook.service.NotifyService"/>
+	    <service android:name="com.enadein.carlogbook.service.ReportCalculationService"/>
 
 	    <meta-data android:name="com.google.android.gms.version"
 	               android:value="@integer/google_play_services_version" />

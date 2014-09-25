@@ -1,52 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
-	style="@style/full"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/full">
 
-	<LinearLayout
-		style="@style/full"
-		android:orientation="vertical">
+    <LinearLayout
+        style="@style/full"
+        android:orientation="vertical">
 
-		<LinearLayout
-			style="@style/add_entity_main"
-			android:layout_height="wrap_content">
+        <LinearLayout
+            style="@style/add_entity_main"
+            android:layout_height="wrap_content">
 
-			<LinearLayout
-				style="@style/new_group">
+            <LinearLayout style="@style/new_group">
 
-				<LinearLayout
-					style="@style/wide"
-					android:orientation="horizontal">
+                <LinearLayout
+                    style="@style/wide"
+                    android:orientation="horizontal">
 
-					<CheckBox
-						android:id="@+id/importDeleteCB"
-						style="@style/wrap"
-						android:checked="false"
-						android:text="@string/import_delete"/>
-				</LinearLayout>
-			</LinearLayout>
-		</LinearLayout>
+                    <CheckBox
+                        android:id="@+id/importDeleteCB"
+                        style="@style/wrap"
+                        android:checked="false"
+                        android:text="@string/import_delete" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
-		<TextView
-			android:id="@+id/no_data"
-			style="@style/add_entity_label"
-			android:text="@string/no_data"
-			android:visibility="gone"/>
+        <LinearLayout
+            android:id="@+id/no_data"
+            style="@style/add_entity_main"
+            android:visibility="gone"
+            android:layout_height="wrap_content">
 
-		<LinearLayout style="@style/add_entity_edit_new">
+            <LinearLayout style="@style/new_group">
 
-			<TextView
-				style="@style/new_title"
-				android:text="@string/files"/>
-		</LinearLayout>
+                <TextView
+                    style="@style/add_entity_label"
+                    android:text="@string/no_data"
+                     />
 
-		<ListView
-			android:id="@+id/list"
-			style="@style/newList"
-			android:layout_height="0dp"
-			android:layout_marginBottom="4dp"
-			android:layout_weight="1"/>
-	</LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout style="@style/add_entity_edit_new">
+            <TextView
+                style="@style/new_title"
+                android:text="@string/files" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/list"
+            style="@style/newList"
+            android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </FrameLayout>

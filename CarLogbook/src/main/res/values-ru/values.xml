@@ -5,6 +5,7 @@
         <item>По типу</item>
         <item>Расход топл.</item>
         <item>Дата событ.</item>
+        <item>Детальный</item> <!--1.4-->
     </string-array>
 	<string-array name="fuel_type_default">
 		<item>A-95</item>

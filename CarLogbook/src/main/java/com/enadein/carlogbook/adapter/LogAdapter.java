@@ -133,9 +133,9 @@ public class LogAdapter extends CursorAdapter {
 			logFuelHolder.odometerView.setText(String.valueOf(odometer));
 			unitFacade.appendDistUnit(logFuelHolder.odometerView, false);
 			logFuelHolder.dateView.setText(date);
-			logFuelHolder.fuelValueView.setText(CommonUtils.formatPrice(fuelValue));
+			logFuelHolder.fuelValueView.setText(CommonUtils.formatFuel(fuelValue, unitFacade));
 			unitFacade.appendFuelUnit(logFuelHolder.fuelValueView, false);
-			logFuelHolder.priceTotal.setText( CommonUtils.formatPrice(priceTotalDouble));
+			logFuelHolder.priceTotal.setText( CommonUtils.formatPriceNew(priceTotalDouble, unitFacade));
 			unitFacade.appendCurrency(logFuelHolder.priceTotal,false);
 			logFuelHolder.fuelView.setText(fuelName + "(" + stationName + ")");
 			logFuelHolder.imgType.setBackgroundResource(R.drawable.fuel);
@@ -152,7 +152,7 @@ public class LogAdapter extends CursorAdapter {
 			logHolder.odometerView.setText(String.valueOf(odometer));
 			unitFacade.appendDistUnit(logHolder.odometerView, false);
 			logHolder.imgType.setBackgroundResource(DataInfo.images.get(typeId));
-			logHolder.priceTotal.setText( CommonUtils.formatPrice(price));
+			logHolder.priceTotal.setText( CommonUtils.formatPriceNew(price, unitFacade));
 			unitFacade.appendCurrency(logHolder.priceTotal,false);
 			logHolder.nameView.setText( name);
 			logHolder.typeView.setText(types[typeId]);

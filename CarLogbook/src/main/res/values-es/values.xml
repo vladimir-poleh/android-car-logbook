@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="action_list">
-        <item>Dashboard</item>
-        <item>By type</item>
-        <item>Fuel rate</item>
-        <item>Last events</item>
-        <item>Detail</item> <!--1.4-->
+        <item>Salpicadero</item>
+        <item>por tipo</item>
+        <item>Tipo de combustible</item>
+        <item>Ultimos eventos</item>
+        <item>Detalles</item> <!--1.4-->
     </string-array>
 	<string-array name="fuel_type_default">
 		<item>85</item>
@@ -16,25 +16,25 @@
 		<item>91&#8211;93</item>
 	</string-array>
 	<string-array name="station_type_default">
-		<item>Default</item>
+        <item>Predefinido</item>
 	</string-array>
 	<string-array name="log_type">
-		<item>Other</item> <!--0-->
-		<item>Car wash</item><!--1-->
-		<item>Parking</item><!--2-->
-		<item>Penalty</item><!--3-->
-		<item>Tuning</item><!--4-->
-		<item>Service</item><!--5-->
-		<item>Engine oil</item><!--6-->
-		<item>Transmission oil</item><!--7-->
-		<item>Repair part</item><!--8-->
-		<item>Insurance</item><!--9-->
-		<item>Credit</item><!--10-->
+        <item>Otros</item> <!--0-->
+        <item>Lavado de autos</item><!--1-->
+        <item>Estacionamiento</item><!--2-->
+        <item>Multas</item><!--3-->
+        <item>Tuning</item><!--4-->
+        <item>Servicios</item><!--5-->
+        <item>Aceite de motor</item><!--6-->
+        <item>Aceite de transmisión</item><!--7-->
+        <item>Partes de reemplazo</item><!--8-->
+        <item>Seguro</item><!--9-->
+        <item>Crédito</item><!--10-->
 	</string-array>
 
 	<string-array name="notify_types">
-		<item>by odometer</item>
-		<item>by date</item>
+        <item>por odómetro</item>
+        <item>by fecha</item>
 	</string-array>
 
 	<!--1.2-->

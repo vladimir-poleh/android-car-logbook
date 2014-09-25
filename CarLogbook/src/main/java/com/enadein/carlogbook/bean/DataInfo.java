@@ -79,7 +79,17 @@ public class DataInfo {
 	private Dashboard dashboard = new Dashboard();
 	private ArrayList<ReportItem> reportData;
 
-	public Dashboard getDashboard() {
+    private XReport xReport;
+
+    public XReport getxReport() {
+        return xReport;
+    }
+
+    public void setxReport(XReport xReport) {
+        this.xReport = xReport;
+    }
+
+    public Dashboard getDashboard() {
 		return dashboard;
 	}
 

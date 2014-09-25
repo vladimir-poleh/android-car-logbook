@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!--Common-->
+	<string name="app_ver">Verze</string>
+	<string name="create">Vytvořit</string>
+	<string name="save">Uložit</string>
+	<string name="cancel">Zrušit</string>
+	<string name="delete">Smazat</string>
+	<string name="confirm">Potvrzení</string>
+	<string name="confirm_delete">Opravdu chcete smazat záznam?</string>
+	<string name="yes">Ano</string>
+	<string name="no">Ne</string>
+	<string name="ok">Ok</string>
+	<string name="date">Datum</string>
+	<string name="odometer_unit">Jednotky tachometru</string>
+	<string name="comments">Komentáře</string>
+
+	<string name="deleteActive">Nemůžete smazat aktivní vozidlo!</string>
+
+    <!--Menu-->
+    <string name="app_name">Car Logbook</string>
+    <string name="menu_item_log">Záznamy</string>
+    <string name="menu_item_reports">Reporty</string>
+    <string name="menu_item_my_cars">Vozidla</string>
+    <string name="menu_item_notifications">Notifikace</string>
+    <string name="menu_item_settings">Nastavení</string>
+    <string name="menu_item_about">O aplikaci</string>
+
+    <!--Action Bar Menu-->
+    <string name="share">Sdílet</string>
+    <string name="share_title">CarLogbook</string>
+    <string name="add_car">Přidat vozidlo</string>
+    <string name="add_fuel_log">Přidat tankování</string>
+    <string name="add_log">Přidat událost</string>
+    <string name="add_notify">Přidat notifikaci</string>
+
+    <!--Add event log Activity-->
+    <string name="log_title">Přidat událost</string>
+    <string name="log_title_edit">Upravit událost</string>
+    <string name="log_name">Jméno</string>
+    <string name="erro_log_name">Jméno není validní</string>
+    <string name="error_date">Datum není validní</string>
+    <string name="log_type">Typ</string>
+    <string name="log_price">Cena</string>
+    <string name="log_f">F: </string>
+    <string name="log_p">P: </string>
+
+
+	<string name="value_car_error">Prosím přijdete vozidlo!</string>
+
+    <!--Add fuel  event log Activity-->
+    <string name="log_fuel_title">Přidat tankování</string>
+    <string name="log_fuel_title_edit">Upravit tankování</string>
+    <string name="log_fuel_odometer">Tachometr</string>
+    <string name="log_fuel_price">Cena (za jednotku)</string>
+    <string name="log_fuel_volume">Natankováno</string>
+	<string name="log_fuel_price_total">Cena (celkem)</string>
+	<string name="log_fuel_type">Palivo</string>
+	<string name="log_fuel_gas_station">Čerpací stanice</string>
+
+	<string name="error_odometer">Hodnota tachometru není validní</string>
+	<string name="error_price">Cena není validní</string>
+	<string name="error_cost">Cena není validní</string>
+	<string name="error_fuel">Palivo není validní</string>
+
+    <!--Add Notification Activity-->
+    <string name="notify_title">Přidat notifikaci</string>
+    <string name="notify_title_edit">Upravit notifikaci</string>
+    <string name="notify_type">Typ</string>
+
+	<!--Settings-->
+	<string name="sett_fuel_type">Typy paliva</string>
+	<string name="sett_stations">Čerpací stanice</string>
+	<string name="sett_stations_add_gas">Přidat čerpací stanici</string>
+	<string name="sett_stations_edit_gas">Upravit čerpací stanici</string>
+
+	<string name="sett_stations_add_fuel">Přidat nové palivo</string>
+	<string name="sett_stations_edit_fuel">Upravit palivo</string>
+
+    <!--Add Car Activity-->
+    <string name="add_car_title">Přidat nové vozidlo</string>
+    <string name="edit_car_title">Upravit vozidlo</string>
+    <string name="car_name">Název vozidla</string>
+    <string name="car_name_error">Název vozidla je vyžádován</string>
+    <string name="select_car">Vybrat toto vozidlo</string>
+
+
+	<!--Add Data Value Activity-->
+	<string name="value_fuel_title">Přidat nové palivo</string>
+	<string name="value_station_title">Přidat novou čerpací stanici</string>
+	<string name="value_name">Název</string>
+	<string name="value_name_error">Název je vyžadován</string>
+	<string name="value_sys_error">Nemůžete editovat systémovou hodnotu</string>
+	<string name="value_used_error">Tato položka je používána!</string>
+
+	<!--Report-->
+	<string name="no_reports">Doposud žádné reporty</string>
+
+	<string name="total_cost">Celkem útrata</string>
+	<string name="total_run">Celkem najeto</string>
+	<string name="total_fuel">Celkový objem paliva</string>
+
+	<string name="avg_fuel">Průměr</string>
+	<string name="cost_per1">Cena/1</string>
+
+	<string name="total_fuel_cost">Palivo</string>
+	<string name="total_service_cost">Služby</string>
+	<string name="total_service_part_cost">Součástky</string>
+	<string name="total_parking_cost">Parkování</string>
+	<string name="total_other_cost">Ostatní</string>
+
+	<string name="cost_by_type">Celková cena dle typu</string>
+	<string name="cost_by_last4">Celková cena (poslední 4 měsíce)</string>
+	<string name="run_by_last4">Najeto (poslední 4 měsíce)</string>
+
+	<string name="not_found">Nenalezeno</string>
+	<string name="not_set">Nenastaveno</string>
+	<!--About-->
+
+	<string name="share_text">Car Logbook -  přehledné statistiky vašeho vozu https://play.google.com/store/apps/details?id=com.enadein.carlogbook</string>
+
+	<string name="author">Autor</string>
+	<string name="author_value">Eugene Nadein</string>
+	<string name="open_src">Tato aplikaje je open-source project</string>
+	<string name="open_src_val">Zdrojový kód</string>
+	<string name="open_src_url">https://github.com/tx-drive/android-car-logbook</string>
+
+
+	<string name="feedback_lic">Licence (GNU GPL v3)</string>
+	<string name="feedback_lic_val">Číst licenci</string>
+
+	<string name="feedback_rate">Ohodnoťte tuto aplikaci</string>
+
+	<string name="feedback_label">Zpětná vazba</string>
+	<string name="feedback_ask">Požádat o novou funkci</string>
+	<string name="feedback_provide">Zpětná vazba / otázky / hlášení chyb</string>
+
+	<string name="libs_label">Volně dostupné knihovny</string>
+	<string name="lib1_val">HoloGraphLibrary - a chart library for android </string>
+	<string name="lib1_val_url">https://bitbucket.org/danielnadeau/holographlibrary/wiki/Home</string>
+	<string name="email">eugene.nadein@gmail.com</string>
+	<string name="email_subject_ask">Feature(CarLogbook)</string>
+	<string name="email_subject_provide">Feedback(CarLogbook)</string>
+	<string name="license_title">License</string>
+
+	<string name="donate">Přispět (pomoc při další tvorbě aplikace)</string>
+	<string name="thanks">Děkuji za pomoc!</string>
+
+	<!--1.1-->
+	<!--Import/Export-->
+	<string name="menu_item_import_export">Import / Export</string>
+	<string name="imp">Import</string>
+	<string name="export">Export</string>
+	<string name="file_exists">Soubor existuje</string>
+	<string name="export_import_error">Chyba!</string>
+	<string name="export_ok">Export je hotový!</string>
+	<string name="import_delete">Smazat aktuální databázi</string>
+	<string name="no_data">Žádná data</string>
+	<string name="confirm_import">Opravdu si přejete spustit import?</string>
+	<string name="import_ok">Import je hotový!</string>
+	<string name="progress_title">Zpracovávám</string>
+	<string name="progress_content">Zpracovávám</string>
+	<string name="error_last_delete">Nemůžete smazat poslední hodnotu</string>
+
+	<string name="google_backup">Google Drive záloha</string>
+	<string name="backup">Zálohovat</string>
+	<string name="restore">Obnovit</string>
+
+	<!--1.2-->
+	<!--Units-->
+	<string name="unit_title">Jednotky</string>
+	<string name="unit_distance">Vzdálenost</string>
+	<string name="unit_fuel">Objem</string>
+	<string name="unit_consumption">Spotřeba</string>
+	<string name="unit_currency">Měna</string>
+	<string name="na">-</string>
+	<string name="date_format">Formát data</string>
+	<string name="other_unit">Jednotky vzdálenosti, objemu, měny nebo spotřeby můžete změnit pro každé vozidlo v menu Vozidla.</string>
+
+	<!--1.3-->
+	<string name="device">Zařízení</string>
+	<string name="cloud">Webové úložiště</string>
+	<string name="files">Soubory</string>
+	<string name="others">Ostatní</string>
+	<string name="anim">Zapnout animaci seznamů</string>
+	<string name="no_car">Žádné vybrané vozidlo</string>
+
+    <!--1.3.2-->
+    <string name="translate">Překlady</string>
+    <string name="last">poslední</string>
+    <string name="min">minimální</string>
+    <string name="max">maximální</string>
+    <string name="use_coma">V číslech používat čárku jako oddělovač</string>
+
+    <string name="no_logs">Doposud žádné události</string>
+    <string name="no_notify">Doposud žádné notifikace</string>
+    <string name="no_cars">Doposud nemáte vytvořené žádné vozidlo, prosím vytvořte vozidlo</string>
+
+
+    <!--1.4.0-->
+    <string name="avg">Průměr</string>
+    <string name="car">Vozidlo</string>
+    <string name="car_was_changed">Změnit vozidlo na: </string>
+    <string name="car_change">Povolit přepínač vozidel (přidat do obrazovky událostí)</string>
+    <string name="select_car_dialog">Vybrat vozidlo</string>
+    <!--Consumption-->
+    <string name="consumption">Spotřeba</string>
+    <!--Fuel-->
+    <string name="fillup_total">Natankováno celkem</string>
+    <string name="fillupMin">Natankováno minimálně</string>
+    <string name="fillupMax">Natankováno maximálně</string>
+    <string name="fillupAvg">Natankováno průměrně</string>
+    <string name="fuel_volume_month">Natankováno za aktuální měsíc</string>
+    <string name="fuel_volume_last_month">Natankováno za minulý měsíc</string>
+    <string name="fuel_volume_year">Natankováno za aktuální rok</string>
+    <string name="fuel_volume_last_year">Natankováno za minulý rok</string>
+
+    <string name="min_days_fillups">Minimální doba mezi tankováním</string>
+    <string name="max_days_fillups">Maximální doba mezi tankováním</string>
+    <string name="avg_days_fillups">Průměrná doba mezi tankováním</string>
+    <!--Distance-->
+    <string name="dist">Vzdálenost</string>
+    <string name="total_dist">Celková vzdálenost</string>
+    <string name="odometer_count">Tachometr</string>
+    <string name="month_dist">Vzdálenost za aktuální měsíc</string>
+    <string name="last_month_dist">Vzdálenost za minulý mwsíc</string>
+    <string name="year_dist">Vzdálenost za aktuálnís rok</string>
+    <string name="last_year_dist">Vzdálenost za minulý rok</string>
+    <string name="per_day_dist">Vzdálenost za den</string>
+    <string name="per_month_dist">Vzdálenost za měsíc</string>
+    <string name="per_year_dist">Vzdálenost za rok</string>
+    <string name="min_fillup_dist">Minimální vzdálenost mezi tankováním</string>
+    <string name="max_fillup_dist">Maximální vzdálenost mezi tankováním</string>
+    <string name="avg_fillup_dist">Průměrná vzdálenost mezi tankováním</string>
+    <!--COST-->
+    <string name="cost">Cena</string>
+    <string name="cost_total">Celková cena</string>
+    <string name="cost_total_month">Celková cena za aktuální měsíc</string>
+    <string name="cost_total_last_month">Celková cena za minulý měsíc</string>
+    <string name="cost_total_year">Celková cena za aktuální rok</string>
+    <string name="cost_total_last_year">Celková cena za minulý rok</string>
+    <string name="cost_price_min">Minimální cena za tankování</string>
+    <string name="cost_price_max">Maximální cena za tankování</string>
+    <string name="cost_price_avg">Průměrná cena za tankování</string>
+    <string name="cost_fillup_min">Minimální cena mezi tankováním</string>
+    <string name="cost_fillup_max">Maximální cena mezi tankováním</string>
+    <string name="cost_fillup_avg">Průměrná cena mezi tankováním</string>
+    <string name="cost_total_per_day">Celková cena za den</string>
+    <string name="cost_total_per_month">Celková cena za měsíc</string>
+    <string name="cost_total_per_year">Celková cena za rok</string>
+    <string name="cost_total_per_day_fuel">Cena za palivo za den</string>
+    <string name="cost_total_per_month_fuel">Cena za palivo za měsíc</string>
+    <string name="cost_total_per_year_fuel">Cena za palivo za rok</string>
+    <string name="cost_total_per_day_other">Ostatní výdaje za den</string>
+    <string name="cost_total_per_month_other">Ostatní výdaje za měsíc</string>
+    <string name="cost_total_per_year_other">Ostatní výdaje za rok</string>
+</resources>

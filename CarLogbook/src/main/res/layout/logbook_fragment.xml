@@ -1,11 +1,28 @@
-<FrameLayout
+<LinearLayout
 	style="@style/list_main"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	tools:context="com.enadein.carlogbook.ui.LogbookFragment">
 
+    <LinearLayout
+        android:id="@+id/no_items"
+        android:visibility="gone"
+        style="@style/add_entity_main">
+
+        <LinearLayout
+            style="@style/new_group">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/no_logs"/>
+        </LinearLayout>
+    </LinearLayout>
+
 	<ListView
 		android:id="@+id/list"
 		style="@style/newList"/>
 
-</FrameLayout>
+</LinearLayout>

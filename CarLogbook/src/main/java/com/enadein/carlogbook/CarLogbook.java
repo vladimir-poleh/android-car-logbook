@@ -32,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
@@ -53,10 +54,13 @@ import java.util.Collection;
 
 
 public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationListener, BillingProcessor.IBillingHandler, CarChangeListener {
-	public static final int DASHBOARD_MENU = 0;
+	public static final String VERSION = "1.4.1";
+
+    public static final int DASHBOARD_MENU = 0;
 	public static final int BY_TYPE_MENU = 1;
 	public static final int FUEL_RATE_MENU = 2;
 	public static final int LAST_UPDATE_MENU = 3;
+	public static final int DETAILED_MENU = 4;
 
 	public static final String ROTATE = "rotate";
 	public static final String NAV_MODE = "nav_mode";
@@ -72,10 +76,10 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 	private Logger log = Logger.createLogger(getClass());
 
 	///In-App Billing v3
-	private static final String LIC_KEY = "4";
-	public static final String PRODUCT_1 = "4";
-	public static final String PRODUCT_2 = "4";
-	public static final String PRODUCT_3 = "4";
+    private static final String LIC_KEY = "";
+    public static final String PRODUCT_1 = "";
+    public static final String PRODUCT_2 = "";
+    public static final String PRODUCT_3 = "";
 
 
 	private BillingProcessor bp;
@@ -87,10 +91,14 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
+//        setSupportProgressBarIndeterminateVisibility(true);
+//        setSupportProgressBarIndeterminate(true);
 		setContentView(R.layout.main);
 		menuList = (ListView) findViewById(R.id.menu);
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+//        getMediator().runReportService();
 
 		FrameLayout frameLayout = (FrameLayout)findViewById(R.id.content_frame);
 		if(((ViewGroup.MarginLayoutParams)frameLayout.getLayoutParams()).leftMargin == (int)getResources().getDimension(R.dimen.drawer_size)) {
@@ -135,6 +143,14 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 		getSupportActionBar().setHomeButtonEnabled(!isDrawerLocked);
 
 		initInAppBuilingV3();
+
+
+        //TEMP
+//        requestWindowFeature(Window.FEATURE_PROGRESS);
+//        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
+
+//        setProgressBarIndeterminate(true);
 	}
 
 	private void initDrawer() {
@@ -239,6 +255,10 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 				getMediator().showLastUpdate();
 				break;
 			}
+            case DETAILED_MENU: {
+                getMediator().showDetailedReport();
+                break;
+            }
 		}
 		return true;
 	}
@@ -401,6 +421,8 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 		public static final int REP_BY_TYPE_ID = 11;
 		public static final int REP_FUEL_RATE_ID = 12;
 		public static final int REP_LAST_EVENTS_ID = 13;
+		public static final int REP_CALC_FUEL_RATE = 14;
+		public static final int REP_DETAILED = 15;
 	}
 
 	///In-App Billing v3

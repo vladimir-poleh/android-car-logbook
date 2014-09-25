@@ -68,7 +68,7 @@ public class SimpleReportAdapter extends ArrayAdapter<ReportItem> {
         value.setTextColor(color);
 		name.setText(item.getName());
 		if (item.getValue() > 0.) {
-			value.setText(unitFacade.appendCurrency(false,CommonUtils.formatPrice(item.getValue())));
+			value.setText(unitFacade.appendCurrency(false,CommonUtils.formatPriceNew(item.getValue(), unitFacade)));
 		} else if (item.getValue2() > 0) {
 			value.setText(CommonUtils.formatDate(new Date(item.getValue2())));
 		} else {

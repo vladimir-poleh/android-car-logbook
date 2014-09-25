@@ -52,9 +52,12 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class CommonUtils {
-//	public static final String DATE_FORMAT = "yyyy-MM-dd";
+	public static final String DATE_FORMAT_TEST = "yyyy-MM-dd";
 	public static final String DATE_FORMAT_MONTH = "MMM";
 	private static 	DecimalFormat format = (DecimalFormat) DecimalFormat.getNumberInstance();
+	private static 	DecimalFormat formatFuel = (DecimalFormat) DecimalFormat.getNumberInstance();
+	private static 	DecimalFormat formatComma = (DecimalFormat) DecimalFormat.getNumberInstance();
+	private static 	DecimalFormat formatFuelComma = (DecimalFormat) DecimalFormat.getNumberInstance();
 
 	private static HashMap<String, Integer> consumption = new HashMap<String, Integer>();
 
@@ -69,16 +72,54 @@ public class CommonUtils {
 	}
 
 	static {
-		format.setRoundingMode(RoundingMode.DOWN);
-		format.setMaximumFractionDigits(3);
-		format.setMinimumFractionDigits(1);
-		format.setMaximumIntegerDigits(10);
-		format.setMinimumIntegerDigits(1);
+        {
+            format.setRoundingMode(RoundingMode.DOWN);
+            format.setMaximumFractionDigits(2);
+            format.setMinimumFractionDigits(2);
+            format.setMaximumIntegerDigits(10);
+            format.setMinimumIntegerDigits(1);
+            DecimalFormatSymbols decimalSymbol = new DecimalFormatSymbols(Locale.getDefault());
+            decimalSymbol.setDecimalSeparator('.');
+            format.setDecimalFormatSymbols(decimalSymbol);
+            format.setGroupingUsed(false);
+        }
 
-		DecimalFormatSymbols decimalSymbol = new DecimalFormatSymbols(Locale.getDefault());
-		decimalSymbol.setDecimalSeparator('.');
-		format.setDecimalFormatSymbols(decimalSymbol);
-		format.setGroupingUsed(false);
+        {
+            formatComma.setRoundingMode(RoundingMode.DOWN);
+            formatComma.setMaximumFractionDigits(2);
+            formatComma.setMinimumFractionDigits(2);
+            formatComma.setMaximumIntegerDigits(10);
+            formatComma.setMinimumIntegerDigits(1);
+            DecimalFormatSymbols decimalSymbolComma = new DecimalFormatSymbols();
+            decimalSymbolComma.setDecimalSeparator(',');
+            formatComma.setDecimalFormatSymbols(decimalSymbolComma);
+            formatComma.setGroupingUsed(false);
+        }
+
+
+        {
+            formatFuel.setRoundingMode(RoundingMode.DOWN);
+            formatFuel.setMaximumFractionDigits(3);
+            formatFuel.setMinimumFractionDigits(3);
+            formatFuel.setMaximumIntegerDigits(10);
+            formatFuel.setMinimumIntegerDigits(1);
+            DecimalFormatSymbols decimalSymbol = new DecimalFormatSymbols(Locale.getDefault());
+            decimalSymbol.setDecimalSeparator('.');
+            formatFuel.setDecimalFormatSymbols(decimalSymbol);
+            formatFuel.setGroupingUsed(false);
+        }
+
+        {
+            formatFuelComma.setRoundingMode(RoundingMode.DOWN);
+            formatFuelComma.setMaximumFractionDigits(3);
+            formatFuelComma.setMinimumFractionDigits(3);
+            formatFuelComma.setMaximumIntegerDigits(10);
+            formatFuelComma.setMinimumIntegerDigits(1);
+            DecimalFormatSymbols decimalSymbolComma = new DecimalFormatSymbols();
+            decimalSymbolComma.setDecimalSeparator(',');
+            formatFuelComma.setDecimalFormatSymbols(decimalSymbolComma);
+            formatFuelComma.setGroupingUsed(false);
+        }
 
 		consumption.put("00", R.array.unit_consumption_1_1);
 		consumption.put("01", R.array.unit_consumption_1_2);
@@ -204,6 +245,11 @@ public class CommonUtils {
 		return sdf.format(date);
 	}
 
+    public static String formatDate(Date date, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(date);
+    }
+
 	public static String formatMonth(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_MONTH);
 		return sdf.format(date);
@@ -218,7 +264,7 @@ public class CommonUtils {
 	public static double getRawDouble(String text) {
 		double result = 0.;
 		try {
-			result = Double.valueOf(text.trim());
+			result = Double.valueOf(text.trim().replace(',', '.'));
 		} catch (NumberFormatException e){	}
 		return result;
 	}
@@ -243,7 +289,7 @@ public class CommonUtils {
 
 		Number result = 0;
 		try {
-			result = format.parse(string);
+			result = format.parse(string.replace(',', '.'));
 		} catch (ParseException e) {
 			//nothing
 		}
@@ -254,16 +300,35 @@ public class CommonUtils {
 	public static String formatPrice(double price) {
 		NumberFormat format = getPriceNumberFormat();
 		String result = format.format(price);
-		return "0.0".equals(result) ? "" : result;
+		return "0.0".equals(result) || "0,0".equals(result)  ? "" : result;
 	}
 
-	public static double div(double a, double b) {
+    public static String formatPriceNew(double price, UnitFacade unitFacade) {
+        DecimalFormat f = unitFacade.COMMA_ON ? formatComma : format;
+        String result = f.format(price);
+        return "0.0".equals(result) || "0,0".equals(result)  ? "" : result;
+    }
+
+    public static String formatFuel(double price, UnitFacade unitFacade) {
+        DecimalFormat f = unitFacade.COMMA_ON ? formatFuelComma : formatFuel;
+        String result = f.format(price);
+        return "0.0".equals(result) || "0,0".equals(result)  ? "" : result;
+    }
+
+
+    public static double div(double a, double b) {
 		return (b == 0) ? 0 : a / b;
 	}
 
 	private static NumberFormat getPriceNumberFormat() {
 		return format;
 	}
+
+
+    public static void trunkYear(Calendar c) {
+        trunkMonth(c);
+        c.set(Calendar.MONTH, 0);
+    }
 
 	public static void trunkMonth(Calendar c) {
 		trunkDay(c);

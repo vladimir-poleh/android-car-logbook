@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="action_list">
-        <item>Dashboard</item>
-        <item>By type</item>
-        <item>Fuel rate</item>
-        <item>Last events</item>
+        <item>Přehled výdajů</item>
+        <item>Výdaje dle typu</item>
+        <item>Spotřeba paliva</item>
+        <item>Poslední události</item>
         <item>Detail</item> <!--1.4-->
     </string-array>
 	<string-array name="fuel_type_default">
-		<item>85</item>
-		<item>87</item>
-		<item>89</item>
-		<item>95</item>
-		<item>98</item>
-		<item>91&#8211;93</item>
+        <item>A-95</item>
+        <item>A-95+</item>
+        <item>A-76</item>
+        <item>A-80</item>
+        <item>A-92</item>
+        <item>A-98</item>
 	</string-array>
 	<string-array name="station_type_default">
-		<item>Default</item>
+		<item>Výchozí</item>
 	</string-array>
 	<string-array name="log_type">
-		<item>Other</item> <!--0-->
-		<item>Car wash</item><!--1-->
-		<item>Parking</item><!--2-->
-		<item>Penalty</item><!--3-->
+		<item>Ostatní</item> <!--0-->
+		<item>Mytí vozidla</item><!--1-->
+		<item>Parkování</item><!--2-->
+		<item>Pokuty</item><!--3-->
 		<item>Tuning</item><!--4-->
-		<item>Service</item><!--5-->
-		<item>Engine oil</item><!--6-->
-		<item>Transmission oil</item><!--7-->
-		<item>Repair part</item><!--8-->
-		<item>Insurance</item><!--9-->
-		<item>Credit</item><!--10-->
+		<item>Služby</item><!--5-->
+		<item>Motorové oleje</item><!--6-->
+		<item>Převodovkový olej</item><!--7-->
+		<item>Součástky k opravě</item><!--8-->
+		<item>Pojištění</item><!--9-->
+		<item>Úvěr</item><!--10-->
 	</string-array>
 
 	<string-array name="notify_types">
-		<item>by odometer</item>
-		<item>by date</item>
+		<item>dle tachometru</item>
+		<item>dle data</item>
 	</string-array>
 
 	<!--1.2-->

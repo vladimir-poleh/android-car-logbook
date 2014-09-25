@@ -271,8 +271,8 @@ public class GoogleBackupActivity extends BaseActivity implements GoogleApiClien
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			progress = ProgressDialog.show(GoogleBackupActivity.this, "dialog title",
-					"dialog message", true);
+			progress = ProgressDialog.show(GoogleBackupActivity.this, getString(R.string.progress_title),
+                    getString(R.string.progress_content), true);
 		}
 
 		@Override
@@ -323,8 +323,8 @@ public class GoogleBackupActivity extends BaseActivity implements GoogleApiClien
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			progress = ProgressDialog.show(GoogleBackupActivity.this, "dialog title",
-					"dialog message", true);
+			progress = ProgressDialog.show(GoogleBackupActivity.this, getString(R.string.progress_title),
+                    getString(R.string.progress_content), true);
 		}
 
 		@Override

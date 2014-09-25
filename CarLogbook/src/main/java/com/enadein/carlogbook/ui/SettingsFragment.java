@@ -89,6 +89,34 @@ public class SettingsFragment extends BaseFragment {
 				getMediator().getUnitFacade().invalidateFlags();
 			}
 		});
+
+        {
+            CheckBox comaCb = (CheckBox) view.findViewById(R.id.comma);
+            String enableComma = getMediator().getUnitFacade().getSetting(UnitFacade.SET_COMMA, "0");
+
+            comaCb.setChecked("1".equals(enableComma));
+            comaCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    getMediator().getUnitFacade().setSetings(UnitFacade.SET_COMMA, b ? "1" : "0");
+                    getMediator().getUnitFacade().invalidateFlags();
+                }
+            });
+        }
+
+        {
+            CheckBox carSelection = (CheckBox) view.findViewById(R.id.carChange);
+            String enableCarSelection = getMediator().getUnitFacade().getSetting(UnitFacade.SET_CAR_SELECTION, "1");
+
+            carSelection.setChecked("1".equals(enableCarSelection));
+            carSelection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    getMediator().getUnitFacade().setSetings(UnitFacade.SET_CAR_SELECTION, b ? "1" : "0");
+                    getMediator().getUnitFacade().invalidateFlags();
+                }
+            });
+        }
 	}
 
 	private void save() {

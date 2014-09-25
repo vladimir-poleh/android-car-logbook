@@ -31,10 +31,13 @@ public class UnitFacade {
 	public static String DATATE_FORMAT = "yyyy-MM-dd";
 
 	public static boolean ANIM_LIST_ON = false;
+	public static boolean COMMA_ON = false;
 
 
 	public static final String SET_DATE_FORMAT = "date_format";
 	public static final String SET_ANIM_LIST = "anim_list";
+	public static final String SET_COMMA = "comma";
+	public static final String SET_CAR_SELECTION = "car_select";
 
 	public static float animSize;
 
@@ -69,7 +72,11 @@ public class UnitFacade {
 		loadConsumptionArrayType();
 	}
 
-	public void reload(long carId) {
+    public void reload(long carId) {
+        reload(carId, false);
+    }
+
+    public void reload(long carId, boolean onlyLabels) {
 
 		if (carId != -1) {
 			Cursor c = ctx.getContentResolver()
@@ -93,6 +100,10 @@ public class UnitFacade {
 		} else {
 			loadDefault(ctx);
 		}
+
+        if (onlyLabels) {
+            return;
+        }
 
         carId = DBUtils.getActiveCarId(ctx.getContentResolver());
         carName = DBUtils.getActiveCarName(ctx.getContentResolver(), carId);
@@ -162,6 +173,11 @@ public class UnitFacade {
 		textView.setText(appendConsumUnit(wrap, currentText));
 	}
 
+    public void appendConsumUnit(TextView textView, boolean wrap, int index) {
+        String currentText = textView.getText() != null ? textView.getText().toString() : "";
+        textView.setText(appendConsumUnit(wrap, currentText, index));
+    }
+
 	public void appendConsumValue(TextView textView, boolean wrap) {
 		String currentText = textView.getText() != null ? textView.getText().toString() : "";
 		String value;
@@ -187,8 +203,14 @@ public class UnitFacade {
 		return getText(currentText, consumptionUnitArray[consumptionValue], wrap);
 	}
 
+    public String appendConsumUnit(boolean wrap, String currentText, int index) {
+        return getText(currentText, consumptionUnitArray[index], wrap);
+    }
+
 	public String getText(String currentText, String value, boolean wrap) {
-		if (currentText == null || currentText.trim().length() == 0) {
+		if (currentText == null || currentText.trim().length() == 0
+                || CommonUtils.formatFuel(0, this).equals(currentText)
+                || CommonUtils.formatPriceNew(0, this).equals(currentText)) {
 			return ctx.getString(R.string.na);
 		}
 
@@ -283,6 +305,7 @@ public class UnitFacade {
 
     public void invalidateFlags() {
 		ANIM_LIST_ON = "1".equals(getSetting(SET_ANIM_LIST, "1"));
+        COMMA_ON = "1".equals(getSetting(SET_COMMA, "0"));
 	}
 
 

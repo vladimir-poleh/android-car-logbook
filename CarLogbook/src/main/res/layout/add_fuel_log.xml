@@ -9,6 +9,26 @@
 		<LinearLayout
 			style="@style/new_group">
 
+            <!---CAR SELECTION-->
+            <LinearLayout style="@style/add_entity_group"
+                android:id="@+id/carSelection"
+                android:visibility="gone"
+                android:gravity="center_vertical|end">
+
+                <TextView style="@style/add_entity_label"
+                    android:text="@string/car"/>
+
+                <TextView
+                    android:id="@+id/carName"
+                    android:text=""
+                    android:clickable="true"
+                    android:onClick="showSelectCars"
+                    android:background="@drawable/spinner_background_ab_stylingactionbar"
+                    style="@style/wrap"/>
+            </LinearLayout>
+            <!---CAR SELECTION-->
+
+
 			<LinearLayout
 				style="@style/add_entity_group">
 
@@ -63,6 +83,7 @@
 				<EditText
 					android:id="@+id/fuel_volume"
 					style="@style/add_entity_edit"
+                    android:digits="0123456789.,"
 					android:inputType="numberDecimal"
 					/>
 			</LinearLayout>
@@ -83,6 +104,7 @@
 				<EditText
 					android:id="@+id/price"
 					style="@style/add_entity_edit"
+                    android:digits="0123456789.,"
 					android:inputType="numberDecimal"
 					/>
 			</LinearLayout>
@@ -98,6 +120,7 @@
 				<EditText
 					android:id="@+id/priceTotal"
 					style="@style/add_entity_edit"
+                    android:digits="0123456789.,"
 					android:inputType="numberDecimal"
 					/>
 			</LinearLayout>

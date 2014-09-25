@@ -72,6 +72,9 @@ public class ExportActivty extends BaseActivity implements LoaderManager.LoaderC
 
 	public void onDialogEvent(int requestCode, int responseCode, Bundle params) {
 		if (AlertDialog.ALERT_OK == requestCode) {
+            //TODO need to move into strings
+            Toast.makeText(this, "Dir: " +
+                    FileUtils.getBackupDirectory().getAbsolutePath(), Toast.LENGTH_LONG).show();
 			NavUtils.navigateUpFromSameTask(this);
 		}
 	}
@@ -103,6 +106,7 @@ public class ExportActivty extends BaseActivity implements LoaderManager.LoaderC
 			    @Override
 			    public void run() {
 				    progress.dismiss();
+
 				    getMediator().showAlert(getString(R.string.export_ok));
 			    }
 		    });

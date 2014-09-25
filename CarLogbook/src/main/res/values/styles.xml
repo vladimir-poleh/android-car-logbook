@@ -173,6 +173,12 @@
 		<item name="android:layout_height">28dp</item>
 		<item name="android:background">@drawable/date</item>
 	</style>
+    <style name="select_car" parent="wrap">
+        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@drawable/active</item>
+    </style>
 	<style name="add_entity_check" parent="wrap">
 	</style>
 	<style name="comment" parent="wide">

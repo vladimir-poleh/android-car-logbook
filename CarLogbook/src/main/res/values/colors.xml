@@ -11,4 +11,7 @@
 	<color name="gal">#ff007ea7</color>
 	<color name="divider">#FF50CDF5</color>
 	<color name="price">#ffa70000</color>
+
+	<color name="min">#FF50CDF5</color>
+	<color name="max">#ff007ea7</color>
 </resources>

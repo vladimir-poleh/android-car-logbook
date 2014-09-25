@@ -1,165 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-	style="@style/add_entity_scroll"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/add_entity_scroll">
 
-	<LinearLayout
-		style="@style/full"
-		android:orientation="vertical">
+    <LinearLayout
+        style="@style/full"
+        android:orientation="vertical">
 
-		<LinearLayout
-			style="@style/add_entity_group2"
-			android:orientation="vertical">
+        <LinearLayout
+            style="@style/add_entity_group2"
+            android:orientation="vertical">
 
-			<LinearLayout
-				style="@style/new_group">
+            <LinearLayout style="@style/new_group">
 
-				<TextView
-					style="@style/about_label"
-					android:text="@string/app_name"/>
+                <TextView
+                    style="@style/about_label"
+                    android:text="@string/app_name" />
 
-				<TextView
-					style="@style/about_value"
-					android:text="@string/app_ver"/>
-			</LinearLayout>
-		</LinearLayout>
+                <TextView android:id="@+id/ver"
+                    style="@style/about_value"
+                    android:text="@string/app_ver" />
+            </LinearLayout>
+        </LinearLayout>
 
-		<LinearLayout
-			style="@style/add_entity_group2"
-			android:orientation="vertical">
+        <LinearLayout
+            style="@style/add_entity_group2"
+            android:orientation="vertical">
 
-			<LinearLayout
-				style="@style/new_group">
+            <LinearLayout style="@style/new_group">
 
-				<TextView
-					style="@style/about_label"
-					android:text="@string/author"/>
+                <TextView
+                    style="@style/about_label"
+                    android:text="@string/author" />
 
-				<TextView
-					style="@style/about_value"
-					android:text="@string/author_value"/>
-			</LinearLayout>
-		</LinearLayout>
+                <TextView
+                    style="@style/about_value"
+                    android:text="@string/author_value" />
+            </LinearLayout>
+        </LinearLayout>
 
-		<LinearLayout
-			style="@style/add_entity_group2"
-			android:orientation="vertical">
+        <LinearLayout
+            style="@style/add_entity_group2"
+            android:orientation="vertical">
 
-			<TextView
-				style="@style/new_title"
-				android:text="@string/feedback_label"/>
-		</LinearLayout>
+            <TextView
+                style="@style/new_title"
+                android:text="@string/feedback_label" />
+        </LinearLayout>
 
-		<LinearLayout
-			style="@style/add_entity_group2">
+        <LinearLayout style="@style/add_entity_group2">
 
-			<LinearLayout
-				style="@style/new_group">
+            <LinearLayout style="@style/new_group">
 
-				<TextView
-					android:id="@+id/link_ask"
-					style="@style/about_value_link"
-					android:text="@string/feedback_ask"/>
+                <TextView
+                    android:id="@+id/link_ask"
+                    style="@style/about_value_link"
+                    android:text="@string/feedback_ask" />
 
-				<TextView
-					android:id="@+id/link_provide"
-					style="@style/about_value_link"
-					android:text="@string/feedback_provide"/>
+                <TextView
+                    android:id="@+id/link_provide"
+                    style="@style/about_value_link"
+                    android:text="@string/feedback_provide" />
 
-				<TextView
-					android:id="@+id/link_rate"
-					style="@style/about_value_link"
-					android:text="@string/feedback_rate"/>
-			</LinearLayout>
-		</LinearLayout>
+                <TextView
+                    android:id="@+id/link_rate"
+                    style="@style/about_value_link"
+                    android:text="@string/feedback_rate" />
+            </LinearLayout>
+        </LinearLayout>
 
-		<LinearLayout
-			style="@style/add_entity_group2"
-			android:orientation="vertical">
+        <LinearLayout
+            style="@style/add_entity_group2"
+            android:orientation="vertical">
 
-			<LinearLayout
-				style="@style/new_group">
+            <LinearLayout style="@style/new_group">
 
-				<TextView
-					style="@style/about_label"
-					android:text="@string/donate"/>
+                <TextView
+                    style="@style/about_label"
+                    android:text="@string/donate" />
 
-				<LinearLayout
-					style="@style/wrap"
-					android:layout_gravity="center_horizontal"
-					android:padding="6dp"
-					android:orientation="horizontal">
+                <LinearLayout
+                    style="@style/wrap"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:padding="6dp">
 
-					<Button
-						android:id="@+id/don1"
-						style="@style/btn"
-						android:text="$1"/>
+                    <Button
+                        android:id="@+id/don1"
+                        style="@style/btn"
+                        android:text="$1" />
 
-					<Button
-						android:id="@+id/don2"
-						style="@style/btn"
-						android:text="$3"/>
+                    <Button
+                        android:id="@+id/don2"
+                        style="@style/btn"
+                        android:text="$3" />
 
-					<Button
-						android:id="@+id/don3"
-						style="@style/btn"
-						android:text="$5"/>
-				</LinearLayout>
-			</LinearLayout>
-		</LinearLayout>
+                    <Button
+                        android:id="@+id/don3"
+                        style="@style/btn"
+                        android:text="$5" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
-		<LinearLayout
-			style="@style/add_entity_group2"
-			android:orientation="vertical">
+        <LinearLayout
+            style="@style/add_entity_group2"
+            android:orientation="vertical">
 
-			<LinearLayout
-				style="@style/new_group">
+            <TextView
+                style="@style/new_title"
+                android:text="@string/translate" />
+        </LinearLayout>
 
-				<TextView
-					style="@style/about_label"
-					android:text="@string/open_src"/>
+        <LinearLayout
+            style="@style/add_entity_group2"
+            android:orientation="vertical">
 
-				<TextView
-					android:id="@+id/link_src"
-					style="@style/about_value_link"
-					android:text="@string/open_src_val"/>
-			</LinearLayout>
-		</LinearLayout>
+            <LinearLayout style="@style/new_group">
 
-		<LinearLayout
-			style="@style/add_entity_group2"
-			android:orientation="vertical">
+                <TextView
+                    style="@style/about_label"
+                    android:text="German" />
 
-			<LinearLayout
-				style="@style/new_group">
+                <TextView
+                    style="@style/about_value"
+                    android:text="Korbinian Probst/KobiP" />
+            </LinearLayout>
 
-				<TextView
-					style="@style/about_label"
-					android:text="@string/feedback_lic"/>
+            <LinearLayout style="@style/new_group">
 
-				<TextView
-					android:id="@+id/lic"
-					style="@style/about_value_link"
-					android:text="@string/feedback_lic_val"/>
-			</LinearLayout>
-		</LinearLayout>
+                <TextView
+                    style="@style/about_label"
+                    android:text="Czech" />
 
-		<LinearLayout
-			style="@style/add_entity_group2"
-			android:orientation="vertical">
+                <TextView
+                    style="@style/about_value"
+                    android:text="Lukáš Měsíček" />
+            </LinearLayout>
 
-			<LinearLayout
-				style="@style/new_group">
+            <LinearLayout style="@style/new_group">
 
-				<TextView
-					style="@style/about_label"
-					android:text="@string/libs_label"/>
+                <TextView
+                    style="@style/about_label"
+                    android:text="Spanish (Español)" />
 
-				<TextView
-					android:id="@+id/lib1"
-					style="@style/about_value_link"
-					android:text="@string/lib1_val"/>
-			</LinearLayout>
-		</LinearLayout>
-	</LinearLayout>
+                <TextView
+                    style="@style/about_value"
+                    android:text="Braulio Sánchez/Catlish" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/add_entity_group2"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/new_title"
+                android:text="@string/others" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/add_entity_group2"
+            android:orientation="vertical">
+
+            <LinearLayout style="@style/new_group">
+
+                <TextView
+                    style="@style/about_label"
+                    android:text="@string/open_src" />
+
+                <TextView
+                    android:id="@+id/link_src"
+                    style="@style/about_value_link"
+                    android:text="@string/open_src_val" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/add_entity_group2"
+            android:orientation="vertical">
+
+            <LinearLayout style="@style/new_group">
+
+                <TextView
+                    style="@style/about_label"
+                    android:text="@string/feedback_lic" />
+
+                <TextView
+                    android:id="@+id/lic"
+                    style="@style/about_value_link"
+                    android:text="@string/feedback_lic_val" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/add_entity_group2"
+            android:orientation="vertical">
+
+            <LinearLayout style="@style/new_group">
+
+                <TextView
+                    style="@style/about_label"
+                    android:text="@string/libs_label" />
+
+                <TextView
+                    android:id="@+id/lib1"
+                    style="@style/about_value_link"
+                    android:text="@string/lib1_val" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </ScrollView>

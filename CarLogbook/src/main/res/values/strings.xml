@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!--Common-->
-	<string name="app_ver">Version: 1.3</string>
+	<string name="app_ver">Version</string>
 	<string name="create">Create</string>
 	<string name="save">Save</string>
 	<string name="cancel">Cancel</string>
@@ -184,4 +184,74 @@
 	<string name="others">Other</string>
 	<string name="anim">Enable list animation</string>
 	<string name="no_car">No Active Car</string>
+
+    <!--1.3.2-->
+    <string name="translate">Translation</string>
+    <string name="last">last</string>
+    <string name="min">min</string>
+    <string name="max">max</string>
+    <string name="use_coma">Comma separator in numbers</string>
+
+    <string name="no_logs">You do not have events</string>
+    <string name="no_notify">You do not have notifications</string>
+    <string name="no_cars">You do not have an active car, please add a car</string>
+
+
+    <!--1.4-->
+    <string name="avg">avg</string>
+    <string name="car">Car</string>
+    <string name="car_was_changed">Car is changed to: </string>
+    <string name="car_change">Enable car selector(add event screens)</string>
+    <string name="select_car_dialog">Select a car</string>
+    <!--Consumption-->
+    <string name="consumption">Consumption</string>
+    <!--Fuel-->
+    <string name="fillup_total">Fill-ups total</string>
+    <string name="fillupMin">Fill-up min volume</string>
+    <string name="fillupMax">Fill-up max volume</string>
+    <string name="fillupAvg">Fill-up avg volume</string>
+    <string name="fuel_volume_month">Fuel volume (this month)</string>
+    <string name="fuel_volume_last_month">Fuel volume (last month)</string>
+    <string name="fuel_volume_year">Fuel volume (this year)</string>
+    <string name="fuel_volume_last_year">Fuel volume (last year)</string>
+
+    <string name="min_days_fillups">Min days between fill-ups</string>
+    <string name="max_days_fillups">Max days between fill-ups</string>
+    <string name="avg_days_fillups">Avg days between fill-ups</string>
+    <!--Distance-->
+    <string name="dist">Distance</string>
+    <string name="total_dist">Total distance</string>
+    <string name="odometer_count">Odometer</string>
+    <string name="month_dist">Current month distance</string>
+    <string name="last_month_dist">Last month distance</string>
+    <string name="year_dist">This year distance</string>
+    <string name="last_year_dist">Last year distance</string>
+    <string name="per_day_dist">Distance per day</string>
+    <string name="per_month_dist">Distance per month</string>
+    <string name="per_year_dist">Distance per year</string>
+    <string name="min_fillup_dist">Min distance between fill-ups</string>
+    <string name="max_fillup_dist">Max distance between fill-ups</string>
+    <string name="avg_fillup_dist">Avg distance between fill-ups</string>
+     <!--COST-->
+    <string name="cost">Cost</string>
+    <string name="cost_total">Total cost</string>
+    <string name="cost_total_month">Total cost this month</string>
+    <string name="cost_total_last_month">Total cost last month</string>
+    <string name="cost_total_year">Total cost this year</string>
+    <string name="cost_total_last_year">Total cost last year</string>
+    <string name="cost_price_min">Min fuel price</string>
+    <string name="cost_price_max">Max fuel price</string>
+    <string name="cost_price_avg">Avg fuel price</string>
+    <string name="cost_fillup_min">Min fill-up cost</string>
+    <string name="cost_fillup_max">Max fill-up cost</string>
+    <string name="cost_fillup_avg">Avg fill-up cost</string>
+    <string name="cost_total_per_day">Cost per day</string>
+    <string name="cost_total_per_month">Cost per month</string>
+    <string name="cost_total_per_year">Cost per year</string>
+    <string name="cost_total_per_day_fuel">Fuel cost per day</string>
+    <string name="cost_total_per_month_fuel">Fuel cost per month</string>
+    <string name="cost_total_per_year_fuel">Fuel cost per year</string>
+    <string name="cost_total_per_day_other">Other expenses cost per day</string>
+    <string name="cost_total_per_month_other">Other expenses cost per month</string>
+    <string name="cost_total_per_year_other">Other expenses cost per year</string>
 </resources>

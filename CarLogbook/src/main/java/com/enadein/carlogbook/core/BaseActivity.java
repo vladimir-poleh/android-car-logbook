@@ -17,19 +17,26 @@
 */
 package com.enadein.carlogbook.core;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.db.CommonUtils;
+import com.enadein.carlogbook.db.DBUtils;
+import com.enadein.carlogbook.db.ProviderDescriptor;
 import com.enadein.carlogbook.ui.DialogListener;
 
-public class BaseActivity extends ActionBarActivity implements DialogListener {
+public class BaseActivity extends ActionBarActivity implements DialogListener, QuickCarSelectionAware {
 	public static final String MODE_KEY = "mode";
 	public static final String TYPE_KEY = "type";
 	public static final String ENTITY_ID = "entity_id";
@@ -39,10 +46,12 @@ public class BaseActivity extends ActionBarActivity implements DialogListener {
 
 	protected CarLogbookMediator mediator;
 
+    public long carId = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+//        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		mediator = new CarLogbookMediator(this);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -138,8 +147,71 @@ public class BaseActivity extends ActionBarActivity implements DialogListener {
 		return super.onOptionsItemSelected(item);
 	}
 
+
+
 	@Override
 	public void onDialogEvent(int requestCode, int responseCode, Bundle params) {
 
 	}
+
+    @Override
+    public void onCarChanged(long carId) {
+
+    }
+
+    ///CAR SELECTION
+    public void showSelectCars(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final Cursor c = getContentResolver().query(ProviderDescriptor.Car.CONTENT_URI, null, null, null, null);
+
+        builder.setTitle(R.string.select_car_dialog)
+                .setCursor(c, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int pos) {
+                        c.moveToPosition(pos);
+                        long id = c.getLong(c.getColumnIndex(ProviderDescriptor.Car.Cols._ID));
+                        onCarChanged(id);
+                    }
+                }, ProviderDescriptor.Car.Cols.NAME);
+
+         builder.create().show();
+    }
+
+    public void updateCarName(long carId) {
+        String carName = DBUtils.getActiveCarName(getContentResolver(), carId);
+        ((TextView)findViewById(R.id.carName)).setText(carName);
+    }
+
+    public void showCarSelection() {
+        String enableCarSelection = getMediator().getUnitFacade().getSetting(UnitFacade.SET_CAR_SELECTION, "1");
+        boolean show = "1".equals(enableCarSelection);
+
+        long defaultCarId = DBUtils.getActiveCarId(getContentResolver());
+        setCarId(defaultCarId);
+        updateCarName(defaultCarId);
+
+        findViewById(R.id.carSelection).setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    public long getCarId() {
+        return (carId == -1) ? DBUtils.getActiveCarId(getContentResolver()) : carId;
+    }
+
+    public void setCarId(long id) {
+        this.carId = id;
+    }
+
+    public void updateActiveCar() {
+        long activeCarId = DBUtils.getActiveCarId(getContentResolver());
+        boolean newCar = activeCarId != carId;
+
+        if (carId != -1 && newCar) {
+            DBUtils.selectActivCar(getContentResolver(), carId);
+            getMediator().getUnitFacade().reload(carId);
+
+            getMediator().showToast(getString(R.string.car_was_changed) +
+                    getMediator().getUnitFacade().getCarName());
+        }
+    }
 }

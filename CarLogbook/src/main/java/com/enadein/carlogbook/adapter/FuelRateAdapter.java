@@ -47,10 +47,13 @@ public class FuelRateAdapter extends CursorAdapter {
 	public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
 		FuelRateHolder holder = new FuelRateHolder();
 		LayoutInflater inflater = LayoutInflater.from(context);
-		View listItem = inflater.inflate(R.layout.report_item_simple, null);
+		View listItem = inflater.inflate(R.layout.report_rate_item, null);
 
 		holder.nameView = (TextView) listItem.findViewById(R.id.name);
 		holder.valueView = (TextView) listItem.findViewById(R.id.value);
+		holder.valueMinView = (TextView) listItem.findViewById(R.id.valueMin);
+		holder.valueMaxView = (TextView) listItem.findViewById(R.id.valueMax);
+		holder.valueAvgView = (TextView) listItem.findViewById(R.id.valueAVG);
 		holder.logo = (ImageView) listItem.findViewById(R.id.logo);
 		listItem.setTag(holder);
 
@@ -67,11 +70,15 @@ public class FuelRateAdapter extends CursorAdapter {
 		holder.nameView.setText(bean.getStation() + "(" + bean.getFuelType() + ")\n" );
 		unitFacade.appendConsumUnit(holder.nameView , true);
 
-		String min = CommonUtils.formatPrice(bean.getMinRate()) + unitFacade.getConsumPostfix();
-		String cur = CommonUtils.formatPrice(bean.getRate())+ unitFacade.getConsumPostfix();
-		String max = CommonUtils.formatPrice(bean.getMaxRate())+ unitFacade.getConsumPostfix();
+		String min = CommonUtils.formatFuel(bean.getMinRate(), unitFacade) + unitFacade.getConsumPostfix();
+		String cur = CommonUtils.formatFuel(bean.getRate(), unitFacade)+ unitFacade.getConsumPostfix();
+		String max = CommonUtils.formatFuel(bean.getMaxRate(), unitFacade)+ unitFacade.getConsumPostfix();
+		String avg = CommonUtils.formatFuel(bean.getAvg(), unitFacade)+ unitFacade.getConsumPostfix();
 
-		holder.valueView.setText(min +"\n"+ cur+ "\n" + max);
+		holder.valueView.setText(cur + " (" + context.getString(R.string.last) + ")");
+		holder.valueMinView.setText(min+ " (" + context.getString(R.string.min)+ ")");
+		holder.valueMaxView.setText(max+ " (" + context.getString(R.string.max)+ ")");
+        holder.valueAvgView.setText(avg+ " (" + context.getString(R.string.avg)+ ")");
 
 		int pos = cursor.getPosition();
 		CommonUtils.runAnimation(mlastPos, pos, view, UnitFacade.animSize);
@@ -82,6 +89,9 @@ public class FuelRateAdapter extends CursorAdapter {
 		public int id;
 		public TextView nameView;
 		public TextView valueView;
+		public TextView valueMinView;
+		public TextView valueMaxView;
+		public TextView valueAvgView;
 		public ImageView  logo;
 	}
 }

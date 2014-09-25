@@ -17,7 +17,6 @@
 */
 package com.enadein.carlogbook.ui;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.widget.EditText;
@@ -40,6 +39,7 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 	private EditText commentView;
 
 	private Spinner typeSpinner;
+    private UnitFacade unitFacade;
 
 	@Override
 	protected boolean validateEntity() {
@@ -65,6 +65,7 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 		getContentResolver().insert(ProviderDescriptor.Log.CONTENT_URI, getContentValues());
 		CommonUtils.validateOdometerNotifications(this,
 				Integer.valueOf(odometerView.getText().toString()));
+        updateActiveCar();
 	}
 
 	@Override
@@ -85,9 +86,9 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 			commentView.setText(logCursor.getString(commentIdx));
 
 			odometerView.setText(String.valueOf(logCursor.getLong(odometerIdx)));
-			priceView.setText(CommonUtils.formatPrice(logCursor.getDouble(priceIdx)));
+			priceView.setText(CommonUtils.formatPriceNew(logCursor.getDouble(priceIdx), unitFacade));
 			date = new Date(logCursor.getLong(dateIdx));
-			priceView.setText(CommonUtils.formatPrice(logCursor.getDouble(priceIdx)));
+			priceView.setText(CommonUtils.formatPriceNew(logCursor.getDouble(priceIdx), unitFacade));
 			nameView.setText(logCursor.getString(nameIdx));
 			typeSpinner.setSelection(logCursor.getInt(typeIdx));
 		}
@@ -95,13 +96,16 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 
 	@Override
 	protected void populateCreateEntity() {
+        showCarSelection();
 		date = new Date(System.currentTimeMillis());
-		long odometerValue = DBUtils.getMaxOdometerValue(getContentResolver());
-		odometerView.setText(String.valueOf(odometerValue));
+
+        populateValuesByCar();
 	}
 
 	@Override
 	protected void postCreate() {
+        unitFacade = getMediator().getUnitFacade();
+
 		odometerView = (EditText) findViewById(R.id.odometer);
 		priceView = (EditText) findViewById(R.id.price);
 		nameView = (EditText) findViewById(R.id.name);
@@ -109,9 +113,7 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 
 		typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
 
-		UnitFacade unitFacade = getMediator().getUnitFacade();
-		unitFacade.appendCurrency((TextView) findViewById(R.id.label_price), true);
-		unitFacade.appendDistUnit((TextView) findViewById(R.id.label_odometer), true);
+        updateLabels();
 	}
 
 
@@ -126,11 +128,13 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 	}
 
 	private ContentValues getContentValues() {
-		ContentResolver cr = getContentResolver();
+//		ContentResolver cr = getContentResolver();
 		ContentValues cv = new ContentValues();
 
 
-		long carId = DBUtils.getActiveCarId(cr);
+//		long carId = DBUtils.getActiveCarId(cr);
+		long carId = getCarId();
+
 		cv.put(ProviderDescriptor.Log.Cols.CAR_ID, carId);
 		cv.put(ProviderDescriptor.Log.Cols.TYPE_LOG, ProviderDescriptor.Log.Type.OTHER);
 
@@ -163,4 +167,32 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 		odometerView.requestFocus();
 
 	}
+
+
+    ///CAR SELECT
+    @Override
+    public void onCarChanged(long carId) {
+        setCarId(carId);
+        updateCarName(carId);
+        populateValuesByCar();
+    }
+
+    public void populateValuesByCar() {
+        long odometerValue = DBUtils.getMaxOdometerValue(getContentResolver(), getCarId());
+        odometerView.setText(String.valueOf(odometerValue));
+        updateLabels();
+    }
+
+    public void updateLabels() {
+        UnitFacade labelFacade = new UnitFacade(this);
+        labelFacade.reload(getCarId(), true);
+
+        TextView priceLabel = (TextView) findViewById(R.id.label_price);
+        priceLabel.setText(getString(R.string.log_price));
+        labelFacade.appendCurrency(priceLabel, true);
+
+        TextView odometerLabel = (TextView) findViewById(R.id.label_odometer);
+        odometerLabel.setText(getString(R.string.log_fuel_odometer));
+        labelFacade.appendDistUnit(odometerLabel, true);
+    }
 }

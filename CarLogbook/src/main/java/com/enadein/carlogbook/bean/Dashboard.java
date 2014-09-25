@@ -27,7 +27,27 @@ public class Dashboard {
 
 	private double pricePer1;
 
-	private double fuelRateAvg;
+	private double fuelRateAvg; //2
+
+    public double getFuelRateAvg100() {
+        return fuelRateAvg100;
+    }
+
+    public double getFuelRateAvg2() {
+        return fuelRateAvg2;
+    }
+
+    public void setFuelRateAvg2(double fuelRateAvg2) {
+        this.fuelRateAvg2 = fuelRateAvg2;
+    }
+
+    public void setFuelRateAvg100(double fuelRateAvg100) {
+        this.fuelRateAvg100 = fuelRateAvg100;
+    }
+
+    private double fuelRateAvg100; // 0
+
+    private double fuelRateAvg2; //1
 
 
 	private double totalFuelPrice;

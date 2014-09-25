@@ -219,6 +219,9 @@ public class ProviderDescriptor {
 			public static final String MIN_RATE = "MIN_RATE";
 			public static final String FUEL_TYPE_ID = "FUEL_TYPE_ID";
 			public static final String STATION_ID = "STATION_ID";
+			public static final String SUM_FUEL = "SUM_FUEL";
+			public static final String SUM_DIST = "SUM_DIST";
+			public static final String AVG = "AVG";
 		}
 	}
 

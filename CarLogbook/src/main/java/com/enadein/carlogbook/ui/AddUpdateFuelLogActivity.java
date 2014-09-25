@@ -60,6 +60,8 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 
 	private PriceValueState priceValueState = new PriceValueState();
 
+    private UnitFacade unitFacade;
+
 	private abstract class TextWatcherWrapper implements TextWatcher {
 
 		@Override
@@ -153,7 +155,7 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 		cv.put(ProviderDescriptor.Log.Cols.ODOMETER,
 				Integer.valueOf(odomenterView.getText().toString()));
 
-		long carId = DBUtils.getActiveCarId(cr);
+		long carId = getCarId();
 		cv.put(ProviderDescriptor.Log.Cols.CAR_ID, carId);
 
 		cv.put(ProviderDescriptor.Log.Cols.FUEL_VOLUME, CommonUtils.getPriceValue(fuelValueView));
@@ -191,7 +193,7 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 			double priceValue = CommonUtils.getRawDouble(priceView.getText().toString());
 			double priceTotalValue = fuelValue * priceValue;
 
-			priceTotalView.setText(CommonUtils.formatPrice(priceTotalValue));
+			priceTotalView.setText(CommonUtils.formatPriceNew(priceTotalValue, unitFacade));
 		}
 	}
 
@@ -219,7 +221,7 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 			double priceTotalValue = CommonUtils.getRawDouble(priceTotalView.getText().toString());
 
 			double fuelValue = CommonUtils.div(priceTotalValue, priceValue);
-			fuelValueView.setText(CommonUtils.formatPrice(fuelValue));
+			fuelValueView.setText(CommonUtils.formatPriceNew(fuelValue, unitFacade));
 		}
 	}
 
@@ -262,19 +264,23 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 		Calendar todayCalendar = Calendar.getInstance();
 		CommonUtils.trunkDay(todayCalendar);
 
-		long currentDate = date.getTime();
+//		long currentDate = date.getTime();
 
 
-        //TODO Refactor It
-		if (currentDate >= todayCalendar.getTimeInMillis()) {
-			DBUtils.updateFuelRate(getContentResolver(), Integer.valueOf(odomenterView.getText().toString()),
-					CommonUtils.getPriceValue(fuelValueView), getMediator().getUnitFacade());
-		}
+//        //TODO Refactor It
+//		if (currentDate >= todayCalendar.getTimeInMillis()) {
+//			DBUtils.updateFuelRate(getContentResolver(), Integer.valueOf(odomenterView.getText().toString()),
+//					CommonUtils.getPriceValue(fuelValueView), getMediator().getUnitFacade());
+//		}
+
+
 
 		getContentResolver().insert(ProviderDescriptor.Log.CONTENT_URI, getContentValues());
 
 		CommonUtils.validateOdometerNotifications(AddUpdateFuelLogActivity.this,
 				Integer.valueOf(odomenterView.getText().toString()));
+
+        updateActiveCar();
 	}
 
 	@Override
@@ -297,9 +303,9 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 			comments.setText(logCursor.getString(commentIdx));
 
 			odomenterView.setText(String.valueOf(logCursor.getLong(odometerIdx)));
-			priceView.setText(CommonUtils.formatPrice(logCursor.getDouble(priceIdx)));
+			priceView.setText(CommonUtils.formatPriceNew(logCursor.getDouble(priceIdx), unitFacade));
 			date = new Date(logCursor.getLong(dateIdx));
-			fuelValueView.setText(CommonUtils.formatPrice(logCursor.getDouble(fueldValueIdx)));
+			fuelValueView.setText(CommonUtils.formatFuel(logCursor.getDouble(fueldValueIdx), unitFacade));
 
 			new PriceState().updatePrice();
 			fuelTypeSpinner.setSelection(getPositionFromAdapterById(fuelAdapter,
@@ -313,21 +319,21 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 
 	@Override
 	protected void populateCreateEntity() {
-		date = new Date(System.currentTimeMillis()); // todo
-		long odometerValue = DBUtils.getMaxOdometerValue(getContentResolver());
-		odomenterView.setText(String.valueOf(odometerValue));
-		priceView.setText(String.valueOf(DBUtils.getLastPriceValue(getContentResolver())));
+		date = new Date(System.currentTimeMillis());
+        showCarSelection();
+        populateValuesByCar();
 	}
 
 	@Override
 	protected void postCreate() {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		UnitFacade unitFacade = getMediator().getUnitFacade();
-		unitFacade.appendFuelUnit((TextView) findViewById(R.id.label_fuel_volume), true);
-		unitFacade.appendCurrency((TextView) findViewById(R.id.label_price), false);
-		unitFacade.appendCurrency((TextView) findViewById(R.id.label_cost), false);
-		unitFacade.appendDistUnit((TextView) findViewById(R.id.label_odometer), true);
+	    unitFacade = getMediator().getUnitFacade();
+//		unitFacade.appendFuelUnit((TextView) findViewById(R.id.label_fuel_volume), true);
+//		unitFacade.appendCurrency((TextView) findViewById(R.id.label_price), false);
+//		unitFacade.appendCurrency((TextView) findViewById(R.id.label_cost), false);
+//		unitFacade.appendDistUnit((TextView) findViewById(R.id.label_odometer), true);
+        updateLabels();
 
 		odomenterView = (EditText) findViewById(R.id.odometer);
 		comments = (EditText) findViewById(R.id.comment);
@@ -350,6 +356,9 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 				null, adapterCols, adapterRowViews, 0);
 		stationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		stationSpinner.setAdapter(stationAdapter);
+
+
+//        updateLabels();
 
 		getSupportLoaderManager().initLoader(LOADER_STATION, null, this);
 		getSupportLoaderManager().initLoader(LOADER_TYPE, null, this);
@@ -393,5 +402,43 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 	protected int getContentLayout() {
 		return R.layout.add_fuel_log;
 	}
+
+    ///CAR SELECT
+    @Override
+    public void onCarChanged(long carId) {
+        setCarId(carId);
+        updateCarName(carId);
+        populateValuesByCar();
+    }
+
+    public void populateValuesByCar() {
+        long odometerValue = DBUtils.getMaxOdometerValue(getContentResolver(), getCarId());
+        odomenterView.setText(String.valueOf(odometerValue));
+        priceView.setText(CommonUtils.formatPriceNew(DBUtils.getLastPriceValue(getContentResolver()),unitFacade));
+
+        updateLabels();
+    }
+
+    public void updateLabels() {
+        UnitFacade labelFacade = new UnitFacade(this);
+        labelFacade.reload(getCarId(), true);
+
+        TextView priceLabel = (TextView) findViewById(R.id.label_price);
+        priceLabel.setText(getString(R.string.log_fuel_price));
+
+        TextView fuelVolumeLabel = (TextView) findViewById(R.id.label_fuel_volume);
+        fuelVolumeLabel.setText(getString(R.string.log_fuel_volume));
+
+        TextView costLabel = (TextView) findViewById(R.id.label_cost);
+        costLabel.setText(getString(R.string.log_fuel_price_total));
+
+        TextView odometerLabel = (TextView) findViewById(R.id.label_odometer);
+        odometerLabel.setText(getString(R.string.log_fuel_odometer));
+
+        labelFacade.appendFuelUnit(fuelVolumeLabel, true);
+        labelFacade.appendCurrency(priceLabel, false);
+        labelFacade.appendCurrency(costLabel, false);
+        labelFacade.appendDistUnit(odometerLabel, true);
+    }
 
 }

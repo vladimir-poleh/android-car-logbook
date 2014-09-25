@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!--Common-->
+	<string name="app_ver">Version</string>
+	<string name="create">Erstellen</string>
+	<string name="save">Speichern</string>
+	<string name="cancel">Abbrechen</string>
+	<string name="delete">Löschen</string>
+	<string name="confirm">Bestätigen</string>
+	<string name="confirm_delete">Wollen Sie wirklich löschen?</string>
+	<string name="yes">Ja</string>
+	<string name="no">Nein</string>
+	<string name="ok">Ok</string>
+	<string name="date">Datum</string>
+	<string name="odometer_unit">Kilometerstand</string>
+	<string name="comments">Kommentar</string>
+
+	<string name="deleteActive">Sie können kein aktives Auto löschen!</string>
+
+    <!--Menu-->
+    <string name="app_name">Car Logbook</string>
+    <string name="menu_item_log">Logbuch</string>
+    <string name="menu_item_reports">Auswertungen</string>
+    <string name="menu_item_my_cars">Meine Autos</string>
+    <string name="menu_item_notifications">Benachrichtigungen</string>
+    <string name="menu_item_settings">Einstellungen</string>
+    <string name="menu_item_about">Über</string>
+
+    <!--Action Bar Menu-->
+    <string name="share">Teilen</string>
+    <string name="share_title">CarLogbook</string>
+    <string name="add_car">Auto hinzufügen</string>
+    <string name="add_fuel_log">Tank-Event hinzufügen</string>
+    <string name="add_log">Event hinzufügen</string>
+    <string name="add_notify">Benachrichtigung hinzufügen</string>
+
+    <!--Add event log Activity-->
+    <string name="log_title">Event hinzufügen</string>
+    <string name="log_title_edit">Event bearbeiten</string>
+    <string name="log_name">Name</string>
+    <string name="erro_log_name">Name ist nicht korrect</string>
+    <string name="error_date">Datum ist nicht korrect</string>
+    <string name="log_type">Typ</string>
+    <string name="log_price">Kosten</string>
+    <string name="log_f">S: </string>
+    <string name="log_p">P: </string>
+
+
+	<string name="value_car_error">Bitte fügen Sie ein Auto hinzu!</string>
+
+    <!--Add fuel  event log Activity-->
+    <string name="log_fuel_title">Tanken aufnehmen</string>
+    <string name="log_fuel_title_edit">Tank-Event bearbeiten</string>
+    <string name="log_fuel_odometer">Kilometerstand</string>
+    <string name="log_fuel_price">Preis (1 Einheit)</string>
+    <string name="log_fuel_volume">Spritmenge</string>
+	<string name="log_fuel_price_total">Kosten (absolut)</string>
+	<string name="log_fuel_type">Sprit Typ</string>
+	<string name="log_fuel_gas_station">Tankstelle</string>
+
+	<string name="error_odometer">Kilometerstand ist nicht korrekt</string>
+	<string name="error_price">Preis ist nicht korrekt</string>
+	<string name="error_cost">Kosten sind nicht korrekt</string>
+	<string name="error_fuel">Sprit-Art ist nicht korrekt</string>
+
+    <!--Add Notification Activity-->
+    <string name="notify_title">Benachrichtigung hinzufügen</string>
+    <string name="notify_title_edit">Benachrichtigung bearbeiten</string>
+    <string name="notify_type">Typ</string>
+
+	<!--Settings-->
+	<string name="sett_fuel_type">Sprit Arten</string>
+	<string name="sett_stations">Tankstellen Typen</string>
+	<string name="sett_stations_add_gas">Tankstellen hinzufügen</string>
+	<string name="sett_stations_edit_gas">Tankstellen bearbeiten</string>
+
+	<string name="sett_stations_add_fuel">Sprit-Arten hinzufügen</string>
+	<string name="sett_stations_edit_fuel">Sprit-Arten bearbeiten</string>
+
+    <!--Add Car Activity-->
+    <string name="add_car_title">Auto hinzufügen</string>
+    <string name="edit_car_title">Auto bearbeiten</string>
+    <string name="car_name">Name des Autos</string>
+    <string name="car_name_error">Auto Name wird benötigt</string>
+    <string name="select_car">Dieses Auto auswählen</string>
+
+	<!--Add Data Value Activity-->
+	<string name="value_fuel_title">Sprit-Art hinzufügen</string>
+	<string name="value_station_title">Tankstellen-Typ hinzufügen</string>
+	<string name="value_name">Name</string>
+	<string name="value_name_error">Name wird benötigt</string>
+	<string name="value_sys_error">Sie können diesen Wert hinzufügen</string>
+	<string name="value_used_error">Dieser Wert wird verwendet!</string>
+
+	<!--Report-->
+	<string name="no_reports">Keine Reports</string>
+
+	<string name="total_cost">Kosten absolut</string>
+	<string name="total_run">Laufleistung absolut</string>
+	<string name="total_fuel">Spritverbrauch absolut</string>
+
+	<string name="avg_fuel">Durchschn.</string>
+	<string name="cost_per1">Kosten/1</string>
+
+	<string name="total_fuel_cost">Sprit</string>
+	<string name="total_service_cost">Service\n(+Motor/Getriebeöl)</string>
+	<string name="total_service_part_cost">Ersatzteile</string>
+	<string name="total_parking_cost">Parken</string>
+	<string name="total_other_cost">Andere</string>
+
+	<string name="cost_by_type">Absolute kosten per Typ</string>
+	<string name="cost_by_last4">Absolute Kosten (Letzte 4 Monate)</string>
+	<string name="run_by_last4">Gefahrene Strecke (Letzte 4 Monate)</string>
+
+	<string name="not_found">Nicht gefunden</string>
+	<string name="not_set">Nicht gesetzt</string>
+	<!--About-->
+
+	<string name="share_text">Car Logbook - zeichne Kosten deines Autos auf um eine Statistik zu erhalten https://play.google.com/store/apps/details?id=com.enadein.carlogbook</string>
+
+	<string name="author">Entwickler</string>
+	<string name="author_value">Eugene Nadein</string>
+	<string name="open_src">Dies ist ein Open-Source Projekt</string>
+	<string name="open_src_val">Source</string>
+	<string name="open_src_url">https://github.com/tx-drive/android-car-logbook</string>
+
+
+	<string name="feedback_lic">Lizenz (GNU GPL v3)</string>
+	<string name="feedback_lic_val">Lizenz lesen</string>
+
+	<string name="feedback_rate">Diese App bewerten</string>
+
+	<string name="feedback_label">Feedback</string>
+	<string name="feedback_ask">Feature wünschen</string>
+	<string name="feedback_provide">Feedback/Frage/Fehler Report</string>
+
+	<string name="libs_label">Open-Source Frameworks</string>
+	<string name="lib1_val">HoloGraphLibrary - a chart library for android</string>
+	<string name="lib1_val_url">https://bitbucket.org/danielnadeau/holographlibrary/wiki/Home</string>
+	<string name="email">eugene.nadein@gmail.com</string>
+	<string name="email_subject_ask">Feature (CarLogbook)</string>
+	<string name="email_subject_provide">Feedback (CarLogbook)</string>
+	<string name="license_title">Lizenz</string>
+
+	<string name="donate">Spenden (Hilf diesem Projekt)</string>
+	<string name="thanks">Danke für die Hilfe!</string>
+
+	<!--1.1-->
+	<!--Import/Export-->
+	<string name="menu_item_import_export">Import/Export</string>
+	<string name="imp">Import</string>
+	<string name="export">Export</string>
+	<string name="file_exists">Datei existiert</string>
+	<string name="export_import_error">Fehler!</string>
+	<string name="export_ok">Export ist fertig!</string>
+	<string name="import_delete">Aktuelle Datenbank löschen</string>
+	<string name="no_data">Keine Daten</string>
+	<string name="confirm_import">Möchten Sie wirklich importieren?</string>
+	<string name="import_ok">Import ist fertiggestellt!</string>
+	<string name="progress_title">Bearbeiten</string>
+	<string name="progress_content">Bearbeiten</string>
+	<string name="error_last_delete">Sie können den letzten Wert nicht entfernen</string>
+
+	<string name="google_backup">Google Drive Backup</string>
+	<string name="backup">Sichern</string>
+	<string name="restore">Wiederherstellen</string>
+
+	<!--1.2-->
+	<!--Units-->
+	<string name="unit_title">Einheiten</string>
+	<string name="unit_distance">Entfernung</string>
+	<string name="unit_fuel">Sprit</string>
+	<string name="unit_consumption">Verbrauch</string>
+	<string name="unit_currency">Währung</string>
+	<string name="na">N/A</string>
+	<string name="date_format">Datumsformat</string>
+	<string name="other_unit">Sprit,Distanz,Verbrauch,Währungseinheuten können in der Mein Auto Rubrik verändert werden (pro Auto).</string>
+
+	<!--1.3-->
+	<string name="device">Gerät</string>
+	<string name="cloud">Cloud</string>
+	<string name="files">Dateien</string>
+	<string name="others">Andere</string>
+	<string name="anim">Listenanimierung aktivieren</string>
+	<string name="no_car">Kein Aktives Auto</string>
+
+    <!--1.3.2-->
+    <string name="translate">Übersetzung</string>
+    <string name="last">zuletzt</string><!-- If too long then zul. -->
+    <string name="min">min</string>
+    <string name="max">max</string>
+    <string name="use_coma">Trennzeichen verwenden</string>
+
+    <string name="no_logs">Sie haben keine Events</string>
+    <string name="no_notify">Sie haben keine Benachrichtigungen</string>
+    <string name="no_cars">Sie haben kein aktives Auto. Bitte fügen Sie eins hinzu.</string>
+
+    <!--1.4-->
+    <string name="avg">i.D.</string>
+    <string name="car">Auto</string>
+    <string name="car_was_changed">Auto geändert zu:</string>
+    <string name="car_change">Auto auswählbar machen (Auswahlfenster aktivieren)</string>
+    <string name="select_car_dialog">Auto auswählen:</string>
+    <!--Consumption-->
+    <string name="consumption">Verbrauch</string>
+    <!--Fuel-->
+    <string name="fillup_total">Anzahl Auftanken</string>
+    <string name="fillupMin">Tankfüllung min</string>
+    <string name="fillupMax">Tankfüllung max</string>
+    <string name="fillupAvg">Tankfüllung durchschn.</string>
+    <string name="fuel_volume_month">Spritmenge (Diesen Monat)</string>
+    <string name="fuel_volume_last_month">Spritmenge (Letzten Monat)</string>
+    <string name="fuel_volume_year">Spritmenge (Dieses Jahr)</string>
+    <string name="fuel_volume_last_year">Spritmenge (Letztes Jahr)</string>
+
+    <string name="min_days_fillups">Wenigste Tage zwischen Tankstops</string>
+    <string name="max_days_fillups">Meißten Tage zwischen Tankstops</string>
+    <string name="avg_days_fillups">Tagen zwischen Tankstops i.D.</string>
+    <!--Distance-->
+    <string name="dist">Zurückgelegte Wegstrecke</string>
+    <string name="total_dist">Absolut</string>
+    <string name="odometer_count">Kilometerstand</string>
+    <string name="month_dist">Strecke diesen Monat</string>
+    <string name="last_month_dist">Strecke letzten Monat</string>
+    <string name="year_dist">Strecke dieses Jahr</string>
+    <string name="last_year_dist">Strecke letztes Jahr</string>
+    <string name="per_day_dist">Strecke pro Tag</string>
+    <string name="per_month_dist">Strecke pro Monat</string>
+    <string name="per_year_dist">Strecke pro Jahr</string>
+    <string name="min_fillup_dist">Minimale Distanz pro Tankfüllung</string>
+    <string name="max_fillup_dist">Maximale Distanz pro Tankfüllung</string>
+    <string name="avg_fillup_dist">Distanz pro Tankfüllung i.D.</string>
+    <!--COST-->
+    <string name="cost">Kosten</string>
+    <string name="cost_total">Absolute Kosten</string>
+    <string name="cost_total_month">Absolute Kosten in diesem Monat</string>
+    <string name="cost_total_last_month">Absolute Kosten im letzteb Monat</string>
+    <string name="cost_total_year">Absolute Kosten dieses Jahr</string>
+    <string name="cost_total_last_year">Absolute Kosten letztes Jahr</string>
+    <string name="cost_price_min">Kleinster Spritpreis</string>
+    <string name="cost_price_max">Größter Spritpreis</string>
+    <string name="cost_price_avg">Spritpreis i.D.</string>
+    <string name="cost_fillup_min">Geringste Kosten zum Auftanken</string>
+    <string name="cost_fillup_max">Größte Kosten zum Auftanken</string>
+    <string name="cost_fillup_avg">Kosten zum Auftanken i.D.</string>
+    <string name="cost_total_per_day">Kosten pro Tag</string>
+    <string name="cost_total_per_month">Kosten pro Monat</string>
+    <string name="cost_total_per_year">Kosten pro Jahr</string>
+    <string name="cost_total_per_day_fuel">Spritkosten pro Tag</string>
+    <string name="cost_total_per_month_fuel">Spritkosten pro Monat</string>
+    <string name="cost_total_per_year_fuel">Spritkosten pro Jahr</string>
+    <string name="cost_total_per_day_other">Andere Kosten pro Tag</string>
+    <string name="cost_total_per_month_other">Andere Kosten pro Monat</string>
+    <string name="cost_total_per_year_other">Andere Kosten pro Jahr</string>
+</resources>

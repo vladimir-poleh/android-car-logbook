@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!--Common-->
-	<string name="app_ver">Версия: 1.3</string>
+	<string name="app_ver">Версия</string>
 	<string name="create">Создать</string>
 	<string name="save">Сохранить</string>
 	<string name="cancel">Отмена</string>
@@ -171,15 +171,85 @@
 	<string name="unit_fuel">Топливо</string>
 	<string name="unit_consumption">Расход</string>
 	<string name="unit_currency">Валюта</string>
-	<string name="na">N/A</string>
+	<string name="na">н/д</string>
 	<string name="date_format">Формат даты</string>
 	<string name="other_unit">Топливо, расстояние, расход, валюта могут быть изменен на экране редактирования авто (для каждого авто).</string>
 
     <!--1.3-->
     <string name="device">Устройство</string>
     <string name="cloud">Облако</string>
-    <string name="files">файлы</string>
+    <string name="files">Файлы</string>
     <string name="others">Другое</string>
-    <string name="anim">Включить анимацию списоков</string>
+    <string name="anim">Включить анимацию списков</string>
     <string name="no_car">Нет автомобилей</string>
+
+    <!--1.3.2-->
+    <string name="translate">Перевод</string>
+    <string name="last">посл.</string>
+    <string name="min">мин.</string>
+    <string name="max">макс.</string>
+    <string name="use_coma">Запятая в числах</string>
+
+    <string name="no_logs">У Вас нет событий</string>
+    <string name="no_notify">У Вас нет уведомлений</string>
+    <string name="no_cars">У Вас нет активного авто, пожалуйста добавьте авто</string>
+
+
+    <!--1.4-->
+    <string name="avg">сред.</string>
+    <string name="car">Авто</string>
+    <string name="car_was_changed">Автомобиль изменен на: </string>
+    <string name="car_change">Включить выбор авто(экраны событий)</string>
+    <string name="select_car_dialog">Выбор авто</string>
+    <!--Consumption-->
+    <string name="consumption">Потребление</string>
+    <!--Fuel-->
+    <string name="fillup_total">Кол-во заправок</string>
+    <string name="fillupMin">Миним. объем заправки</string>
+    <string name="fillupMax">Макс. объем заправки</string>
+    <string name="fillupAvg">Сред. объем заправки</string>
+    <string name="fuel_volume_month">Объем топлипа за тек. мес.</string>
+    <string name="fuel_volume_last_month">Объем топлипа за пред. мес.</string>
+    <string name="fuel_volume_year">Объем топлипа за тек. год</string>
+    <string name="fuel_volume_last_year">Объем топлипа за пред. год</string>
+
+    <string name="min_days_fillups">Дней между заправ. (мин)</string>
+    <string name="max_days_fillups">Дней между заправ. (макс)</string>
+    <string name="avg_days_fillups">Дней между заправ. (сред)</string>
+    <!--Distance-->
+    <string name="dist">Расстояние</string>
+    <string name="total_dist">Расстояние (всего)</string>
+    <string name="odometer_count">Одометер</string>
+    <string name="month_dist">Расстояние за тек. месяц</string>
+    <string name="last_month_dist">Расстояние за пред. месяц</string>
+    <string name="year_dist">Расстояние за тек. год</string>
+    <string name="last_year_dist">Расстояние за пред. год</string>
+    <string name="per_day_dist">Расстояние в день</string>
+    <string name="per_month_dist">Расстояние в месяц</string>
+    <string name="per_year_dist">Расстояние в год</string>
+    <string name="min_fillup_dist">Расстояние между заправ. (мин)</string>
+    <string name="max_fillup_dist">Расстояние между заправ. (макс)</string>
+    <string name="avg_fillup_dist">Расстояние между заправ. (сред)</string>
+    <!--COST-->
+    <string name="cost">Стоимость</string>
+    <string name="cost_total">Стоимость(всего)</string>
+    <string name="cost_total_month">Стоимость тек. месяц</string>
+    <string name="cost_total_last_month">Стоимость пред. месяц</string>
+    <string name="cost_total_year">Стоимость тек. год</string>
+    <string name="cost_total_last_year">Стоимость пред. год</string>
+    <string name="cost_price_min">Цена топлива(мин)</string>
+    <string name="cost_price_max">Цена топлива(макс)</string>
+    <string name="cost_price_avg">Цена топлива(сред)</string>
+    <string name="cost_fillup_min">Стоимость заправки(мин)</string>
+    <string name="cost_fillup_max">Стоимость заправки(макс)</string>
+    <string name="cost_fillup_avg">Стоимость заправки(сред)</string>
+    <string name="cost_total_per_day">Стоимость в день</string>
+    <string name="cost_total_per_month">Стоимость в месяц</string>
+    <string name="cost_total_per_year">Стоимость в год</string>
+    <string name="cost_total_per_day_fuel">Стоимость топл. в день</string>
+    <string name="cost_total_per_month_fuel">Стоимость топл. в мес.</string>
+    <string name="cost_total_per_year_fuel">Стоимость топл. в год</string>
+    <string name="cost_total_per_day_other">Другие затраты в день</string>
+    <string name="cost_total_per_month_other">Другие затраты в месяц</string>
+    <string name="cost_total_per_year_other">Другие затраты в год</string>
 </resources>

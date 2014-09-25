@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="action_list">
+        <item>Übersicht</item>
+        <item>Nach Typ</item>
+        <item>Spritverbrauch</item>
+        <item>Letzte Ereignisse</item>
+        <item>Details</item> <!--1.4-->
+    </string-array>
+    <string-array name="fuel_type_default">
+        <item>Benzin 91</item>
+        <item>Super 95</item>
+        <item>Super E10</item>
+        <item>Super Plus 98</item>
+        <item>Diesel</item>
+        <item>Biodiesel</item>
+    </string-array>
+    <string-array name="station_type_default">
+        <item>Standard</item>
+    </string-array>
+    <string-array name="log_type">
+        <item>Andere</item> <!--0-->
+        <item>Waschen</item><!--1-->
+        <item>Parken</item><!--2-->
+        <item>Strafen</item><!--3-->
+        <item>Tuning</item><!--4-->
+        <item>Service</item><!--5-->
+        <item>Motoröl</item><!--6-->
+        <item>Getriebeöl</item><!--7-->
+        <item>Ersatzteile</item><!--8-->
+        <item>Versicherung</item><!--9-->
+        <item>Kredit</item><!--10-->
+    </string-array>
+
+    <string-array name="notify_types">
+        <item>Nach Kilometerstand</item>
+        <item>Nach Datum</item>
+    </string-array>
+
+    <!--1.2-->
+    <string-array name="unit_distance">
+        <item>km</item>
+        <item>mil</item>
+    </string-array>
+    <string-array name="unit_fuel">
+        <item>L</item>
+        <item>gal</item>
+    </string-array>
+    <string-array name="unit_consumption_1_1">
+        <item>L/100km</item>
+        <item>L/km</item>
+        <item>km/L</item>
+    </string-array>
+    <string-array name="unit_consumption_1_2">
+        <item>gal/100km</item>
+        <item>gal/km</item>
+        <item>km/gal</item>
+    </string-array>
+    <string-array name="unit_consumption_2_1">
+        <item>L/100mil</item>
+        <item>L/mil</item>
+        <item>mil/L</item>
+    </string-array>
+    <string-array name="unit_consumption_2_2">
+        <item>gal/100mil</item>
+        <item>gal/mil</item>
+        <item>mil/gal</item>
+    </string-array>
+
+    <string-array name="date_format">
+        <item>yyyy-MM-dd</item>
+        <item>yyyy-dd-MM</item>
+        <item>dd-MM-yyyy</item>
+        <item>MM-dd-yyyy</item>
+    </string-array>
+</resources>

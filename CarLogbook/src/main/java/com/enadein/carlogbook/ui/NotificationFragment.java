@@ -91,6 +91,7 @@ public class NotificationFragment extends BaseFragment implements
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		notificationAdapter.swapCursor(data);
+        showNoItems(data.getCount() == 0);
 	}
 
 	@Override
