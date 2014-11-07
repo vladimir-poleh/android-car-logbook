@@ -262,6 +262,7 @@ public class CommonUtils {
 	}
 
 	public static double getRawDouble(String text) {
+
 		double result = 0.;
 		try {
 			result = Double.valueOf(text.trim().replace(',', '.'));

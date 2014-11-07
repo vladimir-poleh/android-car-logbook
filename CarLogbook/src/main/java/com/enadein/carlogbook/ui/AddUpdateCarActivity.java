@@ -17,16 +17,20 @@
 */
 package com.enadein.carlogbook.ui;
 
+import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
+import com.androidquery.AQuery;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.SaveUpdateBaseActivity;
 import com.enadein.carlogbook.core.UnitFacade;
@@ -34,9 +38,11 @@ import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
-public class AddUpdateCarActivity extends SaveUpdateBaseActivity {
+public class AddUpdateCarActivity extends SaveUpdateBaseActivity implements DatePickerDialog.OnDateSetListener  {
 
 	private long selectedCarId;
 	private CheckBox selectCarView;
@@ -46,13 +52,24 @@ public class AddUpdateCarActivity extends SaveUpdateBaseActivity {
 
 	private int consumValue = 0;
 	private EditText curency;
+    private TextView dateView;
+    protected Date date = new Date();
 
-	@Override
+    private AQuery a ;
+
+
+    @Override
 	protected int getContentLayout() {
 		return R.layout.add_car_fragment;
 	}
 
-	@Override
+    @Override
+    protected void postPopulate() {
+        super.postPopulate();
+        setDateText(CommonUtils.formatDate(date));
+    }
+
+    @Override
 	protected void populateEditEntity() {
 		Cursor c = getContentResolver()
 				.query(ProviderDescriptor.Car.CONTENT_URI, null, SELECTION_ID_FILTER,
@@ -84,7 +101,35 @@ public class AddUpdateCarActivity extends SaveUpdateBaseActivity {
 				selectCarView.setVisibility(View.GONE);
 			}
 
+
+
 			carNameView.setText(carName);
+
+            a.id(R.id.make).text(c.getString(
+                    c.getColumnIndex(ProviderDescriptor.Car.Cols.MAKE)));
+            a.id(R.id.model).text(c.getString(
+                    c.getColumnIndex(ProviderDescriptor.Car.Cols.MODEL)));
+            a.id(R.id.manuf).text(c.getString(
+                    c.getColumnIndex(ProviderDescriptor.Car.Cols.MANUF)));
+            a.id(R.id.car_cost).text(c.getString(
+                    c.getColumnIndex(ProviderDescriptor.Car.Cols.CAR_COST)));
+//            a.id(R.id.purchase).text(c.getString(
+//                    c.getColumnIndex(ProviderDescriptor.Car.Cols.PURCHASE)));
+
+            date = new Date(c.getLong(c.getColumnIndex(
+                    ProviderDescriptor.Car.Cols.PURCHASE)));
+
+            a.id(R.id.open_mil).text(c.getString(
+                    c.getColumnIndex(ProviderDescriptor.Car.Cols.OPEN_MIL)));
+            a.id(R.id.id_no).text(c.getString(
+                    c.getColumnIndex(ProviderDescriptor.Car.Cols.ID_NO)));
+            a.id(R.id.reg_num).text(c.getString(
+                    c.getColumnIndex(ProviderDescriptor.Car.Cols.REG_NUM)));
+            a.id(R.id.fuel_type).text(c.getString(
+                    c.getColumnIndex(ProviderDescriptor.Car.Cols.FUEL_TYPE)));
+            a.id(R.id.tyre).text(c.getString(
+                    c.getColumnIndex(ProviderDescriptor.Car.Cols.TYRE)));
+
 		}
 		c.close();
 	}
@@ -105,6 +150,7 @@ public class AddUpdateCarActivity extends SaveUpdateBaseActivity {
 
 	@Override
 	protected void postCreate() {
+        a = new AQuery(this);
 
 		curency = (EditText) findViewById(R.id.currency);
 
@@ -176,6 +222,17 @@ public class AddUpdateCarActivity extends SaveUpdateBaseActivity {
 		cv.put(ProviderDescriptor.Car.Cols.UNIT_FUEL, fuelSpinner.getSelectedItemPosition());
 		cv.put(ProviderDescriptor.Car.Cols.UNIT_CONSUMPTION, consumSpinner.getSelectedItemPosition());
 
+		cv.put(ProviderDescriptor.Car.Cols.MAKE, a.id(R.id.make).getText().toString());
+		cv.put(ProviderDescriptor.Car.Cols.MODEL, a.id(R.id.model).getText().toString());
+		cv.put(ProviderDescriptor.Car.Cols.MANUF, a.id(R.id.manuf).getText().toString());
+		cv.put(ProviderDescriptor.Car.Cols.CAR_COST, a.id(R.id.car_cost).getText().toString());
+		cv.put(ProviderDescriptor.Car.Cols.PURCHASE, date.getTime());
+		cv.put(ProviderDescriptor.Car.Cols.OPEN_MIL, a.id(R.id.open_mil).getText().toString());
+		cv.put(ProviderDescriptor.Car.Cols.ID_NO, a.id(R.id.id_no).getText().toString());
+		cv.put(ProviderDescriptor.Car.Cols.REG_NUM, a.id(R.id.reg_num).getText().toString());
+		cv.put(ProviderDescriptor.Car.Cols.FUEL_TYPE, a.id(R.id.fuel_type).getText().toString());
+		cv.put(ProviderDescriptor.Car.Cols.TYRE, a.id(R.id.tyre).getText().toString());
+
 		String currencyVal = curency.getText() != null ? curency.getText().toString() : "";
 		if (currencyVal.trim().length() > 0) {
 			cv.put(ProviderDescriptor.Car.Cols.UNIT_CURRENCY, currencyVal);
@@ -208,7 +265,20 @@ public class AddUpdateCarActivity extends SaveUpdateBaseActivity {
 		cv.put(ProviderDescriptor.Car.Cols.UNIT_FUEL, fuelSpinner.getSelectedItemPosition());
 		cv.put(ProviderDescriptor.Car.Cols.UNIT_CONSUMPTION, consumSpinner.getSelectedItemPosition());
 
-		String currencyVal = curency.getText() != null ? curency.getText().toString() : "";
+        cv.put(ProviderDescriptor.Car.Cols.MAKE, a.id(R.id.make).getText().toString());
+        cv.put(ProviderDescriptor.Car.Cols.MODEL, a.id(R.id.model).getText().toString());
+        cv.put(ProviderDescriptor.Car.Cols.MANUF, a.id(R.id.manuf).getText().toString());
+        cv.put(ProviderDescriptor.Car.Cols.CAR_COST, a.id(R.id.car_cost).getText().toString());
+        cv.put(ProviderDescriptor.Car.Cols.PURCHASE, date.getTime());
+        cv.put(ProviderDescriptor.Car.Cols.OPEN_MIL, a.id(R.id.open_mil).getText().toString());
+        cv.put(ProviderDescriptor.Car.Cols.ID_NO, a.id(R.id.id_no).getText().toString());
+        cv.put(ProviderDescriptor.Car.Cols.REG_NUM, a.id(R.id.reg_num).getText().toString());
+        cv.put(ProviderDescriptor.Car.Cols.FUEL_TYPE, a.id(R.id.fuel_type).getText().toString());
+        cv.put(ProviderDescriptor.Car.Cols.TYRE, a.id(R.id.tyre).getText().toString());
+
+
+
+        String currencyVal = curency.getText() != null ? curency.getText().toString() : "";
 		if (currencyVal.trim().length() > 0) {
 			cv.put(ProviderDescriptor.Car.Cols.UNIT_CURRENCY, currencyVal);
 		}
@@ -264,5 +334,24 @@ public class AddUpdateCarActivity extends SaveUpdateBaseActivity {
 	}
 
 
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, day);
+        date = c.getTime();
+        setDateText(CommonUtils.formatDate(date));
+    }
+
+    void setDateText(String text) {
+        a.id(R.id.date).text(text);
+    }
+
+    public void showDatePickerDialog(View v) {
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.setListener(date, this);
+        datePickerFragment.show(getSupportFragmentManager(), "date_picker");
+    }
 
 }

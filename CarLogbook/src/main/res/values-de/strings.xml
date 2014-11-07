@@ -74,8 +74,8 @@
 	<string name="sett_stations_add_gas">Tankstellen hinzufügen</string>
 	<string name="sett_stations_edit_gas">Tankstellen bearbeiten</string>
 
-	<string name="sett_stations_add_fuel">Sprit-Arten hinzufügen</string>
-	<string name="sett_stations_edit_fuel">Sprit-Arten bearbeiten</string>
+	<string name="sett_stations_add_fuel">Spritarten hinzufügen</string>
+	<string name="sett_stations_edit_fuel">Spritarten bearbeiten</string>
 
     <!--Add Car Activity-->
     <string name="add_car_title">Auto hinzufügen</string>
@@ -85,8 +85,8 @@
     <string name="select_car">Dieses Auto auswählen</string>
 
 	<!--Add Data Value Activity-->
-	<string name="value_fuel_title">Sprit-Art hinzufügen</string>
-	<string name="value_station_title">Tankstellen-Typ hinzufügen</string>
+	<string name="value_fuel_title">Spritart hinzufügen</string>
+	<string name="value_station_title">Tankstellen Typ hinzufügen</string>
 	<string name="value_name">Name</string>
 	<string name="value_name_error">Name wird benötigt</string>
 	<string name="value_sys_error">Sie können diesen Wert hinzufügen</string>
@@ -174,7 +174,7 @@
 	<string name="unit_currency">Währung</string>
 	<string name="na">N/A</string>
 	<string name="date_format">Datumsformat</string>
-	<string name="other_unit">Sprit,Distanz,Verbrauch,Währungseinheuten können in der Mein Auto Rubrik verändert werden (pro Auto).</string>
+	<string name="other_unit">Sprit, Distanz, Verbrauch und Währungseinheuten können in der Mein Auto Rubrik verändert werden (pro Auto).</string>
 
 	<!--1.3-->
 	<string name="device">Gerät</string>
@@ -182,7 +182,7 @@
 	<string name="files">Dateien</string>
 	<string name="others">Andere</string>
 	<string name="anim">Listenanimierung aktivieren</string>
-	<string name="no_car">Kein Aktives Auto</string>
+	<string name="no_car">Kein aktives Auto</string>
 
     <!--1.3.2-->
     <string name="translate">Übersetzung</string>
@@ -193,10 +193,10 @@
 
     <string name="no_logs">Sie haben keine Events</string>
     <string name="no_notify">Sie haben keine Benachrichtigungen</string>
-    <string name="no_cars">Sie haben kein aktives Auto. Bitte fügen Sie eins hinzu.</string>
+    <string name="no_cars">Sie haben kein aktives Auto. Bitte fügen Sie ein Auto hinzu!</string>
 
     <!--1.4-->
-    <string name="avg">i.D.</string>
+    <string name="avg">Durchschnitt</string>
     <string name="car">Auto</string>
     <string name="car_was_changed">Auto geändert zu:</string>
     <string name="car_change">Auto auswählbar machen (Auswahlfenster aktivieren)</string>
@@ -208,18 +208,18 @@
     <string name="fillupMin">Tankfüllung min</string>
     <string name="fillupMax">Tankfüllung max</string>
     <string name="fillupAvg">Tankfüllung durchschn.</string>
-    <string name="fuel_volume_month">Spritmenge (Diesen Monat)</string>
-    <string name="fuel_volume_last_month">Spritmenge (Letzten Monat)</string>
-    <string name="fuel_volume_year">Spritmenge (Dieses Jahr)</string>
-    <string name="fuel_volume_last_year">Spritmenge (Letztes Jahr)</string>
+    <string name="fuel_volume_month">Spritmenge diesen Monat</string>
+    <string name="fuel_volume_last_month">Spritmenge letzten Monat</string>
+    <string name="fuel_volume_year">Spritmenge dieses Jahr</string>
+    <string name="fuel_volume_last_year">Spritmenge letztes Jahr</string>
 
-    <string name="min_days_fillups">Wenigste Tage zwischen Tankstops</string>
-    <string name="max_days_fillups">Meißten Tage zwischen Tankstops</string>
-    <string name="avg_days_fillups">Tagen zwischen Tankstops i.D.</string>
+    <string name="min_days_fillups">Kürzeste Dauer zwischen Tankstops (d)</string>
+    <string name="max_days_fillups">Längste Dauer zwischen Tankstops (d)</string>
+    <string name="avg_days_fillups">Durchschn. Dauer zwischen Tankstops (d)</string>
     <!--Distance-->
     <string name="dist">Zurückgelegte Wegstrecke</string>
-    <string name="total_dist">Absolut</string>
-    <string name="odometer_count">Kilometerstand</string>
+    <string name="total_dist">Wegstrecke absolut</string>
+    <string name="odometer_count">Letzter Kilometerstand</string>
     <string name="month_dist">Strecke diesen Monat</string>
     <string name="last_month_dist">Strecke letzten Monat</string>
     <string name="year_dist">Strecke dieses Jahr</string>
@@ -229,27 +229,51 @@
     <string name="per_year_dist">Strecke pro Jahr</string>
     <string name="min_fillup_dist">Minimale Distanz pro Tankfüllung</string>
     <string name="max_fillup_dist">Maximale Distanz pro Tankfüllung</string>
-    <string name="avg_fillup_dist">Distanz pro Tankfüllung i.D.</string>
+    <string name="avg_fillup_dist">Durchschn. Distanz pro Tankfüllung</string>
     <!--COST-->
     <string name="cost">Kosten</string>
     <string name="cost_total">Absolute Kosten</string>
     <string name="cost_total_month">Absolute Kosten in diesem Monat</string>
-    <string name="cost_total_last_month">Absolute Kosten im letzteb Monat</string>
+    <string name="cost_total_last_month">Absolute Kosten im letzten Monat</string>
     <string name="cost_total_year">Absolute Kosten dieses Jahr</string>
     <string name="cost_total_last_year">Absolute Kosten letztes Jahr</string>
     <string name="cost_price_min">Kleinster Spritpreis</string>
     <string name="cost_price_max">Größter Spritpreis</string>
-    <string name="cost_price_avg">Spritpreis i.D.</string>
+    <string name="cost_price_avg">Durchschnittlicher Spritpreis</string>
     <string name="cost_fillup_min">Geringste Kosten zum Auftanken</string>
-    <string name="cost_fillup_max">Größte Kosten zum Auftanken</string>
-    <string name="cost_fillup_avg">Kosten zum Auftanken i.D.</string>
+    <string name="cost_fillup_max">Höchste Kosten zum Auftanken</string>
+    <string name="cost_fillup_avg">Durchschn. Kosten zum Auftanken</string>
     <string name="cost_total_per_day">Kosten pro Tag</string>
     <string name="cost_total_per_month">Kosten pro Monat</string>
     <string name="cost_total_per_year">Kosten pro Jahr</string>
     <string name="cost_total_per_day_fuel">Spritkosten pro Tag</string>
     <string name="cost_total_per_month_fuel">Spritkosten pro Monat</string>
     <string name="cost_total_per_year_fuel">Spritkosten pro Jahr</string>
-    <string name="cost_total_per_day_other">Andere Kosten pro Tag</string>
-    <string name="cost_total_per_month_other">Andere Kosten pro Monat</string>
-    <string name="cost_total_per_year_other">Andere Kosten pro Jahr</string>
+    <string name="cost_total_per_day_other">Weitere Kosten pro Tag</string>
+    <string name="cost_total_per_month_other">Weitere Kosten pro Monat</string>
+    <string name="cost_total_per_year_other">Weitere Kosten pro Jahr</string>
+
+	<!--1.5-->
+    <string name="other_type_val">Weitere Kostenarten</string>
+    <string name="other_type">Weitere Kosten</string>
+    <string name="add_other_type">Weitere Kostenarten hinzufügen</string>
+    <string name="edit_other_type">Weitere Kosten bearbeiten</string>
+    <string name="calc">Rechner</string>
+    <string name="result">Ergebnis</string>
+    <string name="fillups_avg">Tankvorgänge durchschn.</string>
+
+    <string name="make">Hersteller</string>
+    <string name="model">Modell</string>
+    <string name="manuf">Baujahr</string>
+    <string name="car_cost">Kaufpreis</string>
+    <string name="purchase">Kaufdatum</string>
+    <string name="open_mil">Kilometerstand</string>
+    <string name="id_no">Identifizierungsnr.</string>
+    <string name="reg_num">Registrierungsnummer</string>
+    <string name="fuel_type">Spritart</string>
+    <string name="tyre">Reifen</string>
+
+    <string name="info">Info</string>
+
+
 </resources>

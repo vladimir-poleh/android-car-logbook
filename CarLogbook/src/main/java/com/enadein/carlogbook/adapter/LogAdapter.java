@@ -136,7 +136,7 @@ public class LogAdapter extends CursorAdapter {
 			logFuelHolder.fuelValueView.setText(CommonUtils.formatFuel(fuelValue, unitFacade));
 			unitFacade.appendFuelUnit(logFuelHolder.fuelValueView, false);
 			logFuelHolder.priceTotal.setText( CommonUtils.formatPriceNew(priceTotalDouble, unitFacade));
-			unitFacade.appendCurrency(logFuelHolder.priceTotal,false);
+			unitFacade.appendCurrency(logFuelHolder.priceTotal,false, false);
 			logFuelHolder.fuelView.setText(fuelName + "(" + stationName + ")");
 			logFuelHolder.imgType.setBackgroundResource(R.drawable.fuel);
 			logFuelHolder.id = id;
@@ -153,9 +153,19 @@ public class LogAdapter extends CursorAdapter {
 			unitFacade.appendDistUnit(logHolder.odometerView, false);
 			logHolder.imgType.setBackgroundResource(DataInfo.images.get(typeId));
 			logHolder.priceTotal.setText( CommonUtils.formatPriceNew(price, unitFacade));
-			unitFacade.appendCurrency(logHolder.priceTotal,false);
+			unitFacade.appendCurrency(logHolder.priceTotal,false, false);
 			logHolder.nameView.setText( name);
-			logHolder.typeView.setText(types[typeId]);
+
+            if (typeId == 0) {
+                int fuelNameIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.FUEL_NAME);
+                String fuelName = cursor.getString(fuelNameIdx);
+                logHolder.typeView.setText(fuelName);
+            } else {
+                logHolder.typeView.setText(types[typeId]);
+//                int fuelNameIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.FUEL_NAME);
+//                String fuelName = cursor.getString(fuelNameIdx);
+//                logHolder.typeView.setText(fuelName);
+            }
 
 			logHolder.id = id;
 		}

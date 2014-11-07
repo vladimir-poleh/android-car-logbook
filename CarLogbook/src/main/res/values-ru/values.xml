@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="action_list">
-        <item>Статиситка</item>
+        <item>Статистика</item>
         <item>По типу</item>
         <item>Расход топл.</item>
         <item>Дата событ.</item>
@@ -11,7 +11,7 @@
 		<item>A-95</item>
 		<item>A-95+</item>
 		<item>A-76</item>
-		<item>A-80</item>
+		<item>ДТ</item>
 		<item>A-92</item>
 		<item>A-98</item>
 	</string-array>

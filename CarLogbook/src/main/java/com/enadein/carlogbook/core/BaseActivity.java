@@ -73,7 +73,7 @@ public class BaseActivity extends ActionBarActivity implements DialogListener, Q
 	protected boolean validateView(int errorViewId, EditText editView) {
 		TextView errorView = (TextView) findViewById(errorViewId);
 		double valueDouble = CommonUtils.getRawDouble(editView.getText().toString());
-		boolean result = valueDouble > 0.0009 && 1000000.d >= valueDouble;
+		boolean result =  10000000.d >= valueDouble;
 
 	errorView.setVisibility((!result)? View.VISIBLE : View.GONE);
 	return result;

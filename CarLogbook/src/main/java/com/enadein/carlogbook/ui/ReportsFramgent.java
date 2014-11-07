@@ -17,8 +17,10 @@
 */
 package com.enadein.carlogbook.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,7 @@ import com.enadein.carlogbook.bean.Dashboard;
 import com.enadein.carlogbook.bean.DataInfo;
 import com.enadein.carlogbook.core.BaseFragment;
 import com.enadein.carlogbook.core.DataLoader;
+import com.enadein.carlogbook.core.FloatingActionButton;
 import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 
@@ -104,6 +107,13 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
         unitFacade.appendConsumUnit(avg100LabelView, true, 0);
         unitFacade.appendConsumUnit(avgLabelView, true, 2);
         unitFacade.appendConsumUnit(avg2LabelView, true, 1);
+
+//        FloatingActionButton fabButton = new FloatingActionButton.Builder(getActivity())
+//                .withDrawable(getResources().getDrawable(R.drawable.fuel))
+//                .withButtonColor(Color.WHITE)
+//                .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
+//                .withMargins(0, 0, 16, 16)
+//                .create();
 
 
         getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_DASHBOARD_ID, null, this);

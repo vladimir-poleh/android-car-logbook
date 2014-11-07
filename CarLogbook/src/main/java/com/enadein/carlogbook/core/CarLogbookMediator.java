@@ -35,6 +35,7 @@ import com.enadein.carlogbook.ui.AddUpdateFuelLogActivity;
 import com.enadein.carlogbook.ui.AddUpdateLogActivity;
 import com.enadein.carlogbook.ui.AddUpdateNotificationActivity;
 import com.enadein.carlogbook.ui.AlertDialog;
+import com.enadein.carlogbook.ui.CalcFragment;
 import com.enadein.carlogbook.ui.ConfirmDialog;
 import com.enadein.carlogbook.ui.DataValueActivity;
 import com.enadein.carlogbook.ui.DetailReportFragment;
@@ -87,6 +88,10 @@ public class CarLogbookMediator extends AppMediator {
 	public void showImportExport() {
 		replaceMainContainter(new ImportExportFragment());
 	}
+
+    public void showCalc() {
+        replaceMainContainter(new CalcFragment());
+    }
 
 	public void showReports() {
 		replaceMainContainter(new ReportsFramgent());

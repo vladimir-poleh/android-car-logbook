@@ -30,104 +30,112 @@ import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
 public class AddUpdateDataValue extends SaveUpdateBaseActivity {
-	private int type;
-	private EditText name;
+    private int type;
+    private EditText name;
 
-	@Override
-	protected boolean validateEntity() {
-		return validateData(name.getText().toString());
-	}
+    @Override
+    protected boolean validateEntity() {
+        return validateData(name.getText().toString());
+    }
 
-	private boolean validateData(String value) {
-		boolean result = true;
-		if (value == null || value.trim().length() == 0) {
-			findViewById(R.id.errorName).setVisibility(View.VISIBLE);
-			result = false;
-		}
+    private boolean validateData(String value) {
+        boolean result = true;
+        if (value == null || value.trim().length() == 0) {
+            findViewById(R.id.errorName).setVisibility(View.VISIBLE);
+            result = false;
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	@Override
-	protected void createEntity() {
-		ContentValues cv = new ContentValues();
-		cv.put(ProviderDescriptor.DataValue.Cols.NAME, name.getText().toString());
-		cv.put(ProviderDescriptor.DataValue.Cols.TYPE, type);
-		getContentResolver().insert(ProviderDescriptor.DataValue.CONTENT_URI, cv);
-	}
+    @Override
+    protected void createEntity() {
+        ContentValues cv = new ContentValues();
+        cv.put(ProviderDescriptor.DataValue.Cols.NAME, name.getText().toString());
+        cv.put(ProviderDescriptor.DataValue.Cols.TYPE, type);
+        getContentResolver().insert(ProviderDescriptor.DataValue.CONTENT_URI, cv);
+    }
 
-	@Override
-	protected void updateEntity() {
-		ContentValues cv = new ContentValues();
-		cv.put(ProviderDescriptor.DataValue.Cols.NAME, name.getText().toString());
-		getContentResolver().update(ProviderDescriptor.DataValue.CONTENT_URI,  cv, ID_PARAM, new String[] {String.valueOf(id)});
-	}
+    @Override
+    protected void updateEntity() {
+        ContentValues cv = new ContentValues();
+        cv.put(ProviderDescriptor.DataValue.Cols.NAME, name.getText().toString());
+        getContentResolver().update(ProviderDescriptor.DataValue.CONTENT_URI, cv, ID_PARAM, new String[]{String.valueOf(id)});
+    }
 
-	@Override
-	protected void preDelete() {
-		getMediator().showConfirmDeleteView();
-	}
+    @Override
+    protected void preDelete() {
+        getMediator().showConfirmDeleteView();
+    }
 
-	@Override
-	protected void deleteEntity() {
-		boolean used = false;
+    @Override
+    protected void deleteEntity() {
+        boolean used = false;
 
-		if (type == ProviderDescriptor.DataValue.Type.FUEL) {
-			used = DBUtils.isFuelTypeUsed(getContentResolver(), id);
-		} else if (type == ProviderDescriptor.DataValue.Type.STATION) {
-			used = DBUtils.isStationUsed(getContentResolver(), id);
-		}
+        if (type == ProviderDescriptor.DataValue.Type.FUEL) {
+            used = DBUtils.isFuelTypeUsed(getContentResolver(), id);
+        } else if (type == ProviderDescriptor.DataValue.Type.STATION) {
+            used = DBUtils.isStationUsed(getContentResolver(), id);
+        } else  if (type == ProviderDescriptor.DataValue.Type.OTHERS) {
+            used = DBUtils.isOtherTypeUsed(getContentResolver(), id);
+        }
 
-		long count = DBUtils.getCount(getContentResolver(),
-				ProviderDescriptor.DataValue.CONTENT_URI,
-				ProviderDescriptor.DataValue.Cols.TYPE + " = ?" ,
-				new String[] {String.valueOf(type)});
+        long count = DBUtils.getCount(getContentResolver(),
+                ProviderDescriptor.DataValue.CONTENT_URI,
+                ProviderDescriptor.DataValue.Cols.TYPE + " = ?",
+                new String[]{String.valueOf(type)});
 
-		if (used) {
-			getMediator().showAlert(getString(R.string.value_used_error));
-		} else if (count == 1) {
-			getMediator().showAlert(getString(R.string.error_last_delete));
-		} else {
-			getContentResolver().delete(ProviderDescriptor.DataValue.CONTENT_URI, "_id = ?", new String[]{String.valueOf(id)});
-			NavUtils.navigateUpFromSameTask(this);
-		}
-	}
+        if (used) {
+            getMediator().showAlert(getString(R.string.value_used_error));
+        } else if (count == 1) {
+            getMediator().showAlert(getString(R.string.error_last_delete));
+        } else {
+            getContentResolver().delete(ProviderDescriptor.DataValue.CONTENT_URI, "_id = ?", new String[]{String.valueOf(id)});
+            NavUtils.navigateUpFromSameTask(this);
+        }
+    }
 
-	@Override
-	protected void populateEditEntity() {
-		String nameValue = DBUtils.getDataValueNameById(getContentResolver(), id);
-		name.setText(nameValue);
-	}
+    @Override
+    protected void populateEditEntity() {
+        String nameValue = DBUtils.getDataValueNameById(getContentResolver(), id);
+        name.setText(nameValue);
+    }
 
-	@Override
-	protected void populateCreateEntity() {
+    @Override
+    protected void populateCreateEntity() {
 
-	}
+    }
 
-	@Override
-	protected void populateExtraParams(Bundle params) {
-		type = params.getInt(BaseActivity.TYPE_KEY);
-	}
+    @Override
+    protected void populateExtraParams(Bundle params) {
+        type = params.getInt(BaseActivity.TYPE_KEY);
+    }
 
-	@Override
-	protected void postCreate() {
-		name = (EditText) findViewById(R.id.name);
-	}
+    @Override
+    protected void postCreate() {
+        name = (EditText) findViewById(R.id.name);
+    }
 
-	@Override
-	protected int getContentLayout() {
-		return R.layout.add_data_value;
-	}
+    @Override
+    protected int getContentLayout() {
+        return R.layout.add_data_value;
+    }
 
-	@Override
-	public String getSubTitle() {
-		if (type == ProviderDescriptor.DataValue.Type.FUEL) {
-			return (mode == PARAM_EDIT) ? getString(R.string.sett_stations_edit_fuel):
-					getString(R.string.sett_stations_add_fuel);
-		} else {
-			return (mode == PARAM_EDIT) ? getString(R.string.sett_stations_edit_gas):
-					getString(R.string.sett_stations_add_gas);
-		}
-	}
+    @Override
+    public String getSubTitle() {
+        switch (type) {
+            case ProviderDescriptor.DataValue.Type.FUEL: {
+                return (mode == PARAM_EDIT) ? getString(R.string.sett_stations_edit_fuel) :
+                        getString(R.string.sett_stations_add_fuel);
+            }
+            case ProviderDescriptor.DataValue.Type.OTHERS: {
+                return (mode == PARAM_EDIT) ?   getString(R.string.edit_other_type) : getString(R.string.add_other_type);
+            }
+        }
+
+        return (mode == PARAM_EDIT) ? getString(R.string.sett_stations_edit_gas) :
+                getString(R.string.sett_stations_add_gas);
+
+    }
 
 }

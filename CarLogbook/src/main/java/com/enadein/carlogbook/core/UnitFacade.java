@@ -150,6 +150,12 @@ public class UnitFacade {
 		return getText(currentText, currency, wrap);
 	}
 
+    public void appendCurrency(TextView textView, boolean wrap, boolean na) {
+        String currentText = textView.getText() != null ? textView.getText().toString() : "";
+        textView.setText(getText(currentText, currency, wrap, na));
+    }
+
+
 	public void appendFuelUnit(TextView textView, boolean wrap) {
 		String currentText = textView.getText() != null ? textView.getText().toString() : "";
 		textView.setText(appendFuelUnit(wrap, currentText));
@@ -206,16 +212,21 @@ public class UnitFacade {
     public String appendConsumUnit(boolean wrap, String currentText, int index) {
         return getText(currentText, consumptionUnitArray[index], wrap);
     }
+    public String getText(String currentText, String value, boolean wrap) {
+        return getText(currentText, value, wrap, true);
+    }
 
-	public String getText(String currentText, String value, boolean wrap) {
-		if (currentText == null || currentText.trim().length() == 0
-                || CommonUtils.formatFuel(0, this).equals(currentText)
-                || CommonUtils.formatPriceNew(0, this).equals(currentText)) {
-			return ctx.getString(R.string.na);
-		}
+    public String getText(String currentText, String value, boolean wrap, boolean na) {
+        if (na) {
+            if (currentText == null || currentText.trim().length() == 0
+                    || CommonUtils.formatFuel(0, this).equals(currentText)
+                    || CommonUtils.formatPriceNew(0, this).equals(currentText)) {
+                return ctx.getString(R.string.na);
+            }
+        }
 
-		return wrap ? currentText + "(" + value + ")" : currentText + value;
-	}
+        return wrap ? currentText + "(" + value + ")" : currentText + value;
+    }
 
     public void setFuelValue(int fuelValue) {
         this.fuelValue = fuelValue;
@@ -308,5 +319,26 @@ public class UnitFacade {
         COMMA_ON = "1".equals(getSetting(SET_COMMA, "0"));
 	}
 
+
+    public double getTotalFuel(double consum, double dist) {
+        double result = .0;
+
+        switch (consumptionValue) {
+            case 0: {
+                result = (dist / 100) * consum;
+                break;
+            }
+            case 1: {
+                result = consum * dist;
+                break;
+            }
+            case 2: {
+                result = dist / consum;
+                break;
+            }
+        }
+
+        return result;
+    }
 
 }

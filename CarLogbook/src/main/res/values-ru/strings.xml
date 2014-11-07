@@ -97,7 +97,7 @@
 	<string name="no_reports">Нет отчетов</string>
 
 	<string name="total_cost">Общая стоимость</string>
-	<string name="total_run">Пробег</string>
+	<string name="total_run">Расстояние (всего)</string>
 	<string name="total_fuel">Общий объем топлива</string>
 
 	<string name="avg_fuel">Сред. расход</string>
@@ -252,4 +252,26 @@
     <string name="cost_total_per_day_other">Другие затраты в день</string>
     <string name="cost_total_per_month_other">Другие затраты в месяц</string>
     <string name="cost_total_per_year_other">Другие затраты в год</string>
+
+    <!--1.5-->
+    <string name="other_type_val">Другие значения</string>
+    <string name="other_type">Другое</string>
+    <string name="add_other_type">Добавить другой тип</string>
+    <string name="edit_other_type">Редактировать другой тип</string>
+    <string name="calc">Калькулятор</string>
+    <string name="result">Результат</string>
+    <string name="fillups_avg">Заправки(сред.)</string>
+
+    <string name="make">Производитель</string>
+    <string name="model">Модель</string>
+    <string name="manuf">Год выпуска</string>
+    <string name="car_cost">Стоимость</string>
+    <string name="purchase">Дата приобретения</string>
+    <string name="open_mil">Начальный пробег</string>
+    <string name="id_no">Идентификационный номер</string>
+    <string name="reg_num">Регистрационный номер</string>
+    <string name="fuel_type">Вид топлива</string>
+    <string name="tyre">Шины</string>
+
+    <string name="info">Информация</string>
 </resources>

@@ -1,101 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-	style="@style/add_entity_scroll"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/add_entity_scroll">
 
-	<LinearLayout
-		style="@style/add_entity_main">
+    <LinearLayout style="@style/add_entity_main">
 
 
-		<LinearLayout
-			style="@style/new_group">
+        <LinearLayout style="@style/new_group">
 
-			<TextView
-				android:id="@+id/carNameError"
-				style="@style/add_entity_error"
-				android:text="@string/car_name_error"/>
+            <TextView
+                android:id="@+id/carNameError"
+                style="@style/add_entity_error"
+                android:text="@string/car_name_error" />
 
-			<LinearLayout style="@style/add_entity_group">
+            <LinearLayout style="@style/add_entity_group">
 
-				<TextView
-					style="@style/add_entity_label"
-					android:text="@string/car_name"/>
+                <TextView
+                    style="@style/add_entity_label"
+                    android:text="@string/car_name" />
 
-				<EditText
-					android:id="@+id/carName"
-					style="@style/add_entity_edit_new"
-					android:maxLength="50"/>
-			</LinearLayout>
+                <EditText
+                    android:id="@+id/carName"
+                    style="@style/add_entity_edit_new"
+                    android:maxLength="50" />
+            </LinearLayout>
 
-			<CheckBox
-				android:id="@+id/selectCar"
-				style="@style/add_entity_check"
-				android:text="@string/select_car"/>
-		</LinearLayout>
+            <CheckBox
+                android:id="@+id/selectCar"
+                style="@style/add_entity_check"
+                android:text="@string/select_car" />
+        </LinearLayout>
 
 
-		<TextView
-			style="@style/new_title"
-			android:text="@string/unit_title"/>
+        <TextView
+            style="@style/new_title"
+            android:text="@string/unit_title" />
 
-		<!--GROUP-->
-		<LinearLayout
-			style="@style/new_group">
+        <!--GROUP-->
+        <LinearLayout style="@style/new_group">
 
-			<LinearLayout style="@style/add_entity_group">
+            <LinearLayout style="@style/add_entity_group">
 
-				<TextView
-					style="@style/add_entity_label"
-					android:minWidth="95dp"
-					android:text="@string/unit_distance"/>
+                <TextView
+                    style="@style/add_entity_label"
+                    android:minWidth="95dp"
+                    android:text="@string/unit_distance" />
 
-				<Spinner
-					android:id="@+id/distanceSpinner"
-					style="@style/add_entity_spinner"
-					android:entries="@array/unit_distance"/>
-			</LinearLayout>
+                <Spinner
+                    android:id="@+id/distanceSpinner"
+                    style="@style/add_entity_spinner"
+                    android:entries="@array/unit_distance" />
+            </LinearLayout>
 
-			<LinearLayout style="@style/add_entity_group">
+            <LinearLayout style="@style/add_entity_group">
 
-				<TextView
-					style="@style/add_entity_label"
-					android:minWidth="95dp"
-					android:text="@string/unit_fuel"/>
+                <TextView
+                    style="@style/add_entity_label"
+                    android:minWidth="95dp"
+                    android:text="@string/unit_fuel" />
 
-				<Spinner
-					android:id="@+id/fuelSpinner"
-					style="@style/add_entity_spinner"
-					android:entries="@array/unit_fuel"/>
-			</LinearLayout>
+                <Spinner
+                    android:id="@+id/fuelSpinner"
+                    style="@style/add_entity_spinner"
+                    android:entries="@array/unit_fuel" />
+            </LinearLayout>
 
-			<LinearLayout style="@style/add_entity_group">
+            <LinearLayout style="@style/add_entity_group">
 
-				<TextView
-					style="@style/add_entity_label"
-					android:minWidth="95dp"
-					android:text="@string/unit_consumption"/>
+                <TextView
+                    style="@style/add_entity_label"
+                    android:minWidth="95dp"
+                    android:text="@string/unit_consumption" />
 
-				<Spinner
-					android:id="@+id/consumptionSpinner"
-					style="@style/add_entity_spinner"
-					android:entries="@array/unit_consumption_1_1"/>
-			</LinearLayout>
+                <Spinner
+                    android:id="@+id/consumptionSpinner"
+                    style="@style/add_entity_spinner"
+                    android:entries="@array/unit_consumption_1_1" />
+            </LinearLayout>
 
-			<LinearLayout style="@style/add_entity_group">
+            <LinearLayout style="@style/add_entity_group">
 
-				<TextView
-					style="@style/add_entity_label"
-					android:minWidth="95dp"
-					android:text="@string/unit_currency"/>
+                <TextView
+                    style="@style/add_entity_label"
+                    android:minWidth="95dp"
+                    android:text="@string/unit_currency" />
 
-				<EditText
-					android:id="@+id/currency"
-					style="@style/add_entity_edit"
-					android:layout_width="130dp"
-					android:maxLength="4"/>
-			</LinearLayout>
-		</LinearLayout>
+                <EditText
+                    android:id="@+id/currency"
+                    style="@style/add_entity_edit"
+                    android:layout_width="130dp"
+                    android:maxLength="4" />
+            </LinearLayout>
+        </LinearLayout>
 
-	</LinearLayout>
+        <TextView
+            style="@style/new_title"
+            android:text="@string/info" />
+
+        <LinearLayout style="@style/new_group">
+
+            <LinearLayout style="@style/add_entity_group">
+
+                <TextView
+                    style="@style/add_entity_label"
+                    android:minWidth="95dp"
+                    android:text="@string/make" />
+
+                <EditText
+                    android:id="@+id/make"
+                    style="@style/add_entity_edit"
+                    android:layout_width="130dp"
+                    android:maxLength="500" />
+            </LinearLayout>
+            <LinearLayout style="@style/add_entity_group">
+                <TextView
+                    style="@style/add_entity_label"
+                    android:minWidth="95dp"
+                    android:text="@string/model" />
+                <EditText
+                    android:id="@+id/model"
+                    style="@style/add_entity_edit"
+                    android:layout_width="130dp"
+                    android:maxLength="500" />
+            </LinearLayout>
+            <LinearLayout style="@style/add_entity_group">
+                <TextView
+                    style="@style/add_entity_label"
+                    android:minWidth="95dp"
+                    android:text="@string/manuf" />
+                <EditText
+                    android:id="@+id/manuf"
+                    style="@style/add_entity_edit"
+                    android:layout_width="130dp"
+                    android:inputType="number"
+                    android:maxLength="4" />
+            </LinearLayout>
+            <LinearLayout style="@style/add_entity_group">
+                <TextView
+                    style="@style/add_entity_label"
+                    android:minWidth="95dp"
+
+                    android:text="@string/car_cost" />
+                <EditText
+                    android:id="@+id/car_cost"
+                    style="@style/add_entity_edit"
+                    android:layout_width="130dp"
+                    android:digits="0123456789.,"
+                    android:inputType="numberDecimal"
+                    android:maxLength="50" />
+            </LinearLayout>
+            <LinearLayout
+                style="@style/add_entity_group">
+
+                <TextView
+                    style="@style/add_entity_label"
+                    android:text="@string/purchase"/>
+
+                <TextView
+                    android:id="@+id/date"
+                    style="@style/wrap"/>
+
+                <ImageButton
+                    style="@style/add_entity_date"
+                    android:onClick="showDatePickerDialog"/>
+            </LinearLayout>
+            <LinearLayout style="@style/add_entity_group">
+                <TextView
+                    style="@style/add_entity_label"
+                    android:minWidth="95dp"
+                    android:text="@string/open_mil" />
+                <EditText
+                    android:id="@+id/open_mil"
+                    style="@style/add_entity_edit"
+                    android:inputType="number"
+                    android:maxLength="6"
+                    android:layout_width="130dp"/>
+            </LinearLayout>
+
+            <LinearLayout style="@style/add_entity_group">
+                <TextView
+                    style="@style/add_entity_label"
+                    android:minWidth="95dp"
+                    android:text="@string/id_no" />
+                <EditText
+                    android:id="@+id/id_no"
+                    style="@style/add_entity_edit"
+                    android:layout_width="130dp"
+                    android:maxLength="500" />
+            </LinearLayout>
+            <LinearLayout style="@style/add_entity_group">
+                <TextView
+                    style="@style/add_entity_label"
+                    android:minWidth="95dp"
+                    android:text="@string/reg_num" />
+                <EditText
+                    android:id="@+id/reg_num"
+                    style="@style/add_entity_edit"
+                    android:layout_width="130dp"
+                    android:maxLength="250" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/add_entity_group">
+                <TextView
+                    style="@style/add_entity_label"
+                    android:minWidth="95dp"
+                    android:text="@string/fuel_type" />
+                <EditText
+                    android:id="@+id/fuel_type"
+                    style="@style/add_entity_edit"
+                    android:layout_width="130dp"
+                    android:maxLength="500" />
+            </LinearLayout>
+            <LinearLayout style="@style/add_entity_group">
+                <TextView
+                    style="@style/add_entity_label"
+                    android:minWidth="95dp"
+                    android:text="@string/tyre" />
+                <EditText
+                    android:id="@+id/tyre"
+                    style="@style/add_entity_edit"
+                    android:layout_width="130dp"
+                    android:maxLength="500" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </ScrollView>

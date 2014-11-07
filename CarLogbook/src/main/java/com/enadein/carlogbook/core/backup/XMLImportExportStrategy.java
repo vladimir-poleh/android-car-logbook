@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.util.Xml;
 
+import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
@@ -38,7 +39,7 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 
 	public static final String CAR_LOGBOOK_TAG = "CAR_LOGBOOK";
 	public static final String EXPORT_VERSION_NAME = "ver";
-	public static final String EXPORT_VERSION_VALUE = "3";
+
 	public static final String ITEM_TAG = "ITEM_TAG";
 	public static final String CAR_TAG = "CAR";
 	public static final String DATA_VALUE_TAG = "DATA_VALUE";
@@ -51,7 +52,9 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 
 	public static final String EXIST = "exist";
 
-	public String impVer = "0";
+    public static final String EXPORT_VERSION_VALUE = "4";
+    public int versionCode = 4;
+    public String impVer = "0";
 
 	private HashMap<String, String> importContext = new HashMap<String, String>();
 
@@ -60,10 +63,12 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 
 	private ContentResolver cr;
 	private UnitFacade unitFacade;
+    private Context ctx;
 
 	public XMLImportExportStrategy(Context ctx) {
 		this.cr = ctx.getContentResolver();
 		unitFacade = new UnitFacade(ctx);
+        this.ctx = ctx;
 	}
 
 	@Override
@@ -132,7 +137,7 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 			importers.put(NOTIFY_TAG, new NotifyImporter());
 //			importers.put(RATE_TAG, new FuelRateImporter()); //deprecated
 			//1.2
-			importers.put(RATE_TAG, new SettingsImporter());
+			importers.put(SET_TAG, new SettingsImporter()); //was rate_tag?
 		}
 
 		private Importer importer = null;
@@ -147,10 +152,20 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 
 			if (CAR_LOGBOOK_TAG.equals(localName)) {
 				impVer = attributes.getValue(attributes.getIndex(EXPORT_VERSION_NAME));
+
+
+                try {
+                    versionCode = Integer.valueOf(impVer);
+
+                } catch (Throwable t) {
+                    //Nothing
+                }
+
 			}
 		}
 
-		@Override
+
+        @Override
 		public void endElement(String uri, String localName, String qName) throws SAXException {
 			if (!ITEM_TAG.equals(localName) && importer != null) {
 				importer.flush();
@@ -209,8 +224,7 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 			cv.put(ProviderDescriptor.DataValue.Cols.TYPE, type);
 
 
-			long id = DBUtils.getValueId(cr, ProviderDescriptor.DataValue.CONTENT_URI,
-					ProviderDescriptor.DataValue.Cols.NAME, name);
+			long id = DBUtils.getDataValueId(cr, name, type);
 
 			if (id == -1) {
 				Uri uri = cr.insert(ProviderDescriptor.DataValue.CONTENT_URI, cv);
@@ -273,6 +287,50 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 
 			long id = DBUtils.getValueId(cr, ProviderDescriptor.Car.CONTENT_URI,
 					ProviderDescriptor.Car.Cols.UUID, uuid);
+
+            //1.5
+            if (versionCode > 3) {
+                cv.put(ProviderDescriptor.Car.Cols.MAKE,
+                        attributes.getValue(attributes
+                                .getIndex(ProviderDescriptor.Car.Cols.MAKE)));
+
+                cv.put(ProviderDescriptor.Car.Cols.MODEL,
+                        attributes.getValue(attributes
+                                .getIndex(ProviderDescriptor.Car.Cols.MODEL)));
+
+                cv.put(ProviderDescriptor.Car.Cols.MANUF,
+                        attributes.getValue(attributes
+                                .getIndex(ProviderDescriptor.Car.Cols.MANUF)));
+
+                cv.put(ProviderDescriptor.Car.Cols.CAR_COST,
+                        attributes.getValue(attributes
+                                .getIndex(ProviderDescriptor.Car.Cols.CAR_COST)));
+
+                cv.put(ProviderDescriptor.Car.Cols.PURCHASE,
+                        attributes.getValue(attributes
+                                .getIndex(ProviderDescriptor.Car.Cols.PURCHASE)));
+
+                cv.put(ProviderDescriptor.Car.Cols.OPEN_MIL,
+                        attributes.getValue(attributes
+                                .getIndex(ProviderDescriptor.Car.Cols.OPEN_MIL)));
+
+                cv.put(ProviderDescriptor.Car.Cols.ID_NO,
+                        attributes.getValue(attributes
+                                .getIndex(ProviderDescriptor.Car.Cols.ID_NO)));
+
+                cv.put(ProviderDescriptor.Car.Cols.REG_NUM,
+                        attributes.getValue(attributes
+                                .getIndex(ProviderDescriptor.Car.Cols.REG_NUM)));
+
+                cv.put(ProviderDescriptor.Car.Cols.FUEL_TYPE,
+                        attributes.getValue(attributes
+                                .getIndex(ProviderDescriptor.Car.Cols.FUEL_TYPE)));
+
+                cv.put(ProviderDescriptor.Car.Cols.TYRE,
+                        attributes.getValue(attributes
+                                .getIndex(ProviderDescriptor.Car.Cols.TYRE)));
+
+            }
 
 			Log.e("XXY", "" + uuid + " / " + id);
 
@@ -344,6 +402,14 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 				cv.put(ProviderDescriptor.Log.Cols.FUEL_TYPE_ID, value);
 			}
 
+            if (versionCode > 3) {
+                {
+                    String innerValue = attributes.getValue(attributes.getIndex(ProviderDescriptor.Log.Cols.OTHER_TYPE_ID));
+                    String value = importContext.get(DV_KEY + ProviderDescriptor.DataValue.Type.OTHERS + innerValue);
+                    cv.put(ProviderDescriptor.Log.Cols.OTHER_TYPE_ID, value);
+                }
+            }
+
 			{
 				String innerValue = attributes.getValue(attributes.getIndex(ProviderDescriptor.Log.Cols.FUEL_STATION_ID));
 				String value = importContext.get(DV_KEY + ProviderDescriptor.DataValue.Type.STATION + innerValue);
@@ -370,6 +436,14 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 
 		@Override
 		public void flush() {
+            if (versionCode < 4) {
+                long otherId = DBUtils.createDataValue(cr, ctx.getString(R.string.others)
+                        ,ProviderDescriptor.DataValue.Type.OTHERS);
+
+                ContentValues cv = new ContentValues();
+                cv.put(ProviderDescriptor.Log.Cols.OTHER_TYPE_ID, otherId);
+                cr.update(ProviderDescriptor.Log.CONTENT_URI, cv, ProviderDescriptor.Log.Cols.TYPE_LOG + " = " + ProviderDescriptor.Log.Type.OTHER, null);
+            }
 
 		}
 	}
@@ -644,6 +718,12 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 						String.valueOf(typeId));
 			}
 
+            {
+                long otherTypeId = c.getLong(c.getColumnIndex(ProviderDescriptor.Log.Cols.OTHER_TYPE_ID));
+                serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Log.Cols.OTHER_TYPE_ID,
+                        String.valueOf(otherTypeId));
+            }
+
 
 			{
 				String name = c.getString(c.getColumnIndex(ProviderDescriptor.Log.Cols.NAME));
@@ -799,6 +879,86 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Car.Cols.ACTIVE_FLAG,
 						String.valueOf(activeFlag));
 			}
+
+            //1.5
+            {
+                String make = c.getString(c.getColumnIndex(ProviderDescriptor.Car.Cols.MAKE));
+                if (make != null) {
+                    serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Car.Cols.MAKE,
+                            make);
+                }
+            }
+
+            {
+                String model = c.getString(c.getColumnIndex(ProviderDescriptor.Car.Cols.MODEL));
+                if (model != null) {
+                    serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Car.Cols.MODEL,
+                            model);
+                }
+            }
+
+            {
+                String manuf = c.getString(c.getColumnIndex(ProviderDescriptor.Car.Cols.MANUF));
+                if (manuf != null) {
+                    serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Car.Cols.MANUF,
+                            manuf);
+                }
+            }
+
+            {
+                String cost = c.getString(c.getColumnIndex(ProviderDescriptor.Car.Cols.CAR_COST));
+                if (cost != null) {
+                    serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Car.Cols.CAR_COST,
+                            cost);
+                }
+            }
+
+            {
+                String mil = c.getString(c.getColumnIndex(ProviderDescriptor.Car.Cols.OPEN_MIL));
+                if (mil != null) {
+                    serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Car.Cols.OPEN_MIL,
+                            mil);
+                }
+            }
+
+            {
+                String idno = c.getString(c.getColumnIndex(ProviderDescriptor.Car.Cols.ID_NO));
+                if (idno != null) {
+                    serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Car.Cols.ID_NO,
+                            idno);
+                }
+            }
+
+            {
+                String reg = c.getString(c.getColumnIndex(ProviderDescriptor.Car.Cols.REG_NUM));
+                if (reg != null) {
+                    serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Car.Cols.REG_NUM,
+                            reg);
+                }
+            }
+
+            {
+                String ful = c.getString(c.getColumnIndex(ProviderDescriptor.Car.Cols.FUEL_TYPE));
+                if (ful != null) {
+                    serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Car.Cols.FUEL_TYPE,
+                            ful);
+                }
+            }
+
+            {
+                String tyre = c.getString(c.getColumnIndex(ProviderDescriptor.Car.Cols.TYRE));
+                if (tyre != null) {
+                    serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Car.Cols.TYRE,
+                            tyre);
+                }
+            }
+
+            {
+                long date = c.getLong(c.getColumnIndex(ProviderDescriptor.Car.Cols.PURCHASE));
+                serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Car.Cols.PURCHASE,
+                        String.valueOf(date));
+            }
+
 			serializer.endTag(DEFAULT_NAMESPACE, ITEM_TAG);
 		}
 

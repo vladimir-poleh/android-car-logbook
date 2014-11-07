@@ -96,9 +96,16 @@ public class DataValueActivity extends BaseActivity  implements
 
 	@Override
 	public String getSubTitle() {
-		return (type == ProviderDescriptor.DataValue.Type.FUEL) ?
-				getString(R.string.sett_fuel_type):
-				getString(R.string.sett_stations);
+        switch (type) {
+            case ProviderDescriptor.DataValue.Type.FUEL: {
+                return 	getString(R.string.sett_fuel_type);
+            }
+            case ProviderDescriptor.DataValue.Type.OTHERS: {
+                return 	getString(R.string.other_type);
+            }
+        }
+
+		return getString(R.string.sett_stations);
 	}
 
 	@Override

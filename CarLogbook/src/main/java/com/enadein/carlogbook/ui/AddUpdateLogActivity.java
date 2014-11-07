@@ -19,10 +19,18 @@ package com.enadein.carlogbook.ui;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
@@ -31,7 +39,8 @@ import com.enadein.carlogbook.db.ProviderDescriptor;
 
 import java.util.Date;
 
-public class AddUpdateLogActivity extends BaseLogAcivity {
+public class AddUpdateLogActivity extends BaseLogAcivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 	private EditText odometerView;
 	private TextView dateView;
 	private EditText priceView;
@@ -39,9 +48,14 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 	private EditText commentView;
 
 	private Spinner typeSpinner;
+	private Spinner ohterTypeSpinner;
     private UnitFacade unitFacade;
 
-	@Override
+    private SimpleCursorAdapter otherTypesApater;
+
+    private long otherTypeId = -1;
+
+    @Override
 	protected boolean validateEntity() {
 		boolean result = true;
 
@@ -49,9 +63,9 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 			result = false;
 		}
 
-		if (!validateView(R.id.errorPrice, priceView)) {
-			result = false;
-		}
+//		if (!validateView(R.id.errorPrice, priceView)) {
+//			result = false;
+//		}
 
 		if (!validateTextView(R.id.errorName, nameView)) {
 			result = false;
@@ -83,6 +97,7 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 			int nameIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.NAME);
 			int typeIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.TYPE_ID);
 			int commentIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.CMMMENT);
+			int otherTypeIdx = logCursor.getColumnIndex(ProviderDescriptor.Log.Cols.OTHER_TYPE_ID);
 			commentView.setText(logCursor.getString(commentIdx));
 
 			odometerView.setText(String.valueOf(logCursor.getLong(odometerIdx)));
@@ -90,7 +105,15 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 			date = new Date(logCursor.getLong(dateIdx));
 			priceView.setText(CommonUtils.formatPriceNew(logCursor.getDouble(priceIdx), unitFacade));
 			nameView.setText(logCursor.getString(nameIdx));
-			typeSpinner.setSelection(logCursor.getInt(typeIdx));
+            int typePos = logCursor.getInt(typeIdx);
+			typeSpinner.setSelection(typePos);
+
+            otherTypeId = logCursor.getLong(otherTypeIdx);
+
+//            if (typePos != 0) {
+//                findViewById(R.id.otherGroup).setVisibility(View.GONE);
+//            }
+
 		}
 	}
 
@@ -112,6 +135,29 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 		commentView = (EditText) findViewById(R.id.comment);
 
 		typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
+		ohterTypeSpinner = (Spinner) findViewById(R.id.ohterTypeSpinner);
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+                findViewById(R.id.otherGroup).setVisibility(pos == 0 ? View.VISIBLE: View.GONE);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+//        final Cursor c = getContentResolver().query(ProviderDescriptor.DataValue.CONTENT_URI, null, null, null, null);
+        String[] from = new String[] {ProviderDescriptor.DataValue.Cols.NAME};
+        int[] to = new int[] {android.R.id.text1};
+
+        otherTypesApater = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item,
+                null, from, to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+
+        otherTypesApater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ohterTypeSpinner.setAdapter(otherTypesApater);
+
 
         updateLabels();
 	}
@@ -145,6 +191,9 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 		cv.put(ProviderDescriptor.Log.Cols.NAME, nameView.getText().toString());
 		cv.put(ProviderDescriptor.Log.Cols.PRICE, CommonUtils.getPriceValue(priceView));
 
+        long otherTypeId = otherTypesApater.getItemId(ohterTypeSpinner.getSelectedItemPosition());
+        cv.put(ProviderDescriptor.Log.Cols.OTHER_TYPE_ID, otherTypeId);
+
 		EditText commentEditText = (EditText) findViewById(R.id.comment);
 		String comment = commentEditText.getText().toString().trim();
 
@@ -152,6 +201,8 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 
 		return cv;
 	}
+
+
 
 	@Override
 	void setDateText(String text) {
@@ -166,6 +217,7 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
 		odometerView.setSelection(odometerView.getText().length());
 		odometerView.requestFocus();
 
+        getSupportLoaderManager().initLoader(0, null, this);
 	}
 
 
@@ -194,5 +246,30 @@ public class AddUpdateLogActivity extends BaseLogAcivity {
         TextView odometerLabel = (TextView) findViewById(R.id.label_odometer);
         odometerLabel.setText(getString(R.string.log_fuel_odometer));
         labelFacade.appendDistUnit(odometerLabel, true);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        return new CursorLoader(this,
+                ProviderDescriptor.DataValue.CONTENT_URI, null,
+                "TYPE = ?", new String[]{String.valueOf(ProviderDescriptor.DataValue.Type.OTHERS)}, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        otherTypesApater.swapCursor(cursor);
+
+
+        for(int pos = otherTypesApater.getCount(); pos >= 0; pos--) {
+            if (otherTypesApater.getItemId(pos) == otherTypeId) {
+                ohterTypeSpinner.setSelection(pos);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        otherTypesApater.swapCursor(null);
     }
 }

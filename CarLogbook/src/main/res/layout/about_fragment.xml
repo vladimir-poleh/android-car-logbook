@@ -148,6 +148,17 @@
                     android:text="Braulio Sánchez/Catlish" />
             </LinearLayout>
 
+            <LinearLayout style="@style/new_group">
+
+                <TextView
+                    style="@style/about_label"
+                    android:text="Portuguese" />
+
+                <TextView
+                    style="@style/about_value"
+                    android:text="Marco Pinto" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout

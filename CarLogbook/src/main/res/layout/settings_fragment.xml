@@ -19,6 +19,12 @@
                 android:layout_width="match_parent"
                 android:text="@string/sett_stations" />
 
+            <Button
+                android:id="@+id/data_other"
+                style="@style/btn"
+                android:layout_width="match_parent"
+                android:text="@string/other_type_val" />
+
         </LinearLayout>
 
         <TextView

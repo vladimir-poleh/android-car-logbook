@@ -54,7 +54,7 @@ import java.util.Collection;
 
 
 public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationListener, BillingProcessor.IBillingHandler, CarChangeListener {
-	public static final String VERSION = "1.4.1";
+	public static final String VERSION = "1.5.1";
 
     public static final int DASHBOARD_MENU = 0;
 	public static final int BY_TYPE_MENU = 1;
@@ -224,6 +224,7 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 		items.add(new MenuItem(R.drawable.stat, res.getString(R.string.menu_item_reports)));
 		items.add(new MenuItem(R.drawable.notify, res.getString(R.string.menu_item_notifications)));
 		items.add(new MenuItem(R.drawable.cars, res.getString(R.string.menu_item_my_cars)));
+		items.add(new MenuItem(R.drawable.calc, res.getString(R.string.calc)));
 		items.add(new MenuItem(R.drawable.backup, res.getString(R.string.menu_item_import_export)));
 		items.add(new MenuItem(R.drawable.sett, res.getString(R.string.menu_item_settings)));
 		items.add(new MenuItem(R.drawable.info, res.getString(R.string.menu_item_about)));
@@ -318,6 +319,10 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 				mediator.showNotifications();
 				break;
 			}
+            case MenuAdapter.MenuDescriptor.CALC: {
+                mediator.showCalc();
+                break;
+            }
 			case MenuAdapter.MenuDescriptor.IMPORT_EXPORT: {
 				mediator.showImportExport();
 				break;

@@ -27,6 +27,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
+import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.UnitFacade;
 
 import java.text.MessageFormat;
@@ -208,11 +209,11 @@ public class CarLogbookProvider extends ContentProvider {
 	}
 
 	public class DBOpenHelper extends SQLiteOpenHelper {
-		private static final int CURRENT_DB_VERSION = 4; //Production 3
+		private static final int CURRENT_DB_VERSION = 5; //Production 4
 		private static final String DB_NAME = "com_carlogbook_v2.db";
 
-//		private static final int CURRENT_DB_VERSION = 2; //test
-		//private static final String DB_NAME = "com_carlogbook_v2test_8.db";
+//		private static final int CURRENT_DB_VERSION = 4; //test
+//		private static final String DB_NAME = "com_carlogbook_test9a.db";
 
 		private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS {0} ({1})";
 		private static final String DROP_TABLE = "DROP TABLE IF EXISTS {0}";
@@ -247,6 +248,7 @@ public class CarLogbookProvider extends ContentProvider {
 			upgradeFrom1to2(db);
 			upgradeFrom2to3(db);
             upgradeFrom3to4(db);
+            upgradeFrom4to5(db);
 		}
 
 		public void reset() {
@@ -268,6 +270,10 @@ public class CarLogbookProvider extends ContentProvider {
 					}
                     case 3: {
                         upgradeFrom3to4(db);
+                        break;
+                    }
+                    case 4: {
+                        upgradeFrom4to5(db);
                         break;
                     }
 				}
@@ -331,7 +337,9 @@ public class CarLogbookProvider extends ContentProvider {
 
 			createTable(db, ProviderDescriptor.Sett.TABLE_NAME, ProviderDescriptor.Sett.CREATE_FIELDS);
 			ContentValues setCv = new ContentValues();
-			setCv.put(UnitFacade.SET_DATE_FORMAT, "0");
+//			setCv.put(UnitFacade.SET_DATE_FORMAT, "0");
+			setCv.put(ProviderDescriptor.Sett.Cols.KEY, UnitFacade.SET_DATE_FORMAT);
+			setCv.put(ProviderDescriptor.Sett.Cols.VALUE, "0");
 			db.insert(ProviderDescriptor.Sett.TABLE_NAME, null, setCv);
 
 //			db.delete(ProviderDescriptor.FuelRate.TABLE_NAME, "id != -1", null);
@@ -341,6 +349,33 @@ public class CarLogbookProvider extends ContentProvider {
             db.execSQL("ALTER TABLE rate ADD SUM_FUEL REAL");
             db.execSQL("ALTER TABLE rate ADD SUM_DIST REAL");
             db.execSQL("ALTER TABLE rate ADD AVG REAL");
+        }
+
+        private void upgradeFrom4to5(SQLiteDatabase db) {
+            long ohterTypeId = DBUtils.createDataValue(db,
+                    getContext().getString(R.string.others)
+                    ,ProviderDescriptor.DataValue.Type.OTHERS );
+
+            db.execSQL("ALTER TABLE log ADD OTHER_TYPE_ID INTEGER");
+
+            ContentValues cv = new ContentValues();
+            cv.put(ProviderDescriptor.Log.Cols.OTHER_TYPE_ID, ohterTypeId);
+            db.update(ProviderDescriptor.Log.TABLE_NAME, cv, ProviderDescriptor.Log.Cols.TYPE_LOG + " = " + ProviderDescriptor.Log.Type.OTHER, null);
+
+
+            db.execSQL("DROP VIEW IF EXISTS log_view");
+            db.execSQL(ProviderDescriptor.LogView.CREATE_QUERY_V2);
+
+            db.execSQL("ALTER TABLE car ADD MAKE TEXT");
+            db.execSQL("ALTER TABLE car ADD MODEL TEXT");
+            db.execSQL("ALTER TABLE car ADD MANUF TEXT");
+            db.execSQL("ALTER TABLE car ADD CAR_COST TEXT");
+            db.execSQL("ALTER TABLE car ADD PURCHASE INTEGER");
+            db.execSQL("ALTER TABLE car ADD OPEN_MIL TEXT");
+            db.execSQL("ALTER TABLE car ADD ID_NO TEXT");
+            db.execSQL("ALTER TABLE car ADD REG_NUM TEXT");
+            db.execSQL("ALTER TABLE car ADD FUEL_TYPE TEXT");
+            db.execSQL("ALTER TABLE car ADD TYRE TEXT");
         }
 
 		private void dropAllTables(SQLiteDatabase db) {

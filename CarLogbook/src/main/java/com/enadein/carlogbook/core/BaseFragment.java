@@ -69,7 +69,7 @@ public class BaseFragment extends Fragment {
 	}
 
     public void showProgress(boolean show) {
-        getView().findViewById(R.id.progress).setVisibility(show ? View.VISIBLE : View.GONE);
+         getView().findViewById(R.id.progress).setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     public void showNoItems(boolean show) {

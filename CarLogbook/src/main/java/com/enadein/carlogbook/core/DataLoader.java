@@ -19,6 +19,7 @@ package com.enadein.carlogbook.core;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.AsyncTaskLoader;
 
@@ -157,7 +158,7 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 				}
 
 
-				for (int i = 0; i < logTypes.length; i++) {
+				for (int i = 1; i < logTypes.length; i++) {
 					double total = DBUtils.getTotalPrice(carId, cr, from, to, ProviderDescriptor.Log.Type.OTHER, new int[] {i});
 
 					if (total > 0) {
@@ -169,6 +170,24 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 						reportItems.add(reportItem);
 					}
 				}
+
+                Cursor othersCursor = cr.query(ProviderDescriptor.DataValue.CONTENT_URI, null, ProviderDescriptor.DataValue.Cols.TYPE + " = " + ProviderDescriptor.DataValue.Type.OTHERS, null, null);
+                while (othersCursor.moveToNext()) {
+                    long otherId = othersCursor.getLong(othersCursor.getColumnIndex(ProviderDescriptor.DataValue.Cols._ID));
+                    String name = othersCursor.getString(othersCursor.getColumnIndex(ProviderDescriptor.DataValue.Cols.NAME));
+                    double total = DBUtils.getTotalPrice(carId, cr, from, to, ProviderDescriptor.Log.Type.OTHER,  new int[] {0}, false, otherId);
+
+
+                    if (total > 0) {
+                        ReportItem reportItem = new ReportItem();
+                        reportItem.setName(name);
+                        reportItem.setResId(DataInfo.images.get(0));
+                        reportItem.setValue(total);
+
+                        reportItems.add(reportItem);
+                    }
+                }
+                othersCursor.close();
 
 				if (reportItems.size() > 0) {
 					Collections.sort(reportItems, new Comparator<ReportItem>() {
@@ -207,7 +226,7 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 					reportItems.add(reportItem);
 				}
 
-				for (int i = 0; i < logTypes.length; i++) {
+				for (int i = 1; i < logTypes.length; i++) {
 					date = DBUtils.getLastEventDate(cr, ProviderDescriptor.Log.Type.OTHER, i);
 
 					if (date > 0) {
@@ -219,6 +238,24 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 						reportItems.add(reportItem);
 					}
 				}
+
+                Cursor othersCursor = cr.query(ProviderDescriptor.DataValue.CONTENT_URI, null, ProviderDescriptor.DataValue.Cols.TYPE + " = " + ProviderDescriptor.DataValue.Type.OTHERS, null, null);
+                while (othersCursor.moveToNext()) {
+                    long otherId = othersCursor.getLong(othersCursor.getColumnIndex(ProviderDescriptor.DataValue.Cols._ID));
+                    String name = othersCursor.getString(othersCursor.getColumnIndex(ProviderDescriptor.DataValue.Cols.NAME));
+
+                    date = DBUtils.getLastEventDate(cr, ProviderDescriptor.Log.Type.OTHER, 0, otherId);
+
+                    if (date > 0) {
+                        ReportItem reportItem = new ReportItem();
+                        reportItem.setName(name);
+                        reportItem.setResId(DataInfo.images.get(0));
+                        reportItem.setValue2(date);
+
+                        reportItems.add(reportItem);
+                    }
+                }
+                othersCursor.close();
 
 				if (reportItems.size() > 0) {
 					Collections.sort(reportItems, new Comparator<ReportItem>() {

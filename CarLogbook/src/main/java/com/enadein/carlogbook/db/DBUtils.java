@@ -20,12 +20,15 @@ package com.enadein.carlogbook.db;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
+import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.bean.FuelRateBean;
 import com.enadein.carlogbook.core.Logger;
 import com.enadein.carlogbook.core.UnitFacade;
 
+import java.security.Provider;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -81,6 +84,20 @@ public class DBUtils {
 
 		return result;
 	}
+
+    public static long getDataValueId(ContentResolver cr , String value, String type) {
+        long result = -1;
+
+        Cursor c = cr.query(ProviderDescriptor.DataValue.CONTENT_URI, null, ProviderDescriptor.DataValue.Cols.TYPE + " = ? and " + ProviderDescriptor.DataValue.Cols.TYPE + " = ?", new String[] {value, type}, null);
+
+        if (c != null && c.moveToFirst()) {
+            int idIdx = c.getColumnIndex(ProviderDescriptor.Car.Cols._ID);
+            result = c.getLong(idIdx);
+            c.close();
+        }
+
+        return result;
+    }
 
 	public static String getSettValue(ContentResolver cr, String key) {
 		String result = null;
@@ -370,6 +387,10 @@ public class DBUtils {
 		return isUsedInLog(cr, ProviderDescriptor.Log.Cols.FUEL_STATION_ID, id);
 	}
 
+    public static boolean isOtherTypeUsed(ContentResolver cr, long id) {
+        return isUsedInLog(cr, ProviderDescriptor.Log.Cols.OTHER_TYPE_ID, id);
+    }
+
 	public static boolean isFuelTypeUsed(ContentResolver cr, long id) {
 		return isUsedInLog(cr, ProviderDescriptor.Log.Cols.FUEL_TYPE_ID, id);
 	}
@@ -433,6 +454,25 @@ public class DBUtils {
 		return max;
 	}
 
+    public static long createDataValue(SQLiteDatabase db, String value, int type) {
+        ContentValues cv = new ContentValues();
+        cv.put(ProviderDescriptor.DataValue.Cols.NAME, value);
+        cv.put(ProviderDescriptor.DataValue.Cols.TYPE, type);
+        cv.put(ProviderDescriptor.DataValue.Cols.SYSTEM, 0);
+        cv.put(ProviderDescriptor.DataValue.Cols.DEFAULT_FLAG, 0);
+        return db.insert(ProviderDescriptor.DataValue.TABLE_NAME, null, cv);
+    }
+
+    public static long createDataValue(ContentResolver cr, String value, int type) {
+        ContentValues cv = new ContentValues();
+        cv.put(ProviderDescriptor.DataValue.Cols.NAME, value);
+        cv.put(ProviderDescriptor.DataValue.Cols.TYPE, type);
+        cv.put(ProviderDescriptor.DataValue.Cols.SYSTEM, 0);
+        cv.put(ProviderDescriptor.DataValue.Cols.DEFAULT_FLAG, 0);
+        Uri uri = cr.insert(ProviderDescriptor.DataValue.CONTENT_URI, cv);
+        return Integer.valueOf(uri.getLastPathSegment());
+    }
+
 	public static double getTotalPrice(long carId, ContentResolver cr) {
 		return getTotalPrice(carId,cr, 0, 0, -1, null);
 	}
@@ -446,7 +486,12 @@ public class DBUtils {
 	public static double getTotalPrice(long carId, ContentResolver cr, long from, long to, int type, int[] otherTypes) {
 		return getTotalPrice(carId, cr, from, to, type, otherTypes, false);
 	}
-	public static double getTotalPrice(long carId, ContentResolver cr, long from, long to, int type, int[] otherTypes, boolean skipFirst) {
+
+    public static double getTotalPrice(long carId, ContentResolver cr, long from, long to, int type, int[] otherTypes, boolean skipFirst) {
+        return getTotalPrice(carId, cr, from, to, type, otherTypes, skipFirst, -1);
+    }
+
+	public static double getTotalPrice(long carId, ContentResolver cr, long from, long to, int type, int[] otherTypes, boolean skipFirst, long otherTypeId) {
 		double result = 0;
 
 		String selection = buildCarDateSelection(from, to, type, otherTypes);
@@ -456,6 +501,10 @@ public class DBUtils {
 			int id = getLogIdItemFirstItemNoType(cr);
 			selection += " and " + ProviderDescriptor.Log.Cols._ID + " != " + id;
 		}
+
+        if (otherTypeId != -1) {
+            selection += " and " + ProviderDescriptor.Log.Cols.OTHER_TYPE_ID + " = " + otherTypeId;
+        }
 
 		Cursor c = cr.query(ProviderDescriptor.LogView.CONTENT_URI,
 				new String[]{"sum(" + ProviderDescriptor.LogView.Cols.TOTAL_PRICE + ") as sum"},
@@ -567,12 +616,19 @@ public class DBUtils {
 
 		return id;
 	}
+    public static long getLastEventDate(ContentResolver cr, int type, int otherTypeId) {
+        return getLastEventDate(cr, type, otherTypeId, -1);
+    }
 
-	public static long getLastEventDate(ContentResolver cr, int type, int otherTypeId) {
+	public static long getLastEventDate(ContentResolver cr, int type, int otherTypeId, long otherTypeDataValueId) {
 		long result = 0;
 
 		long carId = getActiveCarId(cr);
 		String carSelection = " and " + ProviderDescriptor.Log.Cols.CAR_ID + " = " + carId;
+
+        if (otherTypeDataValueId != -1) {
+            carSelection += " and " + ProviderDescriptor.Log.Cols.OTHER_TYPE_ID + " = " + otherTypeDataValueId;
+        }
 
 		String extraSelect = (otherTypeId > -1) ? " and " + ProviderDescriptor.Log.Cols.TYPE_ID + " = " + otherTypeId : "";
 

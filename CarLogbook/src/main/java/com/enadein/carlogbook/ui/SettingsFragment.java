@@ -27,6 +27,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 
+import com.androidquery.AQuery;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.BaseFragment;
 import com.enadein.carlogbook.core.UnitFacade;
@@ -59,6 +60,14 @@ public class SettingsFragment extends BaseFragment {
 				getMediator().showDataValues(ProviderDescriptor.DataValue.Type.STATION);
 			}
 		});
+
+        AQuery a = new AQuery(view);
+        a.id(R.id.data_other).getView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getMediator().showDataValues(ProviderDescriptor.DataValue.Type.OTHERS);
+            }
+        });
 
 		dateFormatSpinner = (Spinner) view.findViewById(R.id.dateFormatSpinner);
 		String current = getMediator().getUnitFacade().getSetting(UnitFacade.SET_DATE_FORMAT, "0");

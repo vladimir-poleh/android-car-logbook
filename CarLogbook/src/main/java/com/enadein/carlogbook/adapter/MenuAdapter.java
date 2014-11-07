@@ -106,8 +106,9 @@ public class MenuAdapter extends ArrayAdapter<MenuItem> {
 		public static final int REPORTS_POSITION = 2;
 		public static final int NOTIFICATIONS_POSITION = 3;
 		public static final int MY_CARS_POSITION = 4;
-		public static final int IMPORT_EXPORT = 5;
-		public static final int SETTINGS_POSITION = 6;
-		public static final int ABOUT_POSITION = 7;
+		public static final int CALC = 5;
+		public static final int IMPORT_EXPORT = 6;
+		public static final int SETTINGS_POSITION = 7;
+		public static final int ABOUT_POSITION = 8;
 	}
 }

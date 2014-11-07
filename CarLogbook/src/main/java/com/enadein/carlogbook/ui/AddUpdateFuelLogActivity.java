@@ -59,6 +59,7 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 	private Spinner stationSpinner;
 
 	private PriceValueState priceValueState = new PriceValueState();
+    private boolean halt = false;
 
     private UnitFacade unitFacade;
 
@@ -218,10 +219,17 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 		@Override
 		public void updateTotal() {
 			double priceValue = CommonUtils.getRawDouble(priceView.getText().toString());
-			double priceTotalValue = CommonUtils.getRawDouble(priceTotalView.getText().toString());
+            double priceTotalValue = CommonUtils.getRawDouble(priceTotalView.getText().toString());
 
-			double fuelValue = CommonUtils.div(priceTotalValue, priceValue);
-			fuelValueView.setText(CommonUtils.formatPriceNew(fuelValue, unitFacade));
+            if (priceValue > 0 && !halt) {
+                double fuelValue = CommonUtils.div(priceTotalValue, priceValue);
+                fuelValueView.setText(CommonUtils.formatPriceNew(fuelValue, unitFacade));
+            } else {
+                halt = true;
+                double fuelValue = CommonUtils.getRawDouble(fuelValueView.getText().toString());
+                double price = CommonUtils.div(priceTotalValue, fuelValue);
+                priceView.setText(CommonUtils.formatPriceNew(price, unitFacade));
+            }
 		}
 	}
 
@@ -236,6 +244,7 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 		public void onFocusChange(View view, boolean focused) {
 			if (focused) {
 				priceValueState = state;
+                halt = false;
 			}
 		}
 	}

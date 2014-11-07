@@ -55,7 +55,19 @@
 					android:entries="@array/log_type"/>
 			</LinearLayout>
 
-			<TextView
+            <LinearLayout style="@style/add_entity_group" android:id="@+id/otherGroup" android:visibility="gone">
+
+                <TextView
+                    style="@style/add_entity_label"
+                    android:text="@string/other_type"/>
+
+                <Spinner
+                    android:id="@+id/ohterTypeSpinner"
+                    style="@style/add_entity_spinner"/>
+            </LinearLayout>
+
+
+            <TextView
 				android:id="@+id/errorOdometer"
 				style="@style/add_entity_error"
 				android:text="@string/error_odometer"/>
