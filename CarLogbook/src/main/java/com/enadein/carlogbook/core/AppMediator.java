@@ -101,7 +101,6 @@ public class AppMediator {
 		transaction.commit();
 		ActivityCompat.invalidateOptionsMenu(activity);
 		activity.supportInvalidateOptionsMenu();
-
 	}
 
 	public void replaceFragment(int containterViewId, String tag, BaseFragment fragment, boolean backStack) {

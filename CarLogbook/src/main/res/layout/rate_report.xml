@@ -1,33 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout
+	android:id="@+id/swipe_container"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/list_main">
+	<LinearLayout
+		style="@style/list_main">
 
-    <ProgressBar
-        android:id="@+id/progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:indeterminate="true"/>
+		<!--<ProgressBar-->
+		<!--android:id="@+id/progress"-->
+		<!--style="?android:attr/progressBarStyleHorizontal"-->
+		<!--android:layout_width="match_parent"-->
+		<!--android:layout_height="wrap_content"-->
+		<!--android:visibility="gone"-->
+		<!--android:indeterminate="true"/>-->
 
-    <LinearLayout
-        android:id="@+id/no_items"
-        android:visibility="gone"
-        style="@style/add_entity_main">
+		<LinearLayout
+			android:id="@+id/no_items"
+			style="@style/add_entity_main"
+			android:visibility="gone">
 
-        <LinearLayout
-            style="@style/new_group">
+			<LinearLayout
+				style="@style/new_group">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/no_reports"/>
-        </LinearLayout>
-    </LinearLayout>
+				<TextView
+					android:id="@+id/textView"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:text="@string/no_reports"/>
+			</LinearLayout>
+		</LinearLayout>
 
-	<ListView
-		android:id="@+id/list" style="@style/newList"/>
-</LinearLayout>
+		<ListView
+			android:id="@+id/list"
+			style="@style/newList"/>
+	</LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

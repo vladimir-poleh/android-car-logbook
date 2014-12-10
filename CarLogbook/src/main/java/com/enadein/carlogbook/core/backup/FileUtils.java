@@ -75,6 +75,16 @@ public class FileUtils {
 		return exportDir;
 	}
 
+	public static File getReportDir() {
+		File backUpDir = getBackupDirectory();
+		File reportDir = new File(backUpDir, "report");
+		if (!reportDir.exists()) {
+			reportDir.mkdirs();
+		}
+
+		return reportDir;
+	}
+
 
 	public static void copyStrem(InputStream in, OutputStream out) throws IOException {
 		byte[] buffer = new byte[1024];

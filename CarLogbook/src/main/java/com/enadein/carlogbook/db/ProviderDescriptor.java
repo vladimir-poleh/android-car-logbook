@@ -206,11 +206,24 @@ public class ProviderDescriptor {
 			public static final String TRIGGER_VALUE = "VALUE";
 			public static final String CAR_ID = "CAR_ID";
 			public static final String CREATE_DATE = "CREATE_DATE";
+			public static final String REPEAT = "REPEAT";
 		}
 
 		public static class Type {
 			public static final int ODOMETER = 0;
 			public static final int DATE = 1;
+		}
+
+		public static class DATE_REPEAT {
+			public static final int NONE = 0;
+			public static final int WEEK = 1;
+			public static final int MONTH = 2;
+			public static final int MONTH2 = 3;
+			public static final int MONTH3 = 4;
+			public static final int MONTH4 = 5;
+			public static final int MONTH6 = 6;
+			public static final int YEAR = 7;
+			public static final int YEAR2 = 8;
 		}
 
 	}

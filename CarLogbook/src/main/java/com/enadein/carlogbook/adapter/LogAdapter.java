@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.bean.DataInfo;
+import com.enadein.carlogbook.core.FuelRateLoader;
 import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
@@ -40,11 +41,13 @@ public class LogAdapter extends CursorAdapter {
 	private String[] types;
 	private UnitFacade unitFacade;
 	private int mlastPos = 1;
+	private FuelRateLoader rateLoader;
 
 	public LogAdapter(Context context, Cursor c, UnitFacade unitFacade) {
 		super(context, c, FLAG_REGISTER_CONTENT_OBSERVER);
 		types = context.getResources().getStringArray(R.array.log_type);
 		this.unitFacade = unitFacade;
+		rateLoader = new FuelRateLoader(unitFacade, context);
 	}
 
 	@Override
@@ -80,6 +83,7 @@ public class LogAdapter extends CursorAdapter {
 			holder.dateView = (TextView) listItem.findViewById(R.id.date);
 			holder.fuelView = (TextView) listItem.findViewById(R.id.fuel);
 			holder.fuelValueView = (TextView) listItem.findViewById(R.id.fuelValue);
+			holder.rateView = (TextView) listItem.findViewById(R.id.rate);
 			holder.priceTotal = (TextView) listItem.findViewById(R.id.priceTotal);
 			holder.imgType = (ImageView) listItem.findViewById(R.id.imgType);
 
@@ -140,6 +144,7 @@ public class LogAdapter extends CursorAdapter {
 			logFuelHolder.fuelView.setText(fuelName + "(" + stationName + ")");
 			logFuelHolder.imgType.setBackgroundResource(R.drawable.fuel);
 			logFuelHolder.id = id;
+			rateLoader.calculateFuelRate(logFuelHolder.rateView, id);
 		} else {
 			int nameIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.NAME);
 			int typeIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.TYPE_ID);
@@ -183,6 +188,7 @@ public class LogAdapter extends CursorAdapter {
 		public TextView fuelValueView;
 		public TextView dateView;
 		public TextView priceTotal;
+		public TextView rateView;
 	}
 
 	public static class LogHolder {

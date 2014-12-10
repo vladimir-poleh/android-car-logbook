@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
 import com.echo.holographlibrary.Bar;
 import com.echo.holographlibrary.BarGraph;
 import com.echo.holographlibrary.PieGraph;
@@ -37,7 +38,6 @@ import com.enadein.carlogbook.bean.Dashboard;
 import com.enadein.carlogbook.bean.DataInfo;
 import com.enadein.carlogbook.core.BaseFragment;
 import com.enadein.carlogbook.core.DataLoader;
-import com.enadein.carlogbook.core.FloatingActionButton;
 import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 
@@ -62,13 +62,17 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
     private TextView totalParkingView;
     private TextView totalOtherView;
 
-    private TextView per1View;
-    private TextView avgLabelView;
-    private TextView avg100LabelView;
-    private TextView avg2LabelView;
+	private PieSlice fuelSlice;
+	private PieSlice serviceSlice;
+	private PieSlice partsSlice;
+	private PieSlice parkingSlice;
+	private PieSlice otherSlice;
 
+	private int sliceCount = 0;
+	private PieSlice activeSlice;
+	private AQuery a;
 
-    @Override
+	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -78,6 +82,7 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+		a = new AQuery(view);
 
         totalCost = (TextView) view.findViewById(R.id.totalcost);
         totalRun = (TextView) view.findViewById(R.id.totalrun);
@@ -92,10 +97,10 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
         totalPartsView = (TextView) view.findViewById(R.id.total_service_part_cost);
         totalParkingView = (TextView) view.findViewById(R.id.total_parking_cost);
         totalOtherView = (TextView) view.findViewById(R.id.total_other_cost);
-        per1View = (TextView) view.findViewById(R.id.label_per1);
-        avgLabelView = (TextView) view.findViewById(R.id.label_avg);
-        avg100LabelView = (TextView) view.findViewById(R.id.label_avg100);
-        avg2LabelView = (TextView) view.findViewById(R.id.label_avg2);
+		TextView per1View = (TextView) view.findViewById(R.id.label_per1);
+		TextView avgLabelView = (TextView) view.findViewById(R.id.label_avg);
+		TextView avg100LabelView = (TextView) view.findViewById(R.id.label_avg100);
+		TextView avg2LabelView = (TextView) view.findViewById(R.id.label_avg2);
 
         pieGraph = (PieGraph) view.findViewById(R.id.graph);
 
@@ -104,6 +109,7 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
         UnitFacade unitFacade = getMediator().getUnitFacade();
 
         unitFacade.appendDistUnit(per1View, true);
+		unitFacade.appendDistUnit(a.id(R.id.label_fuel_per1).getTextView(), true);
         unitFacade.appendConsumUnit(avg100LabelView, true, 0);
         unitFacade.appendConsumUnit(avgLabelView, true, 2);
         unitFacade.appendConsumUnit(avg2LabelView, true, 1);
@@ -134,16 +140,20 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
     public void onLoadFinished(android.support.v4.content.Loader<DataInfo> loader, DataInfo data) {
         Dashboard b = data.getDashboard();
 
+
         UnitFacade unitFacade = getMediator().getUnitFacade();
 
 //		unitFacade.appendConsumUnit(avgLabelView,true);
 //		unitFacade.appendDistUnit(per1View,true);
 
-        totalRun.setText(unitFacade.appendDistUnit(false, String.valueOf(b.getTotalOdometerCount())));
+        totalRun.setText(unitFacade.appendDistUnit(false, CommonUtils.formatDistance(b.getTotalOdometerCount())));
         totalCost.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(b.getTotalPrice(), unitFacade)));
         cost1.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(b.getPricePer1(), unitFacade)));
 
-        fuelAvg.setText(CommonUtils.formatPriceNew(b.getFuelRateAvg(), unitFacade));
+		a.id(R.id.cost_fuel_per1).text(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(b.getPriceFuelPer1(), unitFacade)));
+
+
+		fuelAvg.setText(CommonUtils.formatDistance(b.getFuelRateAvg()));
         fuelAvg2.setText(CommonUtils.formatFuel(b.getFuelRateAvg2(), unitFacade));
         fuelAvg100.setText(CommonUtils.formatFuel(b.getFuelRateAvg100(), unitFacade));
 
@@ -156,35 +166,52 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
 //		pieGraph.setDuration(2000);
 //		pieGraph.setInterpolator(new AccelerateDecelerateInterpolator());
 //		pieGraph.animateToGoalValues();
-        float totalFuelPrice = Math.round(b.getTotalFuelPrice());
-        addSlice(totalFuelPrice, DataInfo.COLOR_FUEL);
-        totalFuelView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalFuelPrice, unitFacade)));
+		fuelSlice = addSlice(1, DataInfo.COLOR_FUEL);
+		serviceSlice = addSlice(10, DataInfo.COLOR_SERVICE);
+		partsSlice = addSlice(100, DataInfo.COLOR_PARTS);
+		parkingSlice = addSlice(1000, DataInfo.COLOR_PARKING);
+		otherSlice = addSlice(10000, DataInfo.COLOR_OTHERS);
 
-        if (totalFuelPrice > 0) {
-            float vl = (float) (totalFuelPrice * 0.01) / 100;
-            addSlice(vl, 0xFFEEEEEE);
-            addSlice(vl, 0xFFEEEEEE);
+		sliceCount = 0;
 
-        } else {
-            addSlice(0.001f, 0xFFEEEEEE);
-            addSlice(0.001f, 0xFFEEEEEE);
-        }
+
+		float totalFuelPrice = Math.round(b.getTotalFuelPrice());
+		totalFuelView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalFuelPrice, unitFacade)));
+		fuelSlice.setGoalValue(totalFuelPrice);
+		updateSliceCount(fuelSlice);
 
         float totalServicePrice = Math.round(b.getTotalServicePrice());
-        addSlice(totalServicePrice, DataInfo.COLOR_SERVICE);
         totalServiceView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalServicePrice, unitFacade)));
+		serviceSlice.setGoalValue(totalServicePrice);
+		updateSliceCount(serviceSlice);
 
         float totalPartsPrice = Math.round(b.getTotalPartsPrice());
-        addSlice(totalPartsPrice, DataInfo.COLOR_PARTS);
         totalPartsView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalPartsPrice, unitFacade)));
+		partsSlice.setGoalValue(totalPartsPrice);
+		updateSliceCount(partsSlice);
 
         float totalParkingPrice = Math.round(b.getTotalParkingPrice());
         totalParkingView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalParkingPrice, unitFacade)));
-        addSlice(totalParkingPrice, DataInfo.COLOR_PARKING);
+		parkingSlice.setGoalValue(totalParkingPrice);
+		updateSliceCount( parkingSlice);
 
         float totalOtherPrice = Math.round(b.getTotalOtherPrice());
         totalOtherView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalOtherPrice, unitFacade)));
-        addSlice(totalOtherPrice, DataInfo.COLOR_OTHERS);
+
+		if (sliceCount > 1) {
+			otherSlice.setGoalValue(totalOtherPrice);
+		} else {
+			if (activeSlice == null) {
+				activeSlice = fuelSlice;
+				activeSlice.setColor(DataInfo.COLOR_OTHERS);
+				activeSlice.setGoalValue(totalOtherPrice);
+			}
+			otherSlice.setColor(activeSlice.getColor());
+			otherSlice.setGoalValue(activeSlice.getGoalValue() * (float)0.001);
+		}
+
+		pieGraph.setDuration(700);
+		pieGraph.animateToGoalValues();
 
         ArrayList<Bar> points = new ArrayList<Bar>();
 
@@ -202,19 +229,32 @@ public class ReportsFramgent extends BaseFragment implements LoaderManager.Loade
             Bar d = new Bar();
             d.setName(bi.getName());
             d.setColor(DataInfo.COLOR_SERVICE);
-            d.setValue(bi.getValue());
-            d.setValueString(unitFacade.appendDistUnit(false, CommonUtils.formatPriceNew(bi.getValue(), unitFacade)));
+			d.setValue(bi.getValue());
+            d.setValueString(unitFacade.appendDistUnit(false, CommonUtils.formatDistance(bi.getValue())));
             points.add(d);
         }
         runMonth.setBars(points);
     }
 
+	private void updateSliceCount(PieSlice slice) {
+		if (slice.getGoalValue() > 0) {
+			sliceCount++;
+			if (activeSlice == null) {
+				activeSlice = slice;
+			} else if (slice.getValue() > activeSlice.getGoalValue() ){
+				activeSlice = slice;
+			}
 
-    public void addSlice(float value, int color) {
+		}
+	}
+
+
+    public PieSlice addSlice(float value, int color) {
         PieSlice slice = new PieSlice();
         slice.setColor(color);
         slice.setValue(value);
         pieGraph.addSlice(slice);
+		return slice;
     }
 
     @Override

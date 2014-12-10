@@ -30,6 +30,10 @@
                     android:textColor="@color/gal"
                     android:id="@+id/fuelValue"
                     style="@style/wrap" />
+				<TextView
+					android:id="@+id/rate"
+					android:textColor="@color/divider"
+					style="@style/wrap" />
             </LinearLayout>
 
             <LinearLayout style="@style/wrap_vertical" android:gravity="end">

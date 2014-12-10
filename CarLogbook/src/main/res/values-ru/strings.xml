@@ -274,4 +274,18 @@
     <string name="tyre">Шины</string>
 
     <string name="info">Информация</string>
+
+	<string name="fract_fuel">Топливо: кол-во знаков</string>
+	<string name="fract_currency">Цена: кол-во знаков</string>
+	<string name="repeat">Повторить</string>
+	<string name="cost1fuelper1">Стоим. топл./1</string>
+	<string name="days">Дней:</string>
+	<string name="create_report">Создать отчет</string>
+	<string name="inc_info">Статистика</string>
+	<string name="inc_cost">Цена</string>
+	<string name="inc_log">Журнал</string>
+	<string name="select_error">Не выбрано</string>
+	<string name="nofity_time">Время</string>
+	<string name="nofity_vibrate">Vibrate</string>
+	<string name="nofity_sound">Звук</string>
 </resources>

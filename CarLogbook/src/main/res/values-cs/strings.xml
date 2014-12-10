@@ -256,25 +256,39 @@
     <string name="cost_total_per_year_other">Ostatní výdaje za rok</string>
 
     <!--1.5-->
-    <string name="other_type_val">Other type values</string>
-    <string name="other_type">Other type</string>
-    <string name="add_other_type">Add other type</string>
-    <string name="edit_other_type">Edit other type</string>
-    <string name="calc">Calculator</string>
-    <string name="result">Result</string>
-    <string name="fillups_avg">Fill-ups (avg)</string>
+    <string name="other_type_val">Jiné hodnoty typu</string>
+    <string name="other_type">Jiný typ</string>
+    <string name="add_other_type">Přidejte jiný typ</string>
+    <string name="edit_other_type">Edit jiný typ</string>
+    <string name="calc">Kalkulačka</string>
+    <string name="result">Výsledek</string>
+    <string name="fillups_avg">Naplnit (průměr)</string>
 
-    <string name="make">Make</string>
+    <string name="make">Dělat</string>
     <string name="model">Model</string>
-    <string name="manuf">Year of Manufacture</string>
-    <string name="car_cost">Cost price</string>
-    <string name="purchase">Date of purchase</string>
-    <string name="open_mil">Opening mileage</string>
-    <string name="id_no">Identification no.</string>
-    <string name="reg_num">Registration number</string>
-    <string name="fuel_type">Fuel type</string>
-    <string name="tyre">Tyre</string>
+    <string name="manuf">Rok</string>
+    <string name="car_cost">Velkoobchodní cena</string>
+    <string name="purchase">Datum nákupu</string>
+    <string name="open_mil">Otevření kilometrů</string>
+    <string name="id_no">Identifikační č.</string>
+    <string name="reg_num">Evidenční číslo</string>
+    <string name="fuel_type">Typ paliva</string>
+    <string name="tyre">Je</string>
 
     <string name="info">Info</string>
 
+	<!--1.6.0-->
+	<string name="fract_fuel">Palivo zlomkové číslice</string>
+	<string name="fract_currency">Měna zlomkové číslice</string>
+	<string name="repeat">Opakovat</string>
+	<string name="cost1fuelper1">Náklady na palivo/1</string>
+	<string name="days">Dny:</string>
+	<string name="create_report">Vytvoření sestavy</string>
+	<string name="inc_info">Statistika</string>
+	<string name="inc_cost">Náklady</string>
+	<string name="inc_log">Záznamy</string>
+	<string name="select_error">No výběr</string>
+	<string name="nofity_time">čas</string>
+	<string name="nofity_vibrate">Vibrate</string>
+	<string name="nofity_sound">Zvuk</string>
 </resources>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+	style="@style/add_entity_scroll"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<LinearLayout style="@style/add_entity_main" >
+
+
+		<LinearLayout style="@style/new_group" >
+
+			<LinearLayout style="@style/add_entity_group"
+						  android:orientation="vertical">
+
+
+				<TextView
+					android:id="@+id/error"
+					style="@style/add_entity_error"
+					android:text="@string/select_error"/>
+
+				<CheckBox
+					android:id="@+id/logs"
+					style="@style/wrap"
+					android:checked="true"
+					android:text="@string/inc_log"/>
+
+				<CheckBox
+					android:id="@+id/info"
+					style="@style/wrap"
+					android:checked="true"
+					android:text="@string/inc_info"/>
+
+				<CheckBox
+					android:id="@+id/costs"
+					style="@style/wrap"
+					android:checked="true"
+					android:text="@string/inc_cost"/>
+			</LinearLayout>
+			<Button
+				android:id="@+id/create"
+				style="@style/btn"
+				android:layout_width="match_parent"
+				android:text="@string/create"/>
+		</LinearLayout>
+	</LinearLayout>
+</ScrollView>

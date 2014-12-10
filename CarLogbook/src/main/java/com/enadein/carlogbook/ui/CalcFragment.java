@@ -87,7 +87,7 @@ public class CalcFragment extends BaseFragment {
         double totalCost = totalFuel * priceUnit;
 
         query.id(R.id.totalFuelValue).text(CommonUtils.formatFuel(totalFuel, unitFacade));
-        query.id(R.id.totalCostValue).text(CommonUtils.formatFuel(totalCost, unitFacade));
+        query.id(R.id.totalCostValue).text(CommonUtils.formatPriceNew(totalCost, unitFacade));
 
         unitFacade.appendFuelUnit(  query.id(R.id.totalFuelValue).getTextView(), false);
         unitFacade.appendCurrency(  query.id(R.id.totalCostValue).getTextView(), false);

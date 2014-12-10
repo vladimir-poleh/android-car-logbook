@@ -28,6 +28,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -51,10 +52,11 @@ import com.enadein.carlogbook.db.ProviderDescriptor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 
 public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationListener, BillingProcessor.IBillingHandler, CarChangeListener {
-	public static final String VERSION = "1.5.1";
+	public static final String VERSION = "1.6.0";
 
     public static final int DASHBOARD_MENU = 0;
 	public static final int BY_TYPE_MENU = 1;
@@ -88,6 +90,7 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 	private boolean isDrawerLocked = false;
     MenuItem carName;
     ArrayList<MenuItem> items = new ArrayList<MenuItem>();
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -428,6 +431,7 @@ public class CarLogbook extends BaseActivity implements ActionBar.OnNavigationLi
 		public static final int REP_LAST_EVENTS_ID = 13;
 		public static final int REP_CALC_FUEL_RATE = 14;
 		public static final int REP_DETAILED = 15;
+		public static final int CREATE_REPORT = 16;
 	}
 
 	///In-App Billing v3

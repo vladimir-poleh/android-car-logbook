@@ -43,6 +43,46 @@ public class DBUtils {
 	public static final String CAR_SELECTION_NOTIFY = ProviderDescriptor.Notify.Cols.CAR_ID + " = ?";
 	public static final String CAR_SELECTION_RATE = ProviderDescriptor.FuelRateView.Cols.CAR_ID + " = ?";
 
+	public static double getFuelRateFromCurrentLogId(UnitFacade unitFacade,long id, ContentResolver cr) {
+		double result = 0.;
+
+		int odometer = 0;
+		double fuelVolume = 0;
+		long date = 0;
+		long carId = -1;
+
+		Cursor c = cr.query(ProviderDescriptor.Log.CONTENT_URI, null,
+				ProviderDescriptor.Log.Cols._ID + " = ?", new String[] {String.valueOf(id)}, null);
+		if (c != null && c.moveToFirst()) {
+			odometer = DBUtils.getIntByName(c, ProviderDescriptor.Log.Cols.ODOMETER);
+			fuelVolume = DBUtils.getDoubleByName(c, ProviderDescriptor.Log.Cols.FUEL_VOLUME);
+			date = DBUtils.getLongByName(c, ProviderDescriptor.Log.Cols.DATE);
+			carId = DBUtils.getLongByName(c, ProviderDescriptor.Log.Cols.CAR_ID);
+		}
+
+		if (c != null) {
+			c.close();
+		} else {
+			return result;
+		}
+
+		c = cr.query(ProviderDescriptor.Log.CONTENT_URI, null, ProviderDescriptor.Log.Cols.DATE + " < ? and " + ProviderDescriptor.Log.Cols.CAR_ID + " = ?", new String[] {String.valueOf(date), String.valueOf(carId)}, ProviderDescriptor.Log.Cols.DATE + " DESC");
+
+		if (c != null && c.moveToFirst()) {
+			int odometerPrev = DBUtils.getIntByName(c, ProviderDescriptor.Log.Cols.ODOMETER);
+			int odometerDiff = odometer - odometerPrev;
+			if (odometerDiff > 0 && fuelVolume > 0) {
+				result = unitFacade.getRate(fuelVolume, odometerDiff);
+			}
+		}
+
+		if (c != null) {
+			c.close();
+		}
+
+		return result;
+	}
+
 	public static long getActiveCarId(ContentResolver cr) {
 		long result = -1;
 
@@ -88,7 +128,7 @@ public class DBUtils {
     public static long getDataValueId(ContentResolver cr , String value, String type) {
         long result = -1;
 
-        Cursor c = cr.query(ProviderDescriptor.DataValue.CONTENT_URI, null, ProviderDescriptor.DataValue.Cols.TYPE + " = ? and " + ProviderDescriptor.DataValue.Cols.TYPE + " = ?", new String[] {value, type}, null);
+        Cursor c = cr.query(ProviderDescriptor.DataValue.CONTENT_URI, null, ProviderDescriptor.DataValue.Cols.NAME + " = ? and " + ProviderDescriptor.DataValue.Cols.TYPE + " = ?", new String[] {value, type}, null);
 
         if (c != null && c.moveToFirst()) {
             int idIdx = c.getColumnIndex(ProviderDescriptor.Car.Cols._ID);
@@ -531,6 +571,21 @@ public class DBUtils {
 		return result;
 	}
 
+	public static double getPriceFuelPer1km(long carId, ContentResolver cr, long from, long to) {
+		double result = 0;
+
+		int odometerCount = getOdometerCount(carId, cr, from, to, -1);
+
+		if (odometerCount > 0) {
+			double price = getTotalPrice(carId, cr, from, to, ProviderDescriptor.Log.Type.FUEL, null, true);
+
+			result = price / odometerCount;
+		}
+
+		return result;
+	}
+
+
 
 	public static int getLogIdItemFirstItem(ContentResolver cr) {
 		int id = -1;
@@ -597,6 +652,15 @@ public class DBUtils {
         double result = (end - start) / DAY;
         return result > 0 ? result : 1;
     }
+
+	public  static double calcDayPassedTrunk(long start, long end) {
+		return (end - start) / DAY;
+	}
+
+	public static String formatDays(double dayPassed, String daysLb) {
+		String value = dayPassed == 0 ? "0" : CommonUtils.formatDistance(dayPassed);
+		return "\n("+  daysLb + " " + value +")";
+	}
 
 	public static int getLogIdItemFirstItemNoType(ContentResolver cr) {
 		int id = -1;

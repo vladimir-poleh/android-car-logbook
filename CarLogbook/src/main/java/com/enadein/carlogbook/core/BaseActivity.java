@@ -40,6 +40,7 @@ public class BaseActivity extends ActionBarActivity implements DialogListener, Q
 	public static final String MODE_KEY = "mode";
 	public static final String TYPE_KEY = "type";
 	public static final String ENTITY_ID = "entity_id";
+	public static final String NOTIFY_EXTRA = "notify_extra";
 	public static final int PARAM_EDIT = 1;
 
 	public static final String SELECTION_ID_FILTER = "_id = ?";

@@ -17,7 +17,9 @@
 */
 package com.enadein.carlogbook.core;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -37,6 +39,7 @@ import com.enadein.carlogbook.ui.AddUpdateNotificationActivity;
 import com.enadein.carlogbook.ui.AlertDialog;
 import com.enadein.carlogbook.ui.CalcFragment;
 import com.enadein.carlogbook.ui.ConfirmDialog;
+import com.enadein.carlogbook.ui.CreateReportActivity;
 import com.enadein.carlogbook.ui.DataValueActivity;
 import com.enadein.carlogbook.ui.DetailReportFragment;
 import com.enadein.carlogbook.ui.ExportActivty;
@@ -54,6 +57,8 @@ import com.enadein.carlogbook.ui.NotificationFragment;
 import com.enadein.carlogbook.ui.ReportsFramgent;
 import com.enadein.carlogbook.ui.SettingsFragment;
 import com.enadein.carlogbook.ui.TypeReportFragment;
+
+import java.io.File;
 
 public class CarLogbookMediator extends AppMediator {
 	public static final String ALERT = "alert";
@@ -189,6 +194,10 @@ public class CarLogbookMediator extends AppMediator {
 		}
 	}
 
+	public void showCreateReport() {
+		startActivity(CreateReportActivity.class);
+	}
+
 	public void showModifyLog(int type, long id) {
 		Bundle params = new Bundle();
 		params.putLong(BaseActivity.ENTITY_ID, id);
@@ -221,6 +230,27 @@ public class CarLogbookMediator extends AppMediator {
 		Bundle params = new Bundle();
 		params.putInt(BaseActivity.TYPE_KEY, type);
 		startActivity(DataValueActivity.class, params);
+	}
+
+	public void openUrl(File file) {
+		if (file != null) {
+			Uri uri = Uri.fromFile(file);
+//			Uri uri = Uri.parse("http://localhost" + file.getPath());
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+//			intent.setType("html");
+//			intent.putExtra(Intent.EXTRA_MIME_TYPES, "text/html");
+//			intent.setData(uri);
+			intent.setData(uri);
+			intent.setClassName("com.android.browser","com.android.browser.BrowserActivity");
+//			intent.addCategory(Intent.CATEGORY_BROWSABLE);
+			try {
+				activity.startActivity(intent);
+			}  catch (ActivityNotFoundException e) {
+				System.out.println(e);
+			}
+		} else {
+			Toast.makeText(activity, "error", Toast.LENGTH_LONG);
+		}
 	}
 
 	public void showAddDataValue(int type) {

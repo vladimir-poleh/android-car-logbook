@@ -34,6 +34,7 @@ public class XReport {
     //COST
     public double cost_total;
     public double cost_per1;
+    public double cost_fuel_per1;
     public double cost_total_month;
     public double cost_total_last_month;
     public double cost_total_year;

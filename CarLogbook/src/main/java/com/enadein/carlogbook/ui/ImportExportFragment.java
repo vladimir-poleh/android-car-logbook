@@ -54,6 +54,13 @@ public class ImportExportFragment extends BaseFragment {
 			}
 		});
 
+		view.findViewById(R.id.createRepBtn).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				getMediator().showCreateReport();
+			}
+		});
+
 		view.findViewById(R.id.backUp).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

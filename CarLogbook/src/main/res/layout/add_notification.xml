@@ -51,20 +51,41 @@
 			<LinearLayout
 				android:id="@+id/dateGroup"
 				style="@style/add_entity_group"
+				android:orientation="vertical"
 				android:visibility="gone">
 
-				<TextView
-					style="@style/add_entity_label"
-					android:text="@string/date"/>
+				<LinearLayout
+					style="@style/wide"
+					android:orientation="horizontal">
 
-				<TextView
-					android:id="@+id/date"
-					style="@style/wrap"
-					/>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/date"/>
 
-				<ImageButton
-					style="@style/add_entity_date"
-					android:onClick="showDatePickerDialog"/>
+					<TextView
+						android:id="@+id/date"
+						style="@style/wrap"
+						android:layout_gravity="center_vertical"
+						/>
+
+					<ImageButton
+						style="@style/add_entity_date"
+						android:onClick="showDatePickerDialog"/>
+				</LinearLayout>
+
+				<LinearLayout
+					style="@style/wide"
+					android:orientation="horizontal">
+
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/repeat"/>
+
+					<Spinner
+						android:id="@+id/dateRepeat"
+						style="@style/add_entity_spinner"
+						android:entries="@array/date_repeating"/>
+				</LinearLayout>
 			</LinearLayout>
 
 			<TextView
@@ -75,17 +96,38 @@
 			<LinearLayout
 				android:id="@+id/odometerGroup"
 				style="@style/add_entity_group"
+				android:orientation="vertical"
 				android:visibility="gone">
 
-				<TextView
-					style="@style/add_entity_label"
-					android:text="@string/log_fuel_odometer"/>
+				<LinearLayout
+					style="@style/wide"
+					android:orientation="horizontal">
 
-				<EditText
-					android:id="@+id/odometer"
-					style="@style/add_entity_edit"
-					android:inputType="number"
-					/>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/log_fuel_odometer"/>
+
+					<EditText
+						android:id="@+id/odometer"
+						style="@style/add_entity_edit"
+						android:inputType="number"
+						/>
+				</LinearLayout>
+
+				<LinearLayout
+					style="@style/wide"
+					android:orientation="horizontal">
+
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/repeat"/>
+
+					<EditText
+						android:id="@+id/repeatOdometer"
+						style="@style/add_entity_edit"
+						android:inputType="number"
+						/>
+				</LinearLayout>
 			</LinearLayout>
 		</LinearLayout>
 	</LinearLayout>

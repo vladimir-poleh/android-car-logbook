@@ -52,8 +52,8 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 
 	public static final String EXIST = "exist";
 
-    public static final String EXPORT_VERSION_VALUE = "4";
-    public int versionCode = 4;
+    public static final String EXPORT_VERSION_VALUE = "5";
+    public int versionCode = 5;
     public String impVer = "0";
 
 	private HashMap<String, String> importContext = new HashMap<String, String>();
@@ -471,6 +471,11 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 			cv.put(ProviderDescriptor.Notify.Cols.TYPE,
 					attributes.getValue(attributes.getIndex(ProviderDescriptor.Notify.Cols.TYPE)));
 
+			if (versionCode > 4) {
+				cv.put(ProviderDescriptor.Notify.Cols.REPEAT,
+						attributes.getValue(attributes.getIndex(ProviderDescriptor.Notify.Cols.REPEAT)));
+			}
+
 			String innerCarId = attributes.getValue(attributes.getIndex(ProviderDescriptor.Notify.Cols.CAR_ID));
 
 			String carID = importContext.get(CAR_KEY + innerCarId);
@@ -786,6 +791,13 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 			{
 				long value = c.getLong(c.getColumnIndex(ProviderDescriptor.Notify.Cols.TRIGGER_VALUE));
 				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Notify.Cols.TRIGGER_VALUE,
+						String.valueOf(value));
+
+			}
+
+			{
+				long value = c.getLong(c.getColumnIndex(ProviderDescriptor.Notify.Cols.REPEAT));
+				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Notify.Cols.REPEAT,
 						String.valueOf(value));
 
 			}

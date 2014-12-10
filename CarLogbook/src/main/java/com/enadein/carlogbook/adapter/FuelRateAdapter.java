@@ -70,15 +70,16 @@ public class FuelRateAdapter extends CursorAdapter {
 		holder.nameView.setText(bean.getStation() + "(" + bean.getFuelType() + ")\n" );
 		unitFacade.appendConsumUnit(holder.nameView , true);
 
-		String min = CommonUtils.formatFuel(bean.getMinRate(), unitFacade) + unitFacade.getConsumPostfix();
-		String cur = CommonUtils.formatFuel(bean.getRate(), unitFacade)+ unitFacade.getConsumPostfix();
-		String max = CommonUtils.formatFuel(bean.getMaxRate(), unitFacade)+ unitFacade.getConsumPostfix();
-		String avg = CommonUtils.formatFuel(bean.getAvg(), unitFacade)+ unitFacade.getConsumPostfix();
+		int consum = unitFacade.getConsumptionValue();
+		String min = (consum == 2) ? CommonUtils.formatDistance(bean.getMinRate()) : CommonUtils.formatFuel(bean.getMinRate(), unitFacade) ;
+		String cur = (consum == 2) ? CommonUtils.formatDistance(bean.getRate()) : CommonUtils.formatFuel(bean.getRate(), unitFacade);
+		String max = (consum == 2) ? CommonUtils.formatDistance(bean.getMaxRate()) : CommonUtils.formatFuel(bean.getMaxRate(), unitFacade);
+		String avg =(consum == 2) ? CommonUtils.formatDistance(bean.getAvg()) :  CommonUtils.formatFuel(bean.getAvg(), unitFacade);
 
-		holder.valueView.setText(cur + " (" + context.getString(R.string.last) + ")");
-		holder.valueMinView.setText(min+ " (" + context.getString(R.string.min)+ ")");
-		holder.valueMaxView.setText(max+ " (" + context.getString(R.string.max)+ ")");
-        holder.valueAvgView.setText(avg+ " (" + context.getString(R.string.avg)+ ")");
+		holder.valueView.setText(cur + unitFacade.getConsumPostfix()+ " (" + context.getString(R.string.last) + ")");
+		holder.valueMinView.setText(min + unitFacade.getConsumPostfix() +" (" + context.getString(R.string.min)+ ")");
+		holder.valueMaxView.setText(max+ unitFacade.getConsumPostfix() +" (" + context.getString(R.string.max)+ ")");
+        holder.valueAvgView.setText(avg + unitFacade.getConsumPostfix() + " (" + context.getString(R.string.avg)+ ")");
 
 		int pos = cursor.getPosition();
 		CommonUtils.runAnimation(mlastPos, pos, view, UnitFacade.animSize);

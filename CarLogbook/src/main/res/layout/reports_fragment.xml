@@ -63,6 +63,19 @@
 						style="@style/wrap"/>
 				</LinearLayout>
 
+				<LinearLayout style="@style/report_item">
+
+					<TextView
+						android:id="@+id/label_fuel_per1"
+						style="@style/report_label"
+						android:text="@string/cost1fuelper1"/>
+
+					<TextView
+						android:id="@+id/cost_fuel_per1"
+						android:textColor="@color/price"
+						style="@style/wrap"/>
+				</LinearLayout>
+
                 <LinearLayout style="@style/report_item"
                     android:id="@+id/avg100Group">
 

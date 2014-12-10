@@ -36,6 +36,7 @@ import com.enadein.carlogbook.db.ProviderDescriptor;
 public class SettingsFragment extends BaseFragment {
 
 	private Spinner dateFormatSpinner;
+	AQuery a;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +62,7 @@ public class SettingsFragment extends BaseFragment {
 			}
 		});
 
-        AQuery a = new AQuery(view);
+         a = new AQuery(view);
         a.id(R.id.data_other).getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,10 +127,45 @@ public class SettingsFragment extends BaseFragment {
                 }
             });
         }
+
+		setupSpinner(R.id.fuelSymb, UnitFacade.SET_FRACT_FUEL, "3");
+		setupSpinner(R.id.curencSymb, UnitFacade.SET_FRACT_CURRENCY, "3");
+		setupSpinner(R.id.time, UnitFacade.SET_NOTIFY_TIME, "12");
+
+
+		{
+			CheckBox vibrateCB = (CheckBox) view.findViewById(R.id.vibrate);
+			String value = getMediator().getUnitFacade().getSetting(UnitFacade.SET_NOTIFY_VIBRATE, "1");
+
+			vibrateCB.setChecked("1".equals(value));
+			vibrateCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+					getMediator().getUnitFacade().setSetings(UnitFacade.SET_NOTIFY_VIBRATE, b ? "1" : "0");
+					getMediator().getUnitFacade().invalidateFlags();
+				}
+			});
+		}
+
+		{
+			CheckBox soundCB = (CheckBox) view.findViewById(R.id.sound);
+			String value = getMediator().getUnitFacade().getSetting(UnitFacade.SET_NOTIFY_SOUND, "1");
+
+			soundCB.setChecked("1".equals(value));
+			soundCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+					getMediator().getUnitFacade().setSetings(UnitFacade.SET_NOTIFY_SOUND, b ? "1" : "0");
+					getMediator().getUnitFacade().invalidateFlags();
+				}
+			});
+		}
 	}
 
 	private void save() {
 		getMediator().getUnitFacade().setSetings(UnitFacade.SET_DATE_FORMAT, String.valueOf(dateFormatSpinner.getSelectedItemPosition()));
+
+
 		getMediator().getUnitFacade().invalidateDateFormat();
 	}
 
@@ -138,4 +174,27 @@ public class SettingsFragment extends BaseFragment {
 		return getString(R.string.menu_item_settings);
 	}
 
+
+	private void setupSpinner(final int id, final String key, String defaultValue) {
+		final Spinner spinner = (Spinner) a.id(id).getView();
+		String current = getMediator().getUnitFacade().getSetting(key, defaultValue);
+		spinner.setSelection(Integer.valueOf(current));
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+				getMediator().getUnitFacade().setSetings(key, String.valueOf(spinner.getSelectedItemPosition()));
+				getMediator().getUnitFacade().invalidateAll();
+
+				if (id == R.id.time) {
+					getMediator().getUnitFacade()
+							.refreshNotifySystem(SettingsFragment.this.getActivity());
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> adapterView) {
+
+			}
+		});
+	}
 }

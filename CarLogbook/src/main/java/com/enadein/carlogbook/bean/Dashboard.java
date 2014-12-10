@@ -26,10 +26,19 @@ public class Dashboard {
 	private double totalFuelCount;
 
 	private double pricePer1;
+	private double priceFuelPer1;
 
 	private double fuelRateAvg; //2
 
-    public double getFuelRateAvg100() {
+	public double getPriceFuelPer1() {
+		return priceFuelPer1;
+	}
+
+	public void setPriceFuelPer1(double priceFuelPer1) {
+		this.priceFuelPer1 = priceFuelPer1;
+	}
+
+	public double getFuelRateAvg100() {
         return fuelRateAvg100;
     }
 

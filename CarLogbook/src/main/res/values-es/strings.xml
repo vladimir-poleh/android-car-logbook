@@ -255,26 +255,40 @@
     <string name="cost_total_per_month_other">Costo de otros gastos por mes</string>
     <string name="cost_total_per_year_other">Costo de otros gastos por año</string>
 
-    <!--1.5-->
-    <string name="other_type_val">Other type values</string>
-    <string name="other_type">Other type</string>
-    <string name="add_other_type">Add other type</string>
-    <string name="edit_other_type">Edit other type</string>
-    <string name="calc">Calculator</string>
-    <string name="result">Result</string>
-    <string name="fillups_avg">Fill-ups (avg)</string>
+	<!--1.5-->
+	<string name="other_type_val">Otro tipo de valores</string>
+	<string name="other_type">Otro tipo</string>
+	<string name="add_other_type">Añadir otro tipo</string>
+	<string name="edit_other_type">Editar otro tipo</string>
+	<string name="calc">Calculadora</string>
+	<string name="result">Resultado</string>
+	<string name="fillups_avg">Rellenar Combustible (prom)</string>
 
-    <string name="make">Make</string>
-    <string name="model">Model</string>
-    <string name="manuf">Year of Manufacture</string>
-    <string name="car_cost">Cost price</string>
-    <string name="purchase">Date of purchase</string>
-    <string name="open_mil">Opening mileage</string>
-    <string name="id_no">Identification no.</string>
-    <string name="reg_num">Registration number</string>
-    <string name="fuel_type">Fuel type</string>
-    <string name="tyre">Tyre</string>
+	<string name="make">Marca</string>
+	<string name="model">Modelo</string>
+	<string name="manuf">Año de Manufactura</string>
+	<string name="car_cost">Costo de compra</string>
+	<string name="purchase">Fecha de compra</string>
+	<string name="open_mil">Millas de apertura</string>
+	<string name="id_no">Número de identificación</string>
+	<string name="reg_num">Número de registro</string>
+	<string name="fuel_type">Tipo de combustible</string>
+	<string name="tyre">Neumáticos</string>
 
-    <string name="info">Info</string>
+	<string name="info">Información</string>
 
+	<!--1.6.0-->
+	<string name="fract_fuel">Decimales Combustible</string>
+	<string name="fract_currency">Moneda dígitos fraccionarios</string>
+	<string name="repeat">Repetición</string>
+	<string name="cost1fuelper1">Costo de combustible/1</string>
+	<string name="days">Días:</string>
+	<string name="create_report">Crear informe</string>
+	<string name="inc_info">Estadística</string>
+	<string name="inc_cost">Costo</string>
+	<string name="inc_log">Registro</string>
+	<string name="select_error">No hay selección</string>
+	<string name="nofity_time">Tiempo</string>
+	<string name="nofity_vibrate">Vibrate</string>
+	<string name="nofity_sound">Sonar</string>
 </resources>

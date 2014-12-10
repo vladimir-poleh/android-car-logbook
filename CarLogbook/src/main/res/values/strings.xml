@@ -101,7 +101,7 @@
 	<string name="total_fuel">Total fuel volume</string>
 
 	<string name="avg_fuel">AVG</string>
-	<string name="cost_per1">Cost/1</string>
+	<string name="cost_per1">Total cost/1</string> <!--TODO-->
 
 	<string name="total_fuel_cost">Fuel</string>
 	<string name="total_service_cost">Service\n(+Engine/Transmission oil)</string>
@@ -275,6 +275,23 @@
     <string name="fuel_type">Fuel type</string>
     <string name="tyre">Tyre</string>
 
-    <string name="info">Info</string>
+
+	<string name="info">Info</string>
+	<!--1.6.0-->
+	<string name="fract_fuel">Fuel fractional digits</string>
+	<string name="fract_currency">Currency fractional digits</string>
+	<string name="repeat">Repeat (Every)</string>
+	<string name="cost1fuelper1">Fuel cost/1</string>
+	<string name="days">Days:</string>
+	<string name="create_report">Create report</string>
+	<string name="inc_info">Statistics</string>
+	<string name="inc_cost">Cost</string>
+	<string name="inc_log">Logbook</string>
+	<string name="select_error">No selection</string>
+	<string name="nofity_time">Time</string>
+	<string name="nofity_vibrate">Vibrate</string>
+	<string name="nofity_sound">Sound</string>
+
+
 </resources>
 

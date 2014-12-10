@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.database.Cursor;
 
 import com.enadein.carlogbook.R;
+import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
@@ -42,17 +43,19 @@ public class NotifyService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
+		checkDateNotifications(this);
+	}
+
+	public static void checkDateNotifications(Context ctx) {
 		long time = System.currentTimeMillis();
 //		long time = System.currentTimeMillis() + DAY + DAY;
 
-		ContentResolver cr = getContentResolver();
-		long carId = DBUtils.getActiveCarId(cr);
-		String selection = DBUtils.CAR_SELECTION_NOTIFY + " and "
-				+ ProviderDescriptor.Notify.Cols.TYPE + " = ? and "
+		ContentResolver cr = ctx.getContentResolver();
+		String selection = ProviderDescriptor.Notify.Cols.TYPE + " = ? and "
 				+ ProviderDescriptor.Notify.Cols.TRIGGER_VALUE + " <= ?";
 		Cursor c = cr.query(ProviderDescriptor.Notify.CONTENT_URI,
 				null, selection,
-				new String[] {String.valueOf(carId),
+				new String[] {
 						String.valueOf(ProviderDescriptor.Notify.Type.DATE),
 						String.valueOf(time)
 				}, null);
@@ -63,7 +66,7 @@ public class NotifyService extends IntentService {
 
 		while ( c.moveToNext()) {
 			long id = c.getLong(c.getColumnIndex(ProviderDescriptor.Notify.Cols._ID));
-			CommonUtils.createNotify(this, id, R.drawable.not_date);
+			CommonUtils.createNotify(ctx, id, R.drawable.not_date);
 		}
 
 		c.close();
@@ -72,8 +75,11 @@ public class NotifyService extends IntentService {
 	public static void createAlarm(Context ctx) {
 		AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
 
+		UnitFacade notifyUF = new UnitFacade(ctx);
+		String time = notifyUF.getSetting(UnitFacade.SET_NOTIFY_TIME, "12");
+
 		Calendar c = Calendar.getInstance();
-		c.set(Calendar.HOUR_OF_DAY, 12);
+		c.set(Calendar.HOUR_OF_DAY, Integer.valueOf(time));
 		c.set(Calendar.MINUTE, 0);
 		c.add(Calendar.DAY_OF_MONTH, 1);
 

@@ -54,10 +54,14 @@ import java.util.Locale;
 public class CommonUtils {
 	public static final String DATE_FORMAT_TEST = "yyyy-MM-dd";
 	public static final String DATE_FORMAT_MONTH = "MMM";
-	private static 	DecimalFormat format = (DecimalFormat) DecimalFormat.getNumberInstance();
-	private static 	DecimalFormat formatFuel = (DecimalFormat) DecimalFormat.getNumberInstance();
-	private static 	DecimalFormat formatComma = (DecimalFormat) DecimalFormat.getNumberInstance();
-	private static 	DecimalFormat formatFuelComma = (DecimalFormat) DecimalFormat.getNumberInstance();
+
+	private static 	DecimalFormat format; // = (DecimalFormat) DecimalFormat.getNumberInstance();
+	private static 	DecimalFormat formatFuel;// = (DecimalFormat) DecimalFormat.getNumberInstance();
+	private static 	DecimalFormat formatComma;// = (DecimalFormat) DecimalFormat.getNumberInstance();
+	private static 	DecimalFormat formatFuelComma; // = (DecimalFormat) DecimalFormat.getNumberInstance();
+	private static 	DecimalFormat formatDistance;
+	private static 	DecimalFormat formatP;
+	private static 	DecimalFormat formatPComma;
 
 	private static HashMap<String, Integer> consumption = new HashMap<String, Integer>();
 
@@ -72,59 +76,51 @@ public class CommonUtils {
 	}
 
 	static {
-        {
-            format.setRoundingMode(RoundingMode.DOWN);
-            format.setMaximumFractionDigits(2);
-            format.setMinimumFractionDigits(2);
-            format.setMaximumIntegerDigits(10);
-            format.setMinimumIntegerDigits(1);
-            DecimalFormatSymbols decimalSymbol = new DecimalFormatSymbols(Locale.getDefault());
-            decimalSymbol.setDecimalSeparator('.');
-            format.setDecimalFormatSymbols(decimalSymbol);
-            format.setGroupingUsed(false);
-        }
-
-        {
-            formatComma.setRoundingMode(RoundingMode.DOWN);
-            formatComma.setMaximumFractionDigits(2);
-            formatComma.setMinimumFractionDigits(2);
-            formatComma.setMaximumIntegerDigits(10);
-            formatComma.setMinimumIntegerDigits(1);
-            DecimalFormatSymbols decimalSymbolComma = new DecimalFormatSymbols();
-            decimalSymbolComma.setDecimalSeparator(',');
-            formatComma.setDecimalFormatSymbols(decimalSymbolComma);
-            formatComma.setGroupingUsed(false);
-        }
-
-
-        {
-            formatFuel.setRoundingMode(RoundingMode.DOWN);
-            formatFuel.setMaximumFractionDigits(3);
-            formatFuel.setMinimumFractionDigits(3);
-            formatFuel.setMaximumIntegerDigits(10);
-            formatFuel.setMinimumIntegerDigits(1);
-            DecimalFormatSymbols decimalSymbol = new DecimalFormatSymbols(Locale.getDefault());
-            decimalSymbol.setDecimalSeparator('.');
-            formatFuel.setDecimalFormatSymbols(decimalSymbol);
-            formatFuel.setGroupingUsed(false);
-        }
-
-        {
-            formatFuelComma.setRoundingMode(RoundingMode.DOWN);
-            formatFuelComma.setMaximumFractionDigits(3);
-            formatFuelComma.setMinimumFractionDigits(3);
-            formatFuelComma.setMaximumIntegerDigits(10);
-            formatFuelComma.setMinimumIntegerDigits(1);
-            DecimalFormatSymbols decimalSymbolComma = new DecimalFormatSymbols();
-            decimalSymbolComma.setDecimalSeparator(',');
-            formatFuelComma.setDecimalFormatSymbols(decimalSymbolComma);
-            formatFuelComma.setGroupingUsed(false);
-        }
+        setupDecimalFormat();
 
 		consumption.put("00", R.array.unit_consumption_1_1);
 		consumption.put("01", R.array.unit_consumption_1_2);
 		consumption.put("10", R.array.unit_consumption_2_1);
 		consumption.put("11", R.array.unit_consumption_2_2);
+	}
+
+	public static void setupDecimalFormat() {
+		formatP = createDecimalFormat(1, 3, 0, 2, '.', RoundingMode.HALF_UP);
+		formatPComma =  createDecimalFormat(1, 3, 0, 2, ',',RoundingMode.HALF_UP);
+		formatDistance = createDecimalFormat(1, 16,
+				0, 0, '.');
+
+		format = createDecimalFormat(1, 16,
+				UnitFacade.currencyFract, UnitFacade.currencyFract, '.');
+		formatComma = createDecimalFormat(1, 16,
+				UnitFacade.currencyFract, UnitFacade.currencyFract, ',');
+
+		formatFuel = createDecimalFormat(1, 16,
+				UnitFacade.fuelFract, UnitFacade.fuelFract, '.');
+		formatFuelComma = createDecimalFormat(1, 16,
+				UnitFacade.fuelFract, UnitFacade.fuelFract, ',');
+	}
+	public static DecimalFormat createDecimalFormat(int minInt, int maxInt,
+													int minFract, int maxFract, char separator) {
+		return createDecimalFormat(minInt, maxInt, minFract, maxFract, separator, RoundingMode.HALF_UP);
+	}
+
+	public static DecimalFormat createDecimalFormat(int minInt, int maxInt,
+													int minFract, int maxFract, char separator,RoundingMode mode) {
+
+		DecimalFormat format = (DecimalFormat) DecimalFormat.getNumberInstance();
+		format.setRoundingMode(mode);
+
+		format.setMaximumFractionDigits(maxFract);
+		format.setMinimumFractionDigits(minFract);
+		format.setMaximumIntegerDigits(maxInt);
+		format.setMinimumIntegerDigits(minInt);
+		DecimalFormatSymbols decimalSymbolComma = new DecimalFormatSymbols();
+		decimalSymbolComma.setDecimalSeparator(separator);
+		format.setDecimalFormatSymbols(decimalSymbolComma);
+		format.setGroupingUsed(false);
+
+		return format;
 	}
 
 	public static int getConsumptionArrayId(int distId, int fuelId) {
@@ -136,6 +132,14 @@ public class CommonUtils {
 		Cursor c = ctx.getContentResolver()
 				.query(ProviderDescriptor.Notify.CONTENT_URI, null, BaseActivity.SELECTION_ID_FILTER,
 						new String[]{String.valueOf(id)}, null);
+
+		UnitFacade notifyUF = new UnitFacade(ctx);
+		boolean vibrate = "1".equals(notifyUF
+				.getSetting(UnitFacade.SET_NOTIFY_VIBRATE, "1"));
+
+		boolean sound = "1".equals(notifyUF
+				.getSetting(UnitFacade.SET_NOTIFY_SOUND, "1"));
+
 
 		if (c == null) {
 			return;
@@ -154,15 +158,23 @@ public class CommonUtils {
 
 		NotificationCompat.Builder mBuilder =
 				new NotificationCompat.Builder(ctx)
-						.setSmallIcon(res)
-						.setSound(alarmSound)
-						.setContentTitle(ctx.getString(R.string.app_name))
+						.setSmallIcon(res);
+		if (sound) {
+			mBuilder.setSound(alarmSound);
+		}
+
+//		if (vibrate) {
+//			mBuilder.setVibrate(new long[] {1000, 500, 1000});
+//		}
+
+		mBuilder.setContentTitle(ctx.getString(R.string.app_name))
 						.setContentText(name);
 		NotificationManager mNotificationManager =
 				(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 		Intent notifyIntent = new Intent(ctx, AddUpdateNotificationActivity.class);
 		notifyIntent.putExtra(BaseActivity.MODE_KEY, BaseActivity.PARAM_EDIT);
 		notifyIntent.putExtra(BaseActivity.ENTITY_ID, id);
+		notifyIntent.putExtra(BaseActivity.NOTIFY_EXTRA, true);
 
 		notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
@@ -212,6 +224,7 @@ public class CommonUtils {
 			NotifyService.cancelAlarm(ctx);
 		}
 
+
 	}
 
 	public static void validateOdometerNotifications(Context ctx, int odmeterValue) {
@@ -238,6 +251,11 @@ public class CommonUtils {
 		}
 
 		c.close();
+
+		//DOUBLE CHECK
+		NotifyService.checkDateNotifications(ctx);
+		CommonUtils.validateDateNotifications(ctx);
+
 	}
 
 	public static String formatDate(Date date) {
@@ -260,6 +278,20 @@ public class CommonUtils {
 		result = getPriceValue(text.getText().toString().trim(), result);
 		return result;
 	}
+
+	public static double getPercent(double value, double total) {
+		return (value * 100) / total;
+	}
+
+	public static String wrapPt(UnitFacade unitFacade, double value, double total) {
+		DecimalFormat f = unitFacade.COMMA_ON ? formatPComma : formatP;
+		String result = f.format(getPercent(value, total));
+//		String result = String.valueOf(Math.round(getPercent(value, total)));
+
+		return "\n (" + result+ "%)";
+	}
+
+
 
 	public static double getRawDouble(String text) {
 
@@ -309,6 +341,11 @@ public class CommonUtils {
         String result = f.format(price);
         return "0.0".equals(result) || "0,0".equals(result)  ? "" : result;
     }
+
+	public static String formatDistance(double value) {
+		String result = formatDistance.format(value);
+		return "0".equals(result) ? "" : result;
+	}
 
     public static String formatFuel(double price, UnitFacade unitFacade) {
         DecimalFormat f = unitFacade.COMMA_ON ? formatFuelComma : formatFuel;

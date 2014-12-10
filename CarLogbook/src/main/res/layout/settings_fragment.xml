@@ -48,15 +48,58 @@
 
             </LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
-
-                <CheckBox
-                    android:id="@+id/comma"
-                    style="@style/wrap"
-                    android:text="@string/use_coma" />
-            </LinearLayout>
 
 
+			<LinearLayout style="@style/add_entity_group">
+
+				<TextView
+					style="@style/add_entity_label"
+					android:minWidth="95dp"
+					android:text="@string/fract_fuel" />
+
+				<Spinner
+					android:id="@+id/fuelSymb"
+					style="@style/wrap"
+					android:entries="@array/symb_count" />
+
+			</LinearLayout>
+
+			<LinearLayout style="@style/add_entity_group">
+
+				<TextView
+					style="@style/add_entity_label"
+					android:minWidth="95dp"
+					android:text="@string/fract_currency" />
+
+				<Spinner
+					android:id="@+id/curencSymb"
+					style="@style/wrap"
+					android:entries="@array/symb_count" />
+
+			</LinearLayout>
+
+
+			<!--<LinearLayout style="@style/add_entity_group">-->
+
+				<!--<TextView-->
+					<!--style="@style/add_entity_label"-->
+					<!--android:minWidth="95dp"-->
+					<!--android:text="@string/fract_dist" />-->
+
+				<!--<Spinner-->
+					<!--android:id="@+id/distanceSymb"-->
+					<!--style="@style/wrap"-->
+					<!--android:entries="@array/symb_count" />-->
+
+			<!--</LinearLayout>-->
+
+			<LinearLayout style="@style/add_entity_group">
+
+				<CheckBox
+					android:id="@+id/comma"
+					style="@style/wrap"
+					android:text="@string/use_coma" />
+			</LinearLayout>
             <LinearLayout
                 style="@style/add_entity_group"
                 android:orientation="vertical">
@@ -75,28 +118,62 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            style="@style/new_title"
-            android:text="@string/others" />
 
-        <LinearLayout style="@style/new_group">
 
-            <LinearLayout style="@style/add_entity_group">
+		<TextView
+			style="@style/new_title"
+			android:text="@string/menu_item_notifications" />
 
-                <CheckBox
-                    android:id="@+id/animationEnable"
-                    style="@style/wrap"
-                    android:text="@string/anim" />
-            </LinearLayout>
+		<LinearLayout style="@style/new_group">
 
-            <LinearLayout style="@style/add_entity_group">
+			<LinearLayout style="@style/add_entity_group" android:orientation="vertical">
 
-                <CheckBox
-                    android:id="@+id/carChange"
-                    style="@style/wrap"
-                    android:text="@string/car_change" />
-            </LinearLayout>
-        </LinearLayout>
+				<CheckBox
+					android:id="@+id/vibrate" android:visibility="gone"
+					style="@style/wrap"
+					android:text="@string/nofity_vibrate" />
+				<CheckBox
+					android:id="@+id/sound"
+					style="@style/wrap"
+					android:text="@string/nofity_sound" />
+			</LinearLayout>
 
+			<LinearLayout style="@style/add_entity_group">
+
+				<TextView
+					style="@style/add_entity_label"
+					android:minWidth="95dp"
+					android:text="@string/nofity_time" />
+
+				<Spinner
+					android:id="@+id/time"
+					style="@style/wrap"
+					android:entries="@array/notify_time" />
+
+			</LinearLayout>
+		</LinearLayout>
+
+		<TextView
+			style="@style/new_title"
+			android:text="@string/others" />
+
+		<LinearLayout style="@style/new_group">
+
+			<LinearLayout style="@style/add_entity_group">
+
+				<CheckBox
+					android:id="@+id/animationEnable"
+					style="@style/wrap"
+					android:text="@string/anim" />
+			</LinearLayout>
+
+			<LinearLayout style="@style/add_entity_group">
+
+				<CheckBox
+					android:id="@+id/carChange"
+					style="@style/wrap"
+					android:text="@string/car_change" />
+			</LinearLayout>
+		</LinearLayout>
     </LinearLayout>
 </ScrollView>

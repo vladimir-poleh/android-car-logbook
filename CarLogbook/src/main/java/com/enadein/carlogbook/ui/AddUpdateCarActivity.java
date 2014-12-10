@@ -116,11 +116,17 @@ public class AddUpdateCarActivity extends SaveUpdateBaseActivity implements Date
 //            a.id(R.id.purchase).text(c.getString(
 //                    c.getColumnIndex(ProviderDescriptor.Car.Cols.PURCHASE)));
 
-            date = new Date(c.getLong(c.getColumnIndex(
-                    ProviderDescriptor.Car.Cols.PURCHASE)));
+			long datePurshase = c.getLong(c.getColumnIndex(
+					ProviderDescriptor.Car.Cols.PURCHASE));
+
+			if (datePurshase > 0) {
+				date = new Date(datePurshase);
+			} else {
+				date = new Date();
+			}
 
             a.id(R.id.open_mil).text(c.getString(
-                    c.getColumnIndex(ProviderDescriptor.Car.Cols.OPEN_MIL)));
+					c.getColumnIndex(ProviderDescriptor.Car.Cols.OPEN_MIL)));
             a.id(R.id.id_no).text(c.getString(
                     c.getColumnIndex(ProviderDescriptor.Car.Cols.ID_NO)));
             a.id(R.id.reg_num).text(c.getString(

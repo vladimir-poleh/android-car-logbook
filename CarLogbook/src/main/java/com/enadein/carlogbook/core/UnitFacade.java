@@ -39,6 +39,13 @@ public class UnitFacade {
 	public static final String SET_COMMA = "comma";
 	public static final String SET_CAR_SELECTION = "car_select";
 
+	public static final String SET_FRACT_FUEL = "fract_fuel";
+//	public static final String SET_FRACT_DIST = "fract_dist";
+	public static final String SET_FRACT_CURRENCY = "fract_currency";
+	public static final String SET_NOTIFY_TIME = "notify_time";
+	public static final String SET_NOTIFY_VIBRATE = "notify_vib";
+	public static final String SET_NOTIFY_SOUND = "notify_sound";
+
 	public static float animSize;
 
     public  String carName = "-";
@@ -46,6 +53,8 @@ public class UnitFacade {
 
     public long carId = -1;
 
+	public static int currencyFract = 3;
+	public static int fuelFract = 3;
 
 	public UnitFacade(Context ctx) {
 		this.ctx = ctx;
@@ -113,9 +122,21 @@ public class UnitFacade {
         }
 
 
+		invalidateAll();
+        notifyCarChanged();
+	}
+
+	public void invalidateAll() {
 		invalidateDateFormat();
 		invalidateFlags();
-        notifyCarChanged();
+
+		fuelFract =  Integer.valueOf(getSetting(SET_FRACT_FUEL, "3"));
+		currencyFract =  Integer.valueOf(getSetting(SET_FRACT_CURRENCY, "3"));
+		CommonUtils.setupDecimalFormat();
+	}
+
+	public void refreshNotifySystem(Context ctx) {
+		CommonUtils.validateDateNotifications(ctx);
 	}
 
 	private void loadConsumptionArrayType() {
@@ -225,7 +246,7 @@ public class UnitFacade {
             }
         }
 
-        return wrap ? currentText + "(" + value + ")" : currentText + value;
+        return wrap ? currentText + " (" + value + ")" : currentText + value;
     }
 
     public void setFuelValue(int fuelValue) {
@@ -280,6 +301,8 @@ public class UnitFacade {
 		String value = DBUtils.getSettValue(cr, key);
 		return value == null ? defaultValue : value;
 	}
+
+
 
 	public void invalidateDateFormat() {
 		String value = DBUtils.getSettValue(ctx.getContentResolver(), SET_DATE_FORMAT);

@@ -1,607 +1,630 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/add_entity_scroll">
-
-    <LinearLayout style="@style/add_entity_main">
-        <ProgressBar
-            android:id="@+id/progress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:indeterminate="true"/>
-        <!--Consumption-->
-        <TextView
-            style="@style/new_title"
-            android:text="@string/consumption" />
-
-        <LinearLayout style="@style/new_group">
-
-            <LinearLayout style="@style/add_entity_group">
-
-                <TextView
-                    android:id="@+id/avg100Label"
-                    style="@style/add_entity_label"
-                    android:text="@string/avg" />
-
-                <TextView
-                    android:id="@+id/avg100"
-                    android:textColor="@color/gal"
-                    style="@style/wrap" />
-            </LinearLayout>
-            <LinearLayout style="@style/add_entity_group">
-
-                <TextView
-                    android:id="@+id/lperkmLabel"
-                    style="@style/add_entity_label"
-                    android:text="@string/avg" />
-
-                <TextView
-                    android:id="@+id/lperkm"
-                    android:textColor="@color/gal"
-                    style="@style/wrap" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/add_entity_group">
-
-                <TextView
-                    style="@style/add_entity_label"
-                    android:id="@+id/kmperlLabel"
-                    android:text="@string/avg" />
-
-                <TextView
-                    android:id="@+id/kmperl"
-                    style="@style/wrap" />
-            </LinearLayout>
-
-        </LinearLayout>
-        <!--Fuel-->
-        <TextView
-            style="@style/new_title"
-            android:text="@string/unit_fuel" />
-
-
-        <LinearLayout style="@style/new_group">
-
-            <LinearLayout style="@style/add_entity_group">
-
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/total_fuel" />
-
-                <TextView
-                    android:id="@+id/totalFuel"
-                    style="@style/wrap"
-                    android:textColor="@color/gal" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/add_entity_group">
-
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/fillup_total" />
-
-                <TextView
-                    android:id="@+id/fillupCount"
-                    style="@style/wrap" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/add_entity_group">
-
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/fillupMin" />
-
-                <TextView
-                    android:id="@+id/fillupMin"
-                    style="@style/wrap"
-                    android:textColor="@color/gal" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/add_entity_group">
-
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/fillupMax" />
+<android.support.v4.widget.SwipeRefreshLayout
+	android:id="@+id/swipe_container"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<ScrollView
+		style="@style/add_entity_scroll">
+
+		<LinearLayout style="@style/add_entity_main">
+
+			<ProgressBar
+				android:id="@+id/progress"
+				style="?android:attr/progressBarStyleHorizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:indeterminate="true"
+				android:visibility="gone"/>
+			<!--Consumption-->
+			<TextView
+				style="@style/new_title"
+				android:text="@string/consumption"/>
+
+			<LinearLayout style="@style/new_group">
+
+				<LinearLayout style="@style/add_entity_group">
+
+					<TextView
+						android:id="@+id/avg100Label"
+						style="@style/add_entity_label"
+						android:text="@string/avg"/>
+
+					<TextView
+						android:id="@+id/avg100"
+						style="@style/wrap"
+						android:textColor="@color/gal"/>
+				</LinearLayout>
+
+				<LinearLayout style="@style/add_entity_group">
+
+					<TextView
+						android:id="@+id/lperkmLabel"
+						style="@style/add_entity_label"
+						android:text="@string/avg"/>
+
+					<TextView
+						android:id="@+id/lperkm"
+						style="@style/wrap"
+						android:textColor="@color/gal"/>
+				</LinearLayout>
+
+				<LinearLayout style="@style/add_entity_group">
+
+					<TextView
+						android:id="@+id/kmperlLabel"
+						style="@style/add_entity_label"
+						android:text="@string/avg"/>
+
+					<TextView
+						android:id="@+id/kmperl"
+						style="@style/wrap"/>
+				</LinearLayout>
+
+			</LinearLayout>
+			<!--Fuel-->
+			<TextView
+				style="@style/new_title"
+				android:text="@string/unit_fuel"/>
+
+
+			<LinearLayout style="@style/new_group">
+
+				<LinearLayout style="@style/add_entity_group">
+
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/total_fuel"/>
+
+					<TextView
+						android:id="@+id/totalFuel"
+						style="@style/wrap"
+						android:textColor="@color/gal"/>
+				</LinearLayout>
+
+				<LinearLayout style="@style/add_entity_group">
+
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/fillup_total"/>
+
+					<TextView
+						android:id="@+id/fillupCount"
+						style="@style/wrap"/>
+				</LinearLayout>
+
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/fillupMax"
-                    style="@style/wrap"
-                    android:textColor="@color/gal" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/fillupMin"/>
+
+					<TextView
+						android:id="@+id/fillupMin"
+						style="@style/wrap"
+						android:textColor="@color/gal"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/fillupAvg" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/fillupMax"/>
 
-                <TextView
-                    android:id="@+id/fillupAvg"
-                    style="@style/wrap"
-                    android:textColor="@color/gal" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/fillupMax"
+						style="@style/wrap"
+						android:textColor="@color/gal"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/fuel_volume_month" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/fillupAvg"/>
 
-                <TextView
-                    android:id="@+id/fuel_volume_month"
-                    style="@style/wrap"
-                    android:textColor="@color/gal" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/fillupAvg"
+						style="@style/wrap"
+						android:textColor="@color/gal"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/fuel_volume_last_month" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/fuel_volume_month"/>
 
-                <TextView
-                    android:id="@+id/fuel_volume_last_month"
-                    style="@style/wrap"
-                    android:textColor="@color/gal" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/fuel_volume_month"
+						style="@style/wrap"
+						android:textColor="@color/gal"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/fuel_volume_year" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/fuel_volume_last_month"/>
 
-                <TextView
-                    android:id="@+id/fuel_volume_year"
-                    style="@style/wrap"
-                    android:textColor="@color/gal" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/fuel_volume_last_month"
+						style="@style/wrap"
+						android:textColor="@color/gal"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/fuel_volume_last_year" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/fuel_volume_year"/>
 
-                <TextView
-                    android:id="@+id/fuel_volume_last_year"
-                    style="@style/wrap"
-                    android:textColor="@color/gal" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/fuel_volume_year"
+						style="@style/wrap"
+						android:textColor="@color/gal"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/min_days_fillups" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/fuel_volume_last_year"/>
 
-                <TextView
-                    android:id="@+id/min_days_fillups"
-                    style="@style/wrap" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/fuel_volume_last_year"
+						style="@style/wrap"
+						android:textColor="@color/gal"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/max_days_fillups" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/min_days_fillups"/>
 
-                <TextView
-                    android:id="@+id/max_days_fillups"
-                    style="@style/wrap" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/min_days_fillups"
+						style="@style/wrap"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/avg_days_fillups" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/max_days_fillups"/>
 
-                <TextView
-                    android:id="@+id/avg_days_fillups"
-                    style="@style/wrap" />
-            </LinearLayout>
-        </LinearLayout>
-        <!--DISTANCE-->
-        <TextView
-            style="@style/new_title"
-            android:text="@string/dist" />
+					<TextView
+						android:id="@+id/max_days_fillups"
+						style="@style/wrap"/>
+				</LinearLayout>
 
+				<LinearLayout style="@style/add_entity_group">
 
-        <LinearLayout style="@style/new_group">
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/avg_days_fillups"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/avg_days_fillups"
+						style="@style/wrap"/>
+				</LinearLayout>
+			</LinearLayout>
+			<!--DISTANCE-->
+			<TextView
+				style="@style/new_title"
+				android:text="@string/dist"/>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/total_dist" />
 
-                <TextView
-                    android:id="@+id/totalDist"
-                    style="@style/wrap" />
-            </LinearLayout>
+			<LinearLayout style="@style/new_group">
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/odometer_count" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/total_dist"/>
 
-                <TextView
-                    android:id="@+id/odometer_count"
-                    style="@style/wrap" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/totalDist"
+						style="@style/wrap"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/month_dist" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/odometer_count"/>
 
-                <TextView
-                    android:id="@+id/month_dist"
-                    style="@style/wrap" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/odometer_count"
+						style="@style/wrap"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/last_month_dist" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/month_dist"/>
 
-                <TextView
-                    android:id="@+id/last_month_dist"
-                    style="@style/wrap" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/month_dist"
+						style="@style/wrap"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/year_dist" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/last_month_dist"/>
 
-                <TextView
-                    android:id="@+id/year_dist"
-                    style="@style/wrap" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/last_month_dist"
+						style="@style/wrap"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/last_year_dist" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/year_dist"/>
 
-                <TextView
-                    android:id="@+id/last_year_dist"
-                    style="@style/wrap" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/year_dist"
+						style="@style/wrap"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/per_day_dist" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/last_year_dist"/>
 
-                <TextView
-                    android:id="@+id/per_day_dist"
-                    style="@style/wrap" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/last_year_dist"
+						style="@style/wrap"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/per_month_dist" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/per_day_dist"/>
 
-                <TextView
-                    android:id="@+id/per_month_dist"
-                    style="@style/wrap" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/per_day_dist"
+						style="@style/wrap"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/per_year_dist" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/per_month_dist"/>
 
-                <TextView
-                    android:id="@+id/per_year_dist"
-                    style="@style/wrap" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/per_month_dist"
+						style="@style/wrap"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/min_fillup_dist" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/per_year_dist"/>
 
-                <TextView
-                    android:id="@+id/min_fillup_dist"
-                    style="@style/wrap" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/per_year_dist"
+						style="@style/wrap"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/max_fillup_dist" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/min_fillup_dist"/>
 
-                <TextView
-                    android:id="@+id/max_fillup_dist"
-                    style="@style/wrap" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/min_fillup_dist"
+						style="@style/wrap"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/avg_fillup_dist" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/max_fillup_dist"/>
 
-                <TextView
-                    android:id="@+id/avg_fillup_dist"
-                    style="@style/wrap" />
-            </LinearLayout>
-        </LinearLayout>
-        <!--Cost-->
-        <TextView
-            style="@style/new_title"
-            android:text="@string/cost" />
+					<TextView
+						android:id="@+id/max_fillup_dist"
+						style="@style/wrap"/>
+				</LinearLayout>
 
-        <LinearLayout style="@style/new_group">
+				<LinearLayout style="@style/add_entity_group">
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/avg_fillup_dist"/>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_total" />
+					<TextView
+						android:id="@+id/avg_fillup_dist"
+						style="@style/wrap"/>
+				</LinearLayout>
+			</LinearLayout>
+			<!--Cost-->
+			<TextView
+				style="@style/new_title"
+				android:text="@string/cost"/>
 
-                <TextView
-                    android:id="@+id/cost_total"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+			<LinearLayout style="@style/new_group">
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_total_month" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_total"/>
 
-                <TextView
-                    android:id="@+id/cost_total_month"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/cost_total"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_total_last_month" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_total_month"/>
 
-                <TextView
-                    android:id="@+id/cost_total_last_month"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/cost_total_month"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_total_year" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_total_last_month"/>
 
-                <TextView
-                    android:id="@+id/cost_total_year"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/cost_total_last_month"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_total_last_year" />
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_total_year"/>
 
-                <TextView
-                    android:id="@+id/cost_total_last_year"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_total_year"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    android:id="@+id/cost_per1label"
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_per1" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_per1"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_total_last_year"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_total_last_year"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_price_min" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_price_min"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/cost_per1label"
+						style="@style/add_entity_label"
+						android:text="@string/cost_per1"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_per1"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_price_max" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_price_max"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/cost_fuel_per1label"
+						style="@style/add_entity_label"
+						android:text="@string/cost1fuelper1"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_fuel_per1"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_price_avg" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_price_avg"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_price_min"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_price_min"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_fillup_min" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_fillup_min"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_price_max"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_price_max"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_fillup_max" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_fillup_max"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_price_avg"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_price_avg"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_fillup_avg" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_fillup_avg"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_fillup_min"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_fillup_min"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_total_per_day" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_total_per_day"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_fillup_max"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_fillup_max"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_total_per_month" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_total_per_month"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_fillup_avg"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_fillup_avg"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_total_per_year" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_total_per_year"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_total_per_day"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_total_per_day"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_total_per_day_fuel" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_total_per_day_fuel"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_total_per_month"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_total_per_month"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_total_per_month_fuel" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_total_per_month_fuel"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_total_per_year"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_total_per_year"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_total_per_year_fuel" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_total_per_year_fuel"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_total_per_day_fuel"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_total_per_day_fuel"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_total_per_day_other" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_total_per_day_other"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_total_per_month_fuel"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_total_per_month_fuel"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_total_per_month_other" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_total_per_month_other"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_total_per_year_fuel"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<TextView
+						android:id="@+id/cost_total_per_year_fuel"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/cost_total_per_year_other" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <TextView
-                    android:id="@+id/cost_total_per_year_other"
-                    style="@style/wrap"
-                    android:textColor="@color/price" />
-            </LinearLayout>
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_total_per_day_other"/>
 
+					<TextView
+						android:id="@+id/cost_total_per_day_other"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
 
-        </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+				<LinearLayout style="@style/add_entity_group">
+
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_total_per_month_other"/>
+
+					<TextView
+						android:id="@+id/cost_total_per_month_other"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
+
+				<LinearLayout style="@style/add_entity_group">
+
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/cost_total_per_year_other"/>
+
+					<TextView
+						android:id="@+id/cost_total_per_year_other"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
+
+
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

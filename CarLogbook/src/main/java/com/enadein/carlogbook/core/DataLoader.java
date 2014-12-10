@@ -82,6 +82,7 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 				dashboard.setTotalPrice(DBUtils.getTotalPrice(carId, cr));
 				dashboard.setTotalFuelCount(DBUtils.getTotalFuel(carId, cr, 0, 0, false));
 				dashboard.setPricePer1(DBUtils.getPricePer1km(carId, cr, 0, 0));
+				dashboard.setPriceFuelPer1(DBUtils.getPriceFuelPer1km(carId, cr, 0, 0));
                 UnitFacade customUnit = new UnitFacade(getContext());
                 customUnit.setConsumptionValue(2);
 				dashboard.setFuelRateAvg(DBUtils.getAvgFuel(carId, cr, 0, 0, customUnit));
@@ -143,14 +144,20 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 					to = params.getLong(TO);
 				}
 
+
+
 				String[] logTypes = getContext().getResources().getStringArray(R.array.log_type);
 				ArrayList<ReportItem> reportItems = new ArrayList<ReportItem>();
                 long carId = DBUtils.getActiveCarId(cr);
+				double allCost = DBUtils.getTotalPrice(carId,cr, from, to, -1, null);
+
 				double fuelTotal = DBUtils.getTotalPrice(carId, cr, from, to, ProviderDescriptor.Log.Type.FUEL, null);
 
 				if (fuelTotal > 0.) {
 					ReportItem reportItem = new ReportItem();
-					reportItem.setName(getContext().getString(R.string.total_fuel_cost));
+					String p = CommonUtils.wrapPt(unitFacade,fuelTotal, allCost);
+
+					reportItem.setName(getContext().getString(R.string.total_fuel_cost) + p);
 					reportItem.setResId(R.drawable.fuel);
 					reportItem.setValue(fuelTotal);
 
@@ -160,10 +167,13 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 
 				for (int i = 1; i < logTypes.length; i++) {
 					double total = DBUtils.getTotalPrice(carId, cr, from, to, ProviderDescriptor.Log.Type.OTHER, new int[] {i});
+					String p = CommonUtils.wrapPt(unitFacade,total, allCost);
+
 
 					if (total > 0) {
 						ReportItem reportItem = new ReportItem();
-						reportItem.setName(logTypes[i]);
+
+						reportItem.setName(logTypes[i] + p);
 						reportItem.setResId(DataInfo.images.get(i));
 						reportItem.setValue(total);
 
@@ -180,7 +190,8 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 
                     if (total > 0) {
                         ReportItem reportItem = new ReportItem();
-                        reportItem.setName(name);
+						String p = CommonUtils.wrapPt(unitFacade,total, allCost);
+                        reportItem.setName(name + p);
                         reportItem.setResId(DataInfo.images.get(0));
                         reportItem.setValue(total);
 
@@ -197,7 +208,7 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 						}
 					});
 
-                    double allCost = DBUtils.getTotalPrice(carId,cr, from, to, -1, null);
+
                     ReportItem reportItem = new ReportItem();
                     reportItem.setName(getContext().getString(R.string.total_cost));
                     reportItem.setResId(R.drawable.coint);
@@ -211,17 +222,25 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 				break;
 			}
 			case LAST_EVENTS: {
+
+				long currentTime = System.currentTimeMillis();
+				String daysLb = getContext().getString(R.string.days);
 				ArrayList<ReportItem> reportItems = new ArrayList<ReportItem>();
 
 				String[] logTypes = getContext().getResources().getStringArray(R.array.log_type);
 
 				long date = DBUtils.getLastEventDate(cr, ProviderDescriptor.Log.Type.FUEL, -1);
 
+
 				if (date > 0) {
+					double dayPassed = DBUtils.calcDayPassedTrunk(date, currentTime);
+					String dS = DBUtils.formatDays(dayPassed, daysLb);
 					ReportItem reportItem = new ReportItem();
-					reportItem.setName(getContext().getString(R.string.total_fuel_cost));
+					reportItem.setName(getContext().getString(R.string.total_fuel_cost) + dS);
 					reportItem.setResId(R.drawable.fuel);
+
 					reportItem.setValue2(date);
+
 
 					reportItems.add(reportItem);
 				}
@@ -230,8 +249,11 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 					date = DBUtils.getLastEventDate(cr, ProviderDescriptor.Log.Type.OTHER, i);
 
 					if (date > 0) {
+						double dayPassed = DBUtils.calcDayPassedTrunk(date, currentTime);
+						String dS = DBUtils.formatDays(dayPassed, daysLb);
+
 						ReportItem reportItem = new ReportItem();
-						reportItem.setName(logTypes[i]);
+						reportItem.setName(logTypes[i] + dS);
 						reportItem.setResId(DataInfo.images.get(i));
 						reportItem.setValue2(date);
 
@@ -247,8 +269,10 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
                     date = DBUtils.getLastEventDate(cr, ProviderDescriptor.Log.Type.OTHER, 0, otherId);
 
                     if (date > 0) {
+						double dayPassed = DBUtils.calcDayPassedTrunk(date, currentTime);
+						String dS = DBUtils.formatDays(dayPassed, daysLb);
                         ReportItem reportItem = new ReportItem();
-                        reportItem.setName(name);
+                        reportItem.setName(name + dS);
                         reportItem.setResId(DataInfo.images.get(0));
                         reportItem.setValue2(date);
 
@@ -302,6 +326,7 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
                 xReport.per_year_dist = reportFacade.getAVGDistancePerYear(cr, carId);
                 xReport.cost_total = reportFacade.getTotalCost(cr, carId);
                 xReport.cost_per1 = reportFacade.getCostPer1Dist(cr, carId);
+                xReport.cost_fuel_per1 = DBUtils.getPriceFuelPer1km(carId, cr, 0, 0);
                 xReport.cost_total_month = reportFacade.getTotalCostThisMonth(cr, carId);
                 xReport.cost_total_last_month = reportFacade.getTotalCostLastMonth(cr, carId);
                 xReport.cost_total_year = reportFacade.getTotalCostThisYear(cr, carId);

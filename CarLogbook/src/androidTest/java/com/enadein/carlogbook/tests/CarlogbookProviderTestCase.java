@@ -222,10 +222,10 @@ public class CarlogbookProviderTestCase extends ProviderTestCase2<CarLogbookProv
         addTestDefaultCar(CAR, 1);
         addOtherLog(10, new Date().getTime(), 20., -1);
         setupFuelLogBasic(DAY);
-        int total = DBUtils.getTotalFuel(DBUtils.getActiveCarId(cr), cr, 0, 0, false);
-        Assert.assertEquals(102, total);
+        double total = DBUtils.getTotalFuel(DBUtils.getActiveCarId(cr), cr, 0, 0, false);
+        Assert.assertEquals(102.d, total);
         total = DBUtils.getTotalFuel(DBUtils.getActiveCarId(cr), cr, 0, 0, true);
-        Assert.assertEquals(52, total);
+        Assert.assertEquals(52.d, total);
     }
 
     private void setupFuelLogBasic(long dx) {

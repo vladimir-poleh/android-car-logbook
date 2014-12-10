@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 20
-        versionCode 17
-        versionName "1.5.1"
+        versionCode 18
+        versionName "1.6.0"
 
         testApplicationId "com.enadein.carlogbook.tests"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -16,11 +16,7 @@ android {
         testFunctionalTest true
     }
 
-    signingConfigs {
-        release {
 
-        }
-    }
 
 
     buildTypes {

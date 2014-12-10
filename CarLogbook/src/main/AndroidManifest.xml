@@ -4,7 +4,14 @@
     package="com.enadein.carlogbook" android:installLocation="auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-	<uses-permission android:name="com.android.vending.BILLING" />
+
+    <supports-screens
+        android:largeScreens="true"
+        android:xlargeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"/>
+
+    <uses-permission android:name="com.android.vending.BILLING" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 	<!--<uses-sdk-->
@@ -38,7 +45,9 @@
 			    android:value="com.enadein.carlogbook.CarLogbook" />
 	    </activity>
 
-	    <activity android:name="com.enadein.carlogbook.ui.GoogleBackupActivity" android:parentActivityName="com.enadein.carlogbook.CarLogbook">
+	    <activity android:name="com.enadein.carlogbook.ui.GoogleBackupActivity"
+				  android:configChanges="keyboardHidden|orientation|screenSize"
+				  android:parentActivityName="com.enadein.carlogbook.CarLogbook">
 		    <!-- Parent activity meta-data to support 4.0 and lower -->
 		    <meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
@@ -58,6 +67,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.enadein.carlogbook.CarLogbook" />
         </activity>
+
+		<activity android:name="com.enadein.carlogbook.ui.CreateReportActivity"
+				  android:configChanges="keyboardHidden|orientation|screenSize"
+				  android:parentActivityName="com.enadein.carlogbook.CarLogbook">
+			<!-- Parent activity meta-data to support 4.0 and lower -->
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="com.enadein.carlogbook.CarLogbook" />
+		</activity>
 
         <activity android:name="com.enadein.carlogbook.ui.AddUpdateLogActivity" android:parentActivityName="com.enadein.carlogbook.CarLogbook">
             <!-- Parent activity meta-data to support 4.0 and lower -->

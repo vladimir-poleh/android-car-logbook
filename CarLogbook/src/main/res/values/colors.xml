@@ -14,4 +14,11 @@
 
 	<color name="min">#FF50CDF5</color>
 	<color name="max">#ff007ea7</color>
+
+	<color name="progress1">#ff00ddff</color>
+	<color name="progress2">#ff99cc00</color>
+	<color name="progress3">#ffffbb33</color>
+	<color name="progress4">#ffff4444</color>
+
+
 </resources>

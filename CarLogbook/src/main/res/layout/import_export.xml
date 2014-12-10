@@ -27,6 +27,13 @@
                 style="@style/btn"
 				android:text="@string/export"/>
 
+			<Button
+				android:id="@+id/createRepBtn"
+				android:layout_width="match_parent"
+				style="@style/btn"
+				android:text="@string/create_report"/>
+
+
 		</LinearLayout>
 		<TextView
 			style="@style/new_title"

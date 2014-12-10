@@ -209,7 +209,7 @@ public class CarLogbookProvider extends ContentProvider {
 	}
 
 	public class DBOpenHelper extends SQLiteOpenHelper {
-		private static final int CURRENT_DB_VERSION = 5; //Production 4
+		private static final int CURRENT_DB_VERSION = 6; //Production 5
 		private static final String DB_NAME = "com_carlogbook_v2.db";
 
 //		private static final int CURRENT_DB_VERSION = 4; //test
@@ -249,6 +249,7 @@ public class CarLogbookProvider extends ContentProvider {
 			upgradeFrom2to3(db);
             upgradeFrom3to4(db);
             upgradeFrom4to5(db);
+			upgradeFrom5to6(db);
 		}
 
 		public void reset() {
@@ -276,6 +277,10 @@ public class CarLogbookProvider extends ContentProvider {
                         upgradeFrom4to5(db);
                         break;
                     }
+					case 5: {
+						upgradeFrom5to6(db);
+						break;
+					}
 				}
 			}
 		}
@@ -377,6 +382,10 @@ public class CarLogbookProvider extends ContentProvider {
             db.execSQL("ALTER TABLE car ADD FUEL_TYPE TEXT");
             db.execSQL("ALTER TABLE car ADD TYRE TEXT");
         }
+
+		private void upgradeFrom5to6(SQLiteDatabase db) {
+			db.execSQL("ALTER TABLE notify ADD REPEAT INTEGER DEFAULT 0");
+		}
 
 		private void dropAllTables(SQLiteDatabase db) {
 			db.execSQL("DROP VIEW IF EXISTS log_view");

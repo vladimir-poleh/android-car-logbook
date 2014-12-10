@@ -177,7 +177,8 @@
                     android:layout_width="130dp"/>
             </LinearLayout>
 
-            <LinearLayout style="@style/add_entity_group">
+            <LinearLayout style="@style/add_entity_group"
+						  android:orientation="vertical">
                 <TextView
                     style="@style/add_entity_label"
                     android:minWidth="95dp"
@@ -185,10 +186,11 @@
                 <EditText
                     android:id="@+id/id_no"
                     style="@style/add_entity_edit"
-                    android:layout_width="130dp"
+                    android:layout_width="match_parent"
                     android:maxLength="500" />
             </LinearLayout>
-            <LinearLayout style="@style/add_entity_group">
+            <LinearLayout style="@style/add_entity_group"
+						  android:orientation="vertical">
                 <TextView
                     style="@style/add_entity_label"
                     android:minWidth="95dp"
@@ -196,7 +198,7 @@
                 <EditText
                     android:id="@+id/reg_num"
                     style="@style/add_entity_edit"
-                    android:layout_width="130dp"
+                    android:layout_width="match_parent"
                     android:maxLength="250" />
             </LinearLayout>
 

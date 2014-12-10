@@ -63,6 +63,7 @@ public class GoogleBackupActivity extends BaseActivity implements GoogleApiClien
 
 	ProgressDialog progress;
 
+	private boolean cancel = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +148,7 @@ public class GoogleBackupActivity extends BaseActivity implements GoogleApiClien
 		@Override
 		public void connected() {
 			if (driveFileId != null) {
+				cancel = false;
 				DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient, driveFileId);
 				new UploadAsyncTask().execute(file);
 			}
@@ -163,6 +165,7 @@ public class GoogleBackupActivity extends BaseActivity implements GoogleApiClien
 		@Override
 		public void connected() {
 			if (driveFileId != null) {
+				cancel = false;
 				DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient, driveFileId);
 				new DownloadAsyncTask().execute(file);
 			}
@@ -243,6 +246,9 @@ public class GoogleBackupActivity extends BaseActivity implements GoogleApiClien
 			DriveId driveFileId = data.getParcelableExtra(
 					OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
 			state = new RestoreStateReady(driveFileId);
+		} else {
+			mGoogleApiClient.disconnect();
+			mGoogleApiClient = null;
 		}
 	}
 
@@ -281,10 +287,10 @@ public class GoogleBackupActivity extends BaseActivity implements GoogleApiClien
 			progress.dismiss();
 
 			if (!result) {
-				showMessage("Error while editing contents");
+				showMessage(getString(R.string.export_import_error));
 				return;
 			}
-			showMessage("Successfully edited contents");
+			showMessage(getString(R.string.export_ok));
 		}
 
 		@Override
@@ -328,6 +334,13 @@ public class GoogleBackupActivity extends BaseActivity implements GoogleApiClien
 		}
 
 		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+			cancel = true;
+			progress.dismiss();
+		}
+
+		@Override
 		protected Boolean doInBackground(DriveFile... args) {
 			DriveFile file = args[0];
 			try {
@@ -343,12 +356,18 @@ public class GoogleBackupActivity extends BaseActivity implements GoogleApiClien
 				FileUtils.copyStrem(is, out);
 				FileUtils.closeOut(out);
 
-				new XMLImportExportStrategy(GoogleBackupActivity.this).importData(localFileName, false);
-				FileUtils.deleteFile(localFileName);
+				if (!cancel) {
+					new XMLImportExportStrategy(GoogleBackupActivity.this).importData(localFileName, false);
+					FileUtils.deleteFile(localFileName);
+				}
+//				contentsResult.getContents().com;
 
-				com.google.android.gms.common.api.Status status = file.commitAndCloseContents(
-						mGoogleApiClient, contentsResult.getContents()).await();
-				return status.getStatus().isSuccess();
+//				file.discardContents(mGoogleApiClient, contentsResult.getContents()).await()
+//				com.google.android.gms.common.api.Status status = file.commitAndCloseContents(
+//						mGoogleApiClient, contentsResult.getContents()).await();
+//				return status.getStatus().isSuccess();
+				file.discardContents(mGoogleApiClient, contentsResult.getContents()).await();
+				return true;
 			} catch (IOException e) {
 				Log.e(TAG, "IOException while appending to the output stream", e);
 			}
@@ -358,13 +377,14 @@ public class GoogleBackupActivity extends BaseActivity implements GoogleApiClien
 
 		@Override
 		protected void onPostExecute(Boolean result) {
+			progress.dismiss();
+
 			if (!result) {
-				showMessage("Error while editing contents");
+				showMessage(getString(R.string.export_import_error));
 				return;
 			}
-			showMessage("Successfully edited contents");
+			showMessage(getString(R.string.import_ok));
 
-			progress.dismiss();
 		}
 	}
 

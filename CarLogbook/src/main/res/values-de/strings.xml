@@ -276,4 +276,18 @@
     <string name="info">Info</string>
 
 
+	<!--1.6.0-->
+	<string name="fract_fuel">Kraftstoff Nachkommastellen</string>
+	<string name="fract_currency">Kraftstoff Nachkommastellen</string>
+	<string name="repeat">Wiederholung</string>
+	<string name="cost1fuelper1">Spritkosten pro/1</string>
+	<string name="days">Tage:</string>
+	<string name="create_report">Bericht erstellen</string>
+	<string name="inc_info">Statistik</string>
+	<string name="inc_cost">Kosten</string>
+	<string name="inc_log">Logbuch</string>
+	<string name="select_error">Keine Auswahl</string>
+	<string name="nofity_time">Zeit</string>
+	<string name="nofity_vibrate">Vibrate</string>
+	<string name="nofity_sound">Klingen</string>
 </resources>

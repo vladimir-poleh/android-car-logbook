@@ -4,6 +4,7 @@ package com.enadein.carlogbook.ui;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import com.enadein.carlogbook.core.DataLoader;
 import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 
-public class DetailReportFragment  extends BaseFragment implements LoaderManager.LoaderCallbacks<DataInfo>{
+public class DetailReportFragment  extends BaseFragment implements LoaderManager.LoaderCallbacks<DataInfo>, SwipeRefreshLayout.OnRefreshListener {
     private TextView totalFuelValume;
     private TextView fillupCount;
     private TextView fillupMin;
@@ -32,6 +33,8 @@ public class DetailReportFragment  extends BaseFragment implements LoaderManager
     private TextView fuelVolumeLastYear;
     private AQuery aq ;
 
+	private SwipeRefreshLayout swipeLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,7 +45,7 @@ public class DetailReportFragment  extends BaseFragment implements LoaderManager
     @Override
     public void onResume() {
         super.onPause();
-        showProgress(true);
+//        showProgress(true);
         getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_DETAILED, null, this);
     }
 
@@ -65,10 +68,19 @@ public class DetailReportFragment  extends BaseFragment implements LoaderManager
         TextView per1Label = aq.id(R.id.cost_per1label).getTextView();
         unitFacade.appendDistUnit(per1Label, true);
 
+		TextView perfuel1Label = aq.id(R.id.cost_fuel_per1label).getTextView();
+		unitFacade.appendDistUnit(perfuel1Label, true);
+
         unitFacade.appendConsumUnit(aq.id(R.id.avg100Label).getTextView(), true, 0);
         unitFacade.appendConsumUnit(aq.id(R.id.lperkmLabel).getTextView(), true, 1);
         unitFacade.appendConsumUnit(aq.id(R.id.kmperlLabel).getTextView(), true, 2);
 
+		swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+		swipeLayout.setColorSchemeResources(R.color.progress1,
+				R.color.progress2,
+				R.color.progress3,
+				R.color.progress4);
+		swipeLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -79,6 +91,7 @@ public class DetailReportFragment  extends BaseFragment implements LoaderManager
 
     @Override
     public Loader<DataInfo> onCreateLoader(int i, Bundle bundle) {
+		swipeLayout.setRefreshing(true);
         return new DataLoader(getActivity(), DataLoader.DETAILED, getMediator().getUnitFacade());
     }
 
@@ -109,24 +122,24 @@ public class DetailReportFragment  extends BaseFragment implements LoaderManager
 
         //DIST
         unitFacade.appendDistUnit(aq.id(R.id.totalDist)
-                .text(CommonUtils.formatFuel(x.totalDist, unitFacade)).getTextView(), false);
+                .text(CommonUtils.formatDistance(x.totalDist)).getTextView(), false);
         unitFacade.appendDistUnit(aq.id(R.id.odometer_count)
-                .text(CommonUtils.formatFuel(x.odometer_count, unitFacade)).getTextView(), false);
+                .text(CommonUtils.formatDistance(x.odometer_count)).getTextView(), false);
         unitFacade.appendDistUnit(aq.id(R.id.month_dist)
-                .text(CommonUtils.formatFuel(x.month_dist, unitFacade)).getTextView(), false);
+                .text(CommonUtils.formatDistance(x.month_dist)).getTextView(), false);
         unitFacade.appendDistUnit(aq.id(R.id.last_month_dist)
-                .text(CommonUtils.formatFuel(x.last_month_dist, unitFacade)).getTextView(), false);
+                .text(CommonUtils.formatDistance(x.last_month_dist)).getTextView(), false);
         unitFacade.appendDistUnit(aq.id(R.id.year_dist)
-                .text(CommonUtils.formatFuel(x.year_dist, unitFacade)).getTextView(), false);
+                .text(CommonUtils.formatDistance(x.year_dist)).getTextView(), false);
         unitFacade.appendDistUnit(aq.id(R.id.last_year_dist)
-                .text(CommonUtils.formatFuel(x.last_year_dist,unitFacade)).getTextView(), false);
+                .text(CommonUtils.formatDistance(x.last_year_dist)).getTextView(), false);
         unitFacade.appendDistUnit(aq.id(R.id.per_day_dist)
-                .text(CommonUtils.formatFuel(x.per_day_dist, unitFacade)).getTextView(), false);
+                .text(CommonUtils.formatDistance(x.per_day_dist)).getTextView(), false);
         unitFacade.appendDistUnit(aq.id(R.id.per_month_dist)
-                .text(CommonUtils.formatFuel(x.per_month_dist, unitFacade)).getTextView(), false);
+                .text(CommonUtils.formatDistance(x.per_month_dist)).getTextView(), false);
         unitFacade.appendDistUnit(aq.id(R.id.per_year_dist)
-                .text(CommonUtils.formatFuel(x.per_year_dist, unitFacade)).getTextView(), false);
-
+                .text(CommonUtils.formatDistance(x.per_year_dist)).getTextView(), false);
+///
         unitFacade.appendCurrency(aq.id(R.id.cost_total)
                 .text(CommonUtils.formatPriceNew(x.cost_total, unitFacade)).getTextView(), false);
         unitFacade.appendCurrency(aq.id(R.id.cost_total_month)
@@ -171,34 +184,43 @@ public class DetailReportFragment  extends BaseFragment implements LoaderManager
         unitFacade.appendCurrency(aq.id(R.id.cost_per1)
                 .text(CommonUtils.formatPriceNew(x.cost_per1, unitFacade)).getTextView(), false);
 
+		unitFacade.appendCurrency(aq.id(R.id.cost_fuel_per1)
+				.text(CommonUtils.formatPriceNew(x.cost_fuel_per1, unitFacade)).getTextView(), false);
+
         //consum
         unitFacade.appendFuelUnit(aq.id(R.id.avg100).text(CommonUtils.formatFuel(x.avg100, unitFacade)).getTextView(), false);
         unitFacade.appendFuelUnit(aq.id(R.id.lperkm).text(CommonUtils.formatFuel(x.avglperkm, unitFacade)).getTextView(), false);
-        unitFacade.appendDistUnit(aq.id(R.id.kmperl).text(CommonUtils.formatFuel(x.avgkmperl, unitFacade)).getTextView(), false);
+        unitFacade.appendDistUnit(aq.id(R.id.kmperl).text(CommonUtils.formatDistance(x.avgkmperl)).getTextView(), false);
 
         //others
         unitFacade.appendDistUnit(aq.id(R.id.min_fillup_dist)
-                .text(CommonUtils.formatFuel(x.min_fillup_dist, unitFacade)).getTextView(), false);
+                .text(CommonUtils.formatDistance(x.min_fillup_dist)).getTextView(), false);
         unitFacade.appendDistUnit(aq.id(R.id.max_fillup_dist)
-                .text(CommonUtils.formatFuel(x.max_fillup_dist, unitFacade)).getTextView(), false);
+                .text(CommonUtils.formatDistance(x.max_fillup_dist)).getTextView(), false);
         unitFacade.appendDistUnit(aq.id(R.id.avg_fillup_dist)
-                .text(CommonUtils.formatFuel(x.avg_fillup_dist, unitFacade)).getTextView(), false);
+                .text(CommonUtils.formatDistance(x.avg_fillup_dist)).getTextView(), false);
 
         aq.id(R.id.min_days_fillups)
-                .text(CommonUtils.formatPriceNew(x.min_days_fillups, unitFacade));
+                .text(CommonUtils.formatDistance(x.min_days_fillups));
         aq.id(R.id.max_days_fillups)
-                .text(CommonUtils.formatPriceNew(x.max_days_fillups, unitFacade));
+                .text(CommonUtils.formatDistance(x.max_days_fillups));
 
 
 
         aq.id(R.id.avg_days_fillups)
-                .text(CommonUtils.formatPriceNew(x.avg_days_fillups, unitFacade));
+                .text(CommonUtils.formatDistance(x.avg_days_fillups));
 
-        showProgress(false);
+//        showProgress(false);
+		swipeLayout.setRefreshing(false);
     }
 
     @Override
     public void onLoaderReset(Loader<DataInfo> dataInfoLoader) {
 
     }
+
+	@Override
+	public void onRefresh() {
+		getLoaderManager().restartLoader(CarLogbook.LoaderDesc.REP_DETAILED, null, this);
+	}
 }
