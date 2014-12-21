@@ -17,6 +17,7 @@
 */
 package com.enadein.carlogbook.core;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
@@ -66,11 +67,11 @@ public class CarLogbookMediator extends AppMediator {
 	private boolean drawerOpenned;
 	private BillingProcessor bp;
 	private PurchasedListener purchasedListener = null;
-
+	private CarChangedListener carChangedListener = null;
 
 	public CarLogbookMediator(ActionBarActivity activity) {
 		super(activity);
-
+		carChangedListener = null;
 	}
 
 	public CarlogbookApplication getApplication() {
@@ -314,4 +315,28 @@ public class CarLogbookMediator extends AppMediator {
         Intent intent = new Intent(activity, ReportCalculationService.class);
         activity.startService(intent);
     }
+
+	public void notifyCarChanged(long id) {
+		if (carChangedListener != null) {
+			carChangedListener.onCarChanged(id);
+		}
+	}
+
+	public void hideCarSelection() {
+		carChangedListener = null;
+		if (activity instanceof BaseActivity) {
+			((BaseActivity)activity).hideCarSelection();
+		}
+	}
+
+	public void clearCarSelection() {
+		carChangedListener = null;
+	}
+
+	public void showCarSelection(CarChangedListener carChangedListener) {
+		this.carChangedListener = carChangedListener;
+		if (activity instanceof BaseActivity) {
+			((BaseActivity)activity).loadCarList();
+		}
+	}
 }

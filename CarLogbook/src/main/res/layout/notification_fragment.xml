@@ -1,27 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/list_main">
+<RelativeLayout
+	style="@style/list_main"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/no_items"
-        android:visibility="gone"
-        style="@style/add_entity_main">
+	<LinearLayout
+		style="@style/full"
+		android:orientation="vertical">
 
-        <LinearLayout
-            style="@style/new_group">
+		<LinearLayout
+			android:id="@+id/no_items"
+			style="@style/add_entity_main"
+			android:visibility="gone">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/no_notify"/>
-        </LinearLayout>
-    </LinearLayout>
+			<android.support.v7.widget.CardView
+				style="@style/card"
+				app:cardUseCompatPadding="true">
 
-	<ListView
-		android:id="@+id/list"
-		style="@style/newList"/>
+				<LinearLayout
+					style="@style/new_group">
 
-</LinearLayout>
+					<TextView
+						android:id="@+id/textView"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:text="@string/no_notify"/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
+		</LinearLayout>
+
+		<ListView
+			android:id="@+id/list"
+			style="@style/newList"
+			android:clipToPadding="false"
+			android:paddingBottom="100dp"/>
+	</LinearLayout>
+
+	<include layout="@layout/add_fb"/>
+</RelativeLayout>

@@ -49,7 +49,7 @@ public class ImportActivity extends BaseActivity implements LoaderManager.Loader
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.import_lw);
+
 		setSubTitle(getString(R.string.imp));
 
 		list = (ListView) findViewById(R.id.list);
@@ -75,6 +75,11 @@ public class ImportActivity extends BaseActivity implements LoaderManager.Loader
         //TODO need to move into strings
         Toast.makeText(this, "Dir: " +
                 FileUtils.getBackupDirectory().getAbsolutePath(), Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void setContent() {
+		setContentView(R.layout.import_lw);
 	}
 
 	public void onDialogEvent(int requestCode, int responseCode, Bundle params) {

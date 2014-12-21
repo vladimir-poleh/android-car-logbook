@@ -8,9 +8,9 @@
 	<string name="delete">Delete</string>
 	<string name="confirm">Confirmation</string>
 	<string name="confirm_delete">Are you sure to delete?</string>
-	<string name="yes">Yes</string>
-	<string name="no">No</string>
-	<string name="ok">Ok</string>
+	<string name="yes">YES</string>
+	<string name="no">NO</string>
+	<string name="ok">OK</string>
 	<string name="date">Date</string>
 	<string name="odometer_unit">Odometer Unit</string>
 	<string name="comments">Comments</string>
@@ -292,6 +292,17 @@
 	<string name="nofity_vibrate">Vibrate</string>
 	<string name="nofity_sound">Sound</string>
 
+	<!--2.0.0-->
+	<string name="navigation_drawer_open">Open navigation drawer</string>
+	<string name="navigation_drawer_close">Close navigation drawer</string>
+
+	<string name="menu_dashboard">Dashboard</string>
+	<string name="menu_by_type">By type</string>
+	<string name="menu_fuel_rate">Fuel rate</string>
+	<string name="menu_last_events">Last events</string>
+	<string name="menu_detail">Detail</string>
+
+	<string name="reset">Reset</string>
 
 </resources>
 

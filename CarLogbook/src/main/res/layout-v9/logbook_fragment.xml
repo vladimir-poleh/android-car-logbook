@@ -1,0 +1,76 @@
+<RelativeLayout
+	style="@style/list_main"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:fab="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:context="com.enadein.carlogbook.ui.LogbookFragment">
+
+	<LinearLayout
+		style="@style/full"
+		android:orientation="vertical">
+
+		<LinearLayout
+			android:id="@+id/no_items"
+			style="@style/add_entity_main"
+			android:visibility="gone">
+
+			<android.support.v7.widget.CardView
+				style="@style/card">
+
+				<LinearLayout
+					style="@style/new_group">
+
+					<TextView
+						android:id="@+id/textView"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:text="@string/no_logs"/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
+		</LinearLayout>
+
+		<ListView
+			android:id="@+id/list"
+			android:fadingEdge="none"
+			android:clipToPadding="false"
+			android:paddingBottom="100dp"
+			style="@style/newList"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentBottom="true"
+		android:orientation="vertical"
+		android:layout_alignParentEnd="true"
+		android:layout_height="wrap_content">
+
+		<LinearLayout
+			android:id="@+id/add_group"
+			android:visibility="gone"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+			<com.getbase.floatingactionbutton.FloatingActionButton
+				android:id="@+id/add_fuel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				fab:fab_colorNormal="@color/sec_500"
+				fab:fab_colorPressed="@color/sec_600"
+				fab:fab_icon="@drawable/add_fuel_log"/>
+
+			<com.getbase.floatingactionbutton.FloatingActionButton
+				android:id="@+id/add_other"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				fab:fab_colorNormal="@color/rd_500"
+				fab:fab_colorPressed="@color/rd_500"
+				fab:fab_icon="@drawable/add_other"/>
+		</LinearLayout>
+			<include layout="@layout/add_fb"/>
+
+	</LinearLayout>
+	<!--<include layout="@layout/add_log_fb"/>-->
+</RelativeLayout>

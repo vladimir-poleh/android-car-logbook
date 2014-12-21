@@ -25,6 +25,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -34,12 +35,14 @@ import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.adapter.FuelRateAdapter;
 import com.enadein.carlogbook.bean.DataInfo;
 import com.enadein.carlogbook.core.BaseFragment;
+import com.enadein.carlogbook.core.BaseReportFragment;
+import com.enadein.carlogbook.core.CarChangedListener;
 import com.enadein.carlogbook.core.DataLoader;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
-public class FuelRateFragment extends BaseFragment implements
-		LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener {
+public class FuelRateFragment extends BaseReportFragment implements
+		LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, CarChangedListener {
 
 	private FuelRateAdapter adapter;
 	private SwipeRefreshLayout swipeLayout;
@@ -74,8 +77,9 @@ public class FuelRateFragment extends BaseFragment implements
 //				null, this);
 
 //        showProgress(true);
-        getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_CALC_FUEL_RATE, null, new LoaderCalculate());
+        getLoaderManager().restartLoader(CarLogbook.LoaderDesc.REP_CALC_FUEL_RATE, null, new LoaderCalculate());
 //		swipeLayout.setRefreshing(true);
+		getMediator().showCarSelection(this);
 
 	}
 
@@ -84,11 +88,27 @@ public class FuelRateFragment extends BaseFragment implements
 		getLoaderManager().restartLoader(CarLogbook.LoaderDesc.REP_CALC_FUEL_RATE, null, new LoaderCalculate());
 	}
 
+	@Override
+	public void selectMenuItem(Menu menu) {
+		menu.findItem(R.id.menu_fuel_rate).setIcon(R.drawable.stat);
+	}
+
+	@Override
+	public void onCarChanged(long id) {
+		getLoaderManager().restartLoader(CarLogbook.LoaderDesc.REP_CALC_FUEL_RATE, null, new LoaderCalculate());
+	}
+
 	private class LoaderCalculate implements LoaderManager.LoaderCallbacks<DataInfo> {
 
         @Override
         public Loader<DataInfo> onCreateLoader(int id, Bundle bundle) {
-			swipeLayout.setRefreshing(true);
+//			swipeLayout.setRefreshing(true);
+			swipeLayout.post(new Runnable() {
+				@Override
+				public void run() {
+					swipeLayout.setRefreshing(true);
+				}
+			});
              return new DataLoader(getActivity(), DataLoader.CALC_RATE, null, getMediator().getUnitFacade());
         }
 

@@ -3,7 +3,8 @@
 <LinearLayout
 	style="@style/full"
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical">
+	android:orientation="vertical"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<LinearLayout
 		android:paddingTop="0dp"
@@ -12,6 +13,10 @@
 			style="@style/new_title"
 			android:layout_marginTop="0dp"
 			android:text="@string/device"/>
+
+		<android.support.v7.widget.CardView
+			app:cardUseCompatPadding="true"
+			style="@style/card">
 		<LinearLayout
 			style="@style/new_group">
 
@@ -35,9 +40,14 @@
 
 
 		</LinearLayout>
+		</android.support.v7.widget.CardView>
 		<TextView
 			style="@style/new_title"
 			android:text="@string/cloud"/>
+
+		<android.support.v7.widget.CardView
+			app:cardUseCompatPadding="true"
+			style="@style/card">
 		<LinearLayout
 			style="@style/new_group">
 
@@ -47,5 +57,6 @@
                 android:layout_width="match_parent"
 				android:text="@string/google_backup"/>
 		</LinearLayout>
+		</android.support.v7.widget.CardView>
 	</LinearLayout>
 </LinearLayout>

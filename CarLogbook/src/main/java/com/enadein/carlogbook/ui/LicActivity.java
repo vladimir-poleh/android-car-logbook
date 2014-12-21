@@ -29,7 +29,7 @@ public class LicActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.lic);
+
 		setSubTitle(getString(R.string.license_title));
 
 		WebView wv = (WebView) findViewById(R.id.webview);
@@ -38,6 +38,11 @@ public class LicActivity extends BaseActivity {
 		wv.getSettings().setUseWideViewPort(true);
 		wv.loadUrl("file:///android_asset/lic.html");
 
+	}
+
+	@Override
+	public void setContent() {
+		setContentView(R.layout.lic);
 	}
 
 	public void setSubTitle(String subTitle) {

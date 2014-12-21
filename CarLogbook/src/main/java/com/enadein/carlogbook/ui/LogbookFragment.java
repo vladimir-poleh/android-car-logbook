@@ -18,6 +18,8 @@
 package com.enadein.carlogbook.ui;
 
 import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -27,18 +29,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.Spinner;
 
 import com.enadein.carlogbook.CarLogbook;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.adapter.LogAdapter;
 import com.enadein.carlogbook.core.BaseFragment;
-import com.enadein.carlogbook.core.MenuEnabler;
+import com.enadein.carlogbook.core.CarChangedListener;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 
 public class LogbookFragment extends BaseFragment  implements
-		LoaderManager.LoaderCallbacks<Cursor> {
+		LoaderManager.LoaderCallbacks<Cursor>,CarChangedListener {
 	private LogAdapter adapter;
 
 	@Override
@@ -60,19 +65,76 @@ public class LogbookFragment extends BaseFragment  implements
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 				int type = DBUtils.getLogTypeById(getActivity().getContentResolver(), id);
+				hideMultiAction();
 				getMediator().showModifyLog(type, id);
 			}
 		});
 
 
+		final View floatingAdd = view.findViewById(R.id.add);
+
+		if (floatingAdd != null) {
+			floatingAdd.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					View groupView = getView().findViewById(R.id.add_group);
+					if (groupView.getVisibility() == View.GONE) {
+						groupView.setVisibility(View.VISIBLE);
+					} else {
+						groupView.setVisibility(View.GONE);
+					}
+				}
+			});
+			view.findViewById(R.id.add_fuel).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					getMediator().showAddFuelLog();
+					hideMultiAction();
+				}
+			});
+
+			view.findViewById(R.id.add_other).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					getMediator().showAddLog();
+					hideMultiAction();
+				}
+			});
+		} else {
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			view.findViewById(R.id.add_fuel).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					getMediator().showAddFuelLog();
+					hideMultiAction();
+				}
+			});
+
+			view.findViewById(R.id.add_other).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					getMediator().showAddLog();
+					hideMultiAction();
+				}
+			});
+		}
+
 	}
 
-    @Override
+	private void hideMultiAction() {
+		if (getView().findViewById(R.id.add) == null) {
+			FloatingActionsMenu fam = (FloatingActionsMenu) getView().findViewById(R.id.multiple_actions);
+			fam.collapse();
+		} else {
+			getView().findViewById(R.id.add_group).setVisibility(View.GONE);
+		}
+	}
+
+	@Override
     public void onResume() {
         super.onResume();
 
-
-
+		getMediator().showCarSelection(this);
         getLoaderManager().restartLoader(CarLogbook.LoaderDesc.LOG_ID, null, this);
     }
 
@@ -81,14 +143,17 @@ public class LogbookFragment extends BaseFragment  implements
 		return getString(R.string.menu_item_log);
 	}
 
-	@Override
-	public MenuEnabler getMenuEnabler() {
-		MenuEnabler menuEnabler = new MenuEnabler();
-		menuEnabler.setAddLog(true);
-		menuEnabler.setAddFuelLog(true);
-
-		return menuEnabler;
-	}
+//	@Override
+//	public MenuEnabler getMenuEnabler() {
+//		MenuEnabler menuEnabler = new MenuEnabler();
+//
+//		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+//			menuEnabler.setAddLog(true);
+//			menuEnabler.setAddFuelLog(true);
+//		}
+//
+//		return menuEnabler;
+//	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -108,5 +173,10 @@ public class LogbookFragment extends BaseFragment  implements
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		adapter.swapCursor(null);
+	}
+
+	@Override
+	public void onCarChanged(long id) {
+		getLoaderManager().restartLoader(CarLogbook.LoaderDesc.LOG_ID, null, this);
 	}
 }

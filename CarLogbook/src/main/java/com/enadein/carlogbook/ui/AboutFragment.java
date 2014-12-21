@@ -20,8 +20,12 @@ package com.enadein.carlogbook.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -29,7 +33,6 @@ import android.widget.TextView;
 import com.enadein.carlogbook.CarLogbook;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.BaseFragment;
-import com.enadein.carlogbook.core.MenuEnabler;
 import com.enadein.carlogbook.core.PurchasedListener;
 
 public class AboutFragment extends BaseFragment implements PurchasedListener {
@@ -119,14 +122,6 @@ public class AboutFragment extends BaseFragment implements PurchasedListener {
 		return getString(R.string.menu_item_about);
 	}
 
-	@Override
-	public MenuEnabler getMenuEnabler() {
-		MenuEnabler menuEnabler = new MenuEnabler();
-		menuEnabler.setShare(true);
-
-		return menuEnabler;
-	}
-
 	private void openUrl(String url) {
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setData(Uri.parse(url));
@@ -150,6 +145,28 @@ public class AboutFragment extends BaseFragment implements PurchasedListener {
 	@Override
 	public void onProductPurchased(String productId) {
 		//getMediator().showAlert(getString(R.string.thanks));
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+		inflater.inflate(R.menu.share, menu);
+
+		android.view.MenuItem shareItem = menu.findItem(R.id.action_share);
+		ShareActionProvider shareActionProvider = (ShareActionProvider)
+				MenuItemCompat.getActionProvider(shareItem);
+		shareActionProvider.setShareIntent(getTextShareIntent());
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	private Intent getTextShareIntent() {
+		Intent intent = new Intent(Intent.ACTION_SEND);
+
+		intent.setType("text/plain");
+		intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_title));
+		intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));
+
+		return intent;
 	}
 
 	@Override

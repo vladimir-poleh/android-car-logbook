@@ -1,224 +1,283 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/add_entity_scroll">
+<ScrollView
+	style="@style/add_entity_scroll"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        style="@style/full"
-        android:orientation="vertical">
+	<LinearLayout
+		style="@style/full"
+		android:orientation="vertical">
 
-        <LinearLayout
-            style="@style/add_entity_group2"
-            android:orientation="vertical">
+		<LinearLayout
+			style="@style/add_entity_group2"
+			android:orientation="vertical">
 
-            <LinearLayout style="@style/new_group">
+			<android.support.v7.widget.CardView
+				style="@style/card"
+				app:cardUseCompatPadding="true">
 
-                <TextView
-                    style="@style/about_label"
-                    android:text="@string/app_name" />
+				<LinearLayout style="@style/new_group">
 
-                <TextView android:id="@+id/ver"
-                    style="@style/about_value"
-                    android:text="@string/app_ver" />
-            </LinearLayout>
-        </LinearLayout>
+					<TextView
+						style="@style/about_label"
+						android:text="@string/app_name"/>
 
-        <LinearLayout
-            style="@style/add_entity_group2"
-            android:orientation="vertical">
+					<TextView
+						android:id="@+id/ver"
+						style="@style/about_value"
+						android:text="@string/app_ver"/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
+		</LinearLayout>
 
-            <LinearLayout style="@style/new_group">
+		<LinearLayout
+			style="@style/add_entity_group2"
+			android:orientation="vertical">
 
-                <TextView
-                    style="@style/about_label"
-                    android:text="@string/author" />
+			<android.support.v7.widget.CardView
+				style="@style/card"
+				app:cardUseCompatPadding="true">
 
-                <TextView
-                    style="@style/about_value"
-                    android:text="@string/author_value" />
-            </LinearLayout>
-        </LinearLayout>
+				<LinearLayout style="@style/new_group">
 
-        <LinearLayout
-            style="@style/add_entity_group2"
-            android:orientation="vertical">
+					<TextView
+						style="@style/about_label"
+						android:text="@string/author"/>
 
-            <TextView
-                style="@style/new_title"
-                android:text="@string/feedback_label" />
-        </LinearLayout>
+					<TextView
+						style="@style/about_value"
+						android:text="@string/author_value"/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
+		</LinearLayout>
 
-        <LinearLayout style="@style/add_entity_group2">
+		<LinearLayout
+			style="@style/add_entity_group2"
+			android:orientation="vertical">
 
-            <LinearLayout style="@style/new_group">
+			<TextView
+				style="@style/new_title"
+				android:text="@string/feedback_label"/>
+		</LinearLayout>
 
-                <TextView
-                    android:id="@+id/link_ask"
-                    style="@style/about_value_link"
-                    android:text="@string/feedback_ask" />
+		<LinearLayout style="@style/add_entity_group2">
 
-                <TextView
-                    android:id="@+id/link_provide"
-                    style="@style/about_value_link"
-                    android:text="@string/feedback_provide" />
+			<android.support.v7.widget.CardView
+				style="@style/card"
+				app:cardUseCompatPadding="true">
 
-                <TextView
-                    android:id="@+id/link_rate"
-                    style="@style/about_value_link"
-                    android:text="@string/feedback_rate" />
-            </LinearLayout>
-        </LinearLayout>
+				<LinearLayout style="@style/new_group">
 
-        <LinearLayout
-            style="@style/add_entity_group2"
-            android:orientation="vertical">
+					<TextView
+						android:id="@+id/link_ask"
+						style="@style/about_value_link"
+						android:text="@string/feedback_ask"/>
 
-            <LinearLayout style="@style/new_group">
+					<TextView
+						android:id="@+id/link_provide"
+						style="@style/about_value_link"
+						android:text="@string/feedback_provide"/>
 
-                <TextView
-                    style="@style/about_label"
-                    android:text="@string/donate" />
+					<TextView
+						android:id="@+id/link_rate"
+						style="@style/about_value_link"
+						android:text="@string/feedback_rate"/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
+		</LinearLayout>
 
-                <LinearLayout
-                    style="@style/wrap"
-                    android:layout_gravity="center_horizontal"
-                    android:orientation="horizontal"
-                    android:padding="6dp">
+		<LinearLayout
+			style="@style/add_entity_group2"
+			android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/don1"
-                        style="@style/btn"
-                        android:text="$1" />
+			<android.support.v7.widget.CardView
+				style="@style/card"
+				app:cardUseCompatPadding="true">
 
-                    <Button
-                        android:id="@+id/don2"
-                        style="@style/btn"
-                        android:text="$3" />
+				<LinearLayout style="@style/new_group">
 
-                    <Button
-                        android:id="@+id/don3"
-                        style="@style/btn"
-                        android:text="$5" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
+					<TextView
+						style="@style/about_label"
+						android:text="@string/donate"/>
 
-        <LinearLayout
-            style="@style/add_entity_group2"
-            android:orientation="vertical">
+					<LinearLayout
+						style="@style/wrap"
+						android:layout_gravity="center_horizontal"
+						android:orientation="horizontal"
+						android:padding="6dp">
 
-            <TextView
-                style="@style/new_title"
-                android:text="@string/translate" />
-        </LinearLayout>
+						<Button
+							android:id="@+id/don1"
+							style="@style/btn"
+							android:text="$1"/>
 
-        <LinearLayout
-            style="@style/add_entity_group2"
-            android:orientation="vertical">
+						<Button
+							android:id="@+id/don2"
+							style="@style/btn"
+							android:text="$3"/>
 
-            <LinearLayout style="@style/new_group">
+						<Button
+							android:id="@+id/don3"
+							style="@style/btn"
+							android:text="$5"/>
+					</LinearLayout>
 
-                <TextView
-                    style="@style/about_label"
-                    android:text="German" />
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
+		</LinearLayout>
 
-                <TextView
-                    style="@style/about_value"
-                    android:text="Korbinian Probst/KobiP" />
-            </LinearLayout>
+		<LinearLayout
+			style="@style/add_entity_group2"
+			android:orientation="vertical">
 
-            <LinearLayout style="@style/new_group">
+			<TextView
+				style="@style/new_title"
+				android:text="@string/translate"/>
+		</LinearLayout>
 
-                <TextView
-                    style="@style/about_label"
-                    android:text="Czech" />
+		<LinearLayout
+			style="@style/add_entity_group2"
+			android:orientation="vertical">
 
-                <TextView
-                    style="@style/about_value"
-                    android:text="Lukáš Měsíček" />
-            </LinearLayout>
+			<android.support.v7.widget.CardView
+				style="@style/card"
+				app:cardUseCompatPadding="true">
 
-            <LinearLayout style="@style/new_group">
+				<LinearLayout style="@style/new_group">
 
-                <TextView
-                    style="@style/about_label"
-                    android:text="Spanish (Español)" />
+					<TextView
+						style="@style/about_label"
+						android:text="German"/>
 
-                <TextView
-                    style="@style/about_value"
-                    android:text="Braulio Sánchez/Catlish" />
-            </LinearLayout>
+					<TextView
+						style="@style/about_value"
+						android:text="Korbinian Probst/KobiP"/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
 
-            <LinearLayout style="@style/new_group">
+			<android.support.v7.widget.CardView
+				style="@style/card"
+				app:cardUseCompatPadding="true">
 
-                <TextView
-                    style="@style/about_label"
-                    android:text="Portuguese" />
+				<LinearLayout style="@style/new_group">
 
-                <TextView
-                    style="@style/about_value"
-                    android:text="Marco Pinto" />
-            </LinearLayout>
+					<TextView
+						style="@style/about_label"
+						android:text="Czech"/>
 
-        </LinearLayout>
+					<TextView
+						style="@style/about_value"
+						android:text="Lukáš Měsíček"/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
 
-        <LinearLayout
-            style="@style/add_entity_group2"
-            android:orientation="vertical">
+			<android.support.v7.widget.CardView
+				style="@style/card"
+				app:cardUseCompatPadding="true">
 
-            <TextView
-                style="@style/new_title"
-                android:text="@string/others" />
-        </LinearLayout>
+				<LinearLayout style="@style/new_group">
 
-        <LinearLayout
-            style="@style/add_entity_group2"
-            android:orientation="vertical">
+					<TextView
+						style="@style/about_label"
+						android:text="Spanish (Español)"/>
 
-            <LinearLayout style="@style/new_group">
+					<TextView
+						style="@style/about_value"
+						android:text="Braulio Sánchez/Catlish"/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
 
-                <TextView
-                    style="@style/about_label"
-                    android:text="@string/open_src" />
+			<android.support.v7.widget.CardView
+				style="@style/card"
+				app:cardUseCompatPadding="true">
 
-                <TextView
-                    android:id="@+id/link_src"
-                    style="@style/about_value_link"
-                    android:text="@string/open_src_val" />
-            </LinearLayout>
-        </LinearLayout>
+				<LinearLayout style="@style/new_group">
 
-        <LinearLayout
-            style="@style/add_entity_group2"
-            android:orientation="vertical">
+					<TextView
+						style="@style/about_label"
+						android:text="Portuguese"/>
 
-            <LinearLayout style="@style/new_group">
+					<TextView
+						style="@style/about_value"
+						android:text="Marco Pinto"/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
+		</LinearLayout>
 
-                <TextView
-                    style="@style/about_label"
-                    android:text="@string/feedback_lic" />
+		<LinearLayout
+			style="@style/add_entity_group2"
+			android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/lic"
-                    style="@style/about_value_link"
-                    android:text="@string/feedback_lic_val" />
-            </LinearLayout>
-        </LinearLayout>
+			<TextView
+				style="@style/new_title"
+				android:text="@string/others"/>
+		</LinearLayout>
 
-        <LinearLayout
-            style="@style/add_entity_group2"
-            android:orientation="vertical">
+		<LinearLayout
+			style="@style/add_entity_group2"
+			android:orientation="vertical">
 
-            <LinearLayout style="@style/new_group">
+			<android.support.v7.widget.CardView
+				style="@style/card"
+				app:cardUseCompatPadding="true">
 
-                <TextView
-                    style="@style/about_label"
-                    android:text="@string/libs_label" />
+				<LinearLayout style="@style/new_group">
 
-                <TextView
-                    android:id="@+id/lib1"
-                    style="@style/about_value_link"
-                    android:text="@string/lib1_val" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+					<TextView
+						style="@style/about_label"
+						android:text="@string/open_src"/>
+
+					<TextView
+						android:id="@+id/link_src"
+						style="@style/about_value_link"
+						android:text="@string/open_src_val"/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
+		</LinearLayout>
+
+		<LinearLayout
+			style="@style/add_entity_group2"
+			android:orientation="vertical">
+
+			<android.support.v7.widget.CardView
+				style="@style/card"
+				app:cardUseCompatPadding="true">
+
+				<LinearLayout style="@style/new_group">
+
+					<TextView
+						style="@style/about_label"
+						android:text="@string/feedback_lic"/>
+
+					<TextView
+						android:id="@+id/lic"
+						style="@style/about_value_link"
+						android:text="@string/feedback_lic_val"/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
+		</LinearLayout>
+
+		<LinearLayout
+			android:visibility="gone"
+			style="@style/add_entity_group2"
+			android:orientation="vertical">
+
+			<android.support.v7.widget.CardView
+				style="@style/card"
+				app:cardUseCompatPadding="true">
+
+				<LinearLayout style="@style/new_group">
+
+					<TextView
+						style="@style/about_label"
+						android:text="@string/libs_label"/>
+
+					<TextView
+						android:id="@+id/lib1"
+						style="@style/about_value_link"
+						android:text="@string/lib1_val"/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
+		</LinearLayout>
+	</LinearLayout>
 </ScrollView>

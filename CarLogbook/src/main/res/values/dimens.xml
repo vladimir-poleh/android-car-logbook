@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<dimen name="drawer_size">240dp</dimen>
+	<dimen name="drawer_size">304dp</dimen>
 	<dimen name="drawer_content_padding">0dp</dimen>
 	<dimen name="group_padding">0dp</dimen>
 	<dimen name="anim_list_height">160dp</dimen>
+	<dimen name="car_list_size">130dp</dimen>
 </resources>

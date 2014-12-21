@@ -17,248 +17,315 @@
 */
 package com.enadein.carlogbook.ui;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
-import com.echo.holographlibrary.Bar;
-import com.echo.holographlibrary.BarGraph;
-import com.echo.holographlibrary.PieGraph;
-import com.echo.holographlibrary.PieSlice;
 import com.enadein.carlogbook.CarLogbook;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.bean.BarInfo;
 import com.enadein.carlogbook.bean.Dashboard;
 import com.enadein.carlogbook.bean.DataInfo;
-import com.enadein.carlogbook.core.BaseFragment;
+import com.enadein.carlogbook.core.BaseReportFragment;
+import com.enadein.carlogbook.core.CarChangedListener;
 import com.enadein.carlogbook.core.DataLoader;
 import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
+import com.enadein.carlogbook.db.DBUtils;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.utils.ValueFormatter;
+import com.github.mikephil.charting.utils.XLabels;
 
 import java.util.ArrayList;
 
-public class ReportsFramgent extends BaseFragment implements LoaderManager.LoaderCallbacks<DataInfo> {
-    private TextView totalCost;
-    private TextView totalRun;
-    private TextView totalFuelValume;
-    private TextView cost1;
-    private TextView fuelAvg;
-    private TextView fuelAvg100;
-    private TextView fuelAvg2;
+public class ReportsFramgent extends BaseReportFragment implements LoaderManager.LoaderCallbacks<DataInfo>, CarChangedListener {
+	private TextView totalCost;
+	private TextView totalRun;
+	private TextView totalFuelValume;
+	private TextView cost1;
+	private TextView fuelAvg;
+	private TextView fuelAvg100;
+	private TextView fuelAvg2;
 
-    private PieGraph pieGraph;
-    private BarGraph costMonth;
-    private BarGraph runMonth;
+	private TextView totalServiceView;
+	private TextView totalFuelView;
+	private TextView totalPartsView;
+	private TextView totalParkingView;
+	private TextView totalOtherView;
 
-    private TextView totalServiceView;
-    private TextView totalFuelView;
-    private TextView totalPartsView;
-    private TextView totalParkingView;
-    private TextView totalOtherView;
-
-	private PieSlice fuelSlice;
-	private PieSlice serviceSlice;
-	private PieSlice partsSlice;
-	private PieSlice parkingSlice;
-	private PieSlice otherSlice;
-
-	private int sliceCount = 0;
-	private PieSlice activeSlice;
 	private AQuery a;
+	private PieChart pie;
+	private BarChart costChart;
+	private BarChart runChart;
 
 	@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.reports_fragment, container, false);
-    }
+		return inflater.inflate(R.layout.reports_fragment, container, false);
+	}
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
 		a = new AQuery(view);
 
-        totalCost = (TextView) view.findViewById(R.id.totalcost);
-        totalRun = (TextView) view.findViewById(R.id.totalrun);
-        totalFuelValume = (TextView) view.findViewById(R.id.total_fuel);
-        cost1 = (TextView) view.findViewById(R.id.cost_per1);
-        fuelAvg = (TextView) view.findViewById(R.id.fuel_avg);
-        fuelAvg2 = (TextView) view.findViewById(R.id.fuel_avg2);
-        fuelAvg100 = (TextView) view.findViewById(R.id.fuel_avg100);
+		totalCost = (TextView) view.findViewById(R.id.totalcost);
+		totalRun = (TextView) view.findViewById(R.id.totalrun);
+		totalFuelValume = (TextView) view.findViewById(R.id.total_fuel);
+		cost1 = (TextView) view.findViewById(R.id.cost_per1);
+		fuelAvg = (TextView) view.findViewById(R.id.fuel_avg);
+		fuelAvg2 = (TextView) view.findViewById(R.id.fuel_avg2);
+		fuelAvg100 = (TextView) view.findViewById(R.id.fuel_avg100);
 
-        totalFuelView = (TextView) view.findViewById(R.id.cost_fuel);
-        totalServiceView = (TextView) view.findViewById(R.id.total_service_cost);
-        totalPartsView = (TextView) view.findViewById(R.id.total_service_part_cost);
-        totalParkingView = (TextView) view.findViewById(R.id.total_parking_cost);
-        totalOtherView = (TextView) view.findViewById(R.id.total_other_cost);
+		totalFuelView = (TextView) view.findViewById(R.id.cost_fuel);
+		totalServiceView = (TextView) view.findViewById(R.id.total_service_cost);
+		totalPartsView = (TextView) view.findViewById(R.id.total_service_part_cost);
+		totalParkingView = (TextView) view.findViewById(R.id.total_parking_cost);
+		totalOtherView = (TextView) view.findViewById(R.id.total_other_cost);
 		TextView per1View = (TextView) view.findViewById(R.id.label_per1);
 		TextView avgLabelView = (TextView) view.findViewById(R.id.label_avg);
 		TextView avg100LabelView = (TextView) view.findViewById(R.id.label_avg100);
 		TextView avg2LabelView = (TextView) view.findViewById(R.id.label_avg2);
 
-        pieGraph = (PieGraph) view.findViewById(R.id.graph);
+		pie = (PieChart) view.findViewById(R.id.pie); //new
+		pie.setHoleRadius(60f);
+		pie.setDescription("");
+		pie.setNoDataText("");
+		pie.setTransparentCircleRadius(65f);
+		pie.setDrawCenterText(true);
+		pie.setDrawHoleEnabled(true);
+		pie.setRotationAngle(0);
+		pie.setDrawXValues(false);
+		pie.setRotationEnabled(true);
+		pie.setUsePercentValues(true);
+		pie.setDrawLegend(false);
 
-        costMonth = (BarGraph) view.findViewById(R.id.cost_month);
-        runMonth = (BarGraph) view.findViewById(R.id.run_month);
-        UnitFacade unitFacade = getMediator().getUnitFacade();
+		ValueFormatter costF = new ValueFormatter() {
 
-        unitFacade.appendDistUnit(per1View, true);
+			@Override
+			public String getFormattedValue(float v) {
+				return CommonUtils.formatPriceNew(v, getMediator().getUnitFacade());
+			}
+		};
+
+		costChart = (BarChart) view.findViewById(R.id.cost_chart);
+		costChart.setUnit(" "+ getMediator().getUnitFacade().getCurrency());
+		initBar(costChart);
+		costChart.setValueFormatter(costF);
+		costChart.getYLabels().setFormatter(costF);
+
+		runChart = (BarChart) view.findViewById(R.id.run_chart);
+		runChart.setUnit(" " + getMediator().getUnitFacade().getDistUnit());
+		initBar(runChart);
+		ValueFormatter runF = new ValueFormatter() {
+
+			@Override
+			public String getFormattedValue(float v) {
+				return CommonUtils.formatDistance(v);
+			}
+		};
+
+		runChart.setValueFormatter(runF);
+		runChart.getYLabels().setFormatter(runF);
+
+		UnitFacade unitFacade = getMediator().getUnitFacade();
+
+		unitFacade.appendDistUnit(per1View, true);
 		unitFacade.appendDistUnit(a.id(R.id.label_fuel_per1).getTextView(), true);
-        unitFacade.appendConsumUnit(avg100LabelView, true, 0);
-        unitFacade.appendConsumUnit(avgLabelView, true, 2);
-        unitFacade.appendConsumUnit(avg2LabelView, true, 1);
+		unitFacade.appendConsumUnit(avg100LabelView, true, 0);
+		unitFacade.appendConsumUnit(avgLabelView, true, 2);
+		unitFacade.appendConsumUnit(avg2LabelView, true, 1);
+	}
 
-//        FloatingActionButton fabButton = new FloatingActionButton.Builder(getActivity())
-//                .withDrawable(getResources().getDrawable(R.drawable.fuel))
-//                .withButtonColor(Color.WHITE)
-//                .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
-//                .withMargins(0, 0, 16, 16)
-//                .create();
+	private void initBar(BarChart bar) {
+		bar.setDescription("");
+		bar.setDrawYValues(true);
+		bar.setPinchZoom(false);
+		bar.setDrawBarShadow(false);
+		bar.setDrawVerticalGrid(false);
+		bar.setDrawHorizontalGrid(false);
+		bar.setDrawGridBackground(false);
+		bar.setDrawYLabels(true);
+		bar.setDrawLegend(false);
+		bar.setNoDataText("");
+//		bar.setPinchZoom(false);
+//		bar.setScaleEnabled(false);
+//		bar.setEnable;
 
+		XLabels xLabels = bar.getXLabels();
+		xLabels.setPosition(XLabels.XLabelPosition.BOTTOM);
+		xLabels.setCenterXLabelText(true);
+		xLabels.setSpaceBetweenLabels(0);
+	}
 
-        getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_DASHBOARD_ID, null, this);
-    }
+	@Override
+	public void onResume() {
+		super.onResume();
 
-    @Override
-    public String getSubTitle() {
-        return getString(R.string.menu_item_reports);
-    }
-
-
-    @Override
-    public android.support.v4.content.Loader<DataInfo> onCreateLoader(int id, Bundle args) {
-        return new DataLoader(getActivity(), DataLoader.DASHBOARD, getMediator().getUnitFacade());
-    }
-
-    @Override
-    public void onLoadFinished(android.support.v4.content.Loader<DataInfo> loader, DataInfo data) {
-        Dashboard b = data.getDashboard();
-
-
-        UnitFacade unitFacade = getMediator().getUnitFacade();
-
-//		unitFacade.appendConsumUnit(avgLabelView,true);
-//		unitFacade.appendDistUnit(per1View,true);
-
-        totalRun.setText(unitFacade.appendDistUnit(false, CommonUtils.formatDistance(b.getTotalOdometerCount())));
-        totalCost.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(b.getTotalPrice(), unitFacade)));
-        cost1.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(b.getPricePer1(), unitFacade)));
-
-		a.id(R.id.cost_fuel_per1).text(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(b.getPriceFuelPer1(), unitFacade)));
-
-
-		fuelAvg.setText(CommonUtils.formatDistance(b.getFuelRateAvg()));
-        fuelAvg2.setText(CommonUtils.formatFuel(b.getFuelRateAvg2(), unitFacade));
-        fuelAvg100.setText(CommonUtils.formatFuel(b.getFuelRateAvg100(), unitFacade));
-
-        unitFacade.appendDistUnit(fuelAvg, false);
-        unitFacade.appendFuelUnit(fuelAvg2, false);
-        unitFacade.appendFuelUnit(fuelAvg100, false);
-
-        totalFuelValume.setText(unitFacade.appendFuelUnit(false, CommonUtils.formatFuel(b.getTotalFuelCount(), unitFacade)));
-
-//		pieGraph.setDuration(2000);
-//		pieGraph.setInterpolator(new AccelerateDecelerateInterpolator());
-//		pieGraph.animateToGoalValues();
-		fuelSlice = addSlice(1, DataInfo.COLOR_FUEL);
-		serviceSlice = addSlice(10, DataInfo.COLOR_SERVICE);
-		partsSlice = addSlice(100, DataInfo.COLOR_PARTS);
-		parkingSlice = addSlice(1000, DataInfo.COLOR_PARKING);
-		otherSlice = addSlice(10000, DataInfo.COLOR_OTHERS);
-
-		sliceCount = 0;
-
-
-		float totalFuelPrice = Math.round(b.getTotalFuelPrice());
-		totalFuelView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalFuelPrice, unitFacade)));
-		fuelSlice.setGoalValue(totalFuelPrice);
-		updateSliceCount(fuelSlice);
-
-        float totalServicePrice = Math.round(b.getTotalServicePrice());
-        totalServiceView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalServicePrice, unitFacade)));
-		serviceSlice.setGoalValue(totalServicePrice);
-		updateSliceCount(serviceSlice);
-
-        float totalPartsPrice = Math.round(b.getTotalPartsPrice());
-        totalPartsView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalPartsPrice, unitFacade)));
-		partsSlice.setGoalValue(totalPartsPrice);
-		updateSliceCount(partsSlice);
-
-        float totalParkingPrice = Math.round(b.getTotalParkingPrice());
-        totalParkingView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalParkingPrice, unitFacade)));
-		parkingSlice.setGoalValue(totalParkingPrice);
-		updateSliceCount( parkingSlice);
-
-        float totalOtherPrice = Math.round(b.getTotalOtherPrice());
-        totalOtherView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalOtherPrice, unitFacade)));
-
-		if (sliceCount > 1) {
-			otherSlice.setGoalValue(totalOtherPrice);
+		if (DBUtils.hasReports(getActivity().getContentResolver())) {
+			getLoaderManager().restartLoader(CarLogbook.LoaderDesc.REP_DASHBOARD_ID, null, this);
 		} else {
-			if (activeSlice == null) {
-				activeSlice = fuelSlice;
-				activeSlice.setColor(DataInfo.COLOR_OTHERS);
-				activeSlice.setGoalValue(totalOtherPrice);
-			}
-			otherSlice.setColor(activeSlice.getColor());
-			otherSlice.setGoalValue(activeSlice.getGoalValue() * (float)0.001);
-		}
-
-		pieGraph.setDuration(700);
-		pieGraph.animateToGoalValues();
-
-        ArrayList<Bar> points = new ArrayList<Bar>();
-
-        for (BarInfo bi : b.getCostLast4Months()) {
-            Bar d = new Bar();
-            d.setName(bi.getName());
-            d.setValue(bi.getValue());
-            d.setValueString(unitFacade.appendCurrency(false, "" + CommonUtils.formatPriceNew(bi.getValue(), unitFacade)));
-            points.add(d);
-        }
-        costMonth.setBars(points);
-        points = new ArrayList<Bar>();
-
-        for (BarInfo bi : b.getRunLast4Months()) {
-            Bar d = new Bar();
-            d.setName(bi.getName());
-            d.setColor(DataInfo.COLOR_SERVICE);
-			d.setValue(bi.getValue());
-            d.setValueString(unitFacade.appendDistUnit(false, CommonUtils.formatDistance(bi.getValue())));
-            points.add(d);
-        }
-        runMonth.setBars(points);
-    }
-
-	private void updateSliceCount(PieSlice slice) {
-		if (slice.getGoalValue() > 0) {
-			sliceCount++;
-			if (activeSlice == null) {
-				activeSlice = slice;
-			} else if (slice.getValue() > activeSlice.getGoalValue() ){
-				activeSlice = slice;
-			}
+			getView().findViewById(R.id.report).setVisibility(View.GONE);
+			getView().findViewById(R.id.no_reports).setVisibility(View.VISIBLE);
 
 		}
+		getMediator().showCarSelection(this);
+	}
+
+	@Override
+	public String getSubTitle() {
+		return getString(R.string.menu_item_reports);
 	}
 
 
-    public PieSlice addSlice(float value, int color) {
-        PieSlice slice = new PieSlice();
-        slice.setColor(color);
-        slice.setValue(value);
-        pieGraph.addSlice(slice);
-		return slice;
-    }
+	@Override
+	public android.support.v4.content.Loader<DataInfo> onCreateLoader(int id, Bundle args) {
+		return new DataLoader(getActivity(), DataLoader.DASHBOARD, getMediator().getUnitFacade());
+	}
 
-    @Override
-    public void onLoaderReset(android.support.v4.content.Loader<DataInfo> loader) {
+	@Override
+	public void onLoadFinished(android.support.v4.content.Loader<DataInfo> loader, DataInfo data) {
+		Dashboard b = data.getDashboard();
+		UnitFacade unitFacade = getMediator().getUnitFacade();
 
-    }
+		totalRun.setText(unitFacade.appendDistUnit(false, CommonUtils.formatDistance(b.getTotalOdometerCount())));
+		totalCost.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(b.getTotalPrice(), unitFacade)));
+		cost1.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(b.getPricePer1(), unitFacade)));
+
+		a.id(R.id.cost_fuel_per1).text(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(b.getPriceFuelPer1(), unitFacade)));
+
+		fuelAvg.setText(CommonUtils.formatDistance(b.getFuelRateAvg()));
+		fuelAvg2.setText(CommonUtils.formatFuel(b.getFuelRateAvg2(), unitFacade));
+		fuelAvg100.setText(CommonUtils.formatFuel(b.getFuelRateAvg100(), unitFacade));
+
+		unitFacade.appendDistUnit(fuelAvg, false);
+		unitFacade.appendFuelUnit(fuelAvg2, false);
+		unitFacade.appendFuelUnit(fuelAvg100, false);
+
+		totalFuelValume.setText(unitFacade.appendFuelUnit(false, CommonUtils.formatFuel(b.getTotalFuelCount(), unitFacade)));
+
+		float totalFuelPrice = Math.round(b.getTotalFuelPrice());
+		float totalServicePrice = Math.round(b.getTotalServicePrice());
+		float totalPartsPrice = Math.round(b.getTotalPartsPrice());
+		float totalParkingPrice = Math.round(b.getTotalParkingPrice());
+		float totalOtherPrice = Math.round(b.getTotalOtherPrice());
+		totalFuelView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalFuelPrice, unitFacade)));
+		totalServiceView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalServicePrice, unitFacade)));
+		totalPartsView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalPartsPrice, unitFacade)));
+		totalParkingView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalParkingPrice, unitFacade)));
+		totalOtherView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalOtherPrice, unitFacade)));
+
+		ArrayList<Entry> yValues = new ArrayList<Entry>();
+		int idx = 0;
+		if (totalFuelPrice > 0) {
+			yValues.add(new Entry(totalFuelPrice, idx));
+			idx++;
+		}
+
+		if (totalServicePrice > 0) {
+			yValues.add(new Entry(totalServicePrice, idx));
+			idx++;
+		}
+
+		if (totalPartsPrice > 0) {
+			yValues.add(new Entry(totalPartsPrice, idx));
+			idx++;
+		}
+		if (totalParkingPrice > 0) {
+			yValues.add(new Entry(totalParkingPrice, idx));
+			idx++;
+		}
+
+		if (totalOtherPrice > 0) {
+			yValues.add(new Entry(totalOtherPrice, idx));
+		}
+
+		ArrayList<String> xValues = new ArrayList<String>();
+		xValues.add("");
+		xValues.add("");
+		xValues.add("");
+		xValues.add("");
+		xValues.add("");
+
+		ArrayList<Integer> colors = new ArrayList<Integer>();
+
+		colors.add(DataInfo.COLOR_FUEL);
+		colors.add(DataInfo.COLOR_SERVICE);
+		colors.add(DataInfo.COLOR_PARTS);
+		colors.add(DataInfo.COLOR_PARKING);
+		colors.add(DataInfo.COLOR_OTHERS);
+
+		PieDataSet pieDataSet = new PieDataSet(yValues, "");
+		pieDataSet.setColors(colors);
+		pieDataSet.setSliceSpace(3f);
+
+		PieData pieData = new PieData(xValues, pieDataSet);
+		pie.setData(pieData);
+		pie.invalidate();
+		pie.animateXY(900, 900);
+
+		//COST BAR
+
+		ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
+		ArrayList<String> mounthXVal = new ArrayList<String>();
+
+		idx = 0;
+		for (BarInfo bi : b.getCostLast4Months()) {
+			barEntries.add(new BarEntry(bi.getValue(), idx));
+			mounthXVal.add(bi.getName());
+			idx++;
+		}
+		BarDataSet barSet = new BarDataSet(barEntries, "");
+		barSet.setColor(0xFFff5722);
+		BarData costData = new BarData(mounthXVal, barSet);
+		costChart.setData(costData);
+		costChart.invalidate();
+		costChart.animateY(3500);
+
+
+		barEntries = new ArrayList<BarEntry>();
+		mounthXVal = new ArrayList<String>();
+		idx = 0;
+		for (BarInfo bi : b.getRunLast4Months()) {
+			barEntries.add(new BarEntry(Math.round(bi.getValue()), idx));
+			mounthXVal.add(bi.getName());
+			idx++;
+		}
+
+		barSet = new BarDataSet(barEntries, "");
+		barSet.setColor(0xff8BC34A);
+		BarData runData = new BarData(mounthXVal, barSet);
+		runChart.setData(runData);
+		runChart.invalidate();
+		runChart.animateY(4500);
+
+	}
+
+	@Override
+	public void onLoaderReset(android.support.v4.content.Loader<DataInfo> loader) {
+
+	}
+
+	@Override
+	public void selectMenuItem(Menu menu) {
+		menu.findItem(R.id.menu_dashboard).setIcon(R.drawable.stat);
+	}
+
+	@Override
+	public void onCarChanged(long id) {
+		getMediator().showReports();
+	}
 }

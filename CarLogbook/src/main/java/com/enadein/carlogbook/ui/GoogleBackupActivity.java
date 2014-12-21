@@ -68,7 +68,7 @@ public class GoogleBackupActivity extends BaseActivity implements GoogleApiClien
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.googlebackup);
+
 		setSubTitle(getString(R.string.google_backup));
 
 		restoreBtn = (Button) findViewById(R.id.restore);
@@ -97,6 +97,11 @@ public class GoogleBackupActivity extends BaseActivity implements GoogleApiClien
 		} else {
 			GooglePlayServicesUtil.getErrorDialog(code, this, 0).show();
 		}
+	}
+
+	@Override
+	public void setContent() {
+		setContentView(R.layout.googlebackup);
 	}
 
 

@@ -22,8 +22,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.widget.SimpleCursorAdapter;
 
-import com.echo.holographlibrary.Bar;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.bean.BarInfo;
 import com.enadein.carlogbook.bean.Dashboard;
@@ -36,7 +36,6 @@ import com.enadein.carlogbook.db.ProviderDescriptor;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -48,6 +47,8 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 	public static final int LAST_EVENTS = 0x0000FF;
 	public static final int CALC_RATE = 0x0000AA;
 	public static final int DETAILED = 0x0000AF;
+
+	public static final int CARS = 0x0000AB;
 
 	public static final String FROM = "from";
 	public static final String TO = "to";
@@ -356,10 +357,47 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
                 data.setxReport(xReport);
                 break;
             }
+			case CARS: {
+				CarsDataInfo cdi = new CarsDataInfo();
+				Cursor cursor = cr.query(ProviderDescriptor.Car.CONTENT_URI, null, null, null, null);
+
+//				if (cursor != null) {
+//					String[] adapterCols = new String[]{ProviderDescriptor.DataValue.Cols.NAME};
+//					int[] adapterRowViews = new int[]{android.R.id.text1};
+//					SimpleCursorAdapter carsAdapter = new SimpleCursorAdapter(getContext(), R.layout.nav_item,
+//							cursor, adapterCols, adapterRowViews, 0);
+//					carsAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+//					int position = getPositionFromAdapterById(carsAdapter, DBUtils.getActiveCarId(cr));
+//
+//					cdi.setAdapter(carsAdapter);
+//					cdi.setPosition(position);
+//				}
+				cdi.setCursor(cursor);
+				cdi.setPosition(getPosition(cursor, DBUtils.getActiveCarId(cr)));
+				data.setCarsDataInfo(cdi);
+				break;
+			}
 		}
 
 		return data;
 	}
+
+	protected int getPosition(Cursor c, long id) {
+		if (c == null || c.getCount() == 0) {
+			return 0;
+		}
+
+		int position = 0;
+		while (c.moveToNext()) {
+			long currentId = c.getLong(0);
+			if (currentId == id) {
+				position = c.getPosition();
+				break;
+			}
+		}
+		return position;
+	}
+
 
 	private void addNotFoundItem(ArrayList<ReportItem> reportItems) {
 		ReportItem item = new ReportItem();

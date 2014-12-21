@@ -17,26 +17,35 @@
 */
 package com.enadein.carlogbook.core;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.enadein.carlogbook.CarLogbook;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 import com.enadein.carlogbook.ui.DialogListener;
 
-public class BaseActivity extends ActionBarActivity implements DialogListener, QuickCarSelectionAware {
+abstract public class BaseActivity extends ActionBarActivity implements DialogListener {
 	public static final String MODE_KEY = "mode";
 	public static final String TYPE_KEY = "type";
 	public static final String ENTITY_ID = "entity_id";
@@ -49,13 +58,31 @@ public class BaseActivity extends ActionBarActivity implements DialogListener, Q
 
     public long carId = -1;
 
+	protected Toolbar toolbar;
+
+	private SimpleCursorAdapter carsAdapter;
+	private CarsDataInfo cdi;
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		mediator = new CarLogbookMediator(this);
+		setContent();
+		initActivity();
+	}
 
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	abstract public void setContent();
+
+	protected void initActivity() {
+
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+		if (toolbar != null) {
+			setSupportActionBar(toolbar);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setHomeButtonEnabled(true);
+		}
+		mediator = new CarLogbookMediator(this);
 	}
 
 	@Override
@@ -67,7 +94,7 @@ public class BaseActivity extends ActionBarActivity implements DialogListener, Q
 
 	public void setSubTitle(String subTitle) {
 		if (subTitle != null) {
-			getSupportActionBar().setSubtitle(subTitle);
+			getSupportActionBar().setTitle(subTitle);
 		}
 	}
 
@@ -155,10 +182,6 @@ public class BaseActivity extends ActionBarActivity implements DialogListener, Q
 
 	}
 
-    @Override
-    public void onCarChanged(long carId) {
-
-    }
 
     ///CAR SELECTION
     public void showSelectCars(View v) {
@@ -172,7 +195,6 @@ public class BaseActivity extends ActionBarActivity implements DialogListener, Q
                     public void onClick(DialogInterface dialogInterface, int pos) {
                         c.moveToPosition(pos);
                         long id = c.getLong(c.getColumnIndex(ProviderDescriptor.Car.Cols._ID));
-                        onCarChanged(id);
                     }
                 }, ProviderDescriptor.Car.Cols.NAME);
 
@@ -184,16 +206,16 @@ public class BaseActivity extends ActionBarActivity implements DialogListener, Q
         ((TextView)findViewById(R.id.carName)).setText(carName);
     }
 
-    public void showCarSelection() {
-        String enableCarSelection = getMediator().getUnitFacade().getSetting(UnitFacade.SET_CAR_SELECTION, "1");
-        boolean show = "1".equals(enableCarSelection);
-
-        long defaultCarId = DBUtils.getActiveCarId(getContentResolver());
-        setCarId(defaultCarId);
-        updateCarName(defaultCarId);
-
-        findViewById(R.id.carSelection).setVisibility(show ? View.VISIBLE : View.GONE);
-    }
+//    public void showCarSelection() {
+//        String enableCarSelection = getMediator().getUnitFacade().getSetting(UnitFacade.SET_CAR_SELECTION, "1");
+//        boolean show = "1".equals(enableCarSelection);
+//
+//        long defaultCarId = DBUtils.getActiveCarId(getContentResolver());
+//        setCarId(defaultCarId);
+//        updateCarName(defaultCarId);
+//
+//        findViewById(R.id.carSelection).setVisibility(show ? View.VISIBLE : View.GONE);
+//    }
 
     public long getCarId() {
         return (carId == -1) ? DBUtils.getActiveCarId(getContentResolver()) : carId;
@@ -215,4 +237,93 @@ public class BaseActivity extends ActionBarActivity implements DialogListener, Q
                     getMediator().getUnitFacade().getCarName());
         }
     }
+
+	//2.0.0 Car selector
+
+
+
+	public void loadCarsList(CarsLoaderCallbackWrapper loader){
+		getSupportLoaderManager().restartLoader(CarLogbook.LoaderDesc.CARS_LOADER,null, loader);
+	}
+
+	public void loadCarList() {
+		loadCarsList(new CarsLoaderCallback(BaseActivity.this, getMediator()));
+	}
+
+	private class CarsLoaderCallback extends CarsLoaderCallbackWrapper {
+
+		public CarsLoaderCallback(Activity activity, CarLogbookMediator mediator) {
+			super(activity, mediator);
+		}
+
+		@Override
+		public void onReset() {
+			carsAdapter.swapCursor(null);
+			Cursor c = cdi.getCursor();
+			if (c != null) {
+				c.close();
+				cdi.setCursor(null);
+			}
+		}
+
+		@Override
+		public void onLoaded(CarsDataInfo cdi) {
+			BaseActivity.this.cdi = cdi;
+
+			Cursor cursor = cdi.getCursor();
+			if (cursor != null && cursor.getCount() > 0) {
+				String[] adapterCols = new String[]{ProviderDescriptor.DataValue.Cols.NAME};
+				int[] adapterRowViews = new int[]{android.R.id.text1};
+				carsAdapter = new SimpleCursorAdapter(BaseActivity.this, R.layout.nav_item,
+						cursor, adapterCols, adapterRowViews, 0);
+				carsAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+
+
+				///
+				final Spinner spinner = (Spinner) findViewById(getCarSelectorViewId());
+				spinner.setOnItemSelectedListener(null);
+
+				spinner.setVisibility(View.VISIBLE);
+				spinner.setAdapter(carsAdapter);
+				spinner.setSelection(cdi.getPosition());
+				spinner.setTag(new Integer(cdi.getPosition()));
+				spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+					@Override
+					public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+						Integer value = (Integer) spinner.getTag();
+						if (value != pos) {
+							DBUtils.selectActivCar(getContentResolver(), id);
+							getMediator().getUnitFacade().reload(id);
+							getMediator().notifyCarChanged(id);
+							spinner.setTag(new Integer(pos));
+							onCarChanged(id);
+						}
+					}
+
+					@Override
+					public void onNothingSelected(AdapterView<?> adapterView) {
+
+					}
+				});
+
+			}
+		}
+	}
+
+	public int getCarSelectorViewId() {
+		return R.id.cars;
+	}
+
+	public void hideCarSelection() {
+		findViewById(getCarSelectorViewId()).setVisibility(View.GONE);
+	}
+
+//	public void clearCarSelection() {
+//		Spinner selector = (Spinner) findViewById(getCarSelectorViewId());
+//		selector.setOnItemSelectedListener(null);
+//	}
+
+	public void onCarChanged(long id) {
+
+	}
 }

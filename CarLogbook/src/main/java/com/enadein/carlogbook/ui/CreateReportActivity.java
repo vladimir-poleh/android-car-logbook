@@ -10,6 +10,7 @@ import com.androidquery.AQuery;
 import com.enadein.carlogbook.CarLogbook;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.BaseActivity;
+import com.enadein.carlogbook.core.CarChangedListener;
 import com.enadein.carlogbook.core.ReportExportLoader;
 import com.enadein.carlogbook.core.gen.GenWriter;
 
@@ -29,7 +30,7 @@ public class CreateReportActivity extends BaseActivity implements LoaderManager.
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.create_report);
+
 		final AQuery a = new AQuery(this);
 		a.id(R.id.create).getView().setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -42,6 +43,25 @@ public class CreateReportActivity extends BaseActivity implements LoaderManager.
 				}
 			}
 		});
+
+
+		getMediator().showCarSelection(new CarChangedListener() {
+			@Override
+			public void onCarChanged(long id) {
+
+			}
+		});
+	}
+
+	@Override
+	public void setContent() {
+		setContentView(R.layout.create_report);
+	}
+
+
+	@Override
+	public int getCarSelectorViewId() {
+		return R.id.carsAdd;
 	}
 
 	private boolean validate () {

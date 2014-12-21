@@ -1,10 +1,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/list_main">
 
-    <LinearLayout style="@style/filter_group">
+    <LinearLayout style="@style/filter_group"
+		android:background="@color/colorPrimary">
 
         <LinearLayout
             style="@style/new_group"
+			android:paddingLeft="12dp"
+			android:paddingRight="12dp"
+			android:paddingBottom="12dp"
+			android:paddingTop="0dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -14,38 +19,38 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/fromLabel"
-                    style="@style/wrap"
-                    android:gravity="right"
-                    android:minWidth="80dp" />
-
-                <ImageButton
-                    android:id="@+id/dateFrom"
-                    style="@style/wrap"
-                    android:background="@drawable/date" />
+				<TextView
+					android:id="@+id/dateFrom"
+					android:clickable="true"
+					android:textSize="16sp"
+					android:textStyle="bold"
+					android:textColor="#fff"
+					style="@style/btn_normal"/>
 
                 <TextView
                     style="@style/wrap"
+					android:textColor="#fff"
+					android:textStyle="bold"
                     android:text=" - " />
 
-                <TextView
-                    android:id="@+id/toLabel"
-                    style="@style/wrap"
-                    android:gravity="right"
-                    android:minWidth="80dp" />
-
-                <ImageButton
-                    android:id="@+id/dateTo"
-                    style="@style/wrap"
-                    android:background="@drawable/date" />
+				<TextView
+					android:id="@+id/dateTo"
+					android:clickable="true"
+					android:textSize="16sp"
+					android:textStyle="bold"
+					android:textColor="#fff"
+					style="@style/btn_normal"/>
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/clear"
-                style="@style/wrap"
-                android:layout_marginLeft="7dp"
-                android:background="@drawable/clean" />
+
+			<TextView
+				android:id="@+id/clear"
+				android:text="@string/reset"
+				android:clickable="true"
+				android:textSize="16sp"
+				android:textStyle="bold"
+				android:textColor="#fff"
+				style="@style/btn_normal"/>
         </LinearLayout>
 
 

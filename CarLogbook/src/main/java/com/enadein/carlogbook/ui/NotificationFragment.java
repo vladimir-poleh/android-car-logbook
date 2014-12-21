@@ -32,12 +32,12 @@ import com.enadein.carlogbook.CarLogbook;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.adapter.NotificationAdapter;
 import com.enadein.carlogbook.core.BaseFragment;
-import com.enadein.carlogbook.core.MenuEnabler;
+import com.enadein.carlogbook.core.CarChangedListener;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
 public class NotificationFragment extends BaseFragment implements
-		LoaderManager.LoaderCallbacks<Cursor>  {
+		LoaderManager.LoaderCallbacks<Cursor>,CarChangedListener {
 	private NotificationAdapter notificationAdapter;
 
 	@Override
@@ -63,7 +63,22 @@ public class NotificationFragment extends BaseFragment implements
 			}
 		});
 
-		getLoaderManager().initLoader(CarLogbook.LoaderDesc.NOTIFY_ID, null, this);
+		view.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				getMediator().showAddNotification();
+			}
+		});
+
+
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		getLoaderManager().restartLoader(CarLogbook.LoaderDesc.NOTIFY_ID, null, this);
+		getMediator().showCarSelection(this);
 	}
 
 	@Override
@@ -71,13 +86,6 @@ public class NotificationFragment extends BaseFragment implements
 		return getString(R.string.menu_item_notifications);
 	}
 
-	@Override
-	public MenuEnabler getMenuEnabler() {
-		MenuEnabler menuEnabler = new MenuEnabler();
-		menuEnabler.setNotification(true);
-
-		return menuEnabler;
-	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -97,5 +105,10 @@ public class NotificationFragment extends BaseFragment implements
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		notificationAdapter.swapCursor(null);
+	}
+
+	@Override
+	public void onCarChanged(long id) {
+		getLoaderManager().restartLoader(CarLogbook.LoaderDesc.NOTIFY_ID, null, this);
 	}
 }

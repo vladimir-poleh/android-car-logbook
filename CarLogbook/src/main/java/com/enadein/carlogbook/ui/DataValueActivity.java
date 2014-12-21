@@ -43,7 +43,7 @@ public class DataValueActivity extends BaseActivity  implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.data_value);
+
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		adapter = new DataValueAdapter(this, null);
@@ -63,36 +63,47 @@ public class DataValueActivity extends BaseActivity  implements
 			}
 		});
 
+		findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				getMediator().showAddDataValue(type);
+			}
+		});
 
 		getSupportLoaderManager().initLoader(0, null, this);
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.create_menu, menu);
-
-		return super.onCreateOptionsMenu(menu);
+	public void setContent() {
+		setContentView(R.layout.data_value);
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(android.view.MenuItem item) {
-
-		int action = item.getItemId();
-
-		switch (action) {
-			case R.id.action_create: {
-				getMediator().showAddDataValue(type);
-				break;
-			}
-
-			default: {
-				return super.onOptionsItemSelected(item);
-			}
-		}
-
-		return true;
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		MenuInflater inflater = getMenuInflater();
+////		inflater.inflate(R.menu.create_menu, menu);
+//
+//		return super.onCreateOptionsMenu(menu);
+//	}
+//
+//	@Override
+//	public boolean onOptionsItemSelected(android.view.MenuItem item) {
+//
+//		int action = item.getItemId();
+//
+//		switch (action) {
+//			case R.id.action_create: {
+//				getMediator().showAddDataValue(type); //TODO remove
+//				break;
+//			}
+//
+//			default: {
+//				return super.onOptionsItemSelected(item);
+//			}
+//		}
+//
+//		return true;
+//	}
 
 	@Override
 	public String getSubTitle() {

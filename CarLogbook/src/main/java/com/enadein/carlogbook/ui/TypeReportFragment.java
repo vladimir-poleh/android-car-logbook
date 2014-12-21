@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -34,6 +35,8 @@ import com.enadein.carlogbook.adapter.SimpleReportAdapter;
 import com.enadein.carlogbook.bean.DataInfo;
 import com.enadein.carlogbook.bean.ReportItem;
 import com.enadein.carlogbook.core.BaseFragment;
+import com.enadein.carlogbook.core.BaseReportFragment;
+import com.enadein.carlogbook.core.CarChangedListener;
 import com.enadein.carlogbook.core.DataLoader;
 import com.enadein.carlogbook.db.CommonUtils;
 
@@ -41,7 +44,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class TypeReportFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<DataInfo> {
+public class TypeReportFragment extends BaseReportFragment implements LoaderManager.LoaderCallbacks<DataInfo>,CarChangedListener {
 	public static final String DATE_PICKER = "date_picker";
 	private long from = 0;
 	private long to = 0;
@@ -87,8 +90,8 @@ public class TypeReportFragment extends BaseFragment implements LoaderManager.Lo
 			}
 		});
 
-		fromLabel = (TextView) view.findViewById(R.id.fromLabel);
-		toLabel = (TextView) view.findViewById(R.id.toLabel);
+		fromLabel = (TextView) view.findViewById(R.id.dateFrom);
+		toLabel = (TextView) view.findViewById(R.id.dateTo);
 		updateViews();
 	}
 
@@ -115,7 +118,8 @@ public class TypeReportFragment extends BaseFragment implements LoaderManager.Lo
 	public void onResume() {
 		super.onResume();
 		Bundle params = getRangeParams();
-		getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_BY_TYPE_ID, params, this);
+		getLoaderManager().restartLoader(CarLogbook.LoaderDesc.REP_BY_TYPE_ID, params, this);
+		getMediator().showCarSelection(this);
 	}
 
 	private Bundle getRangeParams() {
@@ -196,5 +200,16 @@ public class TypeReportFragment extends BaseFragment implements LoaderManager.Lo
 		}
 
 		return  c.getTime().getTime();
+	}
+
+	@Override
+	public void selectMenuItem(Menu menu) {
+		menu.findItem(R.id.menu_by_type).setIcon(R.drawable.stat);
+	}
+
+	@Override
+	public void onCarChanged(long id) {
+		Bundle params = getRangeParams();
+		getLoaderManager().restartLoader(CarLogbook.LoaderDesc.REP_BY_TYPE_ID, params, this);
 	}
 }

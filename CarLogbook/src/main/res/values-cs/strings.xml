@@ -8,9 +8,9 @@
 	<string name="delete">Smazat</string>
 	<string name="confirm">Potvrzení</string>
 	<string name="confirm_delete">Opravdu chcete smazat záznam?</string>
-	<string name="yes">Ano</string>
-	<string name="no">Ne</string>
-	<string name="ok">Ok</string>
+	<string name="yes">ANO</string>
+	<string name="no">NE</string>
+	<string name="ok">OK</string>
 	<string name="date">Datum</string>
 	<string name="odometer_unit">Jednotky tachometru</string>
 	<string name="comments">Komentáře</string>
@@ -291,4 +291,16 @@
 	<string name="nofity_time">čas</string>
 	<string name="nofity_vibrate">Vibrate</string>
 	<string name="nofity_sound">Zvuk</string>
+
+	<!--2.0.0-->
+	<string name="navigation_drawer_open">Open</string>
+	<string name="navigation_drawer_close">Close</string>
+
+	<string name="menu_dashboard">Přehled výdajů</string>
+	<string name="menu_by_type">Výdaje dle typu</string>
+	<string name="menu_fuel_rate">Spotřeba paliva</string>
+	<string name="menu_last_events">Poslední události</string>
+	<string name="menu_detail">Detail</string>
+
+	<string name="reset">Obnovit</string>
 </resources>

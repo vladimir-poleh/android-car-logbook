@@ -1,22 +1,35 @@
-<com.enadein.carlogbook.ui.fix.FixedDrawer
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
-    style="@style/full">
+<android.support.v4.widget.DrawerLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/drawer_layout"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fitsSystemWindows="true"
+	tools:context=".CarLogbook">
 
-    <!-- The main content view -->
-    <FrameLayout
-        android:id="@+id/content_frame"
-        style="@style/full"
-        android:layout_marginLeft="@dimen/drawer_content_padding"/>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+		<include layout="@layout/toolbar"/>
+
+		<FrameLayout
+			android:id="@+id/content_frame"
+			android:layout_width="match_parent"
+			android:paddingTop="?attr/actionBarSize"
+			android:layout_height="match_parent"/>
+	</RelativeLayout>
+
 
     <!-- Menu -->
     <ListView android:id="@+id/menu"
-              android:layout_width="@dimen/drawer_size"
+              android:layout_width="240dp"
               android:layout_height="match_parent"
               android:layout_gravity="start"
               android:choiceMode="singleChoice"
               android:divider="@android:color/transparent"
               android:dividerHeight="0dp"
+			  android:fitsSystemWindows="true"
               android:background="@color/drawer_color"/>
 
-</com.enadein.carlogbook.ui.fix.FixedDrawer>
+</android.support.v4.widget.DrawerLayout>

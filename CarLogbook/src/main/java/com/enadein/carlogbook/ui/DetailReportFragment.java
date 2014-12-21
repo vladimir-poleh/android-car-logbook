@@ -6,6 +6,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,11 +18,13 @@ import com.enadein.carlogbook.bean.Dashboard;
 import com.enadein.carlogbook.bean.DataInfo;
 import com.enadein.carlogbook.bean.XReport;
 import com.enadein.carlogbook.core.BaseFragment;
+import com.enadein.carlogbook.core.BaseReportFragment;
+import com.enadein.carlogbook.core.CarChangedListener;
 import com.enadein.carlogbook.core.DataLoader;
 import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 
-public class DetailReportFragment  extends BaseFragment implements LoaderManager.LoaderCallbacks<DataInfo>, SwipeRefreshLayout.OnRefreshListener {
+public class DetailReportFragment  extends BaseReportFragment implements LoaderManager.LoaderCallbacks<DataInfo>, SwipeRefreshLayout.OnRefreshListener, CarChangedListener {
     private TextView totalFuelValume;
     private TextView fillupCount;
     private TextView fillupMin;
@@ -46,8 +49,9 @@ public class DetailReportFragment  extends BaseFragment implements LoaderManager
     public void onResume() {
         super.onPause();
 //        showProgress(true);
-        getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_DETAILED, null, this);
-    }
+        getLoaderManager().restartLoader(CarLogbook.LoaderDesc.REP_DETAILED, null, this);
+		getMediator().showCarSelection(this);
+	}
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -91,7 +95,14 @@ public class DetailReportFragment  extends BaseFragment implements LoaderManager
 
     @Override
     public Loader<DataInfo> onCreateLoader(int i, Bundle bundle) {
-		swipeLayout.setRefreshing(true);
+//		swipeLayout.setRefreshing(true);
+
+		swipeLayout.post(new Runnable() {
+			@Override
+			public void run() {
+				swipeLayout.setRefreshing(true);
+			}
+		});
         return new DataLoader(getActivity(), DataLoader.DETAILED, getMediator().getUnitFacade());
     }
 
@@ -222,5 +233,16 @@ public class DetailReportFragment  extends BaseFragment implements LoaderManager
 	@Override
 	public void onRefresh() {
 		getLoaderManager().restartLoader(CarLogbook.LoaderDesc.REP_DETAILED, null, this);
+	}
+
+	@Override
+	public void selectMenuItem(Menu menu) {
+		menu.findItem(R.id.menu_detail).setIcon(R.drawable.stat);
+	}
+
+	@Override
+	public void onCarChanged(long id) {
+		getMediator().showDetailedReport();
+//		getLoaderManager().restartLoader(CarLogbook.LoaderDesc.REP_DETAILED, null, this);
 	}
 }

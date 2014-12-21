@@ -21,6 +21,7 @@ package com.enadein.carlogbook.bean;
 import android.content.Context;
 
 import com.enadein.carlogbook.R;
+import com.enadein.carlogbook.core.CarsDataInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,13 +34,24 @@ public class DataInfo {
 	public static final int[] parking = new int[] {2};
 	public static final int[] parts = new int[] {8};
 
-	public static final int COLOR_FUEL = 0xFF50CDF5;
-	public static final int COLOR_SERVICE = 0xFFF4A113;
-	public static final int COLOR_PARKING = 0xFF22C1BE;
-	public static final int COLOR_PARTS = 0xFFC1A622;
-	public static final int COLOR_OTHERS = 0xFF8E8244;
+	public static final int COLOR_FUEL = 0xFF2196f3;
+	public static final int COLOR_SERVICE = 0xFFffc107;
+	public static final int COLOR_PARKING = 0xFF415cb2;
+	public static final int COLOR_PARTS = 0xFFff5722;
+	public static final int COLOR_OTHERS = 0xFF9c27b0;
 
 	public static final Map<Integer, Integer> images;
+
+	private CarsDataInfo carsDataInfo;
+
+	public CarsDataInfo getCarsDataInfo() {
+		return carsDataInfo;
+	}
+
+	public void setCarsDataInfo(CarsDataInfo carsDataInfo) {
+		this.carsDataInfo = carsDataInfo;
+	}
+
 	static {
 		Map<Integer, Integer> map =  new HashMap<Integer, Integer>();
 		map.put(0, R.drawable.log);

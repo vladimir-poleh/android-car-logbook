@@ -125,7 +125,9 @@ public class AppMediator {
 	}
 
 	public void setBarSubTitle(String title) {
-		actionBar.setSubtitle(title);
+//		actionBar.setSubtitle(title);
+		actionBar.setTitle(title);
+//		actionBar.setTitle(title);
 	}
 
 	protected void startActivity(Class<?> cls){
@@ -156,8 +158,8 @@ public class AppMediator {
 		(activity).startActivityForResult(intent, requestCode);
 	}
 
-	public void setListNavigationCallbacks(SpinnerAdapter adapter, ActionBar.OnNavigationListener listener) {
-		actionBar.setListNavigationCallbacks(adapter, listener);
-	}
+//	public void setListNavigationCallbacks(SpinnerAdapter adapter, ActionBar.OnNavigationListener listener) {
+//		actionBar.setListNavigationCallbacks(adapter, listener);
+//	}
 
 }

@@ -19,7 +19,6 @@ package com.enadein.carlogbook.core;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Menu;
 import android.view.View;
 
 import com.enadein.carlogbook.R;
@@ -47,32 +46,9 @@ public class BaseFragment extends Fragment {
 
 	}
 
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-
-		MenuEnabler menuEnabler = getMenuEnabler();
-
-		if (menuEnabler == null || getMediator().isDrawerOpenned()) {
-			menuEnabler = new MenuEnabler();
-		}
-
-		menu.findItem(R.id.action_add_car).setVisible(menuEnabler.isAddCar());
-		menu.findItem(R.id.action_share).setVisible(menuEnabler.isShare());
-		menu.findItem(R.id.action_add_notify).setVisible(menuEnabler.isNotification());
-		menu.findItem(R.id.action_log_fuel).setVisible(menuEnabler.isAddFuelLog());
-		menu.findItem(R.id.action_log).setVisible(menuEnabler.isAddLog());
-	}
-
-	public MenuEnabler getMenuEnabler() {
-		return null;
-	}
-
-    public void showProgress(boolean show) {
-         getView().findViewById(R.id.progress).setVisibility(show ? View.VISIBLE : View.GONE);
-    }
 
     public void showNoItems(boolean show) {
         getView().findViewById(R.id.no_items).setVisibility(show ? View.VISIBLE : View.GONE);
     }
+
 }

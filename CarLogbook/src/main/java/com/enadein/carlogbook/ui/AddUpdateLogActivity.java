@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.enadein.carlogbook.R;
+import com.enadein.carlogbook.core.CarChangedListener;
 import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.DBUtils;
@@ -79,7 +80,7 @@ public class AddUpdateLogActivity extends BaseLogAcivity implements
 		getContentResolver().insert(ProviderDescriptor.Log.CONTENT_URI, getContentValues());
 		CommonUtils.validateOdometerNotifications(this,
 				Integer.valueOf(odometerView.getText().toString()));
-        updateActiveCar();
+//        updateActiveCar();
 	}
 
 	@Override
@@ -119,10 +120,22 @@ public class AddUpdateLogActivity extends BaseLogAcivity implements
 
 	@Override
 	protected void populateCreateEntity() {
-        showCarSelection();
 		date = new Date(System.currentTimeMillis());
 
         populateValuesByCar();
+
+
+		getMediator().showCarSelection(new CarChangedListener() {
+			@Override
+			public void onCarChanged(long id) {
+				populateValuesByCar();
+			}
+		});
+	}
+
+	@Override
+	public int getCarSelectorViewId() {
+		return R.id.carsAdd;
 	}
 
 	@Override
@@ -220,14 +233,6 @@ public class AddUpdateLogActivity extends BaseLogAcivity implements
         getSupportLoaderManager().initLoader(0, null, this);
 	}
 
-
-    ///CAR SELECT
-    @Override
-    public void onCarChanged(long carId) {
-        setCarId(carId);
-        updateCarName(carId);
-        populateValuesByCar();
-    }
 
     public void populateValuesByCar() {
         long odometerValue = DBUtils.getMaxOdometerValue(getContentResolver(), getCarId());

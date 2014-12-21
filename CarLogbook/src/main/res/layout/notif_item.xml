@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/item_name_image">
+<LinearLayout
+	style="@style/item_name_image"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout style="@style/new_group_item">
+	<android.support.v7.widget.CardView
+		style="@style/card"
+		app:cardUseCompatPadding="true">
 
-        <LinearLayout
-            style="@style/wide"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="8dp">
+		<LinearLayout style="@style/new_group_item">
 
-            <LinearLayout style="@style/circle">
+			<LinearLayout
+				style="@style/wide"
+				android:gravity="center_vertical"
+				android:orientation="horizontal"
+				android:padding="8dp">
 
-                <ImageView
-                    android:id="@+id/logo"
-                    style="@style/logo" />
-            </LinearLayout>
+				<LinearLayout style="@style/circle">
 
-            <TextView
-                android:id="@+id/name"
-                style="@style/wrap"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1" />
+					<ImageView
+						android:id="@+id/logo"
+						style="@style/logo"/>
+				</LinearLayout>
 
-            <TextView
-                android:id="@+id/value"
-                style="@style/wrap" />
-        </LinearLayout>
-    </LinearLayout>
+				<TextView
+					android:id="@+id/name"
+					style="@style/wrap"
+					android:layout_marginLeft="8dp"
+					android:layout_weight="1"/>
+
+				<TextView
+					android:id="@+id/value"
+					style="@style/wrap"/>
+			</LinearLayout>
+		</LinearLayout>
+	</android.support.v7.widget.CardView>
 </LinearLayout>

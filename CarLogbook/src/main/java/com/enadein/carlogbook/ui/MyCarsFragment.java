@@ -32,8 +32,6 @@ import com.enadein.carlogbook.CarLogbook;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.adapter.CarAdapter;
 import com.enadein.carlogbook.core.BaseFragment;
-import com.enadein.carlogbook.core.MenuEnabler;
-import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.DBUtils;
 import com.enadein.carlogbook.db.ProviderDescriptor;
 
@@ -72,20 +70,19 @@ public class MyCarsFragment extends BaseFragment implements
             }
         });
 
+		view.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				getMediator().showAddCar();
+			}
+		});
+
 		getLoaderManager().initLoader(CarLogbook.LoaderDesc.CAR_ID, null, this);
 	}
 
 	@Override
 	public String getSubTitle() {
 		return getString(R.string.menu_item_my_cars);
-	}
-
-	@Override
-	public MenuEnabler getMenuEnabler() {
-		MenuEnabler menuEnabler = new MenuEnabler();
-		menuEnabler.setAddCar(true);
-
-		return menuEnabler;
 	}
 
 	@Override

@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
-	style="@style/add_entity_main"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+	style="@style/wide_vertical"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
+	<include layout="@layout/toolbar"/>
 
 	<LinearLayout
-		style="@style/new_group">
+		style="@style/add_entity_main"
+		xmlns:android="http://schemas.android.com/apk/res/android">
+		<android.support.v7.widget.CardView
+			app:cardUseCompatPadding="true"
+			style="@style/card">
 
-		<TextView
-			android:id="@+id/errorName"
-			style="@style/add_entity_error"
-			android:text="@string/value_name_error"/>
-
-		<LinearLayout style="@style/add_entity_group">
+		<LinearLayout
+			style="@style/new_group">
 
 			<TextView
-				style="@style/add_entity_label"
-				android:text="@string/value_name"/>
+				android:id="@+id/errorName"
+				style="@style/add_entity_error"
+				android:text="@string/value_name_error"/>
 
-			<EditText
-				android:id="@+id/name"
-				style="@style/add_entity_edit"
-				android:maxLength="50"/>
+			<LinearLayout style="@style/add_entity_group">
+
+				<TextView
+					style="@style/add_entity_label"
+					android:text="@string/value_name"/>
+
+				<EditText
+					android:layout_weight="1"
+					android:id="@+id/name"
+					style="@style/add_entity_edit"
+					android:maxLength="50"/>
+			</LinearLayout>
 		</LinearLayout>
+		</android.support.v7.widget.CardView>
 	</LinearLayout>
 </LinearLayout>

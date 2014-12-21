@@ -52,7 +52,7 @@ public class DBUtils {
 		long carId = -1;
 
 		Cursor c = cr.query(ProviderDescriptor.Log.CONTENT_URI, null,
-				ProviderDescriptor.Log.Cols._ID + " = ?", new String[] {String.valueOf(id)}, null);
+				ProviderDescriptor.Log.Cols._ID + " = ?" , new String[] {String.valueOf(id)}, null);
 		if (c != null && c.moveToFirst()) {
 			odometer = DBUtils.getIntByName(c, ProviderDescriptor.Log.Cols.ODOMETER);
 			fuelVolume = DBUtils.getDoubleByName(c, ProviderDescriptor.Log.Cols.FUEL_VOLUME);
@@ -66,7 +66,8 @@ public class DBUtils {
 			return result;
 		}
 
-		c = cr.query(ProviderDescriptor.Log.CONTENT_URI, null, ProviderDescriptor.Log.Cols.DATE + " < ? and " + ProviderDescriptor.Log.Cols.CAR_ID + " = ?", new String[] {String.valueOf(date), String.valueOf(carId)}, ProviderDescriptor.Log.Cols.DATE + " DESC");
+		c = cr.query(ProviderDescriptor.Log.CONTENT_URI, null, ProviderDescriptor.Log.Cols.DATE + " < ? and " + ProviderDescriptor.Log.Cols.CAR_ID + " = ? and " + ProviderDescriptor.Log.Cols.TYPE_LOG + " = ?", new String[] {String.valueOf(date), String.valueOf(carId),
+				String.valueOf(ProviderDescriptor.Log.Type.FUEL)}, ProviderDescriptor.Log.Cols.DATE + " DESC");
 
 		if (c != null && c.moveToFirst()) {
 			int odometerPrev = DBUtils.getIntByName(c, ProviderDescriptor.Log.Cols.ODOMETER);
@@ -817,5 +818,22 @@ public class DBUtils {
 
 	public static boolean isCursorHasValue(Cursor c) {
 		return c != null && c.moveToFirst();
+	}
+
+//	public static void selectCar(ContentResolver cr, long id) {
+//		DBUtils.resetCurrentActiveFlag(cr);
+//
+//		ContentValues cv = new ContentValues();
+//		cv.put(ProviderDescriptor.Car.Cols.ACTIVE_FLAG, 1);
+//
+//		cr.update(ProviderDescriptor.Car.CONTENT_URI, cv, "_id = ?",
+//				new String[]{String.valueOf(id)});
+//	}
+
+	public static boolean hasReports(ContentResolver cr){
+		long carId = DBUtils.getActiveCarId(cr);
+		long logCount = DBUtils.getCount(cr, ProviderDescriptor.Log.CONTENT_URI, DBUtils.CAR_SELECTION,
+				new String[]{String.valueOf(carId)});
+		return carId != -1 && logCount > 0;
 	}
 }

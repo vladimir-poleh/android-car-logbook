@@ -1,14 +1,14 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion '20.0.0'
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 20
-        versionCode 18
-        versionName "1.6.0"
+        targetSdkVersion 21
+        versionCode 19
+        versionName "2.0.0"
 
         testApplicationId "com.enadein.carlogbook.tests"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -16,28 +16,37 @@ android {
         testFunctionalTest true
     }
 
+    signingConfigs {
+        release {
 
+        }
+    }
 
 
     buildTypes {
         release {
-            runProguard false
+            runProguard true
             proguardFiles getDefaultProguardFile('proguard-project.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.release
+        }
+        debug {
+            proguardFiles getDefaultProguardFile('proguard-project.txt'), 'proguard-rules.txt'
+            runProguard true
         }
     }
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:20.0.+'
-    compile 'com.android.support:appcompat-v7:20.0.+'
-    //    compile 'com.android.support:recyclerview-v7:20.0.+'
+    compile 'com.android.support:support-v4:21.0.0'
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:cardview-v7:21.0.0'
     compile 'com.anjlab.android.iab.v3:library:1.0.8@aar'
-    compile 'com.google.android.gms:play-services:5.0.+'
+    compile 'com.google.android.gms:play-services:6.1.71'
+//    compile 'com.getbase:floatingactionbutton:1.3.0'
+//    compile 'com.getbase:floatingactionbutton:fb:1.3.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':HoloGraphLibrary')
-    androidTestCompile 'com.google.guava:guava:11.0.2'
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:4.3'
-    androidTestCompile 'org.mockito:mockito-core:1.9.0'
+//    compile project(':HoloGraphLibrary')
+    compile project(':FB')
+    compile project(':MPA')
     compile files('libs/android-query.0.26.7.jar')
 }

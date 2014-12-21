@@ -8,9 +8,9 @@
 	<string name="delete">Apagar</string>
 	<string name="confirm">Confirmar</string>
 	<string name="confirm_delete">Tem a certeza que pretende apagar?</string>
-	<string name="yes">Sim</string>
-	<string name="no">Não</string>
-	<string name="ok">Ok</string>
+	<string name="yes">SIM</string>
+	<string name="no">NÃO</string>
+	<string name="ok">OK</string>
 	<string name="date">Data</string>
 	<string name="odometer_unit">Unidade do Odómetro</string>
 	<string name="comments">Comentários</string>
@@ -291,4 +291,16 @@
 	<string name="nofity_time">Tempo</string>
 	<string name="nofity_vibrate">Vibrate</string>
 	<string name="nofity_sound">Som</string>
+
+	<!--2.0.0-->
+	<string name="navigation_drawer_open">Open navigation drawer</string>
+	<string name="navigation_drawer_close">Close navigation drawer</string>
+
+	<string name="menu_dashboard">Painel</string>
+	<string name="menu_by_type">Por tipo</string>
+	<string name="menu_fuel_rate">Preço do Combustível</string>
+	<string name="menu_last_events">Últimos eventos</string>
+	<string name="menu_detail">Detalhe</string>
+
+	<string name="reset">Rest.</string>
 </resources>

@@ -37,7 +37,6 @@ public class UnitFacade {
 	public static final String SET_DATE_FORMAT = "date_format";
 	public static final String SET_ANIM_LIST = "anim_list";
 	public static final String SET_COMMA = "comma";
-	public static final String SET_CAR_SELECTION = "car_select";
 
 	public static final String SET_FRACT_FUEL = "fract_fuel";
 //	public static final String SET_FRACT_DIST = "fract_dist";
@@ -49,8 +48,6 @@ public class UnitFacade {
 	public static float animSize;
 
     public  String carName = "-";
-    private CarChangeListener carChangeListener = null;
-
     public long carId = -1;
 
 	public static int currencyFract = 3;
@@ -123,7 +120,6 @@ public class UnitFacade {
 
 
 		invalidateAll();
-        notifyCarChanged();
 	}
 
 	public void invalidateAll() {
@@ -193,6 +189,10 @@ public class UnitFacade {
 
 	public String appendDistUnit(boolean wrap, String currentText) {
 		return getText(currentText, distanceUnitArray[distanceValue], wrap);
+	}
+
+	public String getDistUnit() {
+		return  distanceUnitArray[distanceValue];
 	}
 
 	public void appendConsumUnit(TextView textView, boolean wrap) {
@@ -314,20 +314,6 @@ public class UnitFacade {
 		DATATE_FORMAT = dataFormatArray[Integer.valueOf(value)];
 	}
 
-    private void notifyCarChanged() {
-
-        if (carChangeListener != null) {
-            carChangeListener.onCarChangeChanged(carName);
-        }
-    }
-
-    public CarChangeListener getCarChangeListener() {
-        return carChangeListener;
-    }
-
-    public void setCarChangeListener(CarChangeListener carChangeListener) {
-        this.carChangeListener = carChangeListener;
-    }
 
     public  String getCarName() {
         return carName == null ? "-" : carName;

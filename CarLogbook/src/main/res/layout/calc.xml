@@ -1,83 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/add_entity_scroll">
+<ScrollView
+	style="@style/add_entity_scroll"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout style="@style/add_entity_main">
+	<LinearLayout style="@style/add_entity_main">
 
-        <LinearLayout style="@style/new_group">
+		<android.support.v7.widget.CardView
+			app:cardUseCompatPadding="true"
+			style="@style/card">
 
-            <LinearLayout style="@style/add_entity_group">
+			<LinearLayout style="@style/new_group">
 
-                <TextView
-                    android:id="@+id/distance"
-                    style="@style/add_entity_label"
-                    android:text="@string/unit_distance" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <EditText
-                    android:id="@+id/distanceValue"
-                    style="@style/add_entity_edit"
-                    android:inputType="number"
-                    android:maxLength="8" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/distance"
+						style="@style/add_entity_label"
+						android:text="@string/unit_distance"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<EditText
+						android:id="@+id/distanceValue"
+						style="@style/add_entity_edit"
+						android:inputType="number"
+						android:maxLength="8"/>
+				</LinearLayout>
 
-                <TextView
-                    android:id="@+id/consumption"
-                    style="@style/add_entity_label"
-                    android:text="@string/unit_consumption" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <EditText
-                    android:id="@+id/consumptionValue"
-                    style="@style/add_entity_edit"
-                    android:inputType="numberDecimal"
-                    android:digits="0123456789.,"
-                    android:maxLength="8" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/consumption"
+						style="@style/add_entity_label"
+						android:text="@string/unit_consumption"/>
 
-            <LinearLayout style="@style/add_entity_group">
+					<EditText
+						android:id="@+id/consumptionValue"
+						style="@style/add_entity_edit"
+						android:digits="0123456789.,"
+						android:inputType="numberDecimal"
+						android:maxLength="8"/>
+				</LinearLayout>
 
-                <TextView
-                    android:id="@+id/priceUnit"
-                    style="@style/add_entity_label"
-                    android:text="@string/log_fuel_price" />
+				<LinearLayout style="@style/add_entity_group">
 
-                <EditText
-                    android:id="@+id/priceUnitValue"
-                    style="@style/add_entity_edit"
-                    android:inputType="numberDecimal"
-                    android:digits="0123456789.,"
-                    android:maxLength="8" />
-            </LinearLayout>
-        </LinearLayout>
+					<TextView
+						android:id="@+id/priceUnit"
+						style="@style/add_entity_label"
+						android:text="@string/log_fuel_price"/>
 
-        <TextView
-            style="@style/new_title"
-            android:text="@string/result" />
+					<EditText
+						android:id="@+id/priceUnitValue"
+						style="@style/add_entity_edit"
+						android:digits="0123456789.,"
+						android:inputType="numberDecimal"
+						android:maxLength="8"/>
+				</LinearLayout>
+			</LinearLayout>
+		</android.support.v7.widget.CardView>
 
-        <LinearLayout style="@style/new_group">
+		<TextView
+			style="@style/new_title"
+			android:text="@string/result"/>
 
-            <LinearLayout style="@style/add_entity_group">
-                <TextView
-                    android:id="@+id/totalFuel"
-                    style="@style/add_entity_label"
-                    android:text="@string/total_fuel" />
-                <TextView
-                    android:id="@+id/totalFuelValue"
-                    style="@style/add_entity_edit"/>
-            </LinearLayout>
+		<android.support.v7.widget.CardView
+			app:cardUseCompatPadding="true"
+			style="@style/card">
 
-            <LinearLayout style="@style/add_entity_group">
-                <TextView
-                    android:id="@+id/totalCost"
-                    style="@style/add_entity_label"
-                    android:text="@string/total_cost" />
-                <TextView
-                    android:id="@+id/totalCostValue"
-                    style="@style/add_entity_edit"/>
-            </LinearLayout>
+			<LinearLayout style="@style/new_group">
 
-        </LinearLayout>
-    </LinearLayout>
+				<LinearLayout style="@style/add_entity_group">
+
+					<TextView
+						android:id="@+id/totalFuel"
+						style="@style/add_entity_label"
+						android:text="@string/total_fuel"/>
+
+					<TextView
+						android:id="@+id/totalFuelValue"
+						style="@style/add_entity_edit"/>
+				</LinearLayout>
+
+				<LinearLayout style="@style/add_entity_group">
+
+					<TextView
+						android:id="@+id/totalCost"
+						style="@style/add_entity_label"
+						android:text="@string/total_cost"/>
+
+					<TextView
+						android:id="@+id/totalCostValue"
+						style="@style/add_entity_edit"/>
+				</LinearLayout>
+
+			</LinearLayout>
+		</android.support.v7.widget.CardView>
+	</LinearLayout>
 
 </ScrollView>

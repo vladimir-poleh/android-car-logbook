@@ -19,6 +19,7 @@ package com.enadein.carlogbook.core;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 
@@ -30,10 +31,15 @@ abstract public class SaveUpdateBaseActivity extends BaseActivity {
 	protected int mode = -1;
 	protected long id = -1;
 
+
+	@Override
+	public void setContent() {
+		setContentView(getContentLayout());
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(getContentLayout());
 
 		Bundle params = getIntent().getExtras();
 		if (params != null) {
@@ -42,8 +48,13 @@ abstract public class SaveUpdateBaseActivity extends BaseActivity {
 			populateExtraParams(params);
 		}
 
-		getSupportActionBar().setHomeButtonEnabled(true);
 
+
+		ActionBar actionBar = getSupportActionBar();
+
+		if (actionBar != null) {
+			actionBar.setHomeButtonEnabled(true);
+		}
 		postCreate();
 		populateEntity();
 		postPopulate();

@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -31,11 +32,13 @@ import com.enadein.carlogbook.adapter.SimpleReportAdapter;
 import com.enadein.carlogbook.bean.DataInfo;
 import com.enadein.carlogbook.bean.ReportItem;
 import com.enadein.carlogbook.core.BaseFragment;
+import com.enadein.carlogbook.core.BaseReportFragment;
+import com.enadein.carlogbook.core.CarChangedListener;
 import com.enadein.carlogbook.core.DataLoader;
 
 import java.util.ArrayList;
 
-public class LastUpdatedReportFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<DataInfo> {
+public class LastUpdatedReportFragment extends BaseReportFragment implements LoaderManager.LoaderCallbacks<DataInfo>,CarChangedListener {
 	private ListView listView;
 
 	@Override
@@ -61,7 +64,8 @@ public class LastUpdatedReportFragment extends BaseFragment implements LoaderMan
 	@Override
 	public void onResume() {
 		super.onResume();
-		getLoaderManager().initLoader(CarLogbook.LoaderDesc.REP_LAST_EVENTS_ID, null, this);
+		getLoaderManager().restartLoader(CarLogbook.LoaderDesc.REP_LAST_EVENTS_ID, null, this);
+		getMediator().showCarSelection(this);
 	}
 
 
@@ -81,5 +85,15 @@ public class LastUpdatedReportFragment extends BaseFragment implements LoaderMan
 	@Override
 	public void onLoaderReset(Loader<DataInfo> loader) {
 		listView.setAdapter(null);
+	}
+
+	@Override
+	public void selectMenuItem(Menu menu) {
+		menu.findItem(R.id.menu_last_events).setIcon(R.drawable.stat);
+	}
+
+	@Override
+	public void onCarChanged(long id) {
+		getLoaderManager().restartLoader(CarLogbook.LoaderDesc.REP_LAST_EVENTS_ID, null, this);
 	}
 }

@@ -2,27 +2,37 @@
 
 <LinearLayout
 	style="@style/item_name_image"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
-	<LinearLayout
-		style="@style/new_group_item">
+	<android.support.v7.widget.CardView
+		app:cardUseCompatPadding="true"
+		style="@style/card">
+
+		style="@style/card">
 
 		<LinearLayout
-			style="@style/wide"
-			android:gravity="center_vertical"
-			android:orientation="horizontal"
-			android:padding="8dp">
+			style="@style/new_group_item">
 
-			<TextView
-				android:id="@+id/carItem"
-				style="@style/wrap"
-				android:layout_weight="1"/>
+			<LinearLayout
+				style="@style/wide"
+				android:gravity="center_vertical"
+				android:orientation="horizontal"
+				android:padding="8dp">
 
-			<ImageView
-				android:id="@+id/activeItem"
-				style="@style/logo"
-				android:background="@drawable/active"/>
+				<TextView
+					android:id="@+id/carItem"
+					style="@style/wrap"
+					android:layout_weight="1"/>
 
+				<ImageView
+					android:id="@+id/activeItem"
+					style="@style/logo"
+					android:layout_width="28dp"
+					android:layout_height="28dp"
+					android:background="@drawable/active"/>
+
+			</LinearLayout>
 		</LinearLayout>
-	</LinearLayout>
+	</android.support.v7.widget.CardView>
 </LinearLayout>

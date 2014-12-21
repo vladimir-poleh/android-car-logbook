@@ -29,12 +29,13 @@ import android.widget.EditText;
 import com.androidquery.AQuery;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.BaseFragment;
+import com.enadein.carlogbook.core.CarChangedListener;
 import com.enadein.carlogbook.core.ReportFacade;
 import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.DBUtils;
 
-public class CalcFragment extends BaseFragment {
+public class CalcFragment extends BaseFragment implements CarChangedListener {
     private AQuery query;
     private UnitFacade unitFacade;
     private EditText distanceValueView;
@@ -54,31 +55,41 @@ public class CalcFragment extends BaseFragment {
         query = new AQuery(view);
         unitFacade = getMediator().getUnitFacade();
 
-        unitFacade.appendDistUnit(query.id(R.id.distance).getTextView(), true);
-        unitFacade.appendConsumUnit(query.id(R.id.consumption).getTextView(), true);
-        unitFacade.appendCurrency(query.id(R.id.priceUnit).getTextView(), false);
-        ContentResolver cr = getActivity().getContentResolver();
-        long activeCarId = DBUtils.getActiveCarId(cr);
-        double consumption = DBUtils.getAvgFuel(activeCarId,cr, -1, -1, unitFacade);
-        double lastPriciUnit = DBUtils.getLastPriceValue(cr);
-
-        distanceValueView = query.id(R.id.distanceValue).getEditText();
-
-        consumptionValueView = query.id(R.id.consumptionValue).getEditText();
-        consumptionValueView.setText(CommonUtils.formatFuel(consumption, unitFacade));
-
-        priceUnitValueView = query.id(R.id.priceUnitValue).getEditText();
-        priceUnitValueView.setText(CommonUtils.formatFuel(lastPriciUnit, unitFacade));
-
-        CalcTextWatcher calcTextWatcher = new CalcTextWatcher();
-        distanceValueView.addTextChangedListener(calcTextWatcher);
-        consumptionValueView.addTextChangedListener(calcTextWatcher);
-        priceUnitValueView.addTextChangedListener(calcTextWatcher);
+		initCalc();
 
         distanceValueView.setText("0");
     }
 
-    public void calculate() {
+	private void initCalc() {
+		unitFacade.appendDistUnit(query.id(R.id.distance).getTextView(), true);
+		unitFacade.appendConsumUnit(query.id(R.id.consumption).getTextView(), true);
+		unitFacade.appendCurrency(query.id(R.id.priceUnit).getTextView(), false);
+		ContentResolver cr = getActivity().getContentResolver();
+		long activeCarId = DBUtils.getActiveCarId(cr);
+		double consumption = DBUtils.getAvgFuel(activeCarId, cr, -1, -1, unitFacade);
+		double lastPriciUnit = DBUtils.getLastPriceValue(cr);
+
+		distanceValueView = query.id(R.id.distanceValue).getEditText();
+
+		consumptionValueView = query.id(R.id.consumptionValue).getEditText();
+		consumptionValueView.setText(CommonUtils.formatFuel(consumption, unitFacade));
+
+		priceUnitValueView = query.id(R.id.priceUnitValue).getEditText();
+		priceUnitValueView.setText(CommonUtils.formatFuel(lastPriciUnit, unitFacade));
+
+		CalcTextWatcher calcTextWatcher = new CalcTextWatcher();
+		distanceValueView.addTextChangedListener(calcTextWatcher);
+		consumptionValueView.addTextChangedListener(calcTextWatcher);
+		priceUnitValueView.addTextChangedListener(calcTextWatcher);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		getMediator().showCarSelection(this);
+	}
+
+	public void calculate() {
         double dist = CommonUtils.getRawDouble(distanceValueView.getText().toString());
         double priceUnit =  CommonUtils.getRawDouble(priceUnitValueView.getText().toString());
         double counsumpt =  CommonUtils.getRawDouble(consumptionValueView.getText().toString());
@@ -98,7 +109,13 @@ public class CalcFragment extends BaseFragment {
         return getString(R.string.calc);
     }
 
-    private  class CalcTextWatcher implements  TextWatcher {
+	@Override
+	public void onCarChanged(long id) {
+		getMediator().clearCarSelection();
+		getMediator().showCalc();
+	}
+
+	private  class CalcTextWatcher implements  TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 

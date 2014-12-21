@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.androidquery.AQuery;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.BaseActivity;
+import com.enadein.carlogbook.core.CarChangedListener;
 import com.enadein.carlogbook.core.SaveUpdateBaseActivity;
 import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.DBUtils;
@@ -181,6 +182,18 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 		long odometerValue = DBUtils.getMaxOdometerValue(getContentResolver());
 		odometerView.setText(String.valueOf(odometerValue));
 		typeSpinner.setSelection(0);
+
+		getMediator().showCarSelection(new CarChangedListener() {
+			@Override
+			public void onCarChanged(long id) {
+
+			}
+		});
+	}
+
+	@Override
+	public int getCarSelectorViewId() {
+		return R.id.carsAdd;
 	}
 
 	@Override

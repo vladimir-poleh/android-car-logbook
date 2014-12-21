@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/log_fuel_item">
-
+			  xmlns:app="http://schemas.android.com/apk/res-auto"
+			  style="@style/log_fuel_item">
+	<android.support.v7.widget.CardView
+		app:cardUseCompatPadding="true"
+		style="@style/card">
     <LinearLayout style="@style/new_group_item">
 
         <LinearLayout
@@ -24,6 +27,7 @@
 
                 <TextView
                     android:id="@+id/fuel"
+					android:textColor="#555"
                     style="@style/wrap" />
 
                 <TextView
@@ -52,4 +56,5 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+	</android.support.v7.widget.CardView>
 </LinearLayout>

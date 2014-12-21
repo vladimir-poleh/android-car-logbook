@@ -2,20 +2,26 @@
 
 <LinearLayout
 	style="@style/item_name_image"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
-	<LinearLayout
-		style="@style/new_group_item">
+	<android.support.v7.widget.CardView
+		style="@style/card"
+		app:cardUseCompatPadding="true">
 
 		<LinearLayout
-			style="@style/wide"
-			android:gravity="center_vertical"
-			android:orientation="horizontal"
-			android:padding="8dp">
+			style="@style/new_group_item">
 
-			<TextView
-				android:id="@+id/name"
-				style="@style/wrap"/>
+			<LinearLayout
+				style="@style/wide"
+				android:gravity="center_vertical"
+				android:orientation="horizontal"
+				android:padding="8dp">
+
+				<TextView
+					android:id="@+id/name"
+					style="@style/wrap"/>
+			</LinearLayout>
 		</LinearLayout>
-	</LinearLayout>
+	</android.support.v7.widget.CardView>
 </LinearLayout>

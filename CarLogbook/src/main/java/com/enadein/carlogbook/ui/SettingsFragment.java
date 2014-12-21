@@ -114,20 +114,6 @@ public class SettingsFragment extends BaseFragment {
             });
         }
 
-        {
-            CheckBox carSelection = (CheckBox) view.findViewById(R.id.carChange);
-            String enableCarSelection = getMediator().getUnitFacade().getSetting(UnitFacade.SET_CAR_SELECTION, "1");
-
-            carSelection.setChecked("1".equals(enableCarSelection));
-            carSelection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    getMediator().getUnitFacade().setSetings(UnitFacade.SET_CAR_SELECTION, b ? "1" : "0");
-                    getMediator().getUnitFacade().invalidateFlags();
-                }
-            });
-        }
-
 		setupSpinner(R.id.fuelSymb, UnitFacade.SET_FRACT_FUEL, "3");
 		setupSpinner(R.id.curencSymb, UnitFacade.SET_FRACT_CURRENCY, "3");
 		setupSpinner(R.id.time, UnitFacade.SET_NOTIFY_TIME, "12");

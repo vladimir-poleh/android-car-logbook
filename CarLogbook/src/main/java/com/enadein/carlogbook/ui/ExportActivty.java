@@ -42,7 +42,7 @@ public class ExportActivty extends BaseActivity implements LoaderManager.LoaderC
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.export_lw);
+
 		setSubTitle(getString(R.string.export));
 
 		nameEditView = (EditText) findViewById(R.id.name);
@@ -53,6 +53,11 @@ public class ExportActivty extends BaseActivity implements LoaderManager.LoaderC
 				validateAndSave();
 			}
 		});
+	}
+
+	@Override
+	public void setContent() {
+		setContentView(R.layout.export_lw);
 	}
 
 	public boolean checkExist() {

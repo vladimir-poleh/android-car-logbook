@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/wide"
-    android:background="#ffffffff"
-    android:orientation="vertical">
+			  style="@style/wide"
+			  android:background="#ffffffff"
+			  android:layout_margin="40dp"
+			  android:padding="12dp"
+			  android:minWidth="240dp"
+			  android:minHeight="100dp"
+			  android:orientation="vertical">
 
-    <TextView
-        style="@style/wrap"
-        android:layout_margin="16dp"
-        android:text="@string/confirm_delete"
-        android:textColor="#555" />
 
-    <View
-        style="@style/wide"
-        android:layout_height="1dp"
-        android:background="@color/divider" />
+	<TextView
+		android:id="@+id/text"
+		style="@style/wrap"
+		android:maxWidth="160dp"
+		android:text="@string/confirm_delete"
+		android:layout_margin="14dp"
+		android:textColor="#555" />
 
-    <LinearLayout
-        style="@style/wide"
-        android:gravity="center"
-        android:orientation="horizontal">
+	<LinearLayout style="@style/wide"
+				  android:orientation="horizontal"
+				  android:layout_marginTop="8dp">
+		<TextView
+			android:layout_width="0dp"
+			android:layout_weight="1"
+			android:layout_height="wrap_content"/>
         <Button
             android:id="@+id/yes"
-            style="@style/wrap"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:background="@drawable/list_selector"
+			style="@style/btn_dialog"
+			android:textColor="#c33"
             android:text="@string/yes" />
         <Button
             android:id="@+id/no"
-            android:layout_weight="1"
-            style="@style/wrap"
-            android:layout_height="50dp"
-            android:background="@drawable/list_selector"
+			style="@style/btn_dialog"
+			android:textColor="#333"
             android:text="@string/no" />
     </LinearLayout>
 </LinearLayout>

@@ -1,47 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/item_name_image">
+<LinearLayout
+	style="@style/item_name_image"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        style="@style/new_group_item_rp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+	<android.support.v7.widget.CardView
+		style="@style/card"
+		app:cardUseCompatPadding="true">
 
-        <LinearLayout
-            style="@style/circle"
-            android:layout_marginRight="6dp">
+		<LinearLayout
+			style="@style/new_group_item_rp"
+			android:gravity="center_vertical"
+			android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/logo"
-                style="@style/logo"
-                android:layout_margin="4dp" />
-        </LinearLayout>
+			<LinearLayout
+				style="@style/circle"
+				android:layout_marginRight="6dp">
 
-        <TextView
-            android:id="@+id/name"
-            style="@style/wrap"
-            android:layout_weight="1" />
+				<ImageView
+					android:id="@+id/logo"
+					style="@style/logo"
+					android:layout_margin="4dp"/>
+			</LinearLayout>
 
-        <LinearLayout
-            style="@style/wrap_vertical"  android:gravity="end">
-            <TextView
-                android:id="@+id/valueMin"
-                android:gravity="end"
-                style="@style/wrap" />
+			<TextView
+				android:id="@+id/name"
+				style="@style/wrap"
+				android:layout_weight="1"/>
 
-            <TextView
-                android:id="@+id/value"
-                android:gravity="end"
-                style="@style/wrap" />
-            <TextView
-                android:id="@+id/valueMax"
-                android:gravity="end"
-                style="@style/wrap" />
-            <TextView
-                android:id="@+id/valueAVG"
-                android:gravity="end"
-                style="@style/wrap" />
-        </LinearLayout>
-    </LinearLayout>
+			<LinearLayout
+				style="@style/wrap_vertical"
+				android:gravity="end">
+
+				<TextView
+					android:id="@+id/valueMin"
+					style="@style/wrap"
+					android:gravity="end"/>
+
+				<TextView
+					android:id="@+id/value"
+					style="@style/wrap"
+					android:gravity="end"/>
+
+				<TextView
+					android:id="@+id/valueMax"
+					style="@style/wrap"
+					android:gravity="end"/>
+
+				<TextView
+					android:id="@+id/valueAVG"
+					style="@style/wrap"
+					android:gravity="end"/>
+			</LinearLayout>
+		</LinearLayout>
+	</android.support.v7.widget.CardView>
 </LinearLayout>

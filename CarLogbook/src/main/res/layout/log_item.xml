@@ -1,51 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/log_fuel_item">
+<LinearLayout
+	style="@style/log_fuel_item"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout style="@style/new_group_item">
+	<android.support.v7.widget.CardView
+		app:cardUseCompatPadding="true"
+		style="@style/card">
 
-        <LinearLayout
-            style="@style/wide"
-            android:orientation="horizontal">
+		<LinearLayout style="@style/new_group_item">
 
-            <LinearLayout style="@style/circle">
+			<LinearLayout
+				style="@style/wide"
+				android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/imgType"
-                    style="@style/logo" />
-            </LinearLayout>
+				<LinearLayout style="@style/circle">
 
-            <LinearLayout
-                style="@style/wrap_vertical"
-                android:layout_margin="6dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical">
+					<ImageView
+						android:id="@+id/imgType"
+						style="@style/logo"/>
+				</LinearLayout>
 
-                <TextView
-                    android:id="@+id/name"
-                    style="@style/wrap" />
+				<LinearLayout
+					style="@style/wrap_vertical"
+					android:layout_margin="6dp"
+					android:layout_weight="1"
+					android:gravity="center_vertical">
 
-                <TextView
-                    android:textColor="#ffaaaaaa"
-                    android:id="@+id/type"
-                    style="@style/wrap" />
-            </LinearLayout>
+					<TextView
+						android:id="@+id/name"
+						android:textColor="#555"
+						style="@style/wrap"/>
 
-            <LinearLayout style="@style/wrap_vertical" android:gravity="end">
-                <TextView
-                    android:id="@+id/date"
-                    style="@style/wrap"
-                    android:textColor="#ffaaaaaa"
-                    android:textSize="14sp" />
-                <TextView
-                    android:id="@+id/odometer"
-                    style="@style/wrap" />
-                <TextView
-                    android:id="@+id/priceTotal"
-                    android:textColor="@color/price"
-                    style="@style/wrap" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+					<TextView
+						android:id="@+id/type"
+						style="@style/wrap"
+						android:textColor="#ffaaaaaa"/>
+				</LinearLayout>
+
+				<LinearLayout
+					style="@style/wrap_vertical"
+					android:gravity="end">
+
+					<TextView
+						android:id="@+id/date"
+						style="@style/wrap"
+						android:textColor="#ffaaaaaa"
+						android:textSize="14sp"/>
+
+					<TextView
+						android:id="@+id/odometer"
+						style="@style/wrap"/>
+
+					<TextView
+						android:id="@+id/priceTotal"
+						style="@style/wrap"
+						android:textColor="@color/price"/>
+				</LinearLayout>
+			</LinearLayout>
+		</LinearLayout>
+	</android.support.v7.widget.CardView>
 </LinearLayout>
