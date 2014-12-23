@@ -68,9 +68,9 @@ public class AddUpdateLogActivity extends BaseLogAcivity implements
 //			result = false;
 //		}
 
-		if (!validateTextView(R.id.errorName, nameView)) {
-			result = false;
-		}
+//		if (!validateTextView(R.id.errorName, nameView)) {
+//			result = false;
+//		}
 
 		return result;
 	}

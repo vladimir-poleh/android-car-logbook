@@ -217,56 +217,55 @@ public class ReportsFramgent extends BaseReportFragment implements LoaderManager
 
 		totalFuelValume.setText(unitFacade.appendFuelUnit(false, CommonUtils.formatFuel(b.getTotalFuelCount(), unitFacade)));
 
-		float totalFuelPrice = Math.round(b.getTotalFuelPrice());
-		float totalServicePrice = Math.round(b.getTotalServicePrice());
-		float totalPartsPrice = Math.round(b.getTotalPartsPrice());
-		float totalParkingPrice = Math.round(b.getTotalParkingPrice());
-		float totalOtherPrice = Math.round(b.getTotalOtherPrice());
+		double totalFuelPrice = b.getTotalFuelPrice();
+		double totalServicePrice = b.getTotalServicePrice();
+		double totalPartsPrice = b.getTotalPartsPrice();
+		double totalParkingPrice = b.getTotalParkingPrice();
+		double totalOtherPrice = b.getTotalOtherPrice();
 		totalFuelView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalFuelPrice, unitFacade)));
 		totalServiceView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalServicePrice, unitFacade)));
 		totalPartsView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalPartsPrice, unitFacade)));
 		totalParkingView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalParkingPrice, unitFacade)));
 		totalOtherView.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(totalOtherPrice, unitFacade)));
 
+		ArrayList<Integer> colors = new ArrayList<Integer>();
 		ArrayList<Entry> yValues = new ArrayList<Entry>();
+		ArrayList<String> xValues = new ArrayList<String>();
+
 		int idx = 0;
 		if (totalFuelPrice > 0) {
-			yValues.add(new Entry(totalFuelPrice, idx));
+			xValues.add("");
+			colors.add(DataInfo.COLOR_FUEL);
+			yValues.add(new Entry((float) totalFuelPrice, idx));
 			idx++;
 		}
 
 		if (totalServicePrice > 0) {
-			yValues.add(new Entry(totalServicePrice, idx));
+			xValues.add("");
+			colors.add(DataInfo.COLOR_SERVICE);
+			yValues.add(new Entry((float) totalServicePrice, idx));
 			idx++;
 		}
 
 		if (totalPartsPrice > 0) {
-			yValues.add(new Entry(totalPartsPrice, idx));
+			xValues.add("");
+			colors.add(DataInfo.COLOR_PARTS);
+			yValues.add(new Entry((float) totalPartsPrice, idx));
 			idx++;
 		}
 		if (totalParkingPrice > 0) {
-			yValues.add(new Entry(totalParkingPrice, idx));
+			xValues.add("");
+			colors.add(DataInfo.COLOR_PARKING);
+			yValues.add(new Entry((float) totalParkingPrice, idx));
 			idx++;
 		}
 
 		if (totalOtherPrice > 0) {
-			yValues.add(new Entry(totalOtherPrice, idx));
+			xValues.add("");
+			colors.add(DataInfo.COLOR_OTHERS);
+			yValues.add(new Entry((float) totalOtherPrice, idx));
 		}
 
-		ArrayList<String> xValues = new ArrayList<String>();
-		xValues.add("");
-		xValues.add("");
-		xValues.add("");
-		xValues.add("");
-		xValues.add("");
-
-		ArrayList<Integer> colors = new ArrayList<Integer>();
-
-		colors.add(DataInfo.COLOR_FUEL);
-		colors.add(DataInfo.COLOR_SERVICE);
-		colors.add(DataInfo.COLOR_PARTS);
-		colors.add(DataInfo.COLOR_PARKING);
-		colors.add(DataInfo.COLOR_OTHERS);
 
 		PieDataSet pieDataSet = new PieDataSet(yValues, "");
 		pieDataSet.setColors(colors);
@@ -300,7 +299,7 @@ public class ReportsFramgent extends BaseReportFragment implements LoaderManager
 		mounthXVal = new ArrayList<String>();
 		idx = 0;
 		for (BarInfo bi : b.getRunLast4Months()) {
-			barEntries.add(new BarEntry(Math.round(bi.getValue()), idx));
+			barEntries.add(new BarEntry(bi.getValue(), idx));
 			mounthXVal.add(bi.getName());
 			idx++;
 		}

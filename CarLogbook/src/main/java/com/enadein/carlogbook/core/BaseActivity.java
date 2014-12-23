@@ -258,11 +258,13 @@ abstract public class BaseActivity extends ActionBarActivity implements DialogLi
 
 		@Override
 		public void onReset() {
-			carsAdapter.swapCursor(null);
-			Cursor c = cdi.getCursor();
-			if (c != null) {
-				c.close();
-				cdi.setCursor(null);
+			if (carsAdapter != null) {
+				carsAdapter.swapCursor(null);
+				Cursor c = cdi.getCursor();
+				if (c != null) {
+					c.close();
+					cdi.setCursor(null);
+				}
 			}
 		}
 

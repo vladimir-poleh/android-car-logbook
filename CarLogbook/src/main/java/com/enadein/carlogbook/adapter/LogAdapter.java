@@ -172,6 +172,10 @@ public class LogAdapter extends CursorAdapter {
 //                logHolder.typeView.setText(fuelName);
             }
 
+			if (name == null || name.trim().equals("")) {
+				logHolder.nameView.setText(logHolder.typeView.getText());
+			}
+
 			logHolder.id = id;
 		}
 

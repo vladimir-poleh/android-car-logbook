@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 21
-        versionCode 19
-        versionName "2.0.0"
+        versionCode 21
+        versionName "2.0.2"
 
         testApplicationId "com.enadein.carlogbook.tests"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -30,8 +30,8 @@ android {
             signingConfig signingConfigs.release
         }
         debug {
-            proguardFiles getDefaultProguardFile('proguard-project.txt'), 'proguard-rules.txt'
-            runProguard true
+           // proguardFiles getDefaultProguardFile('proguard-project.txt'), 'proguard-rules.txt'
+            //runProguard true
         }
     }
 }

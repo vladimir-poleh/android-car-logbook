@@ -38,7 +38,7 @@ import java.util.ArrayList;
 
 
 public class CarLogbook extends BaseActivity implements BillingProcessor.IBillingHandler {
-	public static final String VERSION = "2.0.0";
+	public static final String VERSION = "2.0.2";
 
 	public static final String ROTATE = "rotate";
 	private Logger log = Logger.createLogger(getClass());

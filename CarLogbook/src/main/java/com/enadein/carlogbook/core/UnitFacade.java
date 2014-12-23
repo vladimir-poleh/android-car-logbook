@@ -52,6 +52,7 @@ public class UnitFacade {
 
 	public static int currencyFract = 3;
 	public static int fuelFract = 3;
+	public static int minFract = 3;
 
 	public UnitFacade(Context ctx) {
 		this.ctx = ctx;
