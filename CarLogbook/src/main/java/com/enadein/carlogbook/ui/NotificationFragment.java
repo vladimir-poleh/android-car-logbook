@@ -50,7 +50,7 @@ public class NotificationFragment extends BaseFragment implements
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		notificationAdapter = new NotificationAdapter(getActivity(), null);
+		notificationAdapter = new NotificationAdapter(getActivity(), null, getMediator().getUnitFacade());
 		ListView notifyListView = (ListView) view.findViewById(R.id.list);
 		notifyListView.setAdapter(notificationAdapter);
 

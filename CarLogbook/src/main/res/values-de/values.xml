@@ -30,11 +30,14 @@
         <item>Ersatzteile</item><!--8-->
         <item>Versicherung</item><!--9-->
         <item>Kredit</item><!--10-->
+		<item>Kilometerzähler refresh</item><!--11-->
+		<item>Einkommen</item><!--12-->
     </string-array>
 
     <string-array name="notify_types">
         <item>Nach Kilometerstand</item>
         <item>Nach Datum</item>
+        <item>Nach Datum/Nach Kilometerstand</item>
     </string-array>
 
     <!--1.2-->

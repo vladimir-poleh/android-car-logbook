@@ -22,10 +22,12 @@ import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.SaveUpdateBaseActivity;
 import com.enadein.carlogbook.db.CommonUtils;
 import com.enadein.carlogbook.db.DBUtils;
@@ -85,5 +87,12 @@ abstract public class  BaseLogAcivity extends SaveUpdateBaseActivity implements 
 		DatePickerFragment datePickerFragment = new DatePickerFragment();
 		datePickerFragment.setListener(date, this);
 		datePickerFragment.show(getSupportFragmentManager(), "date_picker");
+	}
+
+	public void showAddNotify(String name) {
+		SwitchCompat switchCompat = (SwitchCompat) findViewById(R.id.add_notify);
+		if (switchCompat.isChecked()) {
+			getMediator().showAddNotification(name);
+		}
 	}
 }

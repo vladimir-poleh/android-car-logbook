@@ -642,6 +642,62 @@
 							style="@style/wrap"
 							android:textColor="@color/price"/>
 					</LinearLayout>
+					<View   style="@style/divider"/>
+					<LinearLayout style="@style/add_entity_group">
+
+						<TextView
+							style="@style/add_entity_label"
+							android:text="@string/total_income"/>
+
+						<TextView
+							android:id="@+id/total_income"
+							style="@style/wrap"
+							android:textColor="@color/income"/>
+					</LinearLayout>
+					<LinearLayout style="@style/add_entity_group">
+
+						<TextView
+							style="@style/add_entity_label"
+							android:text="@string/total_month_income"/>
+
+						<TextView
+							android:id="@+id/total_month_income"
+							style="@style/wrap"
+							android:textColor="@color/income"/>
+					</LinearLayout>
+					<LinearLayout style="@style/add_entity_group">
+
+						<TextView
+							style="@style/add_entity_label"
+							android:text="@string/total_month_last_income"/>
+
+						<TextView
+							android:id="@+id/total_month_last_income"
+							style="@style/wrap"
+							android:textColor="@color/income"/>
+					</LinearLayout>
+					<LinearLayout style="@style/add_entity_group">
+
+						<TextView
+							style="@style/add_entity_label"
+							android:text="@string/total_year_income"/>
+
+						<TextView
+							android:id="@+id/total_year_income"
+							style="@style/wrap"
+							android:textColor="@color/income"/>
+					</LinearLayout>
+					<LinearLayout style="@style/add_entity_group">
+
+						<TextView
+							style="@style/add_entity_label"
+							android:text="@string/total_year_last_income"/>
+
+						<TextView
+							android:id="@+id/total_year_last_income"
+							style="@style/wrap"
+							android:textColor="@color/income"/>
+					</LinearLayout>
 				</LinearLayout>
 			</android.support.v7.widget.CardView>
 		</LinearLayout>

@@ -35,9 +35,11 @@ import java.util.Date;
 
 public class NotificationAdapter extends CursorAdapter {
 	private int mlastPos = 1;
+	private UnitFacade unitFacade;
 
-	public NotificationAdapter(Context context, Cursor c) {
+	public NotificationAdapter(Context context, Cursor c, UnitFacade unitFacade) {
 		super(context, c, FLAG_REGISTER_CONTENT_OBSERVER);
+		this.unitFacade = unitFacade;
 	}
 
 	@Override
@@ -51,10 +53,12 @@ public class NotificationAdapter extends CursorAdapter {
 	public void bindView(View view, Context context, Cursor cursor) {
 		int nameIdx = cursor.getColumnIndex(ProviderDescriptor.Notify.Cols.NAME);
 		int trigerIdx = cursor.getColumnIndex(ProviderDescriptor.Notify.Cols.TRIGGER_VALUE);
+		int triger2Idx = cursor.getColumnIndex(ProviderDescriptor.Notify.Cols.TRIGGER_VALUE2);
 		int typeIdx = cursor.getColumnIndex(ProviderDescriptor.Notify.Cols.TYPE);
 
 		String name = cursor.getString(nameIdx);
 		long trigerValue = cursor.getLong(trigerIdx);
+		long trigerValue2 = cursor.getLong(triger2Idx);
 		int type = cursor.getInt(typeIdx);
 
 		ImageView imageView = (ImageView) view.findViewById(R.id.logo);
@@ -65,9 +69,15 @@ public class NotificationAdapter extends CursorAdapter {
 		if (type == ProviderDescriptor.Notify.Type.DATE) {
 			imageView.setImageResource(R.drawable.date);
 			trigerView.setText(CommonUtils.formatDate(new Date(trigerValue)));
-		} else {
+		} else if (type == ProviderDescriptor.Notify.Type.ODOMETER) {
 			imageView.setImageResource(R.drawable.odometer);
-			trigerView.setText(String.valueOf(trigerValue));
+			trigerView.setText(unitFacade.appendDistUnit(false,String.valueOf(trigerValue)));
+		} else {
+			imageView.setImageResource(R.drawable.notify);
+			String value = CommonUtils.formatDate(new Date(trigerValue));
+			value += "\n" + unitFacade.appendDistUnit(false,String.valueOf(trigerValue2));
+			trigerView.setText(value);
+
 		}
 
 		int pos = cursor.getPosition();

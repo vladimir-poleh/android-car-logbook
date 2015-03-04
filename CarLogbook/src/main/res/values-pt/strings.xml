@@ -303,4 +303,18 @@
 	<string name="menu_detail">Detalhe</string>
 
 	<string name="reset">Rest.</string>
+
+	<!--2.5.0-->
+	<string name="income_val">Valores de tipo de Renda</string>
+	<string name="income_add">Adicione o tipo de Renda</string>
+	<string name="income_edit">Editar tipo de Renda</string>
+	<string name="income_default">omissão</string>
+	<string name="income">tipo de renda</string>
+	<string name="income_4_months">Renda (último 4 meses)</string>
+	<string name="total_income">A renda total</string>
+	<string name="total_month_income">A renda total este mês</string>
+	<string name="total_month_last_income">Os proveitos totais no mês passado</string>
+	<string name="total_year_income">A renda total este ano</string>
+	<string name="total_year_last_income">A renda total do ano passado</string>
+	<string name="total_year_last_income_def">omissão</string>
 </resources>

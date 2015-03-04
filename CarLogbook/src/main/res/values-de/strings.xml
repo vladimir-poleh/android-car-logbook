@@ -302,4 +302,18 @@
 	<string name="menu_detail">Details</string>
 
 	<string name="reset">Rücksetzen</string>
+
+	<!--2.5.0-->
+	<string name="income_val">Income-Typ Werte</string>
+	<string name="income_add">Fügen Income Typ</string>
+	<string name="income_edit">Bearbeiten Income Typ</string>
+	<string name="income_default">Default</string>
+	<string name="income">Income-Typ</string>
+	<string name="income_4_months">Die Erträge (letzten 4 Monate)</string>
+	<string name="total_income">Gesamteinkommen</string>
+	<string name="total_month_income">Die Gesamtleistung in diesem Monat</string>
+	<string name="total_month_last_income">Die Gesamterträge im letzten Monat</string>
+	<string name="total_year_income">Die Gesamtleistung in diesem Jahr</string>
+	<string name="total_year_last_income">Die Gesamterträge im vergangenen Jahr</string>
+	<string name="total_year_last_income_def">Default</string>
 </resources>

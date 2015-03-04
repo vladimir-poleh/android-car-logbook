@@ -50,6 +50,7 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Random;
 
 public class CommonUtils {
 	public static final String DATE_FORMAT_TEST = "yyyy-MM-dd";
@@ -128,7 +129,7 @@ public class CommonUtils {
 		return consumption.get(key);
 	}
 
-	public static void createNotify(Context ctx, long id, int res) {
+	public static void createNotify(Context ctx, long id) {
 		Cursor c = ctx.getContentResolver()
 				.query(ProviderDescriptor.Notify.CONTENT_URI, null, BaseActivity.SELECTION_ID_FILTER,
 						new String[]{String.valueOf(id)}, null);
@@ -151,8 +152,17 @@ public class CommonUtils {
 		}
 
 		int nameIdx = c.getColumnIndex(ProviderDescriptor.Notify.Cols.NAME);
+		int icoIdx = c.getColumnIndex(ProviderDescriptor.Notify.Cols.TYPE);
+		int type = c.getInt(icoIdx);
+
+		int res = (type == ProviderDescriptor.Notify.Type.DATE) ? R.drawable.not_date :
+				(type == ProviderDescriptor.Notify.Type.ODOMETER) ? R.drawable.not_odom : R.drawable.notify;
+
 
 		String name = c.getString(nameIdx);
+		String carName = DBUtils.getActiveCarName(ctx.getContentResolver(),
+				c.getLong(c.getColumnIndex(ProviderDescriptor.Notify.Cols.CAR_ID)));
+
 
 		Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
@@ -167,25 +177,28 @@ public class CommonUtils {
 //			mBuilder.setVibrate(new long[] {1000, 500, 1000});
 //		}
 
-		mBuilder.setContentTitle(ctx.getString(R.string.app_name))
+		mBuilder.setContentTitle(carName)
 						.setContentText(name);
+
 		NotificationManager mNotificationManager =
 				(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+
 		Intent notifyIntent = new Intent(ctx, AddUpdateNotificationActivity.class);
 		notifyIntent.putExtra(BaseActivity.MODE_KEY, BaseActivity.PARAM_EDIT);
 		notifyIntent.putExtra(BaseActivity.ENTITY_ID, id);
 		notifyIntent.putExtra(BaseActivity.NOTIFY_EXTRA, true);
+//		notifyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 		notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
 		TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
 		stackBuilder.addParentStack(AddUpdateNotificationActivity.class);
-		stackBuilder.addNextIntent(notifyIntent);
+//		stackBuilder.addNextIntent(notifyIntent);
 
 		PendingIntent notifyPendingIntent =
 				PendingIntent.getActivity(
 						ctx,
-						0,
+						(int) id,
 						notifyIntent,
 						PendingIntent.FLAG_UPDATE_CURRENT
 				);
@@ -198,14 +211,16 @@ public class CommonUtils {
 
 	public static void validateDateNotifications(Context ctx) {
 		ContentResolver cr = ctx.getContentResolver();
-		long carId = DBUtils.getActiveCarId(cr);
-		String selection = DBUtils.CAR_SELECTION_NOTIFY + " and "
-				+ ProviderDescriptor.Notify.Cols.TYPE + " = ?";
+//		long carId = DBUtils.getActiveCarId(cr);
+//		String selection = DBUtils.CAR_SELECTION_NOTIFY + " and "
+//				+ ProviderDescriptor.Notify.Cols.TYPE + " = ?";
+
+		String selection = ProviderDescriptor.Notify.Cols.TYPE + " = ? or " + ProviderDescriptor.Notify.Cols.TYPE + " = ?";
 
 		Cursor c = cr.query(ProviderDescriptor.Notify.CONTENT_URI,
 				null, selection,
-				new String[]{String.valueOf(carId),
-						String.valueOf(ProviderDescriptor.Notify.Type.DATE)
+				new String[]{String.valueOf(ProviderDescriptor.Notify.Type.DATE),
+						String.valueOf(ProviderDescriptor.Notify.Type.DATE_ODOMETER)
 				}, null
 		);
 
@@ -228,18 +243,26 @@ public class CommonUtils {
 	}
 
 	public static void validateOdometerNotifications(Context ctx, int odmeterValue) {
+		validateOdometerNotify(ctx, odmeterValue
+				, ProviderDescriptor.Notify.Type.ODOMETER
+				,ProviderDescriptor.Notify.Cols.TRIGGER_VALUE);
+
+		validateOdometerNotify(ctx, odmeterValue
+				, ProviderDescriptor.Notify.Type.DATE_ODOMETER
+				,ProviderDescriptor.Notify.Cols.TRIGGER_VALUE2);
+
+		//DOUBLE CHECK
+		NotifyService.checkDateNotifications(ctx);
+		CommonUtils.validateDateNotifications(ctx);
+	}
+
+	public static void validateOdometerNotify(Context ctx, int odmeterValue,
+			int type, String trigerKey) {
 		ContentResolver cr = ctx.getContentResolver();
 		long carId = DBUtils.getActiveCarId(cr);
-		String selection = DBUtils.CAR_SELECTION_NOTIFY + " and "
-				+ ProviderDescriptor.Notify.Cols.TYPE + " = ? and "
-				+ ProviderDescriptor.Notify.Cols.TRIGGER_VALUE + " <= ?";
-		Cursor c = cr.query(ProviderDescriptor.Notify.CONTENT_URI,
-				null, selection,
-				new String[]{String.valueOf(carId),
-						String.valueOf(ProviderDescriptor.Notify.Type.ODOMETER),
-						String.valueOf(odmeterValue)
-				}, null
-		);
+		Cursor c = getOdometerNotifyCursor(odmeterValue, cr, carId,
+				type,
+				trigerKey);
 
 		if (c == null) {
 			return;
@@ -247,15 +270,26 @@ public class CommonUtils {
 
 		while (c.moveToNext()) {
 			long id = c.getLong(c.getColumnIndex(ProviderDescriptor.Notify.Cols._ID));
-			createNotify(ctx, id, R.drawable.not_odom);
+			createNotify(ctx, id);
 		}
 
 		c.close();
 
-		//DOUBLE CHECK
-		NotifyService.checkDateNotifications(ctx);
-		CommonUtils.validateDateNotifications(ctx);
 
+	}
+
+	private static Cursor getOdometerNotifyCursor(int odmeterValue, ContentResolver cr,
+												  long carId, int type, String trigerKey) {
+		String selection = DBUtils.CAR_SELECTION_NOTIFY + " and "
+				+ ProviderDescriptor.Notify.Cols.TYPE + " = ? and "
+				+ trigerKey + " <= ?";
+		return cr.query(ProviderDescriptor.Notify.CONTENT_URI,
+				null, selection,
+				new String[]{String.valueOf(carId),
+						String.valueOf(type),
+						String.valueOf(odmeterValue)
+				}, null
+		);
 	}
 
 	public static String formatDate(Date date) {

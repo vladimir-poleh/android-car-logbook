@@ -29,6 +29,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class FileUtils {
 	private static final String BACK_UP_DIR = "CarLogbook";
@@ -58,6 +60,13 @@ public class FileUtils {
 		if (files == null) {
 			files = new File[0];
 		}
+
+		Arrays.sort(files, new Comparator<File>() {
+			@Override
+			public int compare(File lhs, File rhs) {
+				return lhs.lastModified() > rhs.lastModified() ? -1 : 1;
+			}
+		});
 
 		return files;
 	}

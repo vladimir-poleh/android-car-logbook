@@ -23,6 +23,15 @@
 			android:theme="@style/ThemeOverlay.AppCompat.Light"
 			android:visibility="gone"/>
 
+		<TextView
+			android:id="@+id/carView"
+			android:text=""
+			android:textStyle="bold"
+			android:visibility="gone"
+			android:textColor="#fff"
+			style="@style/wrap"
+			/>
+
 	</LinearLayout>
 
 	<ScrollView
@@ -114,7 +123,9 @@
 								android:entries="@array/date_repeating"/>
 						</LinearLayout>
 					</LinearLayout>
-
+					<View android:id="@+id/div"
+						  android:visibility="gone"
+						  style="@style/divider"/>
 					<TextView
 						android:id="@+id/errorOdometer"
 						style="@style/add_entity_error"
@@ -156,6 +167,21 @@
 								/>
 						</LinearLayout>
 					</LinearLayout>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
+			<TextView
+				style="@style/new_title"
+				android:text="@string/comments"/>
+			<android.support.v7.widget.CardView
+				app:cardUseCompatPadding="true"
+				style="@style/card">
+				<LinearLayout
+					style="@style/new_group">
+
+					<EditText
+						android:id="@+id/comment"
+						style="@style/comment"
+						android:maxLength="250"/>
 				</LinearLayout>
 			</android.support.v7.widget.CardView>
 		</LinearLayout>

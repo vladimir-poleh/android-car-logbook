@@ -68,7 +68,10 @@ public class ReportsFramgent extends BaseReportFragment implements LoaderManager
 	private AQuery a;
 	private PieChart pie;
 	private BarChart costChart;
+	private BarChart incomeChart;
 	private BarChart runChart;
+	private BarChart cost1Chart;
+	private BarChart fuelCost1;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -126,6 +129,28 @@ public class ReportsFramgent extends BaseReportFragment implements LoaderManager
 		initBar(costChart);
 		costChart.setValueFormatter(costF);
 		costChart.getYLabels().setFormatter(costF);
+
+		//
+		cost1Chart = (BarChart) view.findViewById(R.id.cost1_chart);
+		cost1Chart.setUnit(" "+ getMediator().getUnitFacade().getCurrency());
+		initBar(cost1Chart);
+		cost1Chart.setValueFormatter(costF);
+		cost1Chart.getYLabels().setFormatter(costF);
+
+		fuelCost1 = (BarChart) view.findViewById(R.id.fuel_cost1);
+		fuelCost1.setUnit(" "+ getMediator().getUnitFacade().getCurrency());
+		initBar(fuelCost1);
+		fuelCost1.setValueFormatter(costF);
+		fuelCost1.getYLabels().setFormatter(costF);
+		//
+
+
+		incomeChart = (BarChart) view.findViewById(R.id.incomeChart);
+		incomeChart.setUnit(" "+ getMediator().getUnitFacade().getCurrency());
+		initBar(incomeChart);
+		incomeChart.setValueFormatter(costF);
+		incomeChart.getYLabels().setFormatter(costF);
+
 
 		runChart = (BarChart) view.findViewById(R.id.run_chart);
 		runChart.setUnit(" " + getMediator().getUnitFacade().getDistUnit());
@@ -206,6 +231,8 @@ public class ReportsFramgent extends BaseReportFragment implements LoaderManager
 		cost1.setText(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(b.getPricePer1(), unitFacade)));
 
 		a.id(R.id.cost_fuel_per1).text(unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(b.getPriceFuelPer1(), unitFacade)));
+		unitFacade.appendDistUnit(a.id(R.id.lb_cost1).getTextView(), false);
+		unitFacade.appendDistUnit(a.id(R.id.lb_fuelcost1).getTextView(), false);
 
 		fuelAvg.setText(CommonUtils.formatDistance(b.getFuelRateAvg()));
 		fuelAvg2.setText(CommonUtils.formatFuel(b.getFuelRateAvg2(), unitFacade));
@@ -294,23 +321,89 @@ public class ReportsFramgent extends BaseReportFragment implements LoaderManager
 		costChart.invalidate();
 		costChart.animateY(3500);
 
+		//INCOME
 
-		barEntries = new ArrayList<BarEntry>();
-		mounthXVal = new ArrayList<String>();
-		idx = 0;
-		for (BarInfo bi : b.getRunLast4Months()) {
-			barEntries.add(new BarEntry(bi.getValue(), idx));
-			mounthXVal.add(bi.getName());
-			idx++;
+		{
+			 barEntries = new ArrayList<BarEntry>();
+			mounthXVal = new ArrayList<String>();
+
+			idx = 0;
+
+			boolean showIncome = false;
+			for (BarInfo bi : b.getIncomeLast4Months()) {
+				barEntries.add(new BarEntry(bi.getValue(), idx));
+				if (bi.getValue() > 0) {
+					showIncome = true;
+				}
+				mounthXVal.add(bi.getName());
+				idx++;
+			}
+			 barSet = new BarDataSet(barEntries, "");
+			barSet.setColor(getResources().getColor(R.color.income));
+			 costData = new BarData(mounthXVal, barSet);
+
+			if (showIncome) {
+				a.id(R.id.id_income).visible();
+				a.id(R.id.view_income).visible();
+				incomeChart.setData(costData);
+				incomeChart.invalidate();
+				incomeChart.animateY(3500);
+			}
 		}
 
-		barSet = new BarDataSet(barEntries, "");
-		barSet.setColor(0xff8BC34A);
-		BarData runData = new BarData(mounthXVal, barSet);
-		runChart.setData(runData);
-		runChart.invalidate();
-		runChart.animateY(4500);
+		{
+			barEntries = new ArrayList<BarEntry>();
+			mounthXVal = new ArrayList<String>();
+			idx = 0;
+			for (BarInfo bi : b.getRunLast4Months()) {
+				barEntries.add(new BarEntry(bi.getValue(), idx));
+				mounthXVal.add(bi.getName());
+				idx++;
+			}
 
+			barSet = new BarDataSet(barEntries, "");
+			barSet.setColor(0xff8BC34A);
+			BarData runData = new BarData(mounthXVal, barSet);
+			runChart.setData(runData);
+			runChart.invalidate();
+			runChart.animateY(4500);
+		}
+
+		{
+			barEntries = new ArrayList<BarEntry>();
+			mounthXVal = new ArrayList<String>();
+			idx = 0;
+			for (BarInfo bi : b.getCostPer1()) {
+				barEntries.add(new BarEntry(bi.getValue(), idx));
+				mounthXVal.add(bi.getName());
+				idx++;
+			}
+
+			barSet = new BarDataSet(barEntries, "");
+			barSet.setColor(0xFFff5722);
+			BarData runData = new BarData(mounthXVal, barSet);
+			cost1Chart.setData(runData);
+			cost1Chart.invalidate();
+			cost1Chart.animateY(4500);
+		}
+
+		{
+			barEntries = new ArrayList<BarEntry>();
+			mounthXVal = new ArrayList<String>();
+			idx = 0;
+			for (BarInfo bi : b.getFuelCostPer1()) {
+				barEntries.add(new BarEntry(bi.getValue(), idx));
+				mounthXVal.add(bi.getName());
+				idx++;
+			}
+
+			barSet = new BarDataSet(barEntries, "");
+			barSet.setColor(0xFFff5722);
+			BarData runData = new BarData(mounthXVal, barSet);
+			fuelCost1.setData(runData);
+			fuelCost1.invalidate();
+			fuelCost1.animateY(4500);
+		}
 	}
 
 	@Override

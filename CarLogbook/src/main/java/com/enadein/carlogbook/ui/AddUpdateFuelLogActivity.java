@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.CarChangedListener;
 import com.enadein.carlogbook.core.UnitFacade;
@@ -63,6 +64,9 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
     private boolean halt = false;
 
     private UnitFacade unitFacade;
+
+	private int fuelTypeId;
+	private int fuelStationId;
 
 	private abstract class TextWatcherWrapper implements TextWatcher {
 
@@ -124,7 +128,9 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 					ProviderDescriptor.DataValue.Type.FUEL);
 
 			Spinner fuelTypeSpinner = (Spinner) findViewById(R.id.typeSpinner);
-			fuelTypeSpinner.setSelection(getPositionFromAdapterById(fuelAdapter, defaultId));
+
+			fuelTypeSpinner.setSelection(getPositionFromAdapterById(fuelAdapter,
+					(fuelTypeId > 0) ? fuelTypeId : defaultId));
 
 		} else {
 			stationAdapter.swapCursor(data);
@@ -132,7 +138,8 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 					ProviderDescriptor.DataValue.Type.STATION);
 
 			Spinner stationSpinner = (Spinner) findViewById(R.id.stationSpinner);
-			stationSpinner.setSelection(getPositionFromAdapterById(stationAdapter, defaultId));
+			stationSpinner.setSelection(getPositionFromAdapterById(stationAdapter,
+					(fuelStationId > 0) ? fuelStationId : defaultId));
 		}
 	}
 
@@ -178,6 +185,7 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 		long fuelStationId = stationAdapter.getItemId(stationSpinner.getSelectedItemPosition());
 		DBUtils.setDafaultId(cr, ProviderDescriptor.DataValue.Type.STATION, fuelStationId);
 		cv.put(ProviderDescriptor.Log.Cols.FUEL_STATION_ID, fuelStationId);
+
 
 		return cv;
 	}
@@ -294,7 +302,14 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 	}
 
 	@Override
+	protected void hookUpToParrent() {
+		showAddNotify("");
+	}
+
+	@Override
 	protected void updateEntity() {
+		CommonUtils.validateOdometerNotifications(AddUpdateFuelLogActivity.this,
+				Integer.valueOf(odomenterView.getText().toString()));
 		getContentResolver().update(ProviderDescriptor.Log.CONTENT_URI, getContentValues(), ID_PARAM, new String[] {String.valueOf(id)});
 	}
 
@@ -318,11 +333,20 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 			fuelValueView.setText(CommonUtils.formatFuel(logCursor.getDouble(fueldValueIdx), unitFacade));
 
 			new PriceState().updatePrice();
-			fuelTypeSpinner.setSelection(getPositionFromAdapterById(fuelAdapter,
-					logCursor.getInt(fuelTypePosIdx)));
 
-			stationSpinner.setSelection(getPositionFromAdapterById(stationAdapter,
-					logCursor.getInt(fuelStationPosIdx)));
+//			fuelTypeSpinner.setSelection(getPositionFromAdapterById(fuelAdapter,
+//					logCursor.getInt(fuelTypePosIdx)));
+
+			fuelTypeId = logCursor.getInt(fuelTypePosIdx);
+//
+//			stationSpinner.setSelection(getPositionFromAdapterById(stationAdapter,
+//					logCursor.getInt(fuelStationPosIdx)));
+			fuelStationId = logCursor.getInt(fuelStationPosIdx);
+
+			loadFuelTypeAndStation();
+
+			String carName = DBUtils.getActiveCarName(getContentResolver(), getCarId());
+			new AQuery(this).id(R.id.carView).visible().text(carName);
 
 		}
 	}
@@ -335,8 +359,10 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 
 	@Override
 	protected void populateCreateEntity() {
+		findViewById(R.id.notify_group).setVisibility(View.VISIBLE);
 		date = new Date(System.currentTimeMillis());
         populateValuesByCar();
+		loadFuelTypeAndStation();
 
 		getMediator().showCarSelection(new CarChangedListener() {
 			@Override
@@ -382,6 +408,11 @@ public class AddUpdateFuelLogActivity extends BaseLogAcivity implements
 
 //        updateLabels();
 
+//		getSupportLoaderManager().initLoader(LOADER_STATION, null, this);
+//		getSupportLoaderManager().initLoader(LOADER_TYPE, null, this);
+	}
+
+	private void loadFuelTypeAndStation() {
 		getSupportLoaderManager().initLoader(LOADER_STATION, null, this);
 		getSupportLoaderManager().initLoader(LOADER_TYPE, null, this);
 	}

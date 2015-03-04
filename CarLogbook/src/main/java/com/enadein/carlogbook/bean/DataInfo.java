@@ -65,6 +65,8 @@ public class DataInfo {
 		map.put(8, R.drawable.part);
 		map.put(9, R.drawable.insurance);
 		map.put(10, R.drawable.coint);
+		map.put(11, R.drawable.odometer);
+		map.put(12, R.drawable.coint);
 
 		images = Collections.unmodifiableMap(map);
 	}

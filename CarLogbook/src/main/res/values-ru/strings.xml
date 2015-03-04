@@ -300,4 +300,18 @@
 	<string name="menu_detail">Детальный</string>
 
 	<string name="reset">Сброс</string>
+
+	<!--2.5.0-->
+	<string name="income_val">Типы доходов</string>
+	<string name="income_add">Доб. тип дохода</string>
+	<string name="income_edit">Ред. тип дохода</string>
+	<string name="income_default">Доходы</string>
+	<string name="income">Тип дохода</string>
+	<string name="income_4_months">Доход(Посл. 4 месяца)</string>
+	<string name="total_income">Всего доходов</string>
+	<string name="total_month_income">Доход в этом месяце</string>
+	<string name="total_month_last_income">Доход в прошлом месяце</string>
+	<string name="total_year_income">Доход в этом году</string>
+	<string name="total_year_last_income">Доход в прошлом году</string>
+	<string name="total_year_last_income_def">Доходы</string>
 </resources>

@@ -31,6 +31,13 @@
 					android:layout_width="match_parent"
 					android:text="@string/other_type_val"/>
 
+
+				<Button
+					android:id="@+id/income"
+					style="@style/btn"
+					android:layout_width="match_parent"
+					android:text="@string/income_val"/>
+
 			</LinearLayout>
 		</android.support.v7.widget.CardView>
 

@@ -51,12 +51,13 @@ public class NotifyService extends IntentService {
 //		long time = System.currentTimeMillis() + DAY + DAY;
 
 		ContentResolver cr = ctx.getContentResolver();
-		String selection = ProviderDescriptor.Notify.Cols.TYPE + " = ? and "
+		String selection = "("+ProviderDescriptor.Notify.Cols.TYPE + " = ? or " + ProviderDescriptor.Notify.Cols.TYPE + " = ?) and "
 				+ ProviderDescriptor.Notify.Cols.TRIGGER_VALUE + " <= ?";
 		Cursor c = cr.query(ProviderDescriptor.Notify.CONTENT_URI,
 				null, selection,
 				new String[] {
 						String.valueOf(ProviderDescriptor.Notify.Type.DATE),
+						String.valueOf(ProviderDescriptor.Notify.Type.DATE_ODOMETER),
 						String.valueOf(time)
 				}, null);
 
@@ -66,7 +67,7 @@ public class NotifyService extends IntentService {
 
 		while ( c.moveToNext()) {
 			long id = c.getLong(c.getColumnIndex(ProviderDescriptor.Notify.Cols._ID));
-			CommonUtils.createNotify(ctx, id, R.drawable.not_date);
+			CommonUtils.createNotify(ctx, id);
 		}
 
 		c.close();

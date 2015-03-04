@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 21
-        versionCode 21
-        versionName "2.0.2"
+        versionCode 22
+        versionName "2.5.0"
 
         testApplicationId "com.enadein.carlogbook.tests"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -25,27 +25,27 @@ android {
 
     buildTypes {
         release {
-            runProguard true
+//            runProguard true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-project.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.release
         }
         debug {
-           // proguardFiles getDefaultProguardFile('proguard-project.txt'), 'proguard-rules.txt'
-            //runProguard true
+           proguardFiles getDefaultProguardFile('proguard-project.txt'), 'proguard-rules.txt'
+//            minifyEnabled true
         }
     }
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:21.0.0'
-    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:cardview-v7:21.0.0'
     compile 'com.anjlab.android.iab.v3:library:1.0.8@aar'
     compile 'com.google.android.gms:play-services:6.1.71'
 //    compile 'com.getbase:floatingactionbutton:1.3.0'
 //    compile 'com.getbase:floatingactionbutton:fb:1.3.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    compile project(':HoloGraphLibrary')
     compile project(':FB')
     compile project(':MPA')
     compile files('libs/android-query.0.26.7.jar')

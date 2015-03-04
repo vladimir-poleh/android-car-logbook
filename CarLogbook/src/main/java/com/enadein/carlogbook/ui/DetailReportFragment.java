@@ -198,7 +198,23 @@ public class DetailReportFragment  extends BaseReportFragment implements LoaderM
 		unitFacade.appendCurrency(aq.id(R.id.cost_fuel_per1)
 				.text(CommonUtils.formatPriceNew(x.cost_fuel_per1, unitFacade)).getTextView(), false);
 
-        //consum
+		unitFacade.appendCurrency(aq.id(R.id.total_income)
+				.text(CommonUtils.formatPriceNew(x.total_income, unitFacade))
+				.getTextView(), false);
+		unitFacade.appendCurrency(aq.id(R.id.total_month_income)
+				.text(CommonUtils.formatPriceNew(x.total_month_income, unitFacade))
+				.getTextView(), false);
+		unitFacade.appendCurrency(aq.id(R.id.total_month_last_income)
+				.text(CommonUtils.formatPriceNew(x.total_month_last_income, unitFacade))
+				.getTextView(), false);
+		unitFacade.appendCurrency(aq.id(R.id.total_year_income)
+				.text(CommonUtils.formatPriceNew(x.total_year_income, unitFacade))
+				.getTextView(), false);
+		unitFacade.appendCurrency(aq.id(R.id.total_year_last_income)
+				.text(CommonUtils.formatPriceNew(x.total_year_last_income, unitFacade))
+				.getTextView(), false);
+
+		//consum
         unitFacade.appendFuelUnit(aq.id(R.id.avg100).text(CommonUtils.formatFuel(x.avg100, unitFacade)).getTextView(), false);
         unitFacade.appendFuelUnit(aq.id(R.id.lperkm).text(CommonUtils.formatFuel(x.avglperkm, unitFacade)).getTextView(), false);
         unitFacade.appendDistUnit(aq.id(R.id.kmperl).text(CommonUtils.formatDistance(x.avgkmperl)).getTextView(), false);

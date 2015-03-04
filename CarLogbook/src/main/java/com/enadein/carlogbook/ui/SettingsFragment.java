@@ -63,12 +63,19 @@ public class SettingsFragment extends BaseFragment {
 		});
 
          a = new AQuery(view);
-        a.id(R.id.data_other).getView().setOnClickListener(new View.OnClickListener() {
+        a.id(R.id.income).getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getMediator().showDataValues(ProviderDescriptor.DataValue.Type.OTHERS);
+                getMediator().showDataValues(ProviderDescriptor.DataValue.Type.INCOME);
             }
         });
+
+		a.id(R.id.data_other).getView().setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				getMediator().showDataValues(ProviderDescriptor.DataValue.Type.OTHERS);
+			}
+		});
 
 		dateFormatSpinner = (Spinner) view.findViewById(R.id.dateFormatSpinner);
 		String current = getMediator().getUnitFacade().getSetting(UnitFacade.SET_DATE_FORMAT, "0");

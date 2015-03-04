@@ -19,6 +19,7 @@ package com.enadein.carlogbook.ui;
 
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -43,6 +44,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implements DatePickerDialog.OnDateSetListener {
+	public static final String NAME = "NAME";
 	protected Date date = new Date();
 	private TextView dateView;
 	private EditText nameView;
@@ -55,9 +57,11 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 	private AQuery a;
 
 	private boolean fromNotification;
+	private String populatedName;
 
 	private long odometerValueOld;
 	private long dateValueOld;
+
 
 //	public static HashMap<Integer, Long> timeStamps = new HashMap<Integer, Long>();
 //
@@ -81,6 +85,7 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 	@Override
 	protected void populateExtraParams(Bundle params) {
 		fromNotification = params.getBoolean(BaseActivity.NOTIFY_EXTRA);
+		populatedName = params.getString(NAME);
 	}
 
 	public void showDatePickerDialog(View v) {
@@ -134,19 +139,33 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 		}
 
 		int trigerIdx = c.getColumnIndex(ProviderDescriptor.Notify.Cols.TRIGGER_VALUE);
+		int triger2Idx = c.getColumnIndex(ProviderDescriptor.Notify.Cols.TRIGGER_VALUE2);
 		int nameIdx = c.getColumnIndex(ProviderDescriptor.Notify.Cols.NAME);
 		int typeIdx = c.getColumnIndex(ProviderDescriptor.Notify.Cols.TYPE);
 		int repeatIdx = c.getColumnIndex(ProviderDescriptor.Notify.Cols.REPEAT);
+		int repeat2Idx = c.getColumnIndex(ProviderDescriptor.Notify.Cols.REPEAT_2);
+		int commentsIdx = c.getColumnIndex(ProviderDescriptor.Notify.Cols.COMMENTS);
+		int carIdx = c.getColumnIndex(ProviderDescriptor.Notify.Cols.CAR_ID);
 
 		long trigerValue = c.getLong(trigerIdx);
+		long carId = c.getLong(carIdx);
+		long trigerValue2 = c.getLong(triger2Idx);
 		String name = c.getString(nameIdx);
 		int type = c.getInt(typeIdx);
 		long repeat = c.getLong(repeatIdx);
+		long repeat2 = c.getLong(repeat2Idx);
+
+		String carName = DBUtils.getActiveCarName(getContentResolver(), carId);
+
 
 
 		nameView.setText(name);
+		a.id(R.id.comment).text(c.getString(commentsIdx));
+		a.id(R.id.carView).visible().text(carName);
+		odometerValueOld =
+				(type == ProviderDescriptor.Notify.Type.DATE_ODOMETER)
+						? trigerValue2 : trigerValue;
 
-		odometerValueOld = trigerValue;
 		dateValueOld = trigerValue;
 
 		if (type == ProviderDescriptor.Notify.Type.ODOMETER) {
@@ -156,12 +175,25 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 			if (repeat > 0 ) {
 				a.id(R.id.repeatOdometer).text(String.valueOf(repeat));
 			}
-		} else {
+		} else if (type == ProviderDescriptor.Notify.Type.DATE){
 			date = new Date(trigerValue);
 			dateView.setText(CommonUtils.formatDate(date));
 			state = new DateTypeState();
 			typeSpinner.setSelection(1);
 			a.id(R.id.dateRepeat).getSpinner().setSelection((int) repeat);
+		} else {
+			//todo refactor it
+			date = new Date(trigerValue);
+			dateView.setText(CommonUtils.formatDate(date));
+			state = new DateOdometerState();
+			typeSpinner.setSelection(2);
+
+			a.id(R.id.dateRepeat).getSpinner().setSelection((int) repeat);
+
+			odometerView.setText(String.valueOf(trigerValue2));
+			if (repeat2 > 0 ) {
+				a.id(R.id.repeatOdometer).text(String.valueOf(repeat2));
+			}
 		}
 
 
@@ -205,6 +237,9 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 
 		a = new AQuery(this);
 
+		if (!CommonUtils.isEmpty(populatedName)) {
+			nameView.setText(populatedName);
+		}
 
 		dateView.setText(CommonUtils.formatDate(date));
 
@@ -213,8 +248,10 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 			public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
 				if (pos == 0) {
 					state = new OdometerTypeState();
-				} else {
+				} else if (pos == 1) {
 					state = new DateTypeState();
+				} else {
+					state = new DateOdometerState();
 				}
 				state.show();
 			}
@@ -225,6 +262,18 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 			}
 		});
 	}
+
+//	@Override
+//	protected void onNewIntent(Intent intent) {
+//		super.onNewIntent(intent);
+//
+//		Bundle params = intent.getExtras();
+//		if (params != null) {
+//			mode = params.getInt(BaseActivity.MODE_KEY);
+//			id = params.getLong(BaseActivity.ENTITY_ID);
+//			populateExtraParams(params);
+//		}
+//	}
 
 	@Override
 	protected int getContentLayout() {
@@ -250,16 +299,36 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 	}
 
 	abstract class TypeStateImpl implements TypeState {
+
 		public void hideAllErrors() {
 			showError(R.id.errorOdometer, false);
 			showError(R.id.errorDate, false);
 		}
+
+		protected String getRepeatKey() {
+			return null;
+		}
+
+		protected String getTrigerKey() {
+			return null;
+		}
+
+
+		abstract public void populateMainValues(ContentValues cv);
 
 		public ContentValues createBaseContentValues() {
 			ContentValues cv = new ContentValues();
 			cv.put(ProviderDescriptor.Notify.Cols.NAME, nameView.getText().toString());
 			long carId = DBUtils.getActiveCarId(getContentResolver());
 			cv.put(ProviderDescriptor.Notify.Cols.CAR_ID, carId);
+
+			String comments = ((EditText)findViewById(R.id.comment)).getText().toString();
+
+			if (!CommonUtils.isEmpty(comments)) {
+				cv.put(ProviderDescriptor.Notify.Cols.COMMENTS, comments);
+			}
+
+
 			return cv;
 		}
 
@@ -307,7 +376,30 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 		public void save() {
 
 			ContentValues cv = createBaseContentValues();
+			populateMainValues(cv);
 
+			createOrUpdate(cv);
+		}
+
+		@Override
+		public void show() {
+			hideAllErrors();
+			findViewById(R.id.div).setVisibility(View.GONE);
+			findViewById(R.id.dateGroup).setVisibility(View.GONE);
+			findViewById(R.id.odometerGroup).setVisibility(View.VISIBLE);
+		}
+
+		protected String getRepeatKey() {
+			return ProviderDescriptor.Notify.Cols.REPEAT;
+		}
+
+		protected String getTrigerKey() {
+			return ProviderDescriptor.Notify.Cols.TRIGGER_VALUE;
+		}
+
+
+		@Override
+		public void populateMainValues(ContentValues cv) {
 			long currentOdometerValue = Long.valueOf(odometerView.getText().toString());
 			if (fromNotification) {
 				if (currentOdometerValue == odometerValueOld) {
@@ -318,23 +410,13 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 				}
 			}
 
-			cv.put(ProviderDescriptor.Notify.Cols.TRIGGER_VALUE, currentOdometerValue);
+			cv.put(getTrigerKey(), currentOdometerValue);
 			cv.put(ProviderDescriptor.Notify.Cols.TYPE, ProviderDescriptor.Notify.Type.ODOMETER);
 			String repeatValue = a.id(R.id.repeatOdometer).getText().toString();
 
 			if (CommonUtils.isNotEmpty(repeatValue)) {
-				cv.put(ProviderDescriptor.Notify.Cols.REPEAT, Long.valueOf(repeatValue));
+				cv.put(getRepeatKey(), Long.valueOf(repeatValue));
 			}
-
-
-			createOrUpdate(cv);
-		}
-
-		@Override
-		public void show() {
-			hideAllErrors();
-			findViewById(R.id.dateGroup).setVisibility(View.GONE);
-			findViewById(R.id.odometerGroup).setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -372,7 +454,21 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 		@Override
 		public void save() {
 			ContentValues cv = createBaseContentValues();
+			populateMainValues(cv);
 
+			createOrUpdate(cv);
+		}
+
+		@Override
+		public void show() {
+			hideAllErrors();
+			findViewById(R.id.div).setVisibility(View.GONE);
+			findViewById(R.id.odometerGroup).setVisibility(View.GONE);
+			findViewById(R.id.dateGroup).setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		public void populateMainValues(ContentValues cv) {
 			long currentDate = date.getTime();
 			int repeatPosititon = a.id(R.id.dateRepeat).getSpinner().getSelectedItemPosition();
 
@@ -433,15 +529,71 @@ public class AddUpdateNotificationActivity extends SaveUpdateBaseActivity implem
 			cv.put(ProviderDescriptor.Notify.Cols.TRIGGER_VALUE, currentDate);
 			cv.put(ProviderDescriptor.Notify.Cols.TYPE, ProviderDescriptor.Notify.Type.DATE);
 			cv.put(ProviderDescriptor.Notify.Cols.REPEAT, repeatPosititon);
+		}
+	}
 
+	private class DateOdometerState extends TypeStateImpl {
+		TypeStateImpl odometerState = new OdometerTypeState() {
+			@Override
+			protected String getRepeatKey() {
+				return ProviderDescriptor.Notify.Cols.REPEAT_2;
+			}
+
+			@Override
+			protected String getTrigerKey() {
+				return ProviderDescriptor.Notify.Cols.TRIGGER_VALUE2;
+			}
+
+			@Override
+			public void save() {
+				//
+			}
+
+			@Override
+			public void populateMainValues(ContentValues cv) {
+				super.populateMainValues(cv);
+				cv.remove(ProviderDescriptor.Notify.Cols.TYPE);
+			}
+		};
+		TypeStateImpl dateTypeState = new DateTypeState(){
+			@Override
+			public void save() {
+				//
+			}
+
+			@Override
+			public void populateMainValues(ContentValues cv) {
+				super.populateMainValues(cv);
+				cv.remove(ProviderDescriptor.Notify.Cols.TYPE);
+			}
+		};
+		@Override
+		public boolean validate() {
+			return odometerState.validate() && dateTypeState.validate();
+		}
+
+		@Override
+		public void save() {
+			ContentValues cv = createBaseContentValues();
+			populateMainValues(cv);
 			createOrUpdate(cv);
 		}
 
 		@Override
 		public void show() {
 			hideAllErrors();
-			findViewById(R.id.odometerGroup).setVisibility(View.GONE);
 			findViewById(R.id.dateGroup).setVisibility(View.VISIBLE);
+			findViewById(R.id.odometerGroup).setVisibility(View.VISIBLE);
+			findViewById(R.id.div).setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		public void populateMainValues(ContentValues cv) {
+			odometerState.populateMainValues(cv);
+			dateTypeState.populateMainValues(cv);
+			cv.put(ProviderDescriptor.Notify.Cols.TYPE, ProviderDescriptor.Notify.Type.DATE_ODOMETER);
 		}
 	}
+
+
 }

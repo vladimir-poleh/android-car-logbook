@@ -55,15 +55,16 @@ public class ImportActivity extends BaseActivity implements LoaderManager.Loader
 		list = (ListView) findViewById(R.id.list);
 		deleteView = (CheckBox) findViewById(R.id.importDeleteCB);
 
-		File[] files = FileUtils.getFiles();
-		if (files != null && files.length == 0) {
-			findViewById(R.id.no_data).setVisibility(View.VISIBLE);
-		}
+		initView();
 
-
-		fileAdapter = new FileAdapter(this, 0, files);
-		list.setAdapter(fileAdapter);
-
+		list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				selectedFile = fileAdapter.getItem(position);
+				getMediator().showConfirmDeleteView();
+				return true;
+			}
+		});
 		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
@@ -72,10 +73,21 @@ public class ImportActivity extends BaseActivity implements LoaderManager.Loader
 			}
 		});
 
-        //TODO need to move into strings
-        Toast.makeText(this, "Dir: " +
-                FileUtils.getBackupDirectory().getAbsolutePath(), Toast.LENGTH_LONG).show();
+		//TODO need to move into strings
+		Toast.makeText(this, "Dir: " +
+				FileUtils.getBackupDirectory().getAbsolutePath(), Toast.LENGTH_LONG).show();
 	}
+
+	private void initView() {
+		File[] files = FileUtils.getFiles();
+		if (files != null && files.length == 0) {
+			findViewById(R.id.no_data).setVisibility(View.VISIBLE);
+		}
+
+		fileAdapter = new FileAdapter(this, 0, files);
+		list.setAdapter(fileAdapter);
+	}
+
 
 	@Override
 	public void setContent() {
@@ -85,8 +97,19 @@ public class ImportActivity extends BaseActivity implements LoaderManager.Loader
 	public void onDialogEvent(int requestCode, int responseCode, Bundle params) {
 		if (AlertDialog.ALERT_OK == requestCode) {
 			NavUtils.navigateUpFromSameTask(this);
-		} else if (ConfirmDialog.REQUEST_CODE_CONFIRM == requestCode) {
+		} else if (ConfirmDialog.REQUEST_CODE_CONFIRM == requestCode && responseCode == ImportDialog.YES_IMPORT) {
 			doImport();
+		}else if (ConfirmDialog.REQUEST_CODE_CONFIRM == requestCode
+				&& responseCode == ConfirmDialog.RETURN_VALUE_YES) {
+			deleteFile();
+		}
+	}
+
+	private void deleteFile() {
+		if (selectedFile != null) {
+			fileAdapter.remove(selectedFile);
+			selectedFile.delete();
+			selectedFile = null;
 		}
 	}
 

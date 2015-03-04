@@ -30,30 +30,31 @@
                 </LinearLayout>
             </LinearLayout>
 			</android.support.v7.widget.CardView>
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/no_data"
-            style="@style/add_entity_main"
-            android:visibility="gone"
-            android:layout_height="wrap_content">
-
-            <LinearLayout style="@style/new_group">
-
-                <TextView
-                    style="@style/add_entity_label"
-                    android:text="@string/no_data"
-                     />
-
-            </LinearLayout>
-        </LinearLayout>
+			<TextView
+				style="@style/new_title"
+				android:text="@string/files" />
 
 
-        <LinearLayout style="@style/add_entity_edit_new">
-            <TextView
-                style="@style/new_title"
-                android:text="@string/files" />
-        </LinearLayout>
+			<LinearLayout
+				android:id="@+id/no_data"
+				style="@style/add_entity_main"
+				android:visibility="gone"
+				android:layout_height="wrap_content">
+
+				<LinearLayout style="@style/new_group">
+
+					<TextView
+						style="@style/add_entity_label"
+						android:text="@string/no_data"
+						/>
+
+				</LinearLayout>
+			</LinearLayout>
+
+		</LinearLayout>
+
+
 
         <ListView
             android:id="@+id/list"

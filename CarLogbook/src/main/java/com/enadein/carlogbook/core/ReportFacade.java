@@ -352,6 +352,51 @@ public class ReportFacade {
         return DBUtils.getTotalPrice(carId, cr, from, to, -1);
     }
 
+
+	public double getTotalIncome(ContentResolver cr, long carId) {
+		return DBUtils.getTotalIncome(carId, cr, -1, -1);
+	}
+
+	public double getTotalIncomeThisMonth(ContentResolver cr, long carId) {
+		Calendar calendar = Calendar.getInstance();
+		CommonUtils.trunkMonth(calendar);
+		long from = calendar.getTimeInMillis();
+		calendar.add(Calendar.MONTH, 1);
+		long to = calendar.getTimeInMillis();
+
+		return DBUtils.getTotalIncome(carId, cr, from, to);
+	}
+
+	public double getTotalIncomeLastMonth(ContentResolver cr, long carId) {
+		Calendar calendar = Calendar.getInstance();
+		CommonUtils.trunkMonth(calendar);
+		long from = calendar.getTimeInMillis();
+		calendar.add(Calendar.MONTH, -1);
+		long to = calendar.getTimeInMillis();
+
+		return DBUtils.getTotalIncome(carId, cr, from, to);
+	}
+
+	public double getTotalIncomeYear(ContentResolver cr, long carId) {
+		Calendar calendar = Calendar.getInstance();
+		CommonUtils.trunkYear(calendar);
+		long from = calendar.getTimeInMillis();
+		calendar.add(Calendar.YEAR, 1);
+		long to = calendar.getTimeInMillis();
+
+		return DBUtils.getTotalIncome(carId, cr, from, to);
+	}
+
+	public double getTotalIncomeLastYear(ContentResolver cr, long carId) {
+		Calendar calendar = Calendar.getInstance();
+		CommonUtils.trunkYear(calendar);
+		long from = calendar.getTimeInMillis();
+		calendar.add(Calendar.YEAR, -1);
+		long to = calendar.getTimeInMillis();
+
+		return DBUtils.getTotalIncome(carId, cr, from, to);
+	}
+
     public double getCostPer1Dist(ContentResolver cr, long carId) {
         return DBUtils.getPricePer1km(carId, cr, -1, -1);
     }

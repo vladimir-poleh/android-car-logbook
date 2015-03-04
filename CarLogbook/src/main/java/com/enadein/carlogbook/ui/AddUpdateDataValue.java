@@ -53,6 +53,7 @@ public class AddUpdateDataValue extends SaveUpdateBaseActivity {
         ContentValues cv = new ContentValues();
         cv.put(ProviderDescriptor.DataValue.Cols.NAME, name.getText().toString());
         cv.put(ProviderDescriptor.DataValue.Cols.TYPE, type);
+
         getContentResolver().insert(ProviderDescriptor.DataValue.CONTENT_URI, cv);
     }
 
@@ -78,7 +79,9 @@ public class AddUpdateDataValue extends SaveUpdateBaseActivity {
             used = DBUtils.isStationUsed(getContentResolver(), id);
         } else  if (type == ProviderDescriptor.DataValue.Type.OTHERS) {
             used = DBUtils.isOtherTypeUsed(getContentResolver(), id);
-        }
+        }else  if (type == ProviderDescriptor.DataValue.Type.INCOME) {
+			used = DBUtils.isIncomeTypeUsed(getContentResolver(), id);
+		}
 
         long count = DBUtils.getCount(getContentResolver(),
                 ProviderDescriptor.DataValue.CONTENT_URI,
@@ -129,8 +132,12 @@ public class AddUpdateDataValue extends SaveUpdateBaseActivity {
                         getString(R.string.sett_stations_add_fuel);
             }
             case ProviderDescriptor.DataValue.Type.OTHERS: {
-                return (mode == PARAM_EDIT) ?   getString(R.string.edit_other_type) : getString(R.string.add_other_type);
-            }
+				return (mode == PARAM_EDIT) ?   getString(R.string.edit_other_type) : getString(R.string.add_other_type);
+			}
+
+			case ProviderDescriptor.DataValue.Type.INCOME: {
+				return (mode == PARAM_EDIT) ?   getString(R.string.income_edit) : getString(R.string.income_add);
+			}
         }
 
         return (mode == PARAM_EDIT) ? getString(R.string.sett_stations_edit_gas) :

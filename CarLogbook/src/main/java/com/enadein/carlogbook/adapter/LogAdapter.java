@@ -18,13 +18,12 @@
 package com.enadein.carlogbook.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -107,12 +106,16 @@ public class LogAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
+
+		Resources res = context.getResources();
+
 		int type = cursor.getInt(cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.TYPE_LOG));
 
 		int idIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols._ID);
 		int odometerIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.ODOMETER);
 		int priceIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.PRICE);
 		int dateIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.DATE);
+		int incomeIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.INCOME);
 
 		double price = cursor.getDouble(priceIdx);
 		String date = CommonUtils.formatDate(new Date(cursor.getLong(dateIdx)));
@@ -144,7 +147,8 @@ public class LogAdapter extends CursorAdapter {
 			logFuelHolder.fuelView.setText(fuelName + "(" + stationName + ")");
 			logFuelHolder.imgType.setBackgroundResource(R.drawable.fuel);
 			logFuelHolder.id = id;
-			rateLoader.calculateFuelRate(logFuelHolder.rateView, id);
+			rateLoader.calculateFuelRateAndPath(logFuelHolder.rateView, id);
+			logFuelHolder.priceTotal.setTextColor(res.getColor(R.color.price));
 		} else {
 			int nameIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.NAME);
 			int typeIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.TYPE_ID);
@@ -157,21 +161,33 @@ public class LogAdapter extends CursorAdapter {
 			logHolder.odometerView.setText(String.valueOf(odometer));
 			unitFacade.appendDistUnit(logHolder.odometerView, false);
 			logHolder.imgType.setBackgroundResource(DataInfo.images.get(typeId));
-			logHolder.priceTotal.setText( CommonUtils.formatPriceNew(price, unitFacade));
+
+
+
+
 			unitFacade.appendCurrency(logHolder.priceTotal,false, false);
 			logHolder.nameView.setText( name);
+
+			logHolder.priceTotal.setTextColor(res.getColor(R.color.price));
 
             if (typeId == 0) {
                 int fuelNameIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.FUEL_NAME);
                 String fuelName = cursor.getString(fuelNameIdx);
                 logHolder.typeView.setText(fuelName);
-            } else {
+            } else if (typeId == 12) {
+				int fuelNameIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.FUEL_NAME);
+				String fuelName = cursor.getString(fuelNameIdx);
+				logHolder.typeView.setText(fuelName);
+				logHolder.priceTotal.setTextColor(res.getColor(R.color.income));
+				price = cursor.getDouble(incomeIdx);
+			} else {
                 logHolder.typeView.setText(types[typeId]);
 //                int fuelNameIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.FUEL_NAME);
 //                String fuelName = cursor.getString(fuelNameIdx);
 //                logHolder.typeView.setText(fuelName);
             }
 
+			logHolder.priceTotal.setText(CommonUtils.formatPriceNew(price, unitFacade));
 			if (name == null || name.trim().equals("")) {
 				logHolder.nameView.setText(logHolder.typeView.getText());
 			}

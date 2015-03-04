@@ -30,11 +30,14 @@
 		<item>Reparação de peça</item><!--8-->
 		<item>Seguro</item><!--9-->
 		<item>Crédito</item><!--10-->
+		<item>Refresh odómetro</item><!--11-->
+		<item>Renda</item><!--12-->
 	</string-array>
 
 	<string-array name="notify_types">
 		<item>por odómetro</item>
 		<item>por data</item>
+		<item>por data/por odómetro</item>
 	</string-array>
 
 	<!--1.2-->

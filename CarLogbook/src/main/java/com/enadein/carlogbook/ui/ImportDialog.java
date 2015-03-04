@@ -26,9 +26,14 @@ import android.view.ViewGroup;
 import com.enadein.carlogbook.R;
 
 public class ImportDialog extends ConfirmDialog {
+	public static final int YES_IMPORT = 102;
 
 	public static ImportDialog newInstance() {
 		return new ImportDialog();
+	}
+
+	protected int getReturnValuesYes() {
+		return YES_IMPORT;
 	}
 
 	@Override

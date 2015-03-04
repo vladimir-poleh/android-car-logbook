@@ -81,17 +81,17 @@ public class ProviderDescriptor {
 			public static final String UNIT_DISTANCE = "UNIT_DIST";
 			public static final String UNIT_CONSUMPTION = "UNIT_CONSUM";
 			public static final String UNIT_CURRENCY = "UNIT_CURRENCY";
-            //1.5
-            public static final String MAKE = "MAKE";
-            public static final String MODEL = "MODEL";
-            public static final String MANUF = "MANUF";
-            public static final String CAR_COST = "CAR_COST";
-            public static final String PURCHASE = "PURCHASE";
-            public static final String OPEN_MIL = "OPEN_MIL";
-            public static final String ID_NO = "ID_NO";
-            public static final String REG_NUM = "REG_NUM";
-            public static final String FUEL_TYPE = "FUEL_TYPE";
-            public static final String TYRE = "TYRE";
+			//1.5
+			public static final String MAKE = "MAKE";
+			public static final String MODEL = "MODEL";
+			public static final String MANUF = "MANUF";
+			public static final String CAR_COST = "CAR_COST";
+			public static final String PURCHASE = "PURCHASE";
+			public static final String OPEN_MIL = "OPEN_MIL";
+			public static final String ID_NO = "ID_NO";
+			public static final String REG_NUM = "REG_NUM";
+			public static final String FUEL_TYPE = "FUEL_TYPE";
+			public static final String TYRE = "TYRE";
 		}
 	}
 
@@ -132,11 +132,14 @@ public class ProviderDescriptor {
 			//OTHER LOG
 			public static final String TYPE_ID = "TYPE_ID";
 			public static final String NAME = "NAME";
-            public static final String PLACE = "PLACE";
+			public static final String PLACE = "PLACE";
 
-            //1.5
-            public static final String OTHER_TYPE_ID = "OTHER_TYPE_ID";
-        }
+			//1.5
+			public static final String OTHER_TYPE_ID = "OTHER_TYPE_ID";
+			//2.5
+			public static final String INCOME = "INCOME";
+
+		}
 	}
 
 	public static class LogView {
@@ -154,8 +157,16 @@ public class ProviderDescriptor {
 		}
 
 		public static final String CREATE_QUERY = "CREATE VIEW IF NOT EXISTS log_view as select l.*, d.name as STATION_NAME, df.name as  FUEL_NAME, l.PRICE * l.FUEL_VOLUME  as TOTAL_PRICE  from log l inner join data_value d on l.FUEL_STATION_ID = d._id inner join data_value df on l.FUEL_TYPE_ID = df._id union select l.*, '' as STATION_NAME, '' as  FUEL_NAME, l.PRICE as TOTAL_PRICE from log l where type_log = 1";
-//		public static final String CREATE_QUERY_V2 = "CREATE VIEW IF NOT EXISTS log_view as select l.*, d.name as STATION_NAME, df.name as  FUEL_NAME, l.PRICE * l.FUEL_VOLUME  as TOTAL_PRICE  from log l inner join data_value d on l.FUEL_STATION_ID = d._id inner join data_value df on l.FUEL_TYPE_ID = df._id union select l.*, '' as STATION_NAME, '' as  FUEL_NAME, l.PRICE as TOTAL_PRICE from log l where type_log = 1";
+		//		public static final String CREATE_QUERY_V2 = "CREATE VIEW IF NOT EXISTS log_view as select l.*, d.name as STATION_NAME, df.name as  FUEL_NAME, l.PRICE * l.FUEL_VOLUME  as TOTAL_PRICE  from log l inner join data_value d on l.FUEL_STATION_ID = d._id inner join data_value df on l.FUEL_TYPE_ID = df._id union select l.*, '' as STATION_NAME, '' as  FUEL_NAME, l.PRICE as TOTAL_PRICE from log l where type_log = 1";
 		public static final String CREATE_QUERY_V2 = "CREATE VIEW IF NOT EXISTS log_view as select l.*, d.name as STATION_NAME, df.name as  FUEL_NAME, l.PRICE * l.FUEL_VOLUME  as TOTAL_PRICE  from log l inner join data_value d on l.FUEL_STATION_ID = d._id inner join data_value df on l.FUEL_TYPE_ID = df._id union select l.*, '' as STATION_NAME, other.name as  FUEL_NAME, l.PRICE as TOTAL_PRICE from log l inner join data_value other on l.OTHER_TYPE_ID = other._id where type_log = 1 ";
+
+		public static final String CREATE_VIEW_FUEL_LOG = "CREATE VIEW IF NOT EXISTS log_view_f as select l.*, d.name as STATION_NAME, df.name as  FUEL_NAME, l.PRICE * l.FUEL_VOLUME  as TOTAL_PRICE  from log l inner join data_value d on l.FUEL_STATION_ID = d._id inner join data_value df on l.FUEL_TYPE_ID = df._id ";
+		public static final String CREATE_VIEW_OTHER_LOG = "CREATE VIEW IF NOT EXISTS log_view_o as select l.*, '' as STATION_NAME, '' as  FUEL_NAME, l.PRICE as TOTAL_PRICE from log l where type_log = 1 and TYPE_ID != 0 and TYPE_ID != 12";
+		public static final String CREATE_VIEW_OTHER2_LOG = "CREATE VIEW IF NOT EXISTS log_view_o2 as select l.*, '' as STATION_NAME, other.name as  FUEL_NAME, l.PRICE as TOTAL_PRICE from log l inner join data_value other on l.OTHER_TYPE_ID = other._id where type_log = 1 and TYPE_ID = 0";
+		public static final String CREATE_VIEW_OTHER3_LOG = "CREATE VIEW IF NOT EXISTS log_view_o3 as select l.*, '' as STATION_NAME, other.name as  FUEL_NAME, l.PRICE as TOTAL_PRICE from log l inner join data_value other on l.OTHER_TYPE_ID = other._id where type_log = 1 and TYPE_ID = 12";
+
+		public static final String CREATE_QUERY_V3
+				= "CREATE VIEW IF NOT EXISTS log_view as select * from log_view_f union select * from log_view_o union select * from log_view_o2 union select * from log_view_o3";
 	}
 
 	public static class DataValue {
@@ -177,12 +188,14 @@ public class ProviderDescriptor {
 			public static final String TYPE = "TYPE";
 			public static final String SYSTEM = "SYS";
 			public static final String DEFAULT_FLAG = "DEFAULT_FLAG";
+
 		}
 
 		public static class Type {
 			public static final int FUEL = 0;
 			public static final int STATION = 1;
 			public static final int OTHERS = 2;
+			public static final int INCOME = 3;
 		}
 	}
 
@@ -207,11 +220,17 @@ public class ProviderDescriptor {
 			public static final String CAR_ID = "CAR_ID";
 			public static final String CREATE_DATE = "CREATE_DATE";
 			public static final String REPEAT = "REPEAT";
+
+			public static final String REPEAT_2 = "REPEAT2";
+			public static final String TRIGGER_VALUE2 = "VALUE2";
+			public static final String COMMENTS = "COMMENTS";
+
 		}
 
 		public static class Type {
 			public static final int ODOMETER = 0;
 			public static final int DATE = 1;
+			public static final int DATE_ODOMETER = 2;
 		}
 
 		public static class DATE_REPEAT {

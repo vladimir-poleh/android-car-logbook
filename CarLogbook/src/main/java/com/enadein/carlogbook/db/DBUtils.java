@@ -25,6 +25,7 @@ import android.net.Uri;
 
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.bean.FuelRateBean;
+import com.enadein.carlogbook.bean.RatePathBean;
 import com.enadein.carlogbook.core.Logger;
 import com.enadein.carlogbook.core.UnitFacade;
 
@@ -43,8 +44,8 @@ public class DBUtils {
 	public static final String CAR_SELECTION_NOTIFY = ProviderDescriptor.Notify.Cols.CAR_ID + " = ?";
 	public static final String CAR_SELECTION_RATE = ProviderDescriptor.FuelRateView.Cols.CAR_ID + " = ?";
 
-	public static double getFuelRateFromCurrentLogId(UnitFacade unitFacade,long id, ContentResolver cr) {
-		double result = 0.;
+	public static RatePathBean getFuelRateFromCurrentLogId(UnitFacade unitFacade,long id, ContentResolver cr) {
+		RatePathBean result = new RatePathBean();
 
 		int odometer = 0;
 		double fuelVolume = 0;
@@ -73,7 +74,9 @@ public class DBUtils {
 			int odometerPrev = DBUtils.getIntByName(c, ProviderDescriptor.Log.Cols.ODOMETER);
 			int odometerDiff = odometer - odometerPrev;
 			if (odometerDiff > 0 && fuelVolume > 0) {
-				result = unitFacade.getRate(fuelVolume, odometerDiff);
+				double rate = unitFacade.getRate(fuelVolume, odometerDiff);
+				result.setRate(rate);
+				result.setPath(odometerDiff);
 			}
 		}
 
@@ -432,6 +435,11 @@ public class DBUtils {
         return isUsedInLog(cr, ProviderDescriptor.Log.Cols.OTHER_TYPE_ID, id);
     }
 
+	public static boolean isIncomeTypeUsed(ContentResolver cr, long id) {
+//		throw  new RuntimeException("Implement it");
+		return isUsedInLog(cr, ProviderDescriptor.Log.Cols.OTHER_TYPE_ID, id);
+	}
+
 	public static boolean isFuelTypeUsed(ContentResolver cr, long id) {
 		return isUsedInLog(cr, ProviderDescriptor.Log.Cols.FUEL_TYPE_ID, id);
 	}
@@ -550,6 +558,31 @@ public class DBUtils {
 		Cursor c = cr.query(ProviderDescriptor.LogView.CONTENT_URI,
 				new String[]{"sum(" + ProviderDescriptor.LogView.Cols.TOTAL_PRICE + ") as sum"},
 				selection, args, null);
+
+		if (isCursorHasValue(c)) {
+			result = getDoubleByName(c, "sum");
+		}
+
+		return result;
+	}
+
+	public static double getTotalIncome(long carId, ContentResolver cr, long from, long to) {
+		double result = 0;
+		StringBuilder sb = new StringBuilder();
+		sb.append(ProviderDescriptor.Log.Cols.CAR_ID + " = ?");
+		String[] args = new String[] {String.valueOf(carId)};
+
+		if (from > 0) {
+			sb.append(" and ").append(ProviderDescriptor.Log.Cols.DATE).append(" >= ").append(from);
+		}
+
+		if (to > 0) {
+			sb.append(" and ").append(ProviderDescriptor.Log.Cols.DATE).append(" <= ").append(to);
+		}
+
+		Cursor c = cr.query(ProviderDescriptor.LogView.CONTENT_URI,
+				new String[]{"sum(" + ProviderDescriptor.LogView.Cols.INCOME + ") as sum"},
+				sb.toString(), args, null);
 
 		if (isCursorHasValue(c)) {
 			result = getDoubleByName(c, "sum");

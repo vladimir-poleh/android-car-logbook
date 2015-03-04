@@ -114,6 +114,9 @@ public class DataValueActivity extends BaseActivity  implements
             case ProviderDescriptor.DataValue.Type.OTHERS: {
                 return 	getString(R.string.other_type);
             }
+			case ProviderDescriptor.DataValue.Type.INCOME: {
+				return 	getString(R.string.income_val);
+			}
         }
 
 		return getString(R.string.sett_stations);

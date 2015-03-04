@@ -209,11 +209,11 @@ public class CarLogbookProvider extends ContentProvider {
 	}
 
 	public class DBOpenHelper extends SQLiteOpenHelper {
-		private static final int CURRENT_DB_VERSION = 6; //Production 5
+		private static final int CURRENT_DB_VERSION = 7; //Production 6
 		private static final String DB_NAME = "com_carlogbook_v2.db";
 
-//		private static final int CURRENT_DB_VERSION = 4; //test
-//		private static final String DB_NAME = "com_carlogbook_test9a.db";
+//		private static final int CURRENT_DB_VERSION = 7; //test
+//		private static final String DB_NAME = "com_carlogbook_test1a4.db";
 
 		private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS {0} ({1})";
 		private static final String DROP_TABLE = "DROP TABLE IF EXISTS {0}";
@@ -250,6 +250,7 @@ public class CarLogbookProvider extends ContentProvider {
             upgradeFrom3to4(db);
             upgradeFrom4to5(db);
 			upgradeFrom5to6(db);
+			upgradeFrom6to7(db);
 		}
 
 		public void reset() {
@@ -280,6 +281,9 @@ public class CarLogbookProvider extends ContentProvider {
 					case 5: {
 						upgradeFrom5to6(db);
 						break;
+					}
+					case 6: {
+						upgradeFrom6to7(db);
 					}
 				}
 			}
@@ -385,6 +389,30 @@ public class CarLogbookProvider extends ContentProvider {
 
 		private void upgradeFrom5to6(SQLiteDatabase db) {
 			db.execSQL("ALTER TABLE notify ADD REPEAT INTEGER DEFAULT 0");
+		}
+
+		private void upgradeFrom6to7(SQLiteDatabase db) {
+			db.execSQL("ALTER TABLE notify ADD REPEAT2 INTEGER DEFAULT 0");
+			db.execSQL("ALTER TABLE notify ADD VALUE2 INTEGER DEFAULT 0");
+			db.execSQL("ALTER TABLE notify ADD COMMENTS TEXT");
+			//income
+			db.execSQL("ALTER TABLE log ADD INCOME REAL");
+			db.execSQL("DROP VIEW IF EXISTS log_view");
+			db.execSQL(ProviderDescriptor.LogView.CREATE_VIEW_FUEL_LOG);
+			db.execSQL(ProviderDescriptor.LogView.CREATE_VIEW_OTHER_LOG);
+			db.execSQL(ProviderDescriptor.LogView.CREATE_VIEW_OTHER2_LOG);
+			db.execSQL(ProviderDescriptor.LogView.CREATE_VIEW_OTHER3_LOG);
+			db.execSQL(ProviderDescriptor.LogView.CREATE_QUERY_V3);
+
+			//DEFAULT
+			//TODO temp solution, refactor it
+			ContentValues cv = new ContentValues();
+			cv.put(ProviderDescriptor.DataValue.Cols.NAME, getContext().getString(R.string.total_year_last_income_def));
+			cv.put(ProviderDescriptor.DataValue.Cols.TYPE, ProviderDescriptor.DataValue.Type.INCOME);
+			cv.put(ProviderDescriptor.DataValue.Cols.SYSTEM, 1);
+			cv.put(ProviderDescriptor.DataValue.Cols.DEFAULT_FLAG, 1);
+			db.insert(ProviderDescriptor.DataValue.TABLE_NAME, null, cv);
+
 		}
 
 		private void dropAllTables(SQLiteDatabase db) {

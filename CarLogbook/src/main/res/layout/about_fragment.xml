@@ -202,6 +202,21 @@
 						android:text="Marco Pinto"/>
 				</LinearLayout>
 			</android.support.v7.widget.CardView>
+			<android.support.v7.widget.CardView
+				style="@style/card"
+				app:cardUseCompatPadding="true">
+
+				<LinearLayout style="@style/new_group">
+
+					<TextView
+						style="@style/about_label"
+						android:text="Serbian"/>
+
+					<TextView
+						style="@style/about_value"
+						android:text="Vladimir Siljegovic"/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
 		</LinearLayout>
 
 		<LinearLayout

@@ -274,6 +274,29 @@
 				</android.support.v7.widget.CardView>
 
 				<TextView
+					android:visibility="gone"
+					style="@style/new_title"
+					android:id="@+id/id_income"
+					android:text="@string/income_4_months"/>
+
+				<android.support.v7.widget.CardView
+					style="@style/card"
+					android:id="@+id/view_income"
+					android:visibility="gone"
+					app:cardUseCompatPadding="true">
+
+					<LinearLayout
+						style="@style/new_group">
+
+						<com.github.mikephil.charting.charts.BarChart
+							android:id="@+id/incomeChart"
+							android:layout_width="match_parent"
+							android:layout_height="200dp"/>
+					</LinearLayout>
+				</android.support.v7.widget.CardView>
+
+
+				<TextView
 					style="@style/new_title"
 					android:text="@string/run_by_last4"/>
 
@@ -286,6 +309,42 @@
 
 						<com.github.mikephil.charting.charts.BarChart
 							android:id="@+id/run_chart"
+							android:layout_width="match_parent"
+							android:layout_height="200dp"/>
+					</LinearLayout>
+				</android.support.v7.widget.CardView>
+				<TextView
+					style="@style/new_title"
+					android:id="@+id/lb_cost1"
+					android:text="@string/cost_per1"/>
+
+				<android.support.v7.widget.CardView
+					style="@style/card"
+					app:cardUseCompatPadding="true">
+
+					<LinearLayout
+						style="@style/new_group">
+
+						<com.github.mikephil.charting.charts.BarChart
+							android:id="@+id/cost1_chart"
+							android:layout_width="match_parent"
+							android:layout_height="200dp"/>
+					</LinearLayout>
+				</android.support.v7.widget.CardView>
+				<TextView
+					android:id="@+id/lb_fuelcost1"
+					style="@style/new_title"
+					android:text="@string/cost1fuelper1"/>
+
+				<android.support.v7.widget.CardView
+					style="@style/card"
+					app:cardUseCompatPadding="true">
+
+					<LinearLayout
+						style="@style/new_group">
+
+						<com.github.mikephil.charting.charts.BarChart
+							android:id="@+id/fuel_cost1"
 							android:layout_width="match_parent"
 							android:layout_height="200dp"/>
 					</LinearLayout>

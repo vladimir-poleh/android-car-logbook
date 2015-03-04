@@ -52,8 +52,8 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 
 	public static final String EXIST = "exist";
 
-    public static final String EXPORT_VERSION_VALUE = "5";
-    public int versionCode = 5;
+    public static final String EXPORT_VERSION_VALUE = "6";
+    public int versionCode = 6;
     public String impVer = "0";
 
 	private HashMap<String, String> importContext = new HashMap<String, String>();
@@ -232,11 +232,28 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 				if (uri != null) {
 					id = Long.valueOf(uri.getLastPathSegment());
 				}
+			} else {
+				//SYNC
 			}
 
 			if (id > 0) {
 				importContext.put(DV_KEY + type + innerKey, String.valueOf(id));
 //				Log.e(TAG, "ud " +id);
+			}
+
+			//2.5.0
+			if (versionCode < 6) {
+				String incomeName = ctx.getString(R.string.total_year_last_income_def);
+				long incomeId = DBUtils.getDataValueId(cr, incomeName, String.valueOf(ProviderDescriptor.DataValue.Type.INCOME));
+
+				if (incomeId < 1) {
+					ContentValues cvdef = new ContentValues();
+					cvdef.put(ProviderDescriptor.DataValue.Cols.NAME, incomeName);
+					cvdef.put(ProviderDescriptor.DataValue.Cols.TYPE, ProviderDescriptor.DataValue.Type.INCOME);
+					cvdef.put(ProviderDescriptor.DataValue.Cols.SYSTEM, 1);
+					cvdef.put(ProviderDescriptor.DataValue.Cols.DEFAULT_FLAG, 1);
+					cr.insert(ProviderDescriptor.DataValue.CONTENT_URI, cvdef);
+				}
 			}
 		}
 
@@ -476,6 +493,23 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 						attributes.getValue(attributes.getIndex(ProviderDescriptor.Notify.Cols.REPEAT)));
 			}
 
+			if (versionCode > 5) {
+				{
+					String value = attributes.getValue(attributes.getIndex(ProviderDescriptor.Notify.Cols.COMMENTS));
+					cv.put(ProviderDescriptor.Notify.Cols.COMMENTS, value);
+				}
+
+				{
+					String value = attributes.getValue(attributes.getIndex(ProviderDescriptor.Notify.Cols.REPEAT_2));
+					cv.put(ProviderDescriptor.Notify.Cols.REPEAT_2, value);
+				}
+
+				{
+					String value = attributes.getValue(attributes.getIndex(ProviderDescriptor.Notify.Cols.TRIGGER_VALUE2));
+					cv.put(ProviderDescriptor.Notify.Cols.TRIGGER_VALUE2, value);
+				}
+			}
+
 			String innerCarId = attributes.getValue(attributes.getIndex(ProviderDescriptor.Notify.Cols.CAR_ID));
 
 			String carID = importContext.get(CAR_KEY + innerCarId);
@@ -631,6 +665,8 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 			long system = c.getLong(c.getColumnIndex(ProviderDescriptor.DataValue.Cols.SYSTEM));
 			serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.DataValue.Cols.SYSTEM,
 					String.valueOf(system));
+
+
 
 			long flag = c.getLong(c.getColumnIndex(ProviderDescriptor.DataValue.Cols.DEFAULT_FLAG));
 			serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.DataValue.Cols.DEFAULT_FLAG,
@@ -806,7 +842,26 @@ public class XMLImportExportStrategy implements ImportExportStrategy {
 				long value = c.getLong(c.getColumnIndex(ProviderDescriptor.Notify.Cols.CREATE_DATE));
 				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Notify.Cols.CREATE_DATE,
 						String.valueOf(value));
+			}
 
+			{
+				long value = c.getLong(c.getColumnIndex(ProviderDescriptor.Notify.Cols.TRIGGER_VALUE2));
+				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Notify.Cols.TRIGGER_VALUE2,
+						String.valueOf(value));
+			}
+
+			{
+				long value = c.getLong(c.getColumnIndex(ProviderDescriptor.Notify.Cols.REPEAT_2));
+				serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Notify.Cols.REPEAT_2,
+						String.valueOf(value));
+			}
+
+			{
+				String comment = c.getString(c.getColumnIndex(ProviderDescriptor.Notify.Cols.COMMENTS));
+				if (comment != null) {
+					serializer.attribute(DEFAULT_NAMESPACE, ProviderDescriptor.Notify.Cols.COMMENTS,
+							comment);
+				}
 			}
 
 			{

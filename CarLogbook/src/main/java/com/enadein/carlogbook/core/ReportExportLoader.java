@@ -11,6 +11,7 @@ import android.support.v4.content.AsyncTaskLoader;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.bean.Dashboard;
 import com.enadein.carlogbook.bean.DataInfo;
+import com.enadein.carlogbook.bean.RatePathBean;
 import com.enadein.carlogbook.bean.ReportItem;
 import com.enadein.carlogbook.core.gen.GenWriter;
 import com.enadein.carlogbook.core.gen.HtmlWriter;
@@ -201,7 +202,7 @@ public class ReportExportLoader extends AsyncTaskLoader<File> {
 
 
 
-//			rateLoader.calculateFuelRate(logFuelHolder.rateView, id);
+//			rateLoader.calculateFuelRateAndPath(logFuelHolder.rateView, id);
 		} else {
 			int nameIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.NAME);
 			int typeIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.TYPE_ID);
@@ -215,11 +216,15 @@ public class ReportExportLoader extends AsyncTaskLoader<File> {
 
 			printCell(name, "black");
 
-			String nameString;
+			String nameString  = "";
 			if (typeId == 0) {
 				int fuelNameIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.FUEL_NAME);
 				nameString = cursor.getString(fuelNameIdx);
-
+			} else if (typeId == 12) {
+				int fuelNameIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.FUEL_NAME);
+				nameString = cursor.getString(fuelNameIdx);
+				int incomeIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.INCOME);
+				price = cursor.getDouble(incomeIdx);
 			} else {
 				nameString = types[typeId];
 			}
@@ -227,7 +232,7 @@ public class ReportExportLoader extends AsyncTaskLoader<File> {
 			printCell(nameString, "black");
 			printCell( "&nbsp", "black");
 			String priceStringValue = unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(price, unitFacade));
-			printCell(priceStringValue, "red");
+			printCell(priceStringValue, (typeId == 12) ? "green" : "red");
 		}
 	}
 
@@ -252,20 +257,23 @@ public class ReportExportLoader extends AsyncTaskLoader<File> {
 	}
 
 	private String getFuelRate(long id) {
-		double rate = DBUtils.getFuelRateFromCurrentLogId(unitFacade, id, getContext().getContentResolver());
+		RatePathBean info  = DBUtils.getFuelRateFromCurrentLogId(unitFacade, id, getContext().getContentResolver());
 
 
 		int consum = unitFacade.getConsumptionValue();
-		String rateString = (consum == 2) ? CommonUtils.formatDistance(rate) :
-				CommonUtils.formatFuel(rate, unitFacade);
+		String rateString = (consum == 2) ? CommonUtils.formatDistance(info.getRate()) :
+				CommonUtils.formatFuel(info.getRate(), unitFacade);
 
 		rateString = unitFacade.appendConsumUnit(true, rateString);
 
-		if (rate == 0) {
+		if (info.getRate() == 0) {
 			rateString = "";
 		}
 
-		return rateString;
+		String path = (info.getPath() != 0) ?
+				"/" + unitFacade.appendDistUnit(true,String.valueOf(info.getPath())) : "";
+
+		return rateString + path;
 	}
 
 	@Override

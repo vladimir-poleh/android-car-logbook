@@ -113,15 +113,47 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 
 				Calendar c = Calendar.getInstance();
 				CommonUtils.trunkMonth(c);
-
 				c.add(Calendar.MONTH, -3);
 				ArrayList<BarInfo> bars = new ArrayList<BarInfo>();
 				addMonthTotalPrice(c, cr, bars);
 				addMonthTotalPrice(c, cr, bars);
 				addMonthTotalPrice(c, cr, bars);
 				addMonthTotalPrice(c, cr, bars);
-
 				dashboard.setCostLast4Months(bars);
+				///
+
+				///---------
+				 c = Calendar.getInstance();
+				CommonUtils.trunkMonth(c);
+				c.add(Calendar.MONTH, -3);
+				bars = new ArrayList<BarInfo>();
+				addMonthTotalIncome(c, cr, bars);
+				addMonthTotalIncome(c, cr, bars);
+				addMonthTotalIncome(c, cr, bars);
+				addMonthTotalIncome(c, cr, bars);
+				dashboard.setIncomeLast4Months(bars);
+
+				///---------
+				c = Calendar.getInstance();
+				CommonUtils.trunkMonth(c);
+				c.add(Calendar.MONTH, -3);
+				bars = new ArrayList<BarInfo>();
+				addMonthCost1(c, cr, bars);
+				addMonthCost1(c, cr, bars);
+				addMonthCost1(c, cr, bars);
+				addMonthCost1(c, cr, bars);
+				dashboard.setCostPer1(bars);
+
+				///---------
+				c = Calendar.getInstance();
+				CommonUtils.trunkMonth(c);
+				c.add(Calendar.MONTH, -3);
+				bars = new ArrayList<BarInfo>();
+				addMonthFuelCost1(c, cr, bars);
+				addMonthFuelCost1(c, cr, bars);
+				addMonthFuelCost1(c, cr, bars);
+				addMonthFuelCost1(c, cr, bars);
+				dashboard.setFuelCostPer1(bars);
 
 				 c = Calendar.getInstance();
 				CommonUtils.trunkMonth(c);
@@ -348,7 +380,14 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
                 xReport.cost_total_per_month_other = reportFacade.getAvgOhterExpensesCostPerMonth(cr, carId);
                 xReport.cost_total_per_year_other = reportFacade.getAvgOtherExpensesCostPerYear(cr, carId);
 
-                xReport.avg100 = reportFacade.getAvgLPer100(cr, carId);
+
+				xReport.total_income = reportFacade.getTotalIncome(cr, carId);
+				xReport.total_month_income = reportFacade.getTotalIncomeThisMonth(cr, carId);
+				xReport.total_month_last_income = reportFacade.getTotalIncomeLastMonth(cr, carId);
+				xReport.total_year_income = reportFacade.getTotalIncomeYear(cr, carId);
+				xReport.total_year_last_income = reportFacade.getTotalIncomeLastYear(cr, carId);
+
+				xReport.avg100 = reportFacade.getAvgLPer100(cr, carId);
                 xReport.avglperkm = reportFacade.getAvgLPer1Km(cr, carId);
                 xReport.avgkmperl = reportFacade.getAvgKmPerL(cr, carId);
 
@@ -413,6 +452,45 @@ public class DataLoader extends AsyncTaskLoader<DataInfo> {
 		c.add(Calendar.MONTH, 1);
 		long to = c.getTimeInMillis();
 		double price = DBUtils.getTotalPrice(DBUtils.getActiveCarId(cr), cr, from, to, -1);
+
+		BarInfo barInfo = new BarInfo();
+		barInfo.setValue((float) price);
+		barInfo.setName(name);
+		bars.add(barInfo);
+	}
+
+	private void addMonthTotalIncome(Calendar c, ContentResolver cr, ArrayList<BarInfo> bars) {
+		long from = c.getTimeInMillis();
+		String name = CommonUtils.formatMonth(new Date(from));
+		c.add(Calendar.MONTH, 1);
+		long to = c.getTimeInMillis();
+		double price = DBUtils.getTotalIncome(DBUtils.getActiveCarId(cr), cr, from, to);
+
+		BarInfo barInfo = new BarInfo();
+		barInfo.setValue((float) price);
+		barInfo.setName(name);
+		bars.add(barInfo);
+	}
+
+	private void addMonthFuelCost1(Calendar c, ContentResolver cr, ArrayList<BarInfo> bars) {
+		long from = c.getTimeInMillis();
+		String name = CommonUtils.formatMonth(new Date(from));
+		c.add(Calendar.MONTH, 1);
+		long to = c.getTimeInMillis();
+		double price = DBUtils.getPriceFuelPer1km(DBUtils.getActiveCarId(cr), cr, from, to);
+
+		BarInfo barInfo = new BarInfo();
+		barInfo.setValue((float) price);
+		barInfo.setName(name);
+		bars.add(barInfo);
+	}
+
+	private void addMonthCost1(Calendar c, ContentResolver cr, ArrayList<BarInfo> bars) {
+		long from = c.getTimeInMillis();
+		String name = CommonUtils.formatMonth(new Date(from));
+		c.add(Calendar.MONTH, 1);
+		long to = c.getTimeInMillis();
+		double price = DBUtils.getPricePer1km(DBUtils.getActiveCarId(cr), cr, from, to);
 
 		BarInfo barInfo = new BarInfo();
 		barInfo.setValue((float) price);

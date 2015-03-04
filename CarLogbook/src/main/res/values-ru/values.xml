@@ -30,11 +30,14 @@
 		<item>Деталь</item><!--8-->
 		<item>Страховка</item><!--9-->
 		<item>Кредит</item><!--10-->
+		<item>Обн. Одометра</item><!--11-->
+		<item>Доход</item><!--12-->
 	</string-array>
 
 	<string-array name="notify_types">
 		<item>По одометру</item>
 		<item>По дате</item>
+		<item>По дате/По одометру</item>
 	</string-array>
 
 	<!--1.2-->

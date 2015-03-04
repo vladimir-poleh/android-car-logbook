@@ -303,4 +303,18 @@
 	<string name="menu_detail">Detalles</string>
 
 	<string name="reset">Reajustar</string>
+
+	<!--2.5.0-->
+	<string name="income_val">Valores de tipo de ingresos</string>
+	<string name="income_add">Añadir tipo de ingresos</string>
+	<string name="income_edit">Añadir tipo de ingresos</string>
+	<string name="income_default">Defecto</string>
+	<string name="income">tipo de Renta</string>
+	<string name="income_4_months">Ingresos (últimos 4 meses)</string>
+	<string name="total_income">Total income</string>
+	<string name="total_month_income">Los ingresos totales de este mes</string>
+	<string name="total_month_last_income">El total de ingresos el mes pasado</string>
+	<string name="total_year_income">El total de ingresos este año</string>
+	<string name="total_year_last_income">Los ingresos totales del año pasado</string>
+	<string name="total_year_last_income_def">Defecto</string>
 </resources>

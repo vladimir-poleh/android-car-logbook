@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="action_list">
-        <item>Dashboard</item>
-        <item>By type</item>
-        <item>Fuel rate</item>
-        <item>Last events</item>
-        <item>Detail</item> <!--1.4-->
-    </string-array>
+	<string-array name="action_list">
+		<item>Dashboard</item>
+		<item>Prema tipu</item>
+		<item>Gorivo</item>
+		<item>Poslednji dogadjaj</item>
+		<item>Detalji</item> <!--1.4-->
+	</string-array>
 	<string-array name="fuel_type_default">
 		<item>85</item>
 		<item>87</item>
@@ -19,17 +19,17 @@
 		<item>Default</item>
 	</string-array>
 	<string-array name="log_type">
-		<item>Other</item> <!--0-->
-		<item>Car wash</item><!--1-->
+		<item>Ostalo</item> <!--0-->
+		<item>Pranje automobila</item><!--1-->
 		<item>Parking</item><!--2-->
-		<item>Penalty</item><!--3-->
+		<item>Kazne</item><!--3-->
 		<item>Tuning</item><!--4-->
-		<item>Service</item><!--5-->
-		<item>Engine oil</item><!--6-->
-		<item>Transmission oil</item><!--7-->
-		<item>Repair part</item><!--8-->
-		<item>Insurance</item><!--9-->
-		<item>Credit</item><!--10-->
+		<item>Servis</item><!--5-->
+		<item>Zamena motornoh ulja</item><!--6-->
+		<item>Zamena ulja menjaca</item><!--7-->
+		<item>Zamenjeni delovi</item><!--8-->
+		<item>Osiguranje</item><!--9-->
+		<item>Kredit</item><!--10-->
 		<item>Odometer refresh</item><!--11-->
 		<item>Income</item><!--12-->
 	</string-array>
@@ -37,7 +37,7 @@
 	<string-array name="notify_types">
 		<item>by odometer</item>
 		<item>by date</item>
-		<item>date/odometer</item>
+		<item>by date/by odometer</item>
 	</string-array>
 
 	<!--1.2-->
@@ -86,16 +86,16 @@
 	</string-array>
 
 	<string-array name="date_repeating">
-		<item>None</item>
-		<item>Day</item>
-		<item>Week</item>
-		<item>Month</item>
-		<item>2 Months</item>
-		<item>3 Months</item>
-		<item>4 Months</item>
-		<item>6 Months</item>
-		<item>Year</item>
-		<item>2 Years</item>
+		<item>No</item>
+		<item>Dan</item>
+		<item>Nedelja</item>
+		<item>Mesec</item>
+		<item>2 Meseci</item>
+		<item>3 Meseci</item>
+		<item>4 Meseci</item>
+		<item>6 Meseci</item>
+		<item>Godina</item>
+		<item>2 Godine</item>
 	</string-array>
 
 	<string-array name="notify_time">

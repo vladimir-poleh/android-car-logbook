@@ -14,6 +14,7 @@ import com.enadein.carlogbook.db.ProviderDescriptor;
 import java.text.NumberFormat;
 
 public class UnitFacade {
+	public static final String LOG_DEF = "LOG_DEF_";
 	private Context ctx;
 
 	private String[] distanceUnitArray;
@@ -34,6 +35,7 @@ public class UnitFacade {
 	public static boolean COMMA_ON = false;
 
 
+	public static final String SET_LOG_DEFAULT = "log_default";
 	public static final String SET_DATE_FORMAT = "date_format";
 	public static final String SET_ANIM_LIST = "anim_list";
 	public static final String SET_COMMA = "comma";
@@ -301,6 +303,16 @@ public class UnitFacade {
 		ContentResolver cr = ctx.getContentResolver();
 		String value = DBUtils.getSettValue(cr, key);
 		return value == null ? defaultValue : value;
+	}
+
+	public String getLogDefault(int type) {
+		ContentResolver cr = ctx.getContentResolver();
+		String value = DBUtils.getSettValue(cr, LOG_DEF + type);
+		return value == null ? "" : value;
+	}
+
+	public void setLogDefault(int type, String value) {
+		setSetings(LOG_DEF + type, value);
 	}
 
 

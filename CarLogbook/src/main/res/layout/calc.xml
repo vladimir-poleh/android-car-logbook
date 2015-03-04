@@ -72,11 +72,13 @@
 
 					<TextView
 						android:id="@+id/totalFuel"
+						android:layout_weight="1"
 						style="@style/add_entity_label"
 						android:text="@string/total_fuel"/>
 
 					<TextView
 						android:id="@+id/totalFuelValue"
+						android:layout_width="wrap_content"
 						style="@style/add_entity_edit"/>
 				</LinearLayout>
 
@@ -85,10 +87,12 @@
 					<TextView
 						android:id="@+id/totalCost"
 						style="@style/add_entity_label"
+						android:layout_weight="1"
 						android:text="@string/total_cost"/>
 
 					<TextView
 						android:id="@+id/totalCostValue"
+						android:layout_width="wrap_content"
 						style="@style/add_entity_edit"/>
 				</LinearLayout>
 

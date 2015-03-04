@@ -23,6 +23,14 @@
 			android:visibility="gone"/>
 
 		<TextView
+			android:id="@+id/carView"
+			android:text=""
+			android:textStyle="bold"
+			android:visibility="gone"
+			android:textColor="#fff"
+			style="@style/wrap"
+			/>
+		<TextView
 			android:layout_width="0dp"
 			android:layout_weight="1"
 			android:layout_height="wrap_content"/>
@@ -155,6 +163,20 @@
 						<Spinner
 							android:id="@+id/stationSpinner"
 							style="@style/add_entity_spinner"/>
+					</LinearLayout>
+
+					<LinearLayout style="@style/add_entity_group"
+								  android:visibility="gone"
+								  android:id="@+id/notify_group">
+
+						<TextView
+
+							style="@style/add_entity_label"
+							android:text="@string/add_notify"/>
+
+						<android.support.v7.widget.SwitchCompat
+							android:id="@+id/add_notify"
+							style="@style/wrap" android:checked="false"/>
 					</LinearLayout>
 				</LinearLayout>
 			</android.support.v7.widget.CardView>

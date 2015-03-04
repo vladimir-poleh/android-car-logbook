@@ -303,4 +303,19 @@
 	<string name="menu_detail">Detail</string>
 
 	<string name="reset">Obnovit</string>
+
+
+	<!--2.5.0-->
+	<string name="income_val">Zadejte hodnoty z příjmů</string>
+	<string name="income_add">Přidejte typ příjmu</string>
+	<string name="income_edit">Typ Edit příjmů</string>
+	<string name="income_default">Standardní</string>
+	<string name="income">Typ příjmů</string>
+	<string name="income_4_months">Příjmy (poslední 4 měsíce)</string>
+	<string name="total_income">Celkové příjmy</string>
+	<string name="total_month_income">Celkové příjmy v tomto měsíci</string>
+	<string name="total_month_last_income">Celkové příjmy za poslední měsíc</string>
+	<string name="total_year_income">Celkové příjmy v tomto roce</string>
+	<string name="total_year_last_income">Celkové příjmy v loňském roce</string>
+	<string name="total_year_last_income_def">Standardní</string>
 </resources>

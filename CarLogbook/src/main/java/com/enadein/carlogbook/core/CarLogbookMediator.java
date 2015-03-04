@@ -172,6 +172,12 @@ public class CarLogbookMediator extends AppMediator {
 		}
 	}
 
+	public void showAddNotification(String name) {
+		Bundle params = new Bundle();
+		params.putString(AddUpdateNotificationActivity.NAME, name);
+		startActivity(AddUpdateNotificationActivity.class, params);
+	}
+
 	public void showEditNotifcation(long id) {
 		Bundle params = new Bundle();
 		params.putInt(BaseActivity.MODE_KEY, BaseActivity.PARAM_EDIT);

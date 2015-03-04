@@ -77,6 +77,7 @@ abstract public class SaveUpdateBaseActivity extends BaseActivity {
 			case R.id.action_save: {
 				if (validateEntity()) {
 					createOrUpdateEntity();
+					hookUpToParrent();
 					upToParent();
 				}
 				break;
@@ -93,6 +94,8 @@ abstract public class SaveUpdateBaseActivity extends BaseActivity {
 
 		return true;
 	}
+
+	protected  void hookUpToParrent() {};
 
 	protected void createOrUpdateEntity() {
 		if (mode == PARAM_EDIT) {

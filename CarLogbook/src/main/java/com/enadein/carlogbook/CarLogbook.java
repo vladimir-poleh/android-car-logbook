@@ -33,12 +33,13 @@ import com.enadein.carlogbook.adapter.MenuAdapter;
 import com.enadein.carlogbook.adapter.MenuItem;
 import com.enadein.carlogbook.core.BaseActivity;
 import com.enadein.carlogbook.core.Logger;
+import com.enadein.carlogbook.db.CommonUtils;
 
 import java.util.ArrayList;
 
 
 public class CarLogbook extends BaseActivity implements BillingProcessor.IBillingHandler {
-	public static final String VERSION = "2.0.2";
+	public static final String VERSION = "2.5.0";
 
 	public static final String ROTATE = "rotate";
 	private Logger log = Logger.createLogger(getClass());
@@ -92,9 +93,11 @@ public class CarLogbook extends BaseActivity implements BillingProcessor.IBillin
 
 
 		rotate = false;
-
+//		CommonUtils.createNotify(this, 3, R.drawable.notify);
+//		CommonUtils.createNotify(this, 2, R.drawable.not_date);
+//		CommonUtils.createNotify(this, 4, R.drawable.notify);
 		//TODO
-		initInAppBuilingV3();
+		//initInAppBuilingV3();
 	}
 
 	@Override
@@ -254,6 +257,8 @@ public class CarLogbook extends BaseActivity implements BillingProcessor.IBillin
 		public static final int REP_DETAILED = 15;
 		public static final int CREATE_REPORT = 16;
 		public static final int CARS_LOADER = 17;
+		public static final int INCOME_LOADER = 18;
+		public static final int OTHERS_LOADER = 19;
 	}
 
 	///In-App Billing v3
@@ -293,9 +298,10 @@ public class CarLogbook extends BaseActivity implements BillingProcessor.IBillin
 
 	@Override
 	public void onDestroy() {
+		//TODO
 		if (bp != null)
 			bp.release();
-
+//
 		super.onDestroy();
 	}
 	///In-App Billing v3

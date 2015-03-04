@@ -29,12 +29,15 @@ import com.enadein.carlogbook.core.UnitFacade;
 import com.enadein.carlogbook.db.CommonUtils;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 
 public class FileAdapter  extends ArrayAdapter<File> {
 	private int mlastPos = 1;
 
 	public FileAdapter(Context context, int resource,  File[] files) {
-		super(context, resource, files);
+		super(context, resource, new ArrayList<File>(Arrays.asList(files)));
 	}
 
 	@Override
@@ -45,10 +48,13 @@ public class FileAdapter  extends ArrayAdapter<File> {
 
 		if (convertView == null) {
 			LayoutInflater inflater = LayoutInflater.from(getContext());
-			convertView = inflater.inflate(R.layout.data_value_item, null);
+			convertView = inflater.inflate(R.layout.import_item, null);
 
 			holder = new FileHolder();
-			holder.text = (TextView) convertView.findViewById(R.id.name);
+
+
+			holder.text = (TextView) convertView.findViewById(R.id.name) ;
+			holder.date = (TextView) convertView.findViewById(R.id.date) ;
 			convertView.setTag(holder);
 		} else {
 			holder = (FileHolder) convertView.getTag();
@@ -58,7 +64,14 @@ public class FileAdapter  extends ArrayAdapter<File> {
 		if (xmlIdx > 0) {
 			fileName = fileName.substring(0, xmlIdx);
 		}
+
+		long timeMod =  file.lastModified();
+		String timeModString =  CommonUtils.formatDate(new Date(timeMod));
+		timeModString +=  " " + CommonUtils.formatDate(new Date(timeMod), "hh:mm");
+
+
 		holder.text.setText(fileName);
+		holder.date.setText(timeModString);
 
 		int pos = position;
 		CommonUtils.runAnimation(mlastPos, pos, convertView, UnitFacade.animSize);
@@ -69,6 +82,7 @@ public class FileAdapter  extends ArrayAdapter<File> {
 
 	public static class FileHolder {
 		public TextView text;
+		public TextView date;
 	}
 
 

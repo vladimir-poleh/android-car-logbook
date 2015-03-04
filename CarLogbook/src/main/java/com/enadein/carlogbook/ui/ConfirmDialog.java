@@ -47,7 +47,7 @@ public class ConfirmDialog extends DialogFragment {
 		yes.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				((DialogListener)getActivity()).onDialogEvent(REQUEST_CODE_CONFIRM, RETURN_VALUE_YES, null);
+				((DialogListener)getActivity()).onDialogEvent(REQUEST_CODE_CONFIRM, getReturnValuesYes(), null);
 				dismiss();
 			}
 		});
@@ -59,6 +59,10 @@ public class ConfirmDialog extends DialogFragment {
 			}
 		});
 		return view;
+	}
+
+	protected int getReturnValuesYes() {
+		return RETURN_VALUE_YES;
 	}
 
 	protected View getViewNew(LayoutInflater inflater, ViewGroup container) {

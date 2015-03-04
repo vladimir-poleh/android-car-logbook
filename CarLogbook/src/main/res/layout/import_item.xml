@@ -9,7 +9,8 @@
 		style="@style/card"
 		app:cardUseCompatPadding="true">
 
-		<LinearLayout style="@style/new_group_item">
+		<LinearLayout
+			style="@style/new_group_item">
 
 			<LinearLayout
 				style="@style/wide"
@@ -17,22 +18,11 @@
 				android:orientation="horizontal"
 				android:padding="8dp">
 
-				<LinearLayout style="@style/circle">
-
-					<ImageView
-						android:id="@+id/logo"
-						style="@style/logo"/>
-				</LinearLayout>
-
 				<TextView
 					android:id="@+id/name"
-					style="@style/wrap"
-					android:layout_marginLeft="8dp"
-					android:layout_weight="1"/>
-
+					style="@style/wrap" android:layout_weight="1"/>
 				<TextView
-					android:id="@+id/value"
-					android:gravity="right|center_vertical"
+					android:id="@+id/date"
 					style="@style/wrap"/>
 			</LinearLayout>
 		</LinearLayout>

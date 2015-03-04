@@ -357,7 +357,7 @@ public class CarlogbookProviderTestCase extends ProviderTestCase2<CarLogbookProv
         long activeCarId = DBUtils.getActiveCarId(cr);
 
 
-//        reportFacade.calculateFuelRate(get);
+//        reportFacade.calculateFuelRateAndPath(get);
     }
 
     public void setupAllForReportFace() {

@@ -55,6 +55,12 @@ public class XReport {
     public double cost_total_per_month_other;
     public double cost_total_per_year_other;
 
+    public double total_income;
+    public double total_month_income;
+    public double total_month_last_income;
+    public double total_year_income;
+    public double total_year_last_income;
+
     public double avg100;
     public double avglperkm;
     public double avgkmperl;

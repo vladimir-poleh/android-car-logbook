@@ -304,5 +304,18 @@
 
 	<string name="reset">Reset</string>
 
+	<!--2.5.0-->
+	<string name="income_val">Income type values</string>
+	<string name="income_add">Add Income type</string>
+	<string name="income_edit">Edit Income type</string>
+	<string name="income_default">Default</string>
+	<string name="income">Income type</string>
+	<string name="income_4_months">Income(last 4 months)</string>
+	<string name="total_income">Total income</string>
+	<string name="total_month_income">Total income this month</string>
+	<string name="total_month_last_income">Total income last month</string>
+	<string name="total_year_income">Total income this year</string>
+	<string name="total_year_last_income">Total income last year</string>
+	<string name="total_year_last_income_def">Default</string>
 </resources>
 

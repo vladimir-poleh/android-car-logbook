@@ -23,6 +23,15 @@
 			android:visibility="gone"/>
 
 		<TextView
+			android:id="@+id/carView"
+			android:text=""
+			android:textStyle="bold"
+			android:visibility="gone"
+			android:textColor="#fff"
+			style="@style/wrap"
+			/>
+
+		<TextView
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"/>
@@ -77,6 +86,21 @@
 							android:id="@+id/ohterTypeSpinner"
 							style="@style/add_entity_spinner"/>
 					</LinearLayout>
+
+					<LinearLayout
+						android:id="@+id/incomeGroup"
+						style="@style/add_entity_group"
+						android:visibility="gone">
+
+						<TextView
+							style="@style/add_entity_label"
+							android:text="@string/income"/>
+
+						<Spinner
+							android:id="@+id/incomeTypeSpinner"
+							style="@style/add_entity_spinner"/>
+					</LinearLayout>
+
 
 
 					<TextView
@@ -133,6 +157,20 @@
 							style="@style/add_entity_edit"
 							android:digits="0123456789.,"
 							android:inputType="numberDecimal"/>
+					</LinearLayout>
+
+					<LinearLayout style="@style/add_entity_group"
+								  android:visibility="gone"
+								  android:id="@+id/notify_group">
+
+						<TextView
+
+							style="@style/add_entity_label"
+							android:text="@string/add_notify"/>
+
+						<android.support.v7.widget.SwitchCompat
+							android:id="@+id/add_notify"
+							style="@style/wrap" android:checked="false"/>
 					</LinearLayout>
 				</LinearLayout>
 			</android.support.v7.widget.CardView>
