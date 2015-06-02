@@ -20,7 +20,7 @@
 	</string-array>
 	<string-array name="log_type">
         <item>Otros</item> <!--0-->
-        <item>Lavado de coches</item><!--1-->
+        <item>Lavado de autos</item><!--1-->
         <item>Estacionamiento</item><!--2-->
         <item>Multas</item><!--3-->
         <item>Tuning</item><!--4-->
