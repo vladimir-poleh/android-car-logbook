@@ -162,10 +162,6 @@ public class LogAdapter extends CursorAdapter {
 			unitFacade.appendDistUnit(logHolder.odometerView, false);
 			logHolder.imgType.setBackgroundResource(DataInfo.images.get(typeId));
 
-
-
-
-			unitFacade.appendCurrency(logHolder.priceTotal,false, false);
 			logHolder.nameView.setText( name);
 
 			logHolder.priceTotal.setTextColor(res.getColor(R.color.price));
@@ -188,6 +184,7 @@ public class LogAdapter extends CursorAdapter {
             }
 
 			logHolder.priceTotal.setText(CommonUtils.formatPriceNew(price, unitFacade));
+			unitFacade.appendCurrency(logHolder.priceTotal,false, false);
 			if (name == null || name.trim().equals("")) {
 				logHolder.nameView.setText(logHolder.typeView.getText());
 			}
