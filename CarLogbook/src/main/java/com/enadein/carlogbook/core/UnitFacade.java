@@ -248,8 +248,12 @@ public class UnitFacade {
                 return ctx.getString(R.string.na);
             }
         }
-
-        return wrap ? currentText + " (" + value + ")" : currentText + value;
+		
+		if ((wrap && currentText.endsWith("(" + value + ")")) || (!wrap && currentText.endsWith(value))) {
+			return currentText;
+		} else {
+			return wrap ? currentText + " (" + value + ")" : currentText + value;
+		}
     }
 
     public void setFuelValue(int fuelValue) {
