@@ -48,7 +48,6 @@ public class DBUtils {
 		RatePathBean result = new RatePathBean();
 
 		int odometer = 0;
-		double fuelVolume = 0;
 		long date = 0;
 		long carId = -1;
 
@@ -56,7 +55,6 @@ public class DBUtils {
 				ProviderDescriptor.Log.Cols._ID + " = ?" , new String[] {String.valueOf(id)}, null);
 		if (c != null && c.moveToFirst()) {
 			odometer = DBUtils.getIntByName(c, ProviderDescriptor.Log.Cols.ODOMETER);
-			fuelVolume = DBUtils.getDoubleByName(c, ProviderDescriptor.Log.Cols.FUEL_VOLUME);
 			date = DBUtils.getLongByName(c, ProviderDescriptor.Log.Cols.DATE);
 			carId = DBUtils.getLongByName(c, ProviderDescriptor.Log.Cols.CAR_ID);
 		}
@@ -71,6 +69,7 @@ public class DBUtils {
 				String.valueOf(ProviderDescriptor.Log.Type.FUEL)}, ProviderDescriptor.Log.Cols.DATE + " DESC");
 
 		if (c != null && c.moveToFirst()) {
+			double fuelVolume = DBUtils.getDoubleByName(c, ProviderDescriptor.Log.Cols.FUEL_VOLUME);
 			int odometerPrev = DBUtils.getIntByName(c, ProviderDescriptor.Log.Cols.ODOMETER);
 			int odometerDiff = odometer - odometerPrev;
 			if (odometerDiff > 0 && fuelVolume > 0) {
