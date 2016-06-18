@@ -110,5 +110,8 @@ public class MenuAdapter extends ArrayAdapter<MenuItem> {
 		public static final int IMPORT_EXPORT = 6;
 		public static final int SETTINGS_POSITION = 7;
 		public static final int ABOUT_POSITION = 8;
-	}
+
+        private MenuDescriptor() {
+        }
+    }
 }

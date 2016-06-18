@@ -259,6 +259,9 @@ public class CarLogbook extends BaseActivity implements BillingProcessor.IBillin
 		public static final int CARS_LOADER = 17;
 		public static final int INCOME_LOADER = 18;
 		public static final int OTHERS_LOADER = 19;
+
+		private LoaderDesc() {
+		}
 	}
 
 	///In-App Billing v3

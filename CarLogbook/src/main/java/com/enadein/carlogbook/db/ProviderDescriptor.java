@@ -25,6 +25,9 @@ public class ProviderDescriptor {
 	public static final Uri BASE_URI = Uri.parse("content://" + AUTHORITY);
 	public static final UriMatcher URI_MATCHER = buildUriMatcher();
 
+	private ProviderDescriptor() {
+	}
+
 	private static UriMatcher buildUriMatcher() {
 		final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -70,6 +73,9 @@ public class ProviderDescriptor {
 
 		public static final String CREATE_FIELDS = "_id INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, ACTIVE_FLAG INTEGER";
 
+		private Car() {
+		}
+
 		public static class Cols {
 			public static final String _ID = "_id";
 			public static final String NAME = "NAME";
@@ -92,6 +98,9 @@ public class ProviderDescriptor {
 			public static final String REG_NUM = "REG_NUM";
 			public static final String FUEL_TYPE = "FUEL_TYPE";
 			public static final String TYRE = "TYRE";
+
+			private Cols() {
+			}
 		}
 	}
 
@@ -110,9 +119,15 @@ public class ProviderDescriptor {
 				" ODOMETER INTEGER, PRICE REAL, COMMENT TEXT, CAR_ID INTEGER, FUEL_TYPE_ID INTEGER, " +
 				"FUEL_STATION_ID INTEGER, FUEL_VOLUME REAL, TYPE_ID INTEGER, NAME TEXT, PLACE TEXT, TYPE_LOG INTEGER";
 
+		private Log() {
+		}
+
 		public static class Type {
 			public static final int FUEL = 0;
 			public static final int OTHER = 1;
+
+			private Type() {
+			}
 		}
 
 		public static class Cols {
@@ -150,6 +165,9 @@ public class ProviderDescriptor {
 		public static final int PATH_ID_TOKEN = 501;
 		public static final Uri CONTENT_URI = ProviderDescriptor.BASE_URI.buildUpon().appendPath(PATH).build();
 
+		private LogView() {
+		}
+
 		public static class Cols extends Log.Cols {
 			public static final String STATION_NAME = "STATION_NAME";
 			public static final String FUEL_NAME = "FUEL_NAME";
@@ -182,6 +200,9 @@ public class ProviderDescriptor {
 
 		public static final String CREATE_FIELDS = "_id INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, TYPE INTEGER, SYS INTEGER, DEFAULT_FLAG INTEGER";
 
+		private DataValue() {
+		}
+
 		public static class Cols {
 			public static final String _ID = "_id";
 			public static final String NAME = "NAME";
@@ -189,6 +210,8 @@ public class ProviderDescriptor {
 			public static final String SYSTEM = "SYS";
 			public static final String DEFAULT_FLAG = "DEFAULT_FLAG";
 
+			private Cols() {
+			}
 		}
 
 		public static class Type {
@@ -196,6 +219,9 @@ public class ProviderDescriptor {
 			public static final int STATION = 1;
 			public static final int OTHERS = 2;
 			public static final int INCOME = 3;
+
+			private Type() {
+			}
 		}
 	}
 
@@ -212,6 +238,9 @@ public class ProviderDescriptor {
 
 		public static final String CREATE_FIELDS = "_id INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, TYPE INTEGER, VALUE INTEGER, CAR_ID INTEGER";
 
+		private Notify() {
+		}
+
 		public static class Cols {
 			public static final String _ID = "_id";
 			public static final String NAME = "NAME";
@@ -225,12 +254,17 @@ public class ProviderDescriptor {
 			public static final String TRIGGER_VALUE2 = "VALUE2";
 			public static final String COMMENTS = "COMMENTS";
 
+			private Cols() {
+			}
 		}
 
 		public static class Type {
 			public static final int ODOMETER = 0;
 			public static final int DATE = 1;
 			public static final int DATE_ODOMETER = 2;
+
+			private Type() {
+			}
 		}
 
 		public static class DATE_REPEAT {
@@ -243,6 +277,9 @@ public class ProviderDescriptor {
 			public static final int MONTH6 = 6;
 			public static final int YEAR = 7;
 			public static final int YEAR2 = 8;
+
+			private DATE_REPEAT() {
+			}
 		}
 
 	}
@@ -260,6 +297,9 @@ public class ProviderDescriptor {
 
 		public static final String CREATE_FIELDS = "_id INTEGER PRIMARY KEY AUTOINCREMENT,  RATE REAL, MIN_RATE REAL, MAX_RATE REAL, STATION_ID INTEGER, FUEL_TYPE_ID INTEGER, CAR_ID INTEGER";
 
+		private FuelRate() {
+		}
+
 		public static class Cols {
 			public static final String _ID = "_id";
 			public static final String CAR_ID = "CAR_ID";
@@ -271,6 +311,9 @@ public class ProviderDescriptor {
 			public static final String SUM_FUEL = "SUM_FUEL";
 			public static final String SUM_DIST = "SUM_DIST";
 			public static final String AVG = "AVG";
+
+			private Cols() {
+			}
 		}
 	}
 
@@ -288,9 +331,15 @@ public class ProviderDescriptor {
 
 		public static final String CREATE_QUERY = "CREATE VIEW IF NOT EXISTS rate_view as select l.*, d.name as STATION_NAME, df.name as  FUEL_NAME from rate l inner join data_value d on l.STATION_ID = d._id inner join data_value df on l.FUEL_TYPE_ID = df._id";
 
+		private FuelRateView() {
+		}
+
 		public static class Cols extends FuelRate.Cols {
 			public static final String STATION_NAME = "STATION_NAME";
 			public static final String FUEL_NAME = "FUEL_NAME";
+
+			private Cols() {
+			}
 		}
 	}
 
@@ -307,9 +356,15 @@ public class ProviderDescriptor {
 
 		public static final String CREATE_FIELDS = "KEY TEXT,VALUE TEXT";
 
+		private Sett() {
+		}
+
 		public static class Cols {
 			public static final String KEY = "KEY";
 			public static final String VALUE = "VALUE";
+
+			private Cols() {
+			}
 		}
 	}
 }

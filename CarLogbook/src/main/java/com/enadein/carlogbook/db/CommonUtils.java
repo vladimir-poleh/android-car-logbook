@@ -66,6 +66,9 @@ public class CommonUtils {
 
 	private static HashMap<String, Integer> consumption = new HashMap<String, Integer>();
 
+	private CommonUtils() {
+	}
+
 	public static void runAnimation(int mlastPos, int pos, View view, float size) {
 		if (UnitFacade.ANIM_LIST_ON) {
 			float initialTranslation = (mlastPos <= pos) ? size : -size;

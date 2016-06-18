@@ -35,6 +35,9 @@ import java.util.Comparator;
 public class FileUtils {
 	private static final String BACK_UP_DIR = "CarLogbook";
 
+	private FileUtils() {
+	}
+
 	public static void cleanDir() {
 		File baseDir = getBackupDirectory();
 		for(File file: baseDir.listFiles()) file.delete();
