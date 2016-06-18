@@ -37,6 +37,7 @@ import java.util.UUID;
 
 public class CarLogbookProvider extends ContentProvider {
 	public static final String LIMIT_PARAM = "limit_param";
+	public static final String UNKNOWN_URI = "Unknown URI ";
 	protected DBOpenHelper dbHelper;
 
 	protected HashMap<Integer, String> tables = new HashMap<Integer, String>();
@@ -98,7 +99,7 @@ public class CarLogbookProvider extends ContentProvider {
 		}
 
 		if (tableName == null) {
-			throw new IllegalArgumentException("Unknown URI " + uri);
+			throw new IllegalArgumentException(UNKNOWN_URI + uri);
 		}
 
 		SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
@@ -126,7 +127,7 @@ public class CarLogbookProvider extends ContentProvider {
 
 		String result = types.get(token);
 		if (result == null) {
-			throw new IllegalArgumentException("Unknown URI " + uri);
+			throw new IllegalArgumentException(UNKNOWN_URI + uri);
 		}
 
 		return result;
@@ -141,7 +142,7 @@ public class CarLogbookProvider extends ContentProvider {
 
 		String tableName = tables.get(token);
 		if (tableName == null) {
-			throw new IllegalArgumentException("Unknown URI " + uri);
+			throw new IllegalArgumentException(UNKNOWN_URI + uri);
 		}
 
 		long id = db.insert(tableName, null, values);
@@ -159,7 +160,7 @@ public class CarLogbookProvider extends ContentProvider {
 
 		String tableName = tables.get(token);
 		if (tableName == null) {
-			throw new IllegalArgumentException("Unknown URI " + uri);
+			throw new IllegalArgumentException(UNKNOWN_URI + uri);
 		}
 
 		result = db.delete(tableName, selection, selectionArgs);
@@ -176,7 +177,7 @@ public class CarLogbookProvider extends ContentProvider {
 
 		String tableName = tables.get(token);
 		if (tableName == null) {
-			throw new IllegalArgumentException("Unknown URI " + uri);
+			throw new IllegalArgumentException(UNKNOWN_URI + uri);
 		}
 
 		result = db.update(tableName, values, selection, selectionArgs);
@@ -191,7 +192,7 @@ public class CarLogbookProvider extends ContentProvider {
 
 		String tableName = tables.get(token);
 		if (tableName == null) {
-			throw new IllegalArgumentException("Unknown URI " + uri);
+			throw new IllegalArgumentException(UNKNOWN_URI + uri);
 		}
 
 		db.beginTransaction();

@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class ReportExportLoader extends AsyncTaskLoader<File> {
+	public static final String BLACK = "black";
+	public static final String RED = "red";
+	public static final String BLUE = "blue";
 	private final UnitFacade unitFacade;
 	private boolean loaded = false;
 	private Bundle bundle;
@@ -66,47 +69,47 @@ public class ReportExportLoader extends AsyncTaskLoader<File> {
 
 			printLine(
 					res.getString(R.string.total_cost),
-					"black",
+					BLACK,
 					unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(b.getTotalPrice(), unitFacade)),
-					"red");
+					RED);
 			printLine(
 					res.getString(R.string.total_run),
-					"black",
+					BLACK,
 					unitFacade.appendDistUnit(false, CommonUtils.formatDistance(b.getTotalOdometerCount())),
-					"black");
+					BLACK);
 
 			printLine(
 					res.getString(R.string.total_fuel),
-					"black",
+					BLACK,
 					unitFacade.appendFuelUnit(false, CommonUtils.formatFuel(b.getTotalFuelCount(), unitFacade)),
-					"blue");
+					BLUE);
 
 			printLine(
 					unitFacade.appendDistUnit(false, res.getString(R.string.cost_per1)),
-					"black",
+					BLACK,
 					unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(b.getPricePer1(), unitFacade)),
-					"black");
+					BLACK);
 			printLine(
 					unitFacade.appendDistUnit(false, res.getString(R.string.cost1fuelper1)),
-					"black",
+					BLACK,
 					unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(b.getPriceFuelPer1(), unitFacade)),
-					"red");
+					RED);
 ///---
 			printLine(
 					unitFacade.appendConsumUnit(true, res.getString(R.string.avg_fuel), 0),
-					"black",
+					BLACK,
 					unitFacade.appendFuelUnit(false, CommonUtils.formatFuel(b.getFuelRateAvg100(), unitFacade)),
-					"blue");
+					BLUE);
 			printLine(
 					unitFacade.appendConsumUnit(true, res.getString(R.string.avg_fuel), 2),
-					"black",
+					BLACK,
 					unitFacade.appendDistUnit(false, CommonUtils.formatDistance(b.getFuelRateAvg())),
-					"black");
+					BLACK);
 			printLine(
 					unitFacade.appendConsumUnit(true, res.getString(R.string.avg_fuel), 1),
-					"black",
+					BLACK,
 					unitFacade.appendFuelUnit(false, CommonUtils.formatFuel(b.getFuelRateAvg2(), unitFacade)),
-					"blue");
+					BLUE);
 
 
 
@@ -126,9 +129,9 @@ public class ReportExportLoader extends AsyncTaskLoader<File> {
 
 			for (ReportItem item: items) {
 				printLine(item.getName(),
-						"black",
+						BLACK,
 						unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(item.getValue(), unitFacade)),
-						"red");
+						RED);
 			}
 
 			writer.endTable();
@@ -186,18 +189,18 @@ public class ReportExportLoader extends AsyncTaskLoader<File> {
 			int fuelNameIdx = cursor.getColumnIndex(ProviderDescriptor.LogView.Cols.FUEL_NAME);
 			String fuelName = cursor.getString(fuelNameIdx);
 
-			printCell(date, "black");
+			printCell(date, BLACK);
 			String odometerValue = unitFacade.appendDistUnit(false, String.valueOf(odometer));
-			printCell(odometerValue, "black");
+			printCell(odometerValue, BLACK);
 			String fuelValueString = unitFacade.appendFuelUnit(false, CommonUtils.formatFuel(fuelValue, unitFacade));
-			printCell(fuelValueString, "black");
+			printCell(fuelValueString, BLACK);
 
 			String stationAndFuel = fuelName + "(" + stationName + ")";
-			printCell(stationAndFuel, "black");
-			printCell(getFuelRate(id), "black");
+			printCell(stationAndFuel, BLACK);
+			printCell(getFuelRate(id), BLACK);
 
 			String priceStringValue = unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(priceTotalDouble, unitFacade));
-			printCell(priceStringValue, "red");
+			printCell(priceStringValue, RED);
 
 
 
@@ -210,11 +213,11 @@ public class ReportExportLoader extends AsyncTaskLoader<File> {
 			String name = cursor.getString(nameIdx);
 			int typeId = cursor.getInt(typeIdx);
 
-			printCell(date, "black");
+			printCell(date, BLACK);
 			String odometerValue = unitFacade.appendDistUnit(false, String.valueOf(odometer));
-			printCell(odometerValue, "black");
+			printCell(odometerValue, BLACK);
 
-			printCell(name, "black");
+			printCell(name, BLACK);
 
 			String nameString  = "";
 			if (typeId == 0) {
@@ -229,10 +232,10 @@ public class ReportExportLoader extends AsyncTaskLoader<File> {
 				nameString = types[typeId];
 			}
 
-			printCell(nameString, "black");
-			printCell( "&nbsp", "black");
+			printCell(nameString, BLACK);
+			printCell( "&nbsp", BLACK);
 			String priceStringValue = unitFacade.appendCurrency(false, CommonUtils.formatPriceNew(price, unitFacade));
-			printCell(priceStringValue, (typeId == 12) ? "green" : "red");
+			printCell(priceStringValue, (typeId == 12) ? "green" : RED);
 		}
 	}
 
