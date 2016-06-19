@@ -36,7 +36,7 @@ import com.enadein.carlogbook.core.BaseReportFragment;
 import com.enadein.carlogbook.core.CarChangedListener;
 import com.enadein.carlogbook.core.DataLoader;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class LastUpdatedReportFragment extends BaseReportFragment implements LoaderManager.LoaderCallbacks<DataInfo>,CarChangedListener {
 	private ListView listView;
@@ -76,7 +76,7 @@ public class LastUpdatedReportFragment extends BaseReportFragment implements Loa
 
 	@Override
 	public void onLoadFinished(Loader<DataInfo> loader, DataInfo data) {
-		ArrayList<ReportItem> items = data.getReportData();
+		List<ReportItem> items = data.getReportData();
 		SimpleReportAdapter adapter = new SimpleReportAdapter(getActivity(),
 				R.layout.report_item_simple, items.toArray(new ReportItem[] {}), getMediator().getUnitFacade());
 		listView.setAdapter(adapter);

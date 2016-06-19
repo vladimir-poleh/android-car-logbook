@@ -23,6 +23,7 @@ import com.enadein.carlogbook.ui.CreateReportActivity;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ReportExportLoader extends AsyncTaskLoader<File> {
 	private final UnitFacade unitFacade;
@@ -122,7 +123,7 @@ public class ReportExportLoader extends AsyncTaskLoader<File> {
 			DataLoader dl = new DataLoader(getContext(),
 					DataLoader.TYPE, null, unitFacade);
 			DataInfo di = dl.loadInBackground();
-			ArrayList<ReportItem> items = di.getReportData();
+			List<ReportItem> items = di.getReportData();
 
 			for (ReportItem item: items) {
 				printLine(item.getName(),
