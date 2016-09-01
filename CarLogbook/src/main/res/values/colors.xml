@@ -1,54 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="selector_menu">#ffd060</color>
-	<color name="menu_header">#ff444444</color>
-	<color name="confirm_delete">#55000000</color>
-	<color name="confirm_delete_primary_color">#fff</color>
-	<color name="action_bar">#f3822c</color>
-	<color name="noShadow">#00000000</color>
-	<!--<color name="drawer_color">#ff555555</color>-->
-	<!--<color name="drawer_text">#ffffffff</color>-->
+    <color name="colorPrimary">#F5F5F5</color>
+    <color name="colorPrimaryDark">#E0E0E0</color>
+    <color name="colorAccent">#FF6E40</color>
 
-	<color name="drawer_color">#eee</color>
-	<color name="drawer_text">#444</color>
-
-	<color name="gal">#ff007ea7</color>
-	<color name="divider">#FF50CDF5</color>
-	<color name="price">#ffa70000</color>
-	<color name="income">#ff99cc00</color>
-
-	<color name="min">#FF50CDF5</color>
-	<color name="max">#ff007ea7</color>
-
-	<color name="progress1">#ff00ddff</color>
-	<color name="progress2">#ff99cc00</color>
-	<color name="progress3">#ffffbb33</color>
-	<color name="progress4">#ffff4444</color>
-
-
-	<color name="primary_900">#E65100</color>
-	<color name="primary_800">#EF6C00</color>
-	<color name="primary_700">#F57C00</color>
-	<color name="primary_500">#FF9800</color>
-	<color name="primary_600">#FB8C00</color>
-	<color name="primary_300">#FFB74D</color>
-
-	<color name="sec_100">#B3E5FC</color>
-	<color name="sec_200">#FF4081</color>
-	<color name="sec_300">#F06292</color>
-	<color name="sec_400">#EC407A</color>
-	<color name="sec_500">#03A9F4</color>
-	<color name="sec_600">#039BE5</color>
-	<color name="sec_700">#C2185B</color>
-	<color name="sec_A200">#40C4FF</color>
-	<color name="sec_A400">#00B0FF</color>
-	<color name="sec_A700">#00B0FF</color>
-
-	<color name="rd_500">#CDDC39</color>
-	<color name="rd_600">#C0CA33</color>
-
-	<color name="colorPrimary">@color/primary_500</color>
-	<color name="colorPrimaryDark">@color/primary_700</color>
-	<color name="colorAccent">@color/sec_A200</color>
-
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
 </resources>

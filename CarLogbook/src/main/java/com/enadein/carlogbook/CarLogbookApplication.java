@@ -17,16 +17,13 @@
 */
 package com.enadein.carlogbook;
 
-import android.os.Bundle;
+import android.app.Application;
 
-import com.enadein.carlogbook.view.activity.BaseActivity;
-
-public class CarLogbook extends BaseActivity {
+public class CarLogbookApplication extends Application {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-	}
+	public void onCreate() {
+		super.onCreate();
 
+	}
 }

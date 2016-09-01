@@ -15,18 +15,10 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-package com.enadein.carlogbook;
+package com.enadein.carlogbook.view.activity;
 
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-import com.enadein.carlogbook.view.activity.BaseActivity;
-
-public class CarLogbook extends BaseActivity {
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-	}
+public class BaseActivity extends AppCompatActivity {
 
 }

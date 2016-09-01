@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.getbase.floatingactionbutton.AddFloatingActionButton
-	xmlns:fab="http://schemas.android.com/apk/res-auto"
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	style="@style/add_btn"
-	android:id="@+id/add"
-	fab:fab_plusIconColor="#fff"
-	fab:fab_colorNormal="@color/primary_500"
-	fab:fab_colorPressed="@color/primary_600"/>
