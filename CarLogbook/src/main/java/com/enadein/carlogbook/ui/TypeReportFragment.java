@@ -40,9 +40,9 @@ import com.enadein.carlogbook.core.CarChangedListener;
 import com.enadein.carlogbook.core.DataLoader;
 import com.enadein.carlogbook.db.CommonUtils;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class TypeReportFragment extends BaseReportFragment implements LoaderManager.LoaderCallbacks<DataInfo>,CarChangedListener {
 	public static final String DATE_PICKER = "date_picker";
@@ -141,7 +141,7 @@ public class TypeReportFragment extends BaseReportFragment implements LoaderMana
 
 	@Override
 	public void onLoadFinished(Loader<DataInfo> loader, DataInfo data) {
-		ArrayList<ReportItem> items = data.getReportData();
+		List<ReportItem> items = data.getReportData();
 		SimpleReportAdapter adapter = new SimpleReportAdapter(getActivity(),
 				R.layout.report_item_simple, items.toArray(new ReportItem[] {}), getMediator().getUnitFacade(), getResources().getColor(R.color.price));
 		listView.setAdapter(adapter);

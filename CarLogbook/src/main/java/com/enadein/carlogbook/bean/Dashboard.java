@@ -17,7 +17,7 @@
 */
 package com.enadein.carlogbook.bean;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Dashboard {
 	private double totalOdometerCount; //mileage/run
@@ -69,44 +69,44 @@ public class Dashboard {
 	private double odometerCountByMonthAvg;
 	private double odometerCountByDayAvg;
 
-	private ArrayList<BarInfo> costLast4Months;
-	private ArrayList<BarInfo> incomeLast4Months;
-	private ArrayList<BarInfo> fuelCostPer1;
-	private ArrayList<BarInfo> costPer1;
+	private List<BarInfo> costLast4Months;
+	private List<BarInfo> incomeLast4Months;
+	private List<BarInfo> fuelCostPer1;
+	private List<BarInfo> costPer1;
 
-	public ArrayList<BarInfo> getFuelCostPer1() {
+	public List<BarInfo> getFuelCostPer1() {
 		return fuelCostPer1;
 	}
 
-	public void setFuelCostPer1(ArrayList<BarInfo> fuelCostPer1) {
+	public void setFuelCostPer1(List<BarInfo> fuelCostPer1) {
 		this.fuelCostPer1 = fuelCostPer1;
 	}
 
-	public ArrayList<BarInfo> getCostPer1() {
+	public List<BarInfo> getCostPer1() {
 		return costPer1;
 	}
 
-	public void setCostPer1(ArrayList<BarInfo> costPer1) {
+	public void setCostPer1(List<BarInfo> costPer1) {
 		this.costPer1 = costPer1;
 	}
 
-	public ArrayList<BarInfo> getIncomeLast4Months() {
+	public List<BarInfo> getIncomeLast4Months() {
 		return incomeLast4Months;
 	}
 
-	public void setIncomeLast4Months(ArrayList<BarInfo> incomeLast4Months) {
+	public void setIncomeLast4Months(List<BarInfo> incomeLast4Months) {
 		this.incomeLast4Months = incomeLast4Months;
 	}
 
-	public ArrayList<BarInfo> getRunLast4Months() {
+	public List<BarInfo> getRunLast4Months() {
 		return runLast4Months;
 	}
 
-	public void setRunLast4Months(ArrayList<BarInfo> runLast4Months) {
+	public void setRunLast4Months(List<BarInfo> runLast4Months) {
 		this.runLast4Months = runLast4Months;
 	}
 
-	private ArrayList<BarInfo> runLast4Months;
+	private List<BarInfo> runLast4Months;
 
 
 	public double getTotalOdometerCount() {
@@ -213,11 +213,11 @@ public class Dashboard {
 		this.totalPartsPrice = totalPartsPrice;
 	}
 
-	public ArrayList<BarInfo> getCostLast4Months() {
+	public List<BarInfo> getCostLast4Months() {
 		return costLast4Months;
 	}
 
-	public void setCostLast4Months(ArrayList<BarInfo> costLast4Months) {
+	public void setCostLast4Months(List<BarInfo> costLast4Months) {
 		this.costLast4Months = costLast4Months;
 	}
 }

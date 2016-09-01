@@ -23,7 +23,7 @@ import android.content.Context;
 import com.enadein.carlogbook.R;
 import com.enadein.carlogbook.core.CarsDataInfo;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -91,7 +91,7 @@ public class DataInfo {
 	}
 
 	private Dashboard dashboard = new Dashboard();
-	private ArrayList<ReportItem> reportData;
+	private List<ReportItem> reportData;
 
     private XReport xReport;
 
@@ -107,11 +107,11 @@ public class DataInfo {
 		return dashboard;
 	}
 
-	public ArrayList<ReportItem> getReportData() {
+	public List<ReportItem> getReportData() {
 		return reportData;
 	}
 
-	public void setReportData(ArrayList<ReportItem> reportData) {
+	public void setReportData(List<ReportItem> reportData) {
 		this.reportData = reportData;
 	}
 }
