@@ -44,6 +44,9 @@ public class DBUtils {
 	public static final String CAR_SELECTION_NOTIFY = ProviderDescriptor.Notify.Cols.CAR_ID + " = ?";
 	public static final String CAR_SELECTION_RATE = ProviderDescriptor.FuelRateView.Cols.CAR_ID + " = ?";
 
+	private DBUtils() {
+	}
+
 	public static RatePathBean getFuelRateFromCurrentLogId(UnitFacade unitFacade,long id, ContentResolver cr) {
 		RatePathBean result = new RatePathBean();
 
